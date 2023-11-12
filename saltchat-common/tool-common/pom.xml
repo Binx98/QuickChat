@@ -13,7 +13,6 @@
     <artifactId>tool-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tool-common</name>
-    <description>tool-common</description>
 
     <dependencies>
         <!--SpringBoot-->
@@ -30,6 +29,26 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--MyBatisPlus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>2.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,5 +64,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

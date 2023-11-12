@@ -24,6 +24,8 @@
         <java.version>1.8</java.version>
         <springboot.version>2.7.17</springboot.version>
         <mysql.version>8.0.18</mysql.version>
+        <lombok.version>1.18.30</lombok.version>
+        <mybatis.version>3.5.0</mybatis.version>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +35,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <!--Lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             <!--MySQL-->
             <dependency>
@@ -44,6 +52,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <!--MyBatisPlus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -61,5 +75,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

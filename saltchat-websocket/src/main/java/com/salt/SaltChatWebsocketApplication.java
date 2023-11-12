@@ -1,4 +1,4 @@
-package com.saltchat.saltchatwebsocket;
+package com.salt;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
