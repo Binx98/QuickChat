@@ -80,3 +80,6 @@ hs_err_pid*
 */*/*/target/
 */*.iml
 */*/*.iml
+
+# 生产环境配置
+application-prod.yml
