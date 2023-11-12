@@ -18,6 +18,7 @@
     <modules>
         <module>saltchat-common</module>
         <module>saltchat-im</module>
+        <module>saltchat-user</module>
     </modules>
 
     <properties>
@@ -34,7 +35,7 @@
             <!--SpringBoot-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
+                <artifactId>spring-boot-starter-web</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
             <!--Lombok-->

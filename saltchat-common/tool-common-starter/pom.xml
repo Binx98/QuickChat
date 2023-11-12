@@ -10,15 +10,15 @@
     </parent>
 
     <groupId>com.salt</groupId>
-    <artifactId>tool-common</artifactId>
+    <artifactId>tool-common-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tool-common</name>
+    <name>tool-common-starter</name>
 
     <dependencies>
         <!--SpringBoot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--MySQL-->
         <dependency>
@@ -28,6 +28,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <!--Netty-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
         <!--MyBatisPlus-->
         <dependency>

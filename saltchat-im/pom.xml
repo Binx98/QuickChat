@@ -11,7 +11,7 @@
         <!--Common-->
         <dependency>
             <groupId>com.salt</groupId>
-            <artifactId>tool-common</artifactId>
+            <artifactId>tool-common-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!--Kafka-->
@@ -26,12 +26,6 @@
             <artifactId>tool-redis</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!--Netty-->
-        <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-netty</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -43,6 +37,14 @@
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>

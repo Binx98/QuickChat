@@ -2,21 +2,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.salt</groupId>
-        <artifactId>SaltChat</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-
     <groupId>com.salt</groupId>
-    <artifactId>tool-netty</artifactId>
+    <artifactId>saltchat-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tool-netty</name>
+    <name>saltchat-user</name>
 
     <dependencies>
+        <!--Common-->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
+            <groupId>com.salt</groupId>
+            <artifactId>tool-common-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--Redis-->
+        <dependency>
+            <groupId>com.salt</groupId>
+            <artifactId>tool-redis</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -33,4 +35,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -11,11 +11,14 @@
 7. Netty + WebSocket + WebRTC
 8. Kafka
 9. ElasticSearch
-10. MinIO
-11. Sharding-JDBC
-12. ip2region
-13. HuTool
-14. JWT
+10. SpringCloud
+    1. Nacos
+    2. Feign
+11. MinIO
+12. Sharding-JDBC
+13. ip2region
+14. HuTool
+15. JWT
 
 前端：兼容移动端
 
