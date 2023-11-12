@@ -26,6 +26,18 @@
             <artifactId>tool-redis</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--Netty-->
+        <dependency>
+            <groupId>com.salt</groupId>
+            <artifactId>tool-netty</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--MyBatis-->
+        <dependency>
+            <groupId>com.salt</groupId>
+            <artifactId>tool-mybatis</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,22 +4,20 @@
 
 1. JDK 8
 2. SpringBoot
-3. MySQL
-4. MyBatis-Plus
+3. MyBatisPlus
+4. MySQL
 5. Redis
 6. Redisson
-7. Netty
+7. Netty + WebSocket + WebRTC
 8. Kafka
 9. ElasticSearch
 10. MinIO
-12. Sharding-JDBC
-13. ip2region
-14. HuTool
-15. JWT
+11. Sharding-JDBC
+12. ip2region
+13. HuTool
+14. JWT
 
-
-
-前端：兼容移动端（重要）
+前端：兼容移动端
 
 1. HTML
 2. CSS

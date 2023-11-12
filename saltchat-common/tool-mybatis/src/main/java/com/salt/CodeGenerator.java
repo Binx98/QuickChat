@@ -23,9 +23,9 @@ public class CodeGenerator {
         AutoGenerator autoGenerator = new AutoGenerator();
         DataSourceConfig dataSource = new DataSourceConfig();
         dataSource.setDriverName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://101.42.13.186:3306/salt-chat?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/saltchat?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false");
         dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setPassword("root");
         autoGenerator.setDataSource(dataSource);
         /**
          * 第二步：设置全局配置
