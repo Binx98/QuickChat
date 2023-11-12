@@ -2,29 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.saltchat</groupId>
-    <artifactId>saltchat-websocket</artifactId>
+
+    <parent>
+        <groupId>com.salt</groupId>
+        <artifactId>SaltChat</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.salt</groupId>
+    <artifactId>tool-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>saltchat-websocket</name>
+    <name>tool-common</name>
+    <description>tool-common</description>
 
     <dependencies>
-        <!--Common-->
+        <!--SpringBoot-->
         <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <!--Kafka-->
+        <!--MySQL-->
         <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-kafka</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
-        <!--Redis-->
         <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-redis</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
     </dependencies>
 
@@ -41,4 +45,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
