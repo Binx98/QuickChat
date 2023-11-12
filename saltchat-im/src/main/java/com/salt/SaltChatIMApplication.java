@@ -5,13 +5,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SaltChatWebsocketApplication implements CommandLineRunner {
+public class SaltChatIMApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(SaltChatWebsocketApplication.class, args);
+        SpringApplication.run(SaltChatIMApplication.class, args);
     }
 
-    @Override
     public void run(String... args) throws Exception {
 
     }

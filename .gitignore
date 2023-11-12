@@ -81,5 +81,5 @@ hs_err_pid*
 */*.iml
 */*/*.iml
 
-# 生产环境配置
 application-prod.yml
+CodeGenerator.java

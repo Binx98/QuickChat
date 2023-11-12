@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.saltchat</groupId>
-    <artifactId>saltchat-websocket</artifactId>
+    <artifactId>saltchat-im</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>saltchat-websocket</name>
+    <name>saltchat-im</name>
 
     <dependencies>
         <!--Common-->
@@ -30,12 +30,6 @@
         <dependency>
             <groupId>com.salt</groupId>
             <artifactId>tool-netty</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <!--MyBatis-->
-        <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-mybatis</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -17,7 +17,7 @@
 
     <modules>
         <module>saltchat-common</module>
-        <module>saltchat-websocket</module>
+        <module>saltchat-im</module>
     </modules>
 
     <properties>
