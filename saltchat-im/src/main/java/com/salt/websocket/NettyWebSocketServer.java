@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.NettyRuntime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class NettyWebSocketServer {
             protected void initChannel(SocketChannel channel) throws Exception {
                 ChannelPipeline pipeline = channel.pipeline();
                 // 30s客户端未发送心跳给服务器，断开链接（存在直接关闭客户端情况）
-                // pipeline.addLast(new IdleStateHandler(30, 0, 0));
+                pipeline.addLast(new IdleStateHandler(30, 0, 0));
                 // HTTP协议编、解码器
                 pipeline.addLast(new HttpServerCodec());
                 // 块方式写数据

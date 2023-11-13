@@ -69,7 +69,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
         }
 
         // 用户状态更新为下线
-        log.info("------------------客户端与WebSocket服务器断开连接------------------");
+        log.info("------------------客户端与WebSocket服务器断开连接：{}------------------", ctx);
     }
 
     /**
@@ -82,7 +82,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
             IdleStateEvent idleStateEvent = (IdleStateEvent) event;
             if (idleStateEvent.state() == IdleState.READER_IDLE) {
                 ctx.close(); // 调用close可以触发handlerRemoved逻辑
-                log.info("--------------------30s未检测到心跳，断开WebSocket链接--------------------");
+                log.info("--------------------30s未检测到心跳，断开WebSocket链接：{}--------------------", ctx);
             }
         }
     }
