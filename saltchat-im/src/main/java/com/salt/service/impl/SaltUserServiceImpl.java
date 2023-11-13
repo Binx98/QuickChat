@@ -2,6 +2,8 @@ package com.salt.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.salt.adapter.UserAdapter;
+import com.salt.enums.ResponseEnum;
+import com.salt.exception.SaltException;
 import com.salt.mapper.SaltUserMapper;
 import com.salt.pojo.po.SaltUser;
 import com.salt.pojo.vo.UserVO;
@@ -28,10 +30,10 @@ public class SaltUserServiceImpl extends ServiceImpl<SaltUserMapper, SaltUser> i
      * 根据 account_id 查询用户信息
      */
     @Override
-    public UserVO getByAccountId(String accountId) throws Exception {
+    public UserVO getByAccountId(String accountId) {
         SaltUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
-            throw new Exception("数据为空");
+            throw new SaltException(ResponseEnum.USER_NOT_EXIST);
         }
         return UserAdapter.buildUserVO(userPO);
     }

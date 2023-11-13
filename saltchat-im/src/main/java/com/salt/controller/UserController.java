@@ -29,13 +29,21 @@ public class UserController {
      * 查询用户信息
      */
     @GetMapping("/getInfo/{accountId}")
-    public R getInfo(@PathVariable String accountId) {
-        try {
-            UserVO result = userService.getByAccountId(accountId);
-            return R.out(ResponseEnum.SUCCESS, result);
-        } catch (Exception e) {
-            return R.out(ResponseEnum.FAIL, e.getMessage());
-        }
+    public R getInfo(@PathVariable String accountId) throws Exception {
+        UserVO result = userService.getByAccountId(accountId);
+        return R.out(ResponseEnum.SUCCESS, result);
     }
+
+    /**
+     * 注册账号
+     */
+
+    /**
+     * 登录账号
+     */
+
+    /**
+     * 修改用户信息
+     */
 }
 

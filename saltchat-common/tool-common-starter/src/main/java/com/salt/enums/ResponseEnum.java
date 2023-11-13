@@ -14,6 +14,8 @@ import lombok.Getter;
 public enum ResponseEnum {
     SUCCESS(200, "操作成功"),
     FAIL(500, "操作失败"),
+
+    USER_NOT_EXIST(50001, "该用户信息不存在"),
     ;
 
     private Integer code;
