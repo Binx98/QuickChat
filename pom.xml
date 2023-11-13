@@ -18,7 +18,6 @@
     <modules>
         <module>saltchat-common</module>
         <module>saltchat-im</module>
-        <module>saltchat-user</module>
     </modules>
 
     <properties>
