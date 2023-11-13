@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
@@ -77,13 +78,19 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object event) {
+        // 连接建立，握手完成
+        if (event instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            log.info("--------------------客户端建立连接成功：{}--------------------", ctx);
+        }
+
         // 心跳检测：30s无心跳触发断开事件
-        if (event instanceof IdleStateEvent) {
+        else if (event instanceof IdleStateEvent) {
             IdleStateEvent idleStateEvent = (IdleStateEvent) event;
             if (idleStateEvent.state() == IdleState.READER_IDLE) {
-                ctx.close(); // 调用close可以触发handlerRemoved逻辑
                 log.info("--------------------30s未检测到心跳，断开WebSocket链接：{}--------------------", ctx);
+                ctx.close(); // 需要手动触发，否则不会主动给下线
             }
         }
+
     }
 }

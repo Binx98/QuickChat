@@ -27,6 +27,7 @@
         <lombok.version>1.18.30</lombok.version>
         <mybatis.version>3.5.0</mybatis.version>
         <hutool.version>5.8.18</hutool.version>
+        <jwt.version>0.9.0</jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -82,6 +83,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${commons-pool2.version}</version>
+            </dependency>
+            <!--JJWT-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
