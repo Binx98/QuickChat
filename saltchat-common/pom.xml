@@ -67,6 +67,11 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+        <!--Redisson-->
+<!--        <dependency>-->
+<!--            <groupId>org.redisson</groupId>-->
+<!--            <artifactId>redisson-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
         <!--        &lt;!&ndash;JJWT&ndash;&gt;-->
         <!--        <dependency>-->
         <!--            <groupId>io.jsonwebtoken</groupId>-->

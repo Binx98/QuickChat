@@ -27,8 +27,6 @@ import org.springframework.stereotype.Service;
 public class SaltUserServiceImpl extends ServiceImpl<SaltUserMapper, SaltUser> implements SaltUserService {
     @Autowired
     private SaltUserStore userStore;
-//    @Autowired
-//    private RedisUtil redisUtil;
 
     /**
      * 根据 account_id 查询用户信息

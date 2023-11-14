@@ -27,6 +27,7 @@
         <lombok.version>1.18.30</lombok.version>
         <mybatis.version>3.5.0</mybatis.version>
         <hutool.version>5.8.18</hutool.version>
+        <redisson.version>3.16.6</redisson.version>
         <jwt.version>0.9.0</jwt.version>
     </properties>
 
@@ -79,10 +80,11 @@
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
+            <!--Redisson-->
             <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-pool2</artifactId>
-                <version>${commons-pool2.version}</version>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
             <!--            &lt;!&ndash;JJWT&ndash;&gt;-->
             <!--            <dependency>-->
