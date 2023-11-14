@@ -8,17 +8,14 @@
 4. MySQL
 5. Redis
 6. Redisson
-7. Netty + WebSocket + WebRTC
+7. Netty(WebSocket + WebRTC)
 8. Kafka
-9. ElasticSearch
-10. SpringCloud
-    1. Nacos
-    2. Feign
-11. MinIO
-12. Sharding-JDBC
-13. ip2region
-14. HuTool
-15. JWT
+9. ElasticSearch 
+10. MinIO 
+11. Sharding-JDBC 
+12. ip2region 
+13. HuTool 
+14. JWT
 
 前端：兼容移动端
 
@@ -30,3 +27,11 @@
 6. ElementUI
 7. Axios
 8. npm
+
+部署：
+1. 公有云服务器
+2. Nginx 
+3. Docker 
+4. DockerCompose
+5. Jenkins
+6. Shell
