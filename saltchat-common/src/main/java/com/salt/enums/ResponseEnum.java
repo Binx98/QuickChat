@@ -16,6 +16,8 @@ public enum ResponseEnum {
     FAIL(500, "操作失败"),
 
     USER_NOT_EXIST(50001, "该用户信息不存在"),
+    ACCOUNT_ID_EXIST(50002, "该账号信息已存在，请勿重复注册！"),
+    PASSWORD_DIFF(50003, "两次密码输入不一致，请重试！"),
     ;
 
     private Integer code;

@@ -1,21 +1,23 @@
 package com.salt.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 徐志斌
  * @since 2023-11-13
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("salt_user")
 public class SaltUser implements Serializable {

@@ -14,4 +14,6 @@ import com.salt.pojo.po.SaltUser;
 public interface SaltUserStore extends IService<SaltUser> {
 
     SaltUser getByAccountId(String accountId);
+
+    Boolean saveUserInfo(com.salt.pojo.po.SaltUser userPO);
 }

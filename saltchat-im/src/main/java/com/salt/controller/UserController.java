@@ -2,14 +2,12 @@ package com.salt.controller;
 
 
 import com.salt.enums.ResponseEnum;
+import com.salt.pojo.dto.RegisterDTO;
 import com.salt.pojo.vo.UserVO;
 import com.salt.response.R;
 import com.salt.service.SaltUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,6 +35,11 @@ public class UserController {
     /**
      * 注册账号
      */
+    @PostMapping("/register")
+    public R register(RegisterDTO registerDTO) {
+        userService.register(registerDTO);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
      * 登录账号

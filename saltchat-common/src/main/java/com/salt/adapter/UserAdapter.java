@@ -16,4 +16,13 @@ public class UserAdapter {
         BeanUtils.copyProperties(userPO, userVO);
         return userVO;
     }
+
+    public static SaltUser buildUserPO(String accountId, String nickName, String password1, Integer gender, String email) {
+        return SaltUser.builder()
+                .accountId(accountId)
+                .nickName(nickName)
+                .password(password1)
+                .gender(null)
+                .build();
+    }
 }

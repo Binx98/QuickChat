@@ -8,22 +8,9 @@
     <name>saltchat-im</name>
 
     <dependencies>
-        <!--Common-->
         <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-common-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <!--Kafka-->
-        <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-kafka</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <!--Redis-->
-        <dependency>
-            <groupId>com.salt</groupId>
-            <artifactId>tool-redis</artifactId>
+            <groupId>com.saltchat</groupId>
+            <artifactId>saltchat-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

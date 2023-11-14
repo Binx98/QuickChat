@@ -1,6 +1,5 @@
 package com.salt.store.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.salt.mapper.SaltUserMapper;
 import com.salt.pojo.po.SaltUser;
@@ -25,5 +24,13 @@ public class SaltUserStoreImpl extends ServiceImpl<SaltUserMapper, SaltUser> imp
         return this.lambdaQuery()
                 .eq(SaltUser::getAccountId, accountId)
                 .one();
+    }
+
+    /**
+     * 保存用户信息
+     */
+    @Override
+    public Boolean saveUserInfo(SaltUser userPO) {
+        return this.save(userPO);
     }
 }
