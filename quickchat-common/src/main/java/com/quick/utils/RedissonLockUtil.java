@@ -32,6 +32,7 @@ public class RedissonLockUtil {
             throw new QuickException(ResponseEnum.FAIL);
         }
         try {
+            // 临界区代码
             return supplier.get();
         } finally {
             if (lock.isLocked() && lock.isHeldByCurrentThread()) {

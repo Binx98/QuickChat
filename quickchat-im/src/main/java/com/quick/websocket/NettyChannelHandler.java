@@ -25,21 +25,12 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
 
     /**
      * 读取客户端 Channel 数据（发送信息通过接口，不通过Channel，例如：抖音）
-     * ------------------------------------------------------------
-     * -----------------------------------------------------------
-     * 逻辑：
-     * 首次建立链接，前端会调用send发送uid，后端在这里绑定一下Channel和uid关系
-     * 这里不接受客户端发送的消息，发送消息通过接口接受
-     * ------------------------------------------------------------
-     * socket.onopen = () => {
-     * socket.send(this.userId)
-     * }
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {
 //        Long uid = JSON.parse(frame.text(), Long.class);
-//        NettyChannelRelation.getChannelGroup().add(ctx.channel());
-//        NettyChannelRelation.getUserChannelMap().put(uid, ctx.channel());
+//        ChannelAccountIdRelation.getChannelGroup().add(ctx.channel());
+//        ChannelAccountIdRelation.getUserChannelMap().put(uid, ctx.channel());
 //        AttributeKey<Long> key = AttributeKey.valueOf("uid");
         // 相当于为channel做个标识，用于removeUserId()
 //        ctx.channel().attr(key).setIfAbsent(uid);
@@ -60,13 +51,13 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         // 移除 Channel Group 中的 Channel 信息
-        NettyChannelRelation.getChannelGroup().remove(ctx.channel());
+        ChannelAccountRelation.getChannelGroup().remove(ctx.channel());
 
         // 移除 uid 和 Channel 关联关系
         AttributeKey<Long> key = AttributeKey.valueOf("uid");
         Long uid = ctx.channel().attr(key).get();
         if (ObjectUtils.isNotEmpty(uid)) {
-            NettyChannelRelation.getUserChannelMap().remove(uid);
+            ChannelAccountRelation.getUserChannelMap().remove(uid);
         }
 
         // 用户状态更新为下线
