@@ -21,7 +21,7 @@
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <springboot.version>2.7.17</springboot.version>
         <mysql.version>8.0.18</mysql.version>
         <lombok.version>1.18.30</lombok.version>
@@ -29,6 +29,7 @@
         <hutool.version>5.8.18</hutool.version>
         <redisson.version>3.16.6</redisson.version>
         <jwt.version>0.9.0</jwt.version>
+        <jackson.version>2.13.3</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -86,12 +87,18 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
-            <!--            &lt;!&ndash;JJWT&ndash;&gt;-->
-            <!--            <dependency>-->
-            <!--                <groupId>io.jsonwebtoken</groupId>-->
-            <!--                <artifactId>jjwt</artifactId>-->
-            <!--                <version>${jwt.version}</version>-->
-            <!--            </dependency>-->
+            <!--JJWT-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!--Jackson-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

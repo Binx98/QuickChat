@@ -44,9 +44,17 @@ public class UserController {
     /**
      * 登录账号
      */
+    @PostMapping("/login")
+    public R login() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
      * 修改用户信息
      */
+    @PutMapping("/update")
+    public R updateInfo() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }
 

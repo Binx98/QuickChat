@@ -2,8 +2,8 @@
 
 后端：
 
-1. JDK 8
-2. SpringBoot
+1. JDK 11
+2. SpringBoot 2.7.17
 3. MyBatisPlus
 4. MySQL
 5. Redis

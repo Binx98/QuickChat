@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  * @Description: 聊天相关
  */
-@RestController("/chat")
-public class ChatController {
+@RestController("/chat/msg")
+public class ChatMsgController {
     /**
      * 发送消息
      */
