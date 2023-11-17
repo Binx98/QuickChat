@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("quick_user")
-public class SaltUser implements Serializable {
+public class QuickUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

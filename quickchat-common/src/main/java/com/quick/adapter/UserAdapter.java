@@ -1,6 +1,6 @@
 package com.quick.adapter;
 
-import com.quick.pojo.po.SaltUser;
+import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 
@@ -11,14 +11,14 @@ import org.springframework.beans.BeanUtils;
  * @Description: 用户适配器
  */
 public class UserAdapter {
-    public static UserVO buildUserVO(SaltUser userPO) {
+    public static UserVO buildUserVO(QuickUser userPO) {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(userPO, userVO);
         return userVO;
     }
 
-    public static SaltUser buildUserPO(String accountId, String nickName, String password1, Integer gender, String email) {
-        return SaltUser.builder()
+    public static QuickUser buildUserPO(String accountId, String nickName, String password1, Integer gender, String email) {
+        return QuickUser.builder()
                 .accountId(accountId)
                 .nickName(nickName)
                 .password(password1)

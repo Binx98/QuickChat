@@ -18,7 +18,7 @@ import java.time.Duration;
  * @Author 徐志斌
  * @Date: 2023/5/10 22:36
  * @Version 1.0
- * @Description: RedisConfig
+ * @Description: Redis配置类
  */
 @Configuration
 public class RedisConfig {
@@ -39,14 +39,14 @@ public class RedisConfig {
     }
 
     /**
-     * SpringCache配置：处理乱码、设置默认缓存时间等
+     * Reids缓存配置：处理乱码、设置默认缓存时间等
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofHours(6)); // 默认缓存时长
+                .entryTtl(Duration.ofHours(24));
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(cacheConfiguration)
                 .build();

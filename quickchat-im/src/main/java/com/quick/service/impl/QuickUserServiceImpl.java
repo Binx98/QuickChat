@@ -3,13 +3,13 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.UserAdapter;
 import com.quick.enums.ResponseEnum;
-import com.quick.exception.SaltException;
-import com.quick.mapper.SaltUserMapper;
+import com.quick.exception.QuickException;
+import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.dto.RegisterDTO;
-import com.quick.pojo.po.SaltUser;
+import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
-import com.quick.service.SaltUserService;
-import com.quick.store.SaltUserStore;
+import com.quick.service.QuickUserService;
+import com.quick.store.QuickUserStore;
 //import com.salt.util.RedisUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +24,18 @@ import org.springframework.stereotype.Service;
  * @since 2023-11-13
  */
 @Service
-public class SaltUserServiceImpl extends ServiceImpl<SaltUserMapper, SaltUser> implements SaltUserService {
+public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser> implements QuickUserService {
     @Autowired
-    private SaltUserStore userStore;
+    private QuickUserStore userStore;
 
     /**
      * 根据 account_id 查询用户信息
      */
     @Override
     public UserVO getByAccountId(String accountId) {
-        SaltUser userPO = userStore.getByAccountId(accountId);
+        QuickUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
-            throw new SaltException(ResponseEnum.USER_NOT_EXIST);
+            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
         return UserAdapter.buildUserVO(userPO);
     }
@@ -55,7 +55,7 @@ public class SaltUserServiceImpl extends ServiceImpl<SaltUserMapper, SaltUser> i
 
         // 两次密码输入是否一致
         if (!password1.equals(password2)) {
-            throw new SaltException(ResponseEnum.PASSWORD_DIFF);
+            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
         // TODO 图片验证码信息是否输入正确
@@ -64,9 +64,9 @@ public class SaltUserServiceImpl extends ServiceImpl<SaltUserMapper, SaltUser> i
 //        }
 
         // 判断账号是否存在
-        SaltUser userPO = userStore.getByAccountId(accountId);
+        QuickUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isNotEmpty(userPO)) {
-            throw new SaltException(ResponseEnum.ACCOUNT_ID_EXIST);
+            throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
 
         // 保存账号信息

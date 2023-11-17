@@ -1,9 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.mapper.SaltUserMapper;
-import com.quick.pojo.po.SaltUser;
-import com.quick.store.SaltUserStore;
+import com.quick.mapper.QuickUserMapper;
+import com.quick.pojo.po.QuickUser;
+import com.quick.store.QuickUserStore;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
  * @since 2023-11-13
  */
 @Service
-public class SaltUserStoreImpl extends ServiceImpl<SaltUserMapper, SaltUser> implements SaltUserStore {
+public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickUser> implements QuickUserStore {
     /**
      * 根据 account_id 查询用户信息
      */
     @Override
-    public SaltUser getByAccountId(String accountId) {
+    public QuickUser getByAccountId(String accountId) {
         return this.lambdaQuery()
-                .eq(SaltUser::getAccountId, accountId)
+                .eq(QuickUser::getAccountId, accountId)
                 .one();
     }
 
@@ -30,7 +30,7 @@ public class SaltUserStoreImpl extends ServiceImpl<SaltUserMapper, SaltUser> imp
      * 保存用户信息
      */
     @Override
-    public Boolean saveUserInfo(SaltUser userPO) {
+    public Boolean saveUserInfo(QuickUser userPO) {
         return this.save(userPO);
     }
 }

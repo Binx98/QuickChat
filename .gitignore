@@ -81,5 +81,6 @@ hs_err_pid*
 */*.iml
 */*/*.iml
 
+# 自定义
 application-prod.yml
 CodeGenerator.java

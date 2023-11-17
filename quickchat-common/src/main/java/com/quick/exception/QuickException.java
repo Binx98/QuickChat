@@ -12,6 +12,6 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class SaltException extends RuntimeException {
+public class QuickException extends RuntimeException {
     private ResponseEnum responseEnum;
 }

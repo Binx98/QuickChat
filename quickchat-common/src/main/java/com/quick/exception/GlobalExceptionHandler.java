@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     /**
-     * 自定义异常 SaltException
+     * 自定义异常 QuickException
      */
-    @ExceptionHandler(SaltException.class)
-    public R bingoException(SaltException e) {
+    @ExceptionHandler(QuickException.class)
+    public R bingoException(QuickException e) {
         return R.out(e.getResponseEnum());
     }
 

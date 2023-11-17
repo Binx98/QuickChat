@@ -1,7 +1,7 @@
 package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.quick.pojo.po.SaltUser;
+import com.quick.pojo.po.QuickUser;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.quick.pojo.po.SaltUser;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface SaltUserMapper extends BaseMapper<SaltUser> {
+public interface QuickUserMapper extends BaseMapper<QuickUser> {
 
 }

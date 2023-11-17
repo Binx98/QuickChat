@@ -2,7 +2,7 @@ package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.dto.RegisterDTO;
-import com.quick.pojo.po.SaltUser;
+import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 
 /**
@@ -13,7 +13,7 @@ import com.quick.pojo.vo.UserVO;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface SaltUserService extends IService<SaltUser> {
+public interface QuickUserService extends IService<QuickUser> {
 
     UserVO getByAccountId(String accountId) throws Exception;
 

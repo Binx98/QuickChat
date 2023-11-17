@@ -5,7 +5,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
-import com.quick.service.SaltUserService;
+import com.quick.service.QuickUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private SaltUserService userService;
+    private QuickUserService userService;
 
     /**
      * 查询用户信息
