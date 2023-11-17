@@ -49,7 +49,7 @@ public class QuickUser implements Serializable {
     private String nickName;
 
     /**
-     * 性别（1：男，0：女）
+     * 性别（0：女，1：男）
      */
     @TableField("gender")
     private Boolean gender;
