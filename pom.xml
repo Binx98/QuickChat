@@ -9,15 +9,15 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.salt</groupId>
-    <artifactId>SaltChat</artifactId>
+    <groupId>com.quick</groupId>
+    <artifactId>QuickChat</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SaltChat</name>
+    <name>QuickChat</name>
     <packaging>pom</packaging>
 
     <modules>
-        <module>saltchat-common</module>
-        <module>saltchat-im</module>
+        <module>quickchat-common</module>
+        <module>quickchat-im</module>
     </modules>
 
     <properties>
