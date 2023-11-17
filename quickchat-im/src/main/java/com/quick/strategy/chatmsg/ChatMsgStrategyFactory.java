@@ -21,8 +21,8 @@ public class ChatMsgStrategyFactory {
     /**
      * 注册工厂
      */
-    public static void register(Integer code, AbstractChatMsgStrategy orderStrategy) {
-        STRATEGY_MAP.put(code, orderStrategy);
+    public static void register(Integer type, AbstractChatMsgStrategy orderStrategy) {
+        STRATEGY_MAP.put(type, orderStrategy);
     }
 
     /**

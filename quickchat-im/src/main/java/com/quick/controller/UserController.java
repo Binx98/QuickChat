@@ -36,6 +36,11 @@ public class UserController {
     }
 
     /**
+     * 生成验证码
+     */
+
+
+    /**
      * 注册账号
      */
     @PostMapping("/register")

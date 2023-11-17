@@ -1,9 +1,11 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.po.QuickUser;
 import com.quick.store.QuickUserStore;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +22,7 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickUser> 
      * 根据 account_id 查询用户信息
      */
     @Override
+    @Cacheable(value = RedisConstant.QUICK_USER, key = "#p0")
     public QuickUser getByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickUser::getAccountId, accountId)

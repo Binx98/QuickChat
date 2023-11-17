@@ -32,6 +32,8 @@
         <jackson.version>2.13.3</jackson.version>
         <minio.version>8.0.3</minio.version>
         <ip2region.version>2.6.3</ip2region.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <kafka.version>2.9.0</kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -113,6 +115,24 @@
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
             </dependency>
+            <!--AspectJ-->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <!--katpcha-->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+<!--            &lt;!&ndash;Kafka&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.kafka</groupId>-->
+<!--                <artifactId>spring-kafka</artifactId>-->
+<!--                <version>${kafka.version}</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

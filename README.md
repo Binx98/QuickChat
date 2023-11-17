@@ -10,12 +10,13 @@
 6. Redisson
 7. Netty(WebSocket + WebRTC)
 8. Kafka
-9. ElasticSearch 
-10. MinIO 
-11. Sharding-JDBC 
-12. ip2region 
-13. HuTool 
+9. ElasticSearch
+10. MinIO
+11. Sharding-JDBC
+12. ip2region
+13. HuTool
 14. JWT
+15. Kaptcha
 
 前端：兼容移动端
 
@@ -29,9 +30,9 @@
 8. npm
 
 部署：
-1. 公有云服务器
-2. Nginx 
+
+1. 公有云计算服务器
+2. Nginx
 3. Docker 
-4. DockerCompose
-5. Jenkins
-6. Shell
+4. Jenkins 
+5. Shell

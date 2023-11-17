@@ -23,9 +23,9 @@ public class QuickChatIMApplication implements CommandLineRunner {
         String applicationName = environment.getProperty("spring.application.name");
         String serverPort = environment.getProperty("server.port");
         String active = environment.getProperty("spring.profiles.active");
-        log.info("----------------------------项目名称：{}----------------------------", applicationName);
-        log.info("----------------------------项目环境：{}----------------------------", active);
-        log.info("----------------------------项目端口：{}----------------------------", serverPort);
-        log.info("----------------------------QuickChat启动成功......----------------------------");
+        log.info("----------------------------项目名称：[{}]----------------------------", applicationName);
+        log.info("----------------------------项目环境：[{}]----------------------------", active);
+        log.info("----------------------------项目端口：[{}]----------------------------", serverPort);
+        log.info("----------------------------QuickChat快聊启动成功......----------------------------");
     }
 }
