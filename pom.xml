@@ -31,6 +31,7 @@
         <jwt.version>0.9.0</jwt.version>
         <jackson.version>2.13.3</jackson.version>
         <minio.version>8.0.3</minio.version>
+        <ip2region.version>2.6.3</ip2region.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +106,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <!--ip2region-->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

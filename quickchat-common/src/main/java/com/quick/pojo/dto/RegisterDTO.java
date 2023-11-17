@@ -11,13 +11,13 @@ import lombok.Data;
 @Data
 public class RegisterDTO {
     /**
-     * 账号
-     */
-    private String accountId;
-    /**
      * 昵称
      */
     private String nickName;
+    /**
+     * 账号
+     */
+    private String accountId;
     /**
      * 密码
      */
@@ -37,5 +37,5 @@ public class RegisterDTO {
     /**
      * 图片验证码
      */
-    private String captchaCode;
+    private String verifyCode;
 }

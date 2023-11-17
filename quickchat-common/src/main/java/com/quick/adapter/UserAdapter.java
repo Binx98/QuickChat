@@ -2,7 +2,6 @@ package com.quick.adapter;
 
 import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
-import org.springframework.beans.BeanUtils;
 
 /**
  * @Author 徐志斌
@@ -12,17 +11,25 @@ import org.springframework.beans.BeanUtils;
  */
 public class UserAdapter {
     public static UserVO buildUserVO(QuickUser userPO) {
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userPO, userVO);
-        return userVO;
+        return UserVO.builder()
+                .accountId(userPO.getAccountId())
+                .nickName(userPO.getNickName())
+                .gender(userPO.getGender())
+                .location(userPO.getLocation())
+                .createTime(userPO.getCreateTime())
+                .build();
     }
 
-    public static QuickUser buildUserPO(String accountId, String nickName, String password1, Integer gender, String email) {
+    public static QuickUser buildUserPO(String accountId, String nickName, String password1,
+                                        Integer gender, String email, String location, Integer lineStatus) {
         return QuickUser.builder()
                 .accountId(accountId)
                 .nickName(nickName)
                 .password(password1)
-                .gender(null)
+                .gender(gender)
+                .email(email)
+                .location(location)
+                .lineStatus(lineStatus)
                 .build();
     }
 }

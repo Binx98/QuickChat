@@ -1,9 +1,12 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -17,5 +20,7 @@ public interface QuickUserService extends IService<QuickUser> {
 
     UserVO getByAccountId(String accountId) throws Exception;
 
-    Boolean register(RegisterDTO registerDTO);
+    Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception;
+
+    Boolean login(LoginDTO loginDTO, HttpServletRequest request);
 }

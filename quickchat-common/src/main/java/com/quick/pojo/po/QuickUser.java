@@ -52,13 +52,25 @@ public class QuickUser implements Serializable {
      * 性别（0：女，1：男）
      */
     @TableField("gender")
-    private Boolean gender;
+    private Integer gender;
 
     /**
      * 位置
      */
     @TableField("location")
     private String location;
+
+    /**
+     * 邮箱
+     */
+    @TableField("email")
+    private String email;
+
+    /**
+     * 登陆状态
+     */
+    @TableField("line_status")
+    private Integer lineStatus;
 
     /**
      * 创建时间
