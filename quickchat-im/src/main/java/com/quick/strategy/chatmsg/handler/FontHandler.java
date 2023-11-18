@@ -22,6 +22,10 @@ public class FontHandler extends AbstractChatMsgStrategy {
      */
     @Override
     public void sendChatMsg(ChatMsgDTO msgDTO) {
+        // 保存聊天记录信息（保存成功才是真正意义上发送成功）
 
+        // 会话列表处理（未读数量 + 1）
+
+        // 将消息通过Channel发送给前端
     }
 }

@@ -51,13 +51,13 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         // 移除 Channel Group 中的 Channel 信息
-        ChannelAccountRelation.getChannelGroup().remove(ctx.channel());
+        UserChannelRelation.getChannelGroup().remove(ctx.channel());
 
         // 移除 uid 和 Channel 关联关系
         AttributeKey<Long> key = AttributeKey.valueOf("uid");
         Long uid = ctx.channel().attr(key).get();
         if (ObjectUtils.isNotEmpty(uid)) {
-            ChannelAccountRelation.getUserChannelMap().remove(uid);
+            UserChannelRelation.getUserChannelMap().remove(uid);
         }
 
         // 用户状态更新为下线

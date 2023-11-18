@@ -2,7 +2,6 @@ server:
   port: 9999
   servlet:
     context-path: /api
-
 spring:
   profiles:
     active: prod

@@ -8,6 +8,11 @@ package com.quick.constant;
  */
 public class RedisConstant {
     /**
+     * Cookie Key
+     */
+    public static final String COOKIE_KEY = "quick_chat_key";
+
+    /**
      * 分布式锁KEY
      */
     public static final String KEY = "";

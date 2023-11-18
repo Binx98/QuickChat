@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -37,7 +38,14 @@ public class UserController {
 
     /**
      * 生成验证码
+     * ---------------------------------------------
+     * Cookie结构：K("captcha_key") V(客户端标识uuid)
+     * Redis结构：K(客户端身份uuid) V(验证码值)
      */
+    @GetMapping("/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) {
+        userService.captcha(request, response);
+    }
 
 
     /**
