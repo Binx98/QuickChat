@@ -23,5 +23,5 @@ public class LoginDTO {
     /**
      * 图片验证码
      */
-    private String verifyCode;
+    private String imgCode;
 }

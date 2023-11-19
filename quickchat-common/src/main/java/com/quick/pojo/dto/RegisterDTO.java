@@ -35,7 +35,11 @@ public class RegisterDTO {
      */
     private String email;
     /**
+     * 邮箱验证码
+     */
+    private String emailCode;
+    /**
      * 图片验证码
      */
-    private String verifyCode;
+    private String imgCode;
 }

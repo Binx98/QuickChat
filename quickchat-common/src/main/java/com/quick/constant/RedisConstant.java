@@ -10,7 +10,7 @@ public class RedisConstant {
     /**
      * Cookie Key
      */
-    public static final String COOKIE_KEY = "quick_chat_key";
+    public static final String COOKIE_KEY = "captcha_key";
 
     /**
      * 分布式锁KEY

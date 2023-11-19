@@ -28,4 +28,12 @@ public class ChatSessionController {
     public R deleteSession(@PathVariable Long id) {
         return R.out(ResponseEnum.SUCCESS);
     }
+
+    /**
+     * 置顶会话
+     */
+    @PostMapping("/top/{id}")
+    public R topSession(@PathVariable Long id) {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }

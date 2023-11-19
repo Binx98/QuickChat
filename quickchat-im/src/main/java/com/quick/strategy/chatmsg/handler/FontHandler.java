@@ -26,6 +26,6 @@ public class FontHandler extends AbstractChatMsgStrategy {
 
         // 会话列表处理（未读数量 + 1）
 
-        // 将消息通过Channel发送给前端
+        // 将消息发送到MQ
     }
 }

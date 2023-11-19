@@ -70,23 +70,31 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         String password2 = registerDTO.getPassword2();
         Integer gender = registerDTO.getGender();
         String email = registerDTO.getEmail();
-        String verifyCode = registerDTO.getVerifyCode();
+        String emailCode = registerDTO.getEmailCode();
+        String verifyCode = registerDTO.getImgCode();
 
         // 两次密码输入是否一致
         if (!password1.equals(password2)) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // 判断图片验证码是否失效
-        String captchaKey = request.getHeader("captcha_key");
-        String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
-        if (StringUtils.isEmpty(cacheVerifyCode)) {
-            throw new QuickException(ResponseEnum.VERIFY_CODE_EXPIRE);
+        // 判断邮箱验证码
+        String cacheEmailCode = redisUtil.getCacheObject(email);
+        if (StringUtils.isEmpty(cacheEmailCode)) {
+            throw new QuickException(ResponseEnum.EMAIL_CODE_EXPIRE);
+        }
+        if (emailCode.equalsIgnoreCase(cacheEmailCode)) {
+            throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
 
-        // 判断验证码输入是否正确
+        // 判断图片验证码
+        String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
+        String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
+        if (StringUtils.isEmpty(cacheVerifyCode)) {
+            throw new QuickException(ResponseEnum.IMG_CODE_EXPIRE);
+        }
         if (!verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
-            throw new QuickException(ResponseEnum.VERIFY_CODE_ERROR);
+            throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
         // 判断账号是否存在
@@ -113,7 +121,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
     public String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
         String accountId = loginDTO.getAccountId();
         String passWord = loginDTO.getPassWord();
-        String verifyCode = loginDTO.getVerifyCode();
+        String imgCode = loginDTO.getImgCode();
 
         // 判断账号是否存在
         QuickUser userPO = userStore.getByAccountId(accountId);
@@ -121,11 +129,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
 
-        // 判断验证码是否正确
+        // 校验图片验证码
         String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
-        String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
-        if (verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
-            throw new QuickException(ResponseEnum.VERIFY_CODE_ERROR);
+        String cacheImgCode = redisUtil.getCacheObject(captchaKey);
+        if (StringUtils.isEmpty(cacheImgCode)) {
+            throw new QuickException(ResponseEnum.IMG_CODE_EXPIRE);
+        }
+        if (imgCode.equalsIgnoreCase(cacheImgCode)) {
+            throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
         // 判断密码是否正确
