@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class ChatUserController {
     @Autowired
     private QuickUserService userService;
 
@@ -61,9 +61,9 @@ public class UserController {
      * 登录账号
      */
     @PostMapping("/login")
-    public R login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
-        userService.login(loginDTO, request);
-        return R.out(ResponseEnum.SUCCESS);
+    public R login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) throws Exception {
+        String token = userService.login(loginDTO, request);
+        return R.out(ResponseEnum.SUCCESS, token);
     }
 
     /**

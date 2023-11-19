@@ -1,4 +1,4 @@
-package com.salt.utils;
+package com.quick.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

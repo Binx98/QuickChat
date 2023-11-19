@@ -26,4 +26,12 @@ public class ChatMsgController {
         chatMsgHandler.sendChatMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
+
+    /**
+     * 撤回消息
+     */
+    @PostMapping("/recall")
+    public R recallMessage() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }

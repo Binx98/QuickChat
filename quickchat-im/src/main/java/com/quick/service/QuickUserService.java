@@ -23,7 +23,7 @@ public interface QuickUserService extends IService<QuickUser> {
 
     Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception;
 
-    Boolean login(LoginDTO loginDTO, HttpServletRequest request);
+    String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception;
 
     void captcha(HttpServletRequest request, HttpServletResponse response);
 }

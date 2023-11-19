@@ -14,9 +14,7 @@ import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickUserStore;
-import com.quick.utils.CookieUtil;
-import com.quick.utils.IPUtil;
-import com.quick.utils.RedisUtil;
+import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,8 +110,32 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      * 登陆账号
      */
     @Override
-    public Boolean login(LoginDTO loginDTO, HttpServletRequest request) {
-        return null;
+    public String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
+        String accountId = loginDTO.getAccountId();
+        String passWord = loginDTO.getPassWord();
+        String verifyCode = loginDTO.getVerifyCode();
+
+        // 判断账号是否存在
+        QuickUser userPO = userStore.getByAccountId(accountId);
+        if (ObjectUtils.isEmpty(userPO)) {
+            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+        }
+
+        // 判断验证码是否正确
+        String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
+        String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
+        if (verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
+            throw new QuickException(ResponseEnum.VERIFY_CODE_ERROR);
+        }
+
+        // 判断密码是否正确
+        String encryptPwd = AESUtil.encrypt(passWord);
+        if (!encryptPwd.equals(userPO.getPassword())) {
+            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
+        }
+
+        // 生成Token
+        return JwtUtil.generate(accountId);
     }
 
     /**

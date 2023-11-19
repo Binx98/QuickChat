@@ -18,6 +18,7 @@ public enum ResponseEnum {
     USER_NOT_EXIST(50001, "该用户信息不存在"),
     ACCOUNT_ID_EXIST(50002, "该账号信息已存在，请勿重复注册！"),
     PASSWORD_DIFF(50003, "两次密码输入不一致，请重试！"),
+    PASSWORD_ERROR(50003, "密码输入错误，请重试！"),
     VERIFY_CODE_EXPIRE(50004, "验证码信息已失效，请重试！"),
     VERIFY_CODE_ERROR(50004, "验证码输入错误，请重试！"),
     ;
