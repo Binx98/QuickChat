@@ -73,13 +73,5 @@ public class ChatUserController {
     public R updateInfo() {
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * 发送邮件
-     */
-    @PostMapping("/sendEmail")
-    public R sendEmail() {
-        return R.out(ResponseEnum.SUCCESS);
-    }
 }
 

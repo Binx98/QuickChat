@@ -23,7 +23,9 @@ public enum ResponseEnum {
     IMG_CODE_ERROR(50004, "图片验证码输入错误，请重试！"),
     EMAIL_CODE_EXPIRE(50005, "邮箱验证码输入错误，请重试！"),
     EMAIL_CODE_ERROR(50005, "邮箱验证码输入错误，请重试！"),
+    TOKEN_EXPIRE(50010, "Token身份信息已过期，请重新登录！"),
     ;
+
 
     private Integer code;
     private String msg;

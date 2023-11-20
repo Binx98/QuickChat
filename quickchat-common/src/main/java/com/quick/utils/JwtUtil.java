@@ -51,7 +51,7 @@ public class JwtUtil {
     /**
      * 校验 Token 是否可用
      */
-    public static boolean checkToken(String jwtToken) {
+    public static boolean check(String jwtToken) {
         if (StringUtils.isEmpty(jwtToken)) {
             return false;
         }
