@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/chat/session")
 public class ChatSessionController {
     /**
-     * 查询聊天会话
+     * 查询聊天会话列表
      */
     @GetMapping("/list/{accountId}")
     public R getSessionList(String accountId) {
@@ -30,7 +30,7 @@ public class ChatSessionController {
     }
 
     /**
-     * 置顶会话
+     * 置顶聊天会话
      */
     @PostMapping("/top/{id}")
     public R topSession(@PathVariable Long id) {

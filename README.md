@@ -3,12 +3,12 @@
 后端：
 
 1. JDK 11
-2. SpringBoot 2.7.17
-3. MyBatisPlus
+2. SpringBoot
+3. MyBatis-Plus
 4. MySQL
-5. Redis
+5. Redis 
 6. Redisson
-7. Netty(WebSocket + WebRTC)
+7. Netty
 8. Kafka
 9. ElasticSearch
 10. MinIO
@@ -17,6 +17,7 @@
 13. HuTool
 14. JWT
 15. Kaptcha
+16. WebSocket + WebRTC
 
 前端：兼容移动端
 

@@ -12,5 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/chat/apply")
 public class ChatApplyController {
-
+    /**
+     * 添加好友
+     */
 }
