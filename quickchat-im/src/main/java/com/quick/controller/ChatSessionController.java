@@ -22,6 +22,14 @@ public class ChatSessionController {
     }
 
     /**
+     * 未读数清0
+     */
+    @PutMapping("/clearUnread/{sessionId}")
+    public R clearUnread(@PathVariable Long sessionId) {
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
      * 删除聊天会话
      */
     @DeleteMapping("/delete/{id}")

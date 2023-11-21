@@ -15,4 +15,8 @@ public class ChatApplyController {
     /**
      * 添加好友
      */
+
+    /**
+     * 处理好友申请状态（同意 or 拒绝）
+     */
 }

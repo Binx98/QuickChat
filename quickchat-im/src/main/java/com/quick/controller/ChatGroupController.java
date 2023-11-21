@@ -8,6 +8,10 @@ package com.quick.controller;
  */
 public class ChatGroupController {
     /**
+     * 查询群聊列表
+     */
+
+    /**
      * 创建群组
      */
 

@@ -25,10 +25,6 @@ import javax.annotation.PreDestroy;
  * @Date: 2023/11/12 19:36
  * @Version 1.0
  * @Description: Netty构建WebSocket服务器
- * ------------------------------------------------------------
- * 采用方案1：该项目WebSocket只做推送，不做Channel接收
- * 1.发送消息调用Controller，不通过js使用socket.send（采用）
- * 2.发送消息不调用Controller，通过js使用socket.send调用Channel传递（不采用）
  */
 @Slf4j
 @Component
