@@ -5,18 +5,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: 徐志斌
- * @CreateTime: 2023-11-17  15:21
- * @Description: 好友申请
+ * @CreateTime: 2023-11-22  11:37
+ * @Description: TODO
  * @Version: 1.0
  */
 @RestController
-@RequestMapping("/chat/apply")
-public class ChatApplyController {
+@RequestMapping("")
+public class ChatGroupUserController {
     /**
-     * 添加好友
+     * 查询群成员列表
      */
 
     /**
-     * 处理好友申请状态（同意 or 拒绝）
+     * 邀请入群
+     */
+
+    /**
+     * 将用户移除群聊
      */
 }

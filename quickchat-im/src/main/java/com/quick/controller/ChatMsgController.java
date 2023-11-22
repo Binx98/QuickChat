@@ -21,7 +21,7 @@ public class ChatMsgController {
      * 发送消息
      */
     @PostMapping("/send")
-    public R sendMessage(@RequestBody ChatMsgDTO msgDTO) {
+    public R sendMsg(@RequestBody ChatMsgDTO msgDTO) {
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getType());
         chatMsgHandler.sendChatMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
@@ -31,7 +31,15 @@ public class ChatMsgController {
      * 撤回消息
      */
     @PostMapping("/recall")
-    public R recallMessage() {
+    public R recallMsg() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 点赞、点踩消息
+     */
+    @PostMapping("/like")
+    public R likeMsg() {
         return R.out(ResponseEnum.SUCCESS);
     }
 }
