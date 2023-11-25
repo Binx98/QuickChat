@@ -5,6 +5,7 @@ import com.quick.exception.QuickException;
 import com.quick.utils.JwtUtil;
 import com.quick.utils.RequestHolderUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +23,7 @@ import java.util.Map;
 @Slf4j
 @Component
 public class LoginTokenInterceptor implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // OPTIONS 预请求直接通过

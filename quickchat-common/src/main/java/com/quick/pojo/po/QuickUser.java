@@ -49,6 +49,12 @@ public class QuickUser implements Serializable {
     private String nickName;
 
     /**
+     * 昵称
+     */
+    @TableField("avatar")
+    private String avatar;
+
+    /**
      * 性别（0：女，1：男）
      */
     @TableField("gender")
@@ -61,6 +67,12 @@ public class QuickUser implements Serializable {
     private String location;
 
     /**
+     * 手机
+     */
+    @TableField("phone")
+    private String phone;
+
+    /**
      * 邮箱
      */
     @TableField("email")
@@ -70,7 +82,13 @@ public class QuickUser implements Serializable {
      * 登陆状态
      */
     @TableField("line_status")
-    private Integer lineStatus;
+    private String lineStatus;
+
+    /**
+     * 生日
+     */
+    @TableField("birth_day")
+    private LocalDateTime birthDay;
 
     /**
      * 创建时间

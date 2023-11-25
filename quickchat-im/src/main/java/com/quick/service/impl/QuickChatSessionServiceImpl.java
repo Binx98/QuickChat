@@ -47,12 +47,30 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询会话列表
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(accountId);
-        List<String> receiveIds = sessionList.stream().map(QuickChatSession::getReceiveId).collect(Collectors.toList());
+        List<String> receiveIds = sessionList.stream()
+                .map(QuickChatSession::getReceiveId)
+                .collect(Collectors.toList());
 
         // 查询会话用户信息
         List<QuickUser> userList = userStore.getListByAccountIds(receiveIds);
 
         // 封装最终VO结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
+    }
+
+    /**
+     * 清空未读数量
+     */
+    @Override
+    public Boolean clearUnread(Long sessionId) {
+        return sessionStore.updateUnreadBySessionId(sessionId, 0);
+    }
+
+    /**
+     * 删除聊天会话
+     */
+    @Override
+    public Boolean deleteSession(Long sessionId) {
+        return sessionStore.deleteBySessionId(sessionId);
     }
 }

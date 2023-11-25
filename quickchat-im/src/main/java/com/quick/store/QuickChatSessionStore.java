@@ -16,4 +16,8 @@ import java.util.List;
 public interface QuickChatSessionStore extends IService<QuickChatSession> {
 
     List<QuickChatSession> getListByAccountId(String accountId);
+
+    Boolean updateUnreadBySessionId(Long sessionId, int count);
+
+    Boolean deleteBySessionId(Long sessionId);
 }

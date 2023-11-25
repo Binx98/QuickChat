@@ -35,14 +35,16 @@ public class ChatSessionController {
      */
     @PutMapping("/clearUnread/{sessionId}")
     public R clearUnread(@PathVariable Long sessionId) {
+        sessionService.clearUnread(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     /**
      * 删除聊天会话
      */
-    @DeleteMapping("/delete/{id}")
-    public R deleteSession(@PathVariable Long id) {
+    @DeleteMapping("/delete/{sessionId}")
+    public R deleteSession(@PathVariable Long sessionId) {
+        sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
