@@ -1,5 +1,6 @@
 package com.quick.strategy.chatmsg.handler;
 
+import cn.hutool.json.JSONUtil;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
@@ -40,6 +41,6 @@ public class FontHandler extends AbstractChatMsgStrategy {
         msgStore.saveMsg(chatMsg);
 
         // 将消息发送到MQ
-        kafkaProducer.send(MQConstant.CHAT_SEND_TOPIC, chatMsg);
+        kafkaProducer.send(MQConstant.CHAT_SEND_TOPIC, JSONUtil.toJsonStr(chatMsg));
     }
 }

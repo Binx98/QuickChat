@@ -29,6 +29,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         final List<String> EXCLUDE_PATH = Arrays.asList(
+                "/user/test",
                 "/user/captcha",
                 "/user/register",
                 "/user/login"

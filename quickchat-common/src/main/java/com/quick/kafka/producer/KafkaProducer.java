@@ -20,7 +20,7 @@ public class KafkaProducer {
     /**
      * 发送消息
      */
-    public void send(String topic, Object message) {
+    public void send(String topic, String message) {
         kafkaTemplate.send(topic, message);
     }
 }

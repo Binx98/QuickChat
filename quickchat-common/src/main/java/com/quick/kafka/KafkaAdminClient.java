@@ -1,5 +1,6 @@
 package com.quick.kafka;
 
+import com.quick.constant.MQConstant;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.KafkaFuture;
 
@@ -20,8 +21,7 @@ public class KafkaAdminClient {
      *
      */
     public static void main(String[] args) throws Exception {
-//        createTopic(MQConstant.COMMUNITY_POST_TOPIC);
-//        createTopic(MQConstant.IM_SEND_TOPIC);
+//        createTopic(MQConstant.CHAT_SEND_TOPIC);
 //        deleteTopic("COMMUNITY-POST-TOPIC");
         getTopic();
     }

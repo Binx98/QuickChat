@@ -38,9 +38,9 @@ public class ChatMsgConsumer {
      * 发送聊天消息
      */
     @KafkaListener(topics = MQConstant.CHAT_SEND_TOPIC, groupId = MQConstant.CHAT_SEND_GROUP_ID)
-    public void sendChatMsg(Object message) throws Throwable {
+    public void sendChatMsg(String message) throws Throwable {
         // 处理通信双方聊天会话
-        QuickChatMsg chatMsg = (QuickChatMsg) message;
+        QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         String sendId = chatMsg.getSendId();
         String receiveId = chatMsg.getReceiveId();
 

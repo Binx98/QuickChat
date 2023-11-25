@@ -1,7 +1,11 @@
 package com.quick.controller;
 
 
+import cn.hutool.json.JSONUtil;
+import com.quick.constant.MQConstant;
 import com.quick.enums.ResponseEnum;
+import com.quick.kafka.producer.KafkaProducer;
+import com.quick.pojo.QuickChatMsg;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
@@ -79,6 +83,17 @@ public class ChatUserController {
     @PutMapping("/update")
     public R updateInfo() {
         return R.out(ResponseEnum.SUCCESS);
+    }
+
+    // 测试专用
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
+    @GetMapping("/test")
+    public String test() {
+        QuickChatMsg build = QuickChatMsg.builder().receiveId("1111").sendId("123").build();
+        kafkaProducer.send(MQConstant.CHAT_SEND_TOPIC, JSONUtil.toJsonStr(build));
+        return "接口整体通过";
     }
 }
 
