@@ -24,6 +24,7 @@ public enum ResponseEnum {
     EMAIL_CODE_EXPIRE(50005, "邮箱验证码输入错误，请重试！"),
     EMAIL_CODE_ERROR(50005, "邮箱验证码输入错误，请重试！"),
     TOKEN_EXPIRE(50010, "Token身份信息已过期，请重新登录！"),
+    REQUEST_HOLDER_NO_ACCOUNT_ID(50011, "全局请求上下文未获取到账号信息！"),
     ;
 
 

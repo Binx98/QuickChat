@@ -24,8 +24,11 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
      * 根据 account_id 查询会话列表
      */
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG)
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0")
     public List<QuickChatSession> getListByAccountId(String accountId) {
-        return null;
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getSendId, accountId)
+                .orderByDesc(QuickChatSession::getUpdateTime)
+                .list();
     }
 }

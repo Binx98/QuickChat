@@ -1,19 +1,23 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.ChatSessionAdapter;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
+import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatSessionStore;
+import com.quick.store.QuickUserStore;
 import com.quick.utils.RequestHolderUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,6 +29,8 @@ import java.util.List;
  */
 @Service
 public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionService {
+    @Autowired
+    private QuickUserStore userStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
 
@@ -41,6 +47,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询会话列表
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(accountId);
-        return null;
+        List<String> receiveIds = sessionList.stream().map(QuickChatSession::getReceiveId).collect(Collectors.toList());
+
+        // 查询会话用户信息
+        List<QuickUser> userList = userStore.getListByAccountIds(receiveIds);
+
+        // 封装最终VO结果集
+        return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
     }
 }

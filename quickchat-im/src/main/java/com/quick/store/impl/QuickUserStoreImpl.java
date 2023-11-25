@@ -8,6 +8,8 @@ import com.quick.store.QuickUserStore;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -35,5 +37,15 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickUser> 
     @Override
     public Boolean saveUserInfo(QuickUser userPO) {
         return this.save(userPO);
+    }
+
+    /**
+     * 批量查询用户信息
+     */
+    @Override
+    public List<QuickUser> getListByAccountIds(List<String> receiveIds) {
+        return this.lambdaQuery()
+                .in(QuickUser::getAccountId, receiveIds)
+                .list();
     }
 }

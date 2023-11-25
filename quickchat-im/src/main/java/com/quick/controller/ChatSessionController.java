@@ -27,7 +27,7 @@ public class ChatSessionController {
     @GetMapping("/list")
     public R getSessionList() {
         List<ChatSessionVO> result = sessionService.getSessionList();
-        return R.out(ResponseEnum.SUCCESS);
+        return R.out(ResponseEnum.SUCCESS, result);
     }
 
     /**
