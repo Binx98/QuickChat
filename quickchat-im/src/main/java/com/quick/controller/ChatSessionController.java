@@ -1,8 +1,13 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.response.R;
+import com.quick.service.QuickChatSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author 徐志斌
@@ -13,11 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/chat/session")
 public class ChatSessionController {
+    @Autowired
+    private QuickChatSessionService sessionService;
+
     /**
      * 查询聊天会话列表
      */
-    @GetMapping("/list/{accountId}")
-    public R getSessionList(String accountId) {
+    @GetMapping("/list")
+    public R getSessionList() {
+        List<ChatSessionVO> result = sessionService.getSessionList();
         return R.out(ResponseEnum.SUCCESS);
     }
 

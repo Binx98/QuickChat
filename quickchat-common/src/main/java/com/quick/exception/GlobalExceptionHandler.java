@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
      * 自定义异常 QuickException
      */
     @ExceptionHandler(QuickException.class)
-    public R bingoException(QuickException e) {
+    public R quickException(QuickException e) {
         return R.out(e.getResponseEnum());
     }
 
