@@ -11,10 +11,9 @@ import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
  * @Version: 1.0
  */
 public class FontHandler extends AbstractChatMsgStrategy {
-
     @Override
     protected ChatMsgEnum getEnum() {
-        return null;
+        return ChatMsgEnum.FONT;
     }
 
     /**

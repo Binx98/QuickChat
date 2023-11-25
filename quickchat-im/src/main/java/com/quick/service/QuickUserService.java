@@ -1,6 +1,7 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.po.QuickUser;
@@ -26,4 +27,6 @@ public interface QuickUserService extends IService<QuickUser> {
     String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception;
 
     void captcha(HttpServletRequest request, HttpServletResponse response);
+
+    Boolean sendEmail(EmailDTO emailDTO);
 }

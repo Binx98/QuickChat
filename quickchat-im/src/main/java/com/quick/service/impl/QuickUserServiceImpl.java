@@ -8,6 +8,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickUserMapper;
+import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.po.QuickUser;
@@ -18,6 +19,7 @@ import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -190,5 +193,21 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
                 }
             }
         }
+    }
+
+    @Override
+    public Boolean sendEmail(EmailDTO emailDTO) {
+        // 生成邮箱验证码
+        String code = RandomUtil.generate(4, 1);
+//
+//        // 发送邮件
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setFrom("1262254123@qq.com");
+//        mailMessage.setTo(emailDTO.getEmail());
+//        mailMessage.setSubject("Bingo注册验证");
+//        mailMessage.setText("欢迎使用Bingo平台，您的验证码为：" + code + "，3分钟内自动过期~");
+//        mailMessage.setSentDate(new Date());
+//        mailSender.send(mailMessage);
+        return null;
     }
 }

@@ -2,16 +2,20 @@ package com.quick.controller;
 
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
+import com.quick.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 /**
  * <p>
@@ -60,6 +64,15 @@ public class ChatUserController {
     public R login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) throws Exception {
         String token = userService.login(loginDTO, request);
         return R.out(ResponseEnum.SUCCESS, token);
+    }
+
+    /**
+     * 发送邮件
+     */
+    @PostMapping("/sendEmail")
+    public R sendEmail(@RequestBody EmailDTO emailDTO) {
+        userService.sendEmail(emailDTO);
+        return R.out(ResponseEnum.SUCCESS);
     }
 
     /**
