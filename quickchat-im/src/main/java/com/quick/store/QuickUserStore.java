@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author 徐志斌
@@ -20,4 +20,6 @@ public interface QuickUserStore extends IService<QuickUser> {
     Boolean saveUserInfo(com.quick.pojo.po.QuickUser userPO);
 
     List<QuickUser> getListByAccountIds(List<String> receiveIds);
+
+    Boolean updateInfo(QuickUser userPO);
 }

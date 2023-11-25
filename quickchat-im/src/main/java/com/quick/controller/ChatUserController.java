@@ -38,15 +38,11 @@ public class ChatUserController {
 
     /**
      * 生成验证码
-     * ---------------------------------------------
-     * Cookie结构：K("captcha_key") V(客户端标识uuid)
-     * Redis结构：K(客户端身份uuid) V(验证码值)
      */
     @GetMapping("/captcha")
     public void captcha(HttpServletRequest request, HttpServletResponse response) {
         userService.captcha(request, response);
     }
-
 
     /**
      * 注册账号

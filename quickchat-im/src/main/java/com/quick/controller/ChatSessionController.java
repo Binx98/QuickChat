@@ -31,7 +31,7 @@ public class ChatSessionController {
     }
 
     /**
-     * 未读数清0
+     * 未读数清 0
      */
     @PutMapping("/clearUnread/{sessionId}")
     public R clearUnread(@PathVariable Long sessionId) {

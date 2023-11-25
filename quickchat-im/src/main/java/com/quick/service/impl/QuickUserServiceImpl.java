@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.LineEnum;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.dto.LoginDTO;
@@ -64,17 +64,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      */
     @Override
     public Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception {
-        String accountId = registerDTO.getAccountId();
-        String nickName = registerDTO.getNickName();
-        String password1 = registerDTO.getPassword1();
-        String password2 = registerDTO.getPassword2();
         Integer gender = registerDTO.getGender();
         String email = registerDTO.getEmail();
         String emailCode = registerDTO.getEmailCode();
         String verifyCode = registerDTO.getImgCode();
 
         // 两次密码输入是否一致
-        if (!password1.equals(password2)) {
+        if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
@@ -98,7 +94,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         }
 
         // 判断账号是否存在
-        QuickUser userPO = userStore.getByAccountId(accountId);
+        QuickUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
         if (ObjectUtils.isNotEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
@@ -110,7 +106,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         String location = locationMap.get("province") + "-" + locationMap.get("city");
 
         // 保存账号信息
-        userPO = UserAdapter.buildUserPO(accountId, nickName, password1, gender, email, location, LineEnum.OFFLINE.getType());
+        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(),
+                registerDTO.getNickName(), registerDTO.getPassword1(), gender, email, location, YesNoEnum.NO.getStatus());
         return userStore.saveUserInfo(userPO);
     }
 
@@ -119,12 +116,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      */
     @Override
     public String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
-        String accountId = loginDTO.getAccountId();
-        String passWord = loginDTO.getPassWord();
-        String imgCode = loginDTO.getImgCode();
-
         // 判断账号是否存在
-        QuickUser userPO = userStore.getByAccountId(accountId);
+        QuickUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
@@ -135,18 +128,22 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         if (StringUtils.isEmpty(cacheImgCode)) {
             throw new QuickException(ResponseEnum.IMG_CODE_EXPIRE);
         }
-        if (imgCode.equalsIgnoreCase(cacheImgCode)) {
+        if (loginDTO.getImgCode().equalsIgnoreCase(cacheImgCode)) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
         // 判断密码是否正确
-        String encryptPwd = AESUtil.encrypt(passWord);
+        String encryptPwd = AESUtil.encrypt(loginDTO.getPassWord());
         if (!encryptPwd.equals(userPO.getPassword())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
+        // 登录成功，切换用户状态：已上线
+        userPO.setLineStatus(YesNoEnum.YES.getStatus());
+        userStore.updateInfo(userPO);
+
         // 生成Token
-        return JwtUtil.generate(accountId);
+        return JwtUtil.generate(loginDTO.getAccountId());
     }
 
     /**

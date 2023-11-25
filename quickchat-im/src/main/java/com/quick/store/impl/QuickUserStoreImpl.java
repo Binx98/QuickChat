@@ -5,6 +5,7 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.po.QuickUser;
 import com.quick.store.QuickUserStore;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +48,14 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickUser> 
         return this.lambdaQuery()
                 .in(QuickUser::getAccountId, receiveIds)
                 .list();
+    }
+
+    /**
+     * 更新用户信息
+     */
+    @Override
+    @CacheEvict(value = RedisConstant.QUICK_USER, key = "#p0.accountId")
+    public Boolean updateInfo(QuickUser userPO) {
+        return this.updateById(userPO);
     }
 }

@@ -20,8 +20,15 @@ public class UserAdapter {
                 .build();
     }
 
+    public static QuickUser buildUserPO(String accountId, String lineStatus) {
+        return QuickUser.builder()
+                .accountId(accountId)
+                .lineStatus(lineStatus)
+                .build();
+    }
+
     public static QuickUser buildUserPO(String accountId, String nickName, String password1,
-                                        Integer gender, String email, String location, Integer lineStatus) {
+                                        Integer gender, String email, String location, String lineStatus) {
         return QuickUser.builder()
                 .accountId(accountId)
                 .nickName(nickName)
