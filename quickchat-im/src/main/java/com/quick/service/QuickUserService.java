@@ -9,6 +9,7 @@ import com.quick.pojo.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ public interface QuickUserService extends IService<QuickUser> {
 
     Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception;
 
-    String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception;
+    Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request) throws Exception;
 
     void captcha(HttpServletRequest request, HttpServletResponse response);
 

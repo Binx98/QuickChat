@@ -8,14 +8,12 @@ import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
-import com.quick.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.util.Map;
 
 /**
  * <p>
@@ -62,8 +60,8 @@ public class ChatUserController {
      */
     @PostMapping("/login")
     public R login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) throws Exception {
-        String token = userService.login(loginDTO, request);
-        return R.out(ResponseEnum.SUCCESS, token);
+        Map<String, Object> resultMap = userService.login(loginDTO, request);
+        return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     /**

@@ -4,6 +4,7 @@ import io.minio.*;
 import io.minio.messages.Item;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,36 +29,10 @@ import java.util.List;
  */
 @Component
 public class MinioUtil {
+    @Value("${minio.endpoint}")
+    private String endPoint;
     @Autowired
     private MinioClient minioClient;
-
-    /**
-     * 判断bucket是否存在（不存在则创建）
-     */
-    public void existBucket(String name) throws Exception {
-        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(name).build());
-        if (!exists) {
-            minioClient.makeBucket(MakeBucketArgs.builder().bucket(name).build());
-        }
-    }
-
-    /**
-     * 创建 bucket
-     */
-    public void createBucket(String bucketName) throws Exception {
-        minioClient.makeBucket(MakeBucketArgs.builder()
-                .bucket(bucketName)
-                .build());
-    }
-
-    /**
-     * 删除 bucket
-     */
-    public void deleteBucket(String bucketName) throws Exception {
-        minioClient.removeBucket(RemoveBucketArgs.builder()
-                .bucket(bucketName)
-                .build());
-    }
 
     /**
      * 上传文件
@@ -86,7 +61,7 @@ public class MinioUtil {
             }
         }
         StringBuffer url = new StringBuffer();
-        url.append("http://101.42.13.186:9000/");
+        url.append(endPoint);
         url.append(bucketName);
         url.append("/");
         url.append(fileName);
@@ -140,7 +115,7 @@ public class MinioUtil {
     /**
      * 查看文件对象
      */
-    public List<Item> listObjects(String bucketName) throws Exception {
+    public List<Item> getFileList(String bucketName) throws Exception {
         Iterable<Result<Item>> results =
                 minioClient.listObjects(ListObjectsArgs.builder().bucket(bucketName).build());
         List<Item> objectItems = new ArrayList<>();
@@ -156,5 +131,33 @@ public class MinioUtil {
      */
     public void removeObject(String bucketName, String objName) throws Exception {
         minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objName).build());
+    }
+
+    /**
+     * 创建 bucket
+     */
+    public void createBucket(String bucketName) throws Exception {
+        minioClient.makeBucket(MakeBucketArgs.builder()
+                .bucket(bucketName)
+                .build());
+    }
+
+    /**
+     * 删除 bucket
+     */
+    public void deleteBucket(String bucketName) throws Exception {
+        minioClient.removeBucket(RemoveBucketArgs.builder()
+                .bucket(bucketName)
+                .build());
+    }
+
+    /**
+     * 判断bucket是否存在（不存在则创建）
+     */
+    public void existBucket(String name) throws Exception {
+        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(name).build());
+        if (!exists) {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(name).build());
+        }
     }
 }

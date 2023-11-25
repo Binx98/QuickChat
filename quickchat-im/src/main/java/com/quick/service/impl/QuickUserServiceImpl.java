@@ -19,7 +19,6 @@ import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -118,7 +117,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      * 登陆账号
      */
     @Override
-    public String login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
+    public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
         // 判断账号是否存在
         QuickUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -146,7 +145,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         userStore.updateInfo(userPO);
 
         // 生成Token
-        return JwtUtil.generate(loginDTO.getAccountId());
+        String token = JwtUtil.generate(loginDTO.getAccountId());
+
+        // 封装结果，返回
+        UserVO userVO = UserAdapter.buildUserVO(userPO);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("token", token);
+        resultMap.put("userInfo", userVO);
+        return resultMap;
     }
 
     /**

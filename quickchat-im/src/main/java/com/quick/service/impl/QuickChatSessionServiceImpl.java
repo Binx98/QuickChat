@@ -54,7 +54,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         // 查询会话用户信息
         List<QuickUser> userList = userStore.getListByAccountIds(receiveIds);
 
-        // 封装最终VO结果集
+        // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
     }
 
