@@ -24,4 +24,6 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     QuickChatSession getOneByAccountId(String sendId, String receiveId);
 
     Boolean saveInfo(QuickChatSession chatSession);
+
+    Boolean updateInfo(QuickChatSession chatSession1);
 }

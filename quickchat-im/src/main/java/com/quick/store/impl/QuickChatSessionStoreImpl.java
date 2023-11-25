@@ -74,4 +74,13 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     public Boolean saveInfo(QuickChatSession chatSession) {
         return this.save(chatSession);
     }
+
+    /**
+     * 修改会话信息
+     */
+    @Override
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
+    public Boolean updateInfo(QuickChatSession chatSession) {
+        return this.updateById(chatSession);
+    }
 }
