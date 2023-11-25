@@ -1,4 +1,4 @@
-package com.quick.websocket;
+package com.quick.netty;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

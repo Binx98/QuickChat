@@ -42,8 +42,6 @@ public class LoginTokenInterceptor implements HandlerInterceptor {
         // 解析Token信息，封装 RequestHolderUtil
         Map<String, Object> tokenMap = JwtUtil.resolve(token);
         RequestHolderUtil.set(tokenMap);
-
-        // 校验通过
         return true;
     }
 

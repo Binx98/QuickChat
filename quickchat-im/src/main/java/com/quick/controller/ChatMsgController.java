@@ -5,6 +5,7 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.response.R;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,14 @@ public class ChatMsgController {
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) {
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getType());
         chatMsgHandler.sendChatMsg(msgDTO);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 查询聊天信息列表
+     */
+    @GetMapping("/chatMsgList")
+    public R getChatMsgList() {
         return R.out(ResponseEnum.SUCCESS);
     }
 

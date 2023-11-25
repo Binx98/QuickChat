@@ -37,7 +37,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
      * 修改会话未读数量
      */
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, key = "getListByAccountId")
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean updateUnreadBySessionId(Long sessionId, int count) {
         return this.lambdaUpdate()
                 .eq(QuickChatSession::getId, sessionId)
@@ -49,8 +49,29 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
      * 删除会话
      */
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, key = "getListByAccountId")
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean deleteBySessionId(Long sessionId) {
         return this.removeById(sessionId);
+    }
+
+    /**
+     * 根据通信双方 account_id 查询单条会话信息
+     */
+    @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")
+    public QuickChatSession getOneByAccountId(String sendId, String receiveId) {
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getSendId, sendId)
+                .eq(QuickChatSession::getReceiveId, receiveId)
+                .one();
+    }
+
+    /**
+     * 保存会话信息
+     */
+    @Override
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
+    public Boolean saveInfo(QuickChatSession chatSession) {
+        return this.save(chatSession);
     }
 }

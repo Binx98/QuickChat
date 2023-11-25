@@ -1,4 +1,4 @@
-package com.quick.websocket;
+package com.quick.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

@@ -46,4 +46,12 @@ public class ChatSessionAdapter {
         }
         return resultList;
     }
+
+    public static QuickChatSession buildSessionPO(String sendId, String receiveId, Integer unreadCount) {
+        return QuickChatSession.builder()
+                .sendId(sendId)
+                .receiveId(receiveId)
+                .unreadCount(unreadCount)
+                .build();
+    }
 }

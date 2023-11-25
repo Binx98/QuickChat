@@ -7,4 +7,13 @@ package com.quick.constant;
  * @Version: 1.0
  */
 public class MQConstant {
+    /**
+     * 主题
+     */
+    public static final String CHAT_SEND_TOPIC = "CHAT_SEND_TOPIC";
+
+    /**
+     * 消费组
+     */
+    public static final String CHAT_SEND_GROUP_ID = "CHAT_SEND_GROUP_ID";
 }

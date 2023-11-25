@@ -1,4 +1,4 @@
-package com.quick.kafka;
+package com.quick.kafka.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
  * @Author 徐志斌
  * @Date: 2023/5/14 14:48
  * @Version 1.0
- * @Description: KafkaListener
+ * @Description: Kafka监听器
  */
 @Slf4j
 @Configuration
@@ -30,13 +30,13 @@ public class KafkaListener {
         kafkaTemplate.setProducerListener(new ProducerListener<String, Object>() {
             @Override
             public void onSuccess(ProducerRecord<String, Object> producerRecord, RecordMetadata recordMetadata) {
-                log.info("-----------------------kafka ok,message={}------------------------", producerRecord.value());
+                log.info("-----------------------kafka ok,message:[{}]------------------------", producerRecord.value());
             }
 
-//            @Override
-//            public void onError(ProducerRecord<String, Object> producerRecord, Exception exception) {
-//                log.error("========================kafka error,message={}========================", producerRecord.value());
-//            }
+            @Override
+            public void onError(ProducerRecord<String, Object> producerRecord, RecordMetadata recordMetadata, Exception exception) {
+                log.error("========================kafka error,message:[{}]========================", producerRecord.value());
+            }
         });
     }
 }

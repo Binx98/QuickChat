@@ -20,4 +20,8 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     Boolean updateUnreadBySessionId(Long sessionId, int count);
 
     Boolean deleteBySessionId(Long sessionId);
+
+    QuickChatSession getOneByAccountId(String sendId, String receiveId);
+
+    Boolean saveInfo(QuickChatSession chatSession);
 }
