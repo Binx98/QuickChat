@@ -7,5 +7,4 @@ package com.quick.constant;
  * @Version: 1.0
  */
 public class MQConstant {
-
 }
