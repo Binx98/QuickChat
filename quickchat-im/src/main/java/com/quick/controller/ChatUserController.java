@@ -85,14 +85,9 @@ public class ChatUserController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    // 测试专用
-    @Autowired
-    private KafkaProducer kafkaProducer;
-
     @GetMapping("/test")
     public String test() {
         QuickChatMsg build = QuickChatMsg.builder().receiveId("1111").sendId("123").build();
-        kafkaProducer.send(MQConstant.CHAT_SEND_TOPIC, JSONUtil.toJsonStr(build));
         return "接口整体通过";
     }
 }
