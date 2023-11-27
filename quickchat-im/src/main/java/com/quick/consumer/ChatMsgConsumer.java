@@ -44,7 +44,7 @@ public class ChatMsgConsumer {
         String sendId = chatMsg.getSendId();
         String receiveId = chatMsg.getReceiveId();
 
-        // 上锁：防止并发场景消息未读数量不准 FIXME 这个位置双方同时发送消息，根本锁不住
+        // 上锁：防止并发场景消息未读数量不准 FIXME 这个位置双方同时发送消息，根本锁不住（可以考虑加个字段锁key，用于控制双方会话）
         String lockKey = RedisConstant.UNREAD_LOCK_KEY + sendId + receiveId;
         lockUtil.executeWithLock(lockKey, 15, TimeUnit.SECONDS,
                 () -> {

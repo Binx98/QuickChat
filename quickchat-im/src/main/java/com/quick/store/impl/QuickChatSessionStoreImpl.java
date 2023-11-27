@@ -55,7 +55,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     /**
-     * 根据通信双方 account_id 查询单条会话信息
+     * 通信双方 account_id 查询单条会话信息
      */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")

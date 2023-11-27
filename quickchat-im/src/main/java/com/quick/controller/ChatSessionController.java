@@ -31,11 +31,11 @@ public class ChatSessionController {
     }
 
     /**
-     * 未读数清 0
+     * 修改会话未读数量
      */
-    @PutMapping("/clearUnread/{sessionId}")
-    public R clearUnread(@PathVariable Long sessionId) {
-        sessionService.clearUnread(sessionId);
+    @PutMapping("/unread/update/{sessionId}/{count}")
+    public R clearUnread(@PathVariable Long sessionId, @PathVariable Integer count) {
+        sessionService.clearUnread(sessionId, count);
         return R.out(ResponseEnum.SUCCESS);
     }
 

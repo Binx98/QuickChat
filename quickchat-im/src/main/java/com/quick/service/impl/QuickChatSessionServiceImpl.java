@@ -62,8 +62,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
      * 清空未读数量
      */
     @Override
-    public Boolean clearUnread(Long sessionId) {
-        return sessionStore.updateUnreadBySessionId(sessionId, 0);
+    public Boolean clearUnread(Long sessionId, Integer count) {
+        return sessionStore.updateUnreadBySessionId(sessionId, count);
     }
 
     /**
