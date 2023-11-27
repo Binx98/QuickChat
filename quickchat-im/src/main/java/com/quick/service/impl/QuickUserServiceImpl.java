@@ -103,7 +103,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
 
         // 解析地址
         String ipAddress = IPUtil.getIpAddress(request);
-        // TODO 判断如果是本机ip，就不处理
         Map<String, String> locationMap = IPUtil.getLocation(ipAddress);
         String location = locationMap.get("province") + "-" + locationMap.get("city");
 

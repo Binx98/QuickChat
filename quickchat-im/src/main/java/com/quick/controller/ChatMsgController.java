@@ -2,9 +2,12 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.dto.ChatMsgQueryDTO;
 import com.quick.response.R;
+import com.quick.service.QuickChatMsgService;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController("/chat/msg")
 public class ChatMsgController {
+    @Autowired
+    private QuickChatMsgService msgService;
+
     /**
      * 发送消息
      */
@@ -31,8 +37,9 @@ public class ChatMsgController {
     /**
      * 查询聊天信息列表
      */
-    @GetMapping("/chatMsgList")
-    public R getChatMsgList() {
+    @GetMapping("/getChatMsg")
+    public R chatMsgList(ChatMsgQueryDTO queryDTO) {
+//        msgService.getChatMsg(queryDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
