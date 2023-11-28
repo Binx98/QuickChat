@@ -4,7 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,5 +25,13 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     @Override
     public Boolean saveMsg(QuickChatMsg chatMsg) {
         return this.save(chatMsg);
+    }
+
+    /**
+     * 查询通讯双方聊天记录列表
+     */
+    @Override
+    public List<QuickChatMsg> getChatMsg(String loginAccountId, String accountId) {
+        return null;
     }
 }

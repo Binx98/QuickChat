@@ -2,16 +2,12 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.dto.ChatMsgQueryDTO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author 徐志斌
@@ -35,11 +31,11 @@ public class ChatMsgController {
     }
 
     /**
-     * 查询聊天信息列表
+     * 查询通讯双方聊天信息列表
      */
-    @GetMapping("/getChatMsg")
-    public R chatMsgList(ChatMsgQueryDTO queryDTO) {
-//        msgService.getChatMsg(queryDTO);
+    @GetMapping("/getChatMsg/{accountId}")
+    public R chatMsgList(@PathVariable String accountId) {
+        msgService.getChatMsg(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

@@ -3,6 +3,8 @@ package com.quick.store;
 import com.quick.pojo.QuickChatMsg;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 聊天信息 服务类
@@ -14,4 +16,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface QuickChatMsgStore extends IService<QuickChatMsg> {
 
     Boolean saveMsg(QuickChatMsg chatMsg);
+
+    List<QuickChatMsg> getChatMsg(String loginAccountId, String accountId);
 }

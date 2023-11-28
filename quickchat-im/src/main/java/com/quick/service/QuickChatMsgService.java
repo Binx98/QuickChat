@@ -13,4 +13,5 @@ import com.quick.pojo.QuickChatMsg;
  */
 public interface QuickChatMsgService extends IService<QuickChatMsg> {
 
+    void getChatMsg(String accountId);
 }
