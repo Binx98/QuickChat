@@ -1,6 +1,7 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.QuickChatMsg;
 import com.quick.service.QuickChatMsgService;
@@ -31,5 +32,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public void getChatMsg(String accountId) {
         String loginAccountId = (String) RequestHolderUtil.get().get("account_id");
         List<QuickChatMsg> msgList = msgStore.getChatMsg(loginAccountId, accountId);
+        ChatMsgAdapter.buildChatMsgVOList(msgList);
     }
 }

@@ -1,10 +1,12 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +36,8 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
      * 查询通讯双方聊天记录列表
      */
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0 + #p1")
     public List<QuickChatMsg> getChatMsg(String loginAccountId, String accountId) {
-        List<QuickChatMsg> chatMsgList = msgMapper.getChatMsgList();
-        return null;
+        return msgMapper.getChatMsgList();
     }
 }
