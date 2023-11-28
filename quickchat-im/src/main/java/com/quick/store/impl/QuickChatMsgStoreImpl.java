@@ -19,6 +19,9 @@ import java.util.List;
  */
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
+    @Autowired
+    private QuickChatMsgMapper msgMapper;
+
     /**
      * 保存聊天信息
      */
@@ -32,6 +35,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
      */
     @Override
     public List<QuickChatMsg> getChatMsg(String loginAccountId, String accountId) {
+        List<QuickChatMsg> chatMsgList = msgMapper.getChatMsgList();
         return null;
     }
 }
