@@ -17,7 +17,7 @@ public interface QuickUserStore extends IService<QuickUser> {
 
     QuickUser getByAccountId(String accountId);
 
-    Boolean saveUserInfo(com.quick.pojo.po.QuickUser userPO);
+    Boolean saveUser(com.quick.pojo.po.QuickUser userPO);
 
     List<QuickUser> getListByAccountIds(List<String> receiveIds);
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
+import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 
@@ -30,4 +31,6 @@ public interface QuickUserService extends IService<QuickUser> {
     void captcha(HttpServletRequest request, HttpServletResponse response);
 
     Boolean sendEmail(EmailDTO emailDTO);
+
+    Boolean updateUser(UserUpdateDTO userDTO);
 }

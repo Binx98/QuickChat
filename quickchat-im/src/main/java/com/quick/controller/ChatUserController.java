@@ -1,14 +1,12 @@
 package com.quick.controller;
 
 
-import cn.hutool.json.JSONUtil;
-import com.quick.constant.MQConstant;
 import com.quick.enums.ResponseEnum;
-import com.quick.kafka.producer.KafkaProducer;
 import com.quick.pojo.QuickChatMsg;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
+import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
@@ -81,7 +79,8 @@ public class ChatUserController {
      * 修改用户信息
      */
     @PutMapping("/update")
-    public R updateInfo() {
+    public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
+        userService.updateUser(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 

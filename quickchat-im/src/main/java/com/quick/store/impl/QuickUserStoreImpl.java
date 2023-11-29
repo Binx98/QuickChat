@@ -36,7 +36,7 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickUser> 
      * 保存用户信息
      */
     @Override
-    public Boolean saveUserInfo(QuickUser userPO) {
+    public Boolean saveUser(QuickUser userPO) {
         return this.save(userPO);
     }
 

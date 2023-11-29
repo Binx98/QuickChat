@@ -1,5 +1,6 @@
 package com.quick.adapter;
 
+import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 
@@ -37,6 +38,11 @@ public class UserAdapter {
                 .email(email)
                 .location(location)
                 .lineStatus(lineStatus)
+                .build();
+    }
+
+    public static QuickUser buildUserPO(UserUpdateDTO userDTO) {
+        return QuickUser.builder()
                 .build();
     }
 }

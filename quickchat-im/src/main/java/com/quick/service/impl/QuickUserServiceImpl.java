@@ -11,6 +11,7 @@ import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
+import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickUser;
 import com.quick.pojo.vo.UserVO;
 import com.quick.service.QuickUserService;
@@ -109,7 +110,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(),
                 registerDTO.getNickName(), registerDTO.getPassword1(), gender, email, location, YesNoEnum.NO.getStatus());
-        return userStore.saveUserInfo(userPO);
+        return userStore.saveUser(userPO);
     }
 
     /**
@@ -214,5 +215,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
 //        mailMessage.setSentDate(new Date());
 //        mailSender.send(mailMessage);
         return null;
+    }
+
+    /**
+     * 修改用户信息
+     */
+    @Override
+    public Boolean updateUser(UserUpdateDTO userDTO) {
+        QuickUser userPO = UserAdapter.buildUserPO(userDTO);
+        return userStore.updateInfo(userPO);
     }
 }
