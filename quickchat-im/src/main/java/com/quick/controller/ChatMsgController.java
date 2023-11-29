@@ -31,7 +31,7 @@ public class ChatMsgController {
     }
 
     /**
-     * 查询通讯双方聊天记录列表
+     * 查询通讯双方聊天记录
      */
     @GetMapping("/getChatMsg/{accountId}")
     public R chatMsgList(@PathVariable String accountId) {

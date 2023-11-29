@@ -49,6 +49,12 @@ public class QuickChatSession implements Serializable {
     private Integer unreadCount;
 
     /**
+     * 最后一条聊天信息
+     */
+    @TableField("last_msg")
+    private String lastMsg;
+
+    /**
      * 创建时间
      */
     @TableField(value = "create_time", fill = FieldFill.INSERT)
