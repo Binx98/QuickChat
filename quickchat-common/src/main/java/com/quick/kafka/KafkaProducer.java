@@ -1,4 +1,4 @@
-package com.quick.kafka.producer;
+package com.quick.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

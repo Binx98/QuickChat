@@ -4,7 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
-import com.quick.kafka.producer.KafkaProducer;
+import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.QuickChatMsg;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.store.QuickChatMsgStore;

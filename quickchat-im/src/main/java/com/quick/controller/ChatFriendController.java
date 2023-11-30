@@ -2,6 +2,7 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
