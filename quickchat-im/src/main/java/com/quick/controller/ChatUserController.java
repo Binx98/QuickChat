@@ -2,7 +2,7 @@ package com.quick.controller;
 
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;

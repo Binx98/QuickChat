@@ -1,7 +1,7 @@
 package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

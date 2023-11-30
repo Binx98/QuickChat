@@ -1,4 +1,4 @@
-package com.quick.pojo;
+package com.quick.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.*;

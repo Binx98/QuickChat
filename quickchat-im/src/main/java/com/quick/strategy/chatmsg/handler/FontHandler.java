@@ -5,7 +5,7 @@ import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.kafka.KafkaProducer;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;

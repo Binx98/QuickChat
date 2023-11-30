@@ -1,10 +1,7 @@
 package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.quick.pojo.QuickChatMsg;
 import com.quick.pojo.po.QuickUser;
-
-import java.util.List;
 
 /**
  * <p>

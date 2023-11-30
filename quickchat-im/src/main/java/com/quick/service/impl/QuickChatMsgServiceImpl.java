@@ -3,7 +3,7 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.utils.RequestHolderUtil;

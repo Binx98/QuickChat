@@ -1,7 +1,7 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 
 /**
  * <p>

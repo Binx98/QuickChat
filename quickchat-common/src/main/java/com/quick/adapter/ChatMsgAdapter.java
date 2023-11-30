@@ -1,6 +1,6 @@
 package com.quick.adapter;
 
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 
 import java.util.List;
 

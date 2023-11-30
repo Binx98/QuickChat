@@ -1,6 +1,6 @@
 package com.quick.store;
 
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

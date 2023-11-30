@@ -5,7 +5,7 @@ import com.quick.adapter.ChatSessionAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.constant.RedisConstant;
 import com.quick.netty.UserChannelRelation;
-import com.quick.pojo.QuickChatMsg;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RedissonLockUtil;
