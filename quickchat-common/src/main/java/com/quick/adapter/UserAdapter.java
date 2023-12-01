@@ -1,7 +1,7 @@
 package com.quick.adapter;
 
 import com.quick.pojo.dto.UserUpdateDTO;
-import com.quick.pojo.po.QuickUser;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 
 /**
@@ -11,7 +11,7 @@ import com.quick.pojo.vo.UserVO;
  * @Description: 用户适配器
  */
 public class UserAdapter {
-    public static UserVO buildUserVO(QuickUser userPO) {
+    public static UserVO buildUserVO(QuickChatUser userPO) {
         return UserVO.builder()
                 .accountId(userPO.getAccountId())
                 .nickName(userPO.getNickName())
@@ -21,16 +21,16 @@ public class UserAdapter {
                 .build();
     }
 
-    public static QuickUser buildUserPO(String accountId, String lineStatus) {
-        return QuickUser.builder()
+    public static QuickChatUser buildUserPO(String accountId, String lineStatus) {
+        return QuickChatUser.builder()
                 .accountId(accountId)
                 .lineStatus(lineStatus)
                 .build();
     }
 
-    public static QuickUser buildUserPO(String accountId, String nickName, String password1,
-                                        Integer gender, String email, String location, String lineStatus) {
-        return QuickUser.builder()
+    public static QuickChatUser buildUserPO(String accountId, String nickName, String password1,
+                                            Integer gender, String email, String location, String lineStatus) {
+        return QuickChatUser.builder()
                 .accountId(accountId)
                 .nickName(nickName)
                 .password(password1)
@@ -41,8 +41,8 @@ public class UserAdapter {
                 .build();
     }
 
-    public static QuickUser buildUserPO(UserUpdateDTO userDTO) {
-        return QuickUser.builder()
+    public static QuickChatUser buildUserPO(UserUpdateDTO userDTO) {
+        return QuickChatUser.builder()
                 .build();
     }
 }

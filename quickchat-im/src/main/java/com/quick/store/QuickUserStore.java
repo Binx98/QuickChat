@@ -1,7 +1,7 @@
 package com.quick.store;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.po.QuickUser;
+import com.quick.pojo.po.QuickChatUser;
 
 import java.util.List;
 
@@ -13,13 +13,13 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface QuickUserStore extends IService<QuickUser> {
+public interface QuickUserStore extends IService<QuickChatUser> {
 
-    QuickUser getByAccountId(String accountId);
+    QuickChatUser getByAccountId(String accountId);
 
-    Boolean saveUser(com.quick.pojo.po.QuickUser userPO);
+    Boolean saveUser(QuickChatUser userPO);
 
-    List<QuickUser> getListByAccountIds(List<String> receiveIds);
+    List<QuickChatUser> getListByAccountIds(List<String> receiveIds);
 
-    Boolean updateInfo(QuickUser userPO);
+    Boolean updateInfo(QuickChatUser userPO);
 }

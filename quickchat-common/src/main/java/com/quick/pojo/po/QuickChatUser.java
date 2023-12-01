@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_user")
-public class QuickUser implements Serializable {
+@TableName("quick_chat_user")
+public class QuickChatUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

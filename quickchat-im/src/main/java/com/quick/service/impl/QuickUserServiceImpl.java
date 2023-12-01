@@ -12,7 +12,7 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
-import com.quick.pojo.po.QuickUser;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickUserStore;
@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2023-11-13
  */
 @Service
-public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser> implements QuickUserService {
+public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChatUser> implements QuickUserService {
     @Autowired
     private QuickUserStore userStore;
     @Autowired
@@ -55,7 +55,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      */
     @Override
     public UserVO getByAccountId(String accountId) {
-        QuickUser userPO = userStore.getByAccountId(accountId);
+        QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
@@ -97,7 +97,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
         }
 
         // 判断账号是否存在
-        QuickUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
+        QuickChatUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
         if (ObjectUtils.isNotEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
@@ -119,7 +119,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
     @Override
     public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
         // 判断账号是否存在
-        QuickUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
+        QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
@@ -222,7 +222,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickUser
      */
     @Override
     public Boolean updateUser(UserUpdateDTO userDTO) {
-        QuickUser userPO = UserAdapter.buildUserPO(userDTO);
+        QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
         return userStore.updateInfo(userPO);
     }
 }

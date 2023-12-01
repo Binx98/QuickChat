@@ -6,7 +6,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
-import com.quick.pojo.po.QuickUser;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatSessionStore;
@@ -52,7 +52,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                 .collect(Collectors.toList());
 
         // 查询会话用户信息
-        List<QuickUser> userList = userStore.getListByAccountIds(receiveIds);
+        List<QuickChatUser> userList = userStore.getListByAccountIds(receiveIds);
 
         // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);

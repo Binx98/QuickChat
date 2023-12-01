@@ -5,7 +5,7 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
-import com.quick.pojo.po.QuickUser;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface QuickUserService extends IService<QuickUser> {
+public interface QuickUserService extends IService<QuickChatUser> {
 
     UserVO getByAccountId(String accountId) throws Exception;
 

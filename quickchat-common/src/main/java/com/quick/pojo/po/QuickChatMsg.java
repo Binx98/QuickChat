@@ -57,10 +57,22 @@ public class QuickChatMsg implements Serializable {
     private Integer type;
 
     /**
-     * 展示时间标识
+     * 时间标识
      */
     @TableField("show_flag")
     private String showFlag;
+
+    /**
+     * 已读标识
+     */
+    @TableField("read_flag")
+    private String readFlag;
+
+    /**
+     * 艾特标识
+     */
+    @TableField("at_nick")
+    private String atNick;
 
     /**
      * 创建时间
