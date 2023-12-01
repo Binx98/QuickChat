@@ -1,11 +1,16 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatEmoji;
 import com.quick.response.R;
+import com.quick.service.QuickChatEmojiService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -16,19 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/emoji")
 public class ChatEmojiController {
+    @Autowired
+    private QuickChatEmojiService emojiService;
+
     /**
      * 查询该用户表情包列表
      */
-    @GetMapping("/list")
-    public R getEmojiList() {
-        return R.out(ResponseEnum.SUCCESS);
+    @GetMapping("/list/{accountId}")
+    public R getEmojiList(@PathVariable String accountId) {
+        List<QuickChatEmoji> emojiList = emojiService.getEmojiList(accountId);
+        return R.out(ResponseEnum.SUCCESS, emojiList);
     }
 
     /**
      * 添加表情包
      */
-    @GetMapping("/add/{emojiUrl}")
-    public R addEmoji(@PathVariable String emojiUrl) {
+    @GetMapping("/add/{url}")
+    public R addEmoji(@PathVariable String url) {
+        emojiService.addEmoji(url);
         return R.out(ResponseEnum.SUCCESS);
     }
 

@@ -1,14 +1,10 @@
 package com.quick.pojo.po;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.*;
+
 import java.io.Serializable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,6 +15,9 @@ import lombok.EqualsAndHashCode;
  * @since 2023-11-30
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("quick_chat_emoji")
 public class QuickChatEmoji implements Serializable {
