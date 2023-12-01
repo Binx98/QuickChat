@@ -28,5 +28,5 @@ public abstract class AbstractChatMsgStrategy {
     /**
      * 发送消息
      */
-    public abstract void sendChatMsg(ChatMsgDTO msgDTO);
+    public abstract void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable;
 }
