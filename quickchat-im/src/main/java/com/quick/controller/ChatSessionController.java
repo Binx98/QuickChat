@@ -47,12 +47,4 @@ public class ChatSessionController {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * 置顶聊天会话
-     */
-    @PostMapping("/top/{id}")
-    public R topSession(@PathVariable Long id) {
-        return R.out(ResponseEnum.SUCCESS);
-    }
 }

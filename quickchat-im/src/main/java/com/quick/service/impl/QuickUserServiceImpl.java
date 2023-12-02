@@ -77,15 +77,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(email);
-        if (StringUtils.isEmpty(cacheEmailCode)) {
-            throw new QuickException(ResponseEnum.EMAIL_CODE_EXPIRE);
-        }
-        if (emailCode.equalsIgnoreCase(cacheEmailCode)) {
-            throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
-        }
-
         // 判断图片验证码
         String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
         String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
@@ -109,7 +100,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(),
-                registerDTO.getNickName(), registerDTO.getPassword1(), gender, email, location, YesNoEnum.NO.getStatus());
+                registerDTO.getNickName(), registerDTO.getPassword1(),
+                gender, email, location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
     }
 

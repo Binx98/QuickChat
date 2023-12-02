@@ -50,5 +50,7 @@ minio:
   endpoint: http://localhost:9000
   accessKey: minioadmin
   secretKey: minioadmin
-  avatarBucket: avatar-bucket
-  voiceBucket: voice-bucket
+  bucket:
+    avatar: avatar-bucket
+    chat-voice: chat-voice-bucket
+    chat-file: chat-file-bucket
