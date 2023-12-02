@@ -40,4 +40,13 @@ public class QuickChatEmojiStoreImpl extends ServiceImpl<QuickChatEmojiMapper, Q
     public Boolean saveEmoji(QuickChatEmoji chatEmoji) {
         return this.save(chatEmoji);
     }
+
+    /**
+     * 删除表情包
+     */
+    @Override
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_EMOJI, key = "#p1")
+    public Boolean deleteByEmojiId(Long emojiId, String accountId) {
+        return this.removeById(emojiId);
+    }
 }

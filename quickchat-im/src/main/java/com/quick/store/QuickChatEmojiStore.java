@@ -18,4 +18,6 @@ public interface QuickChatEmojiStore extends IService<QuickChatEmoji> {
     List<QuickChatEmoji> getEmojiList(String accountId);
 
     Boolean saveEmoji(QuickChatEmoji chatEmoji);
+
+    Boolean deleteByEmojiId(Long emojiId, String accountId);
 }

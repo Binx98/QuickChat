@@ -25,7 +25,7 @@ public class ChatEmojiController {
     private QuickChatEmojiService emojiService;
 
     /**
-     * 查询该用户表情包列表
+     * 查询表情包列表
      */
     @GetMapping("/list/{accountId}")
     public R getEmojiList(@PathVariable String accountId) {
@@ -47,6 +47,7 @@ public class ChatEmojiController {
      */
     @GetMapping("/delete/{emojiId}")
     public R deleteEmoji(@PathVariable Long emojiId) {
+        emojiService.deleteEmoji(emojiId);
         return R.out(ResponseEnum.SUCCESS);
     }
 }

@@ -42,4 +42,13 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
         QuickChatEmoji chatEmoji = ChatEmojiAdapter.buildEmojiPO(url, accountId);
         return emojiStore.saveEmoji(chatEmoji);
     }
+
+    /**
+     * 删除表情包
+     */
+    @Override
+    public Boolean deleteEmoji(Long emojiId) {
+        String accountId = (String) RequestHolderUtil.get().get("account_id");
+        return emojiStore.deleteByEmojiId(emojiId, accountId);
+    }
 }
