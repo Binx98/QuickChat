@@ -7,5 +7,7 @@ package com.quick.pojo.dto;
  * @Version: 1.0
  */
 public class UserUpdateDTO {
-
+    /**
+     *
+     */
 }

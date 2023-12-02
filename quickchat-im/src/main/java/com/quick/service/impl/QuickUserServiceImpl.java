@@ -87,6 +87,15 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
+        // 判断邮箱验证码
+        String cacheEmailCode = redisUtil.getCacheObject(email);
+        if (StringUtils.isEmpty(cacheEmailCode)) {
+            throw new QuickException(ResponseEnum.EMAIL_CODE_EXPIRE);
+        }
+        if (!emailCode.equalsIgnoreCase(cacheEmailCode)) {
+            throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
+        }
+
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
         if (ObjectUtils.isNotEmpty(userPO)) {

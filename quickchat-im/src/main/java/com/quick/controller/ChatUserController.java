@@ -67,20 +67,20 @@ public class ChatUserController {
     }
 
     /**
-     * 发送邮件
-     */
-    @PostMapping("/sendEmail")
-    public R sendEmail(@RequestBody EmailDTO emailDTO) {
-        userService.sendEmail(emailDTO);
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    /**
      * 修改用户信息
      */
     @PutMapping("/update")
     public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 发送邮件
+     */
+    @PostMapping("/sendEmail")
+    public R sendEmail(@RequestBody EmailDTO emailDTO) {
+        userService.sendEmail(emailDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
