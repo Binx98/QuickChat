@@ -2,11 +2,11 @@ package com.quick.controller;
 
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
@@ -77,6 +77,8 @@ public class ChatUserController {
 
     /**
      * 发送邮件
+     * <p>
+     * TODO 这里使用策略模式，不同邮件对应不同的策略类
      */
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) {

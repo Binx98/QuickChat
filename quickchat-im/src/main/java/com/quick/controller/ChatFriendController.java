@@ -2,6 +2,7 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
+import com.quick.service.QuickChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/friend")
 public class ChatFriendController {
+    @Autowired
+    private QuickChatFriendService friendService;
+
     /**
      * 查询好友列表
      */
