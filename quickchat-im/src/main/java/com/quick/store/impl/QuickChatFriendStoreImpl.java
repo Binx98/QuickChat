@@ -1,10 +1,13 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.enums.YesNoEnum;
 import com.quick.mapper.QuickChatFriendMapper;
 import com.quick.pojo.po.QuickChatFriend;
 import com.quick.store.QuickChatFriendStore;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,5 +19,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriend> implements QuickChatFriendStore {
-
+    /**
+     * 查询好友列表
+     */
+    @Override
+    public List<QuickChatFriend> getListByAccountId(String accountId) {
+        return null;
+    }
 }

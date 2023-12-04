@@ -23,6 +23,7 @@ public class ChatFriendController {
      */
     @GetMapping("/list")
     public R getFriendList() {
+        friendService.getFriendList();
         return R.out(ResponseEnum.SUCCESS, null);
     }
 
