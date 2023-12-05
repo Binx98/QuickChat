@@ -32,6 +32,7 @@ public class ChatFriendController {
      */
     @PostMapping("/add")
     public R addFriend() {
+        friendService.addFriend();
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -48,6 +49,7 @@ public class ChatFriendController {
      */
     @DeleteMapping("/delete")
     public R deleteFriend() {
+        friendService.deleteFriend();
         return R.out(ResponseEnum.SUCCESS);
     }
 }

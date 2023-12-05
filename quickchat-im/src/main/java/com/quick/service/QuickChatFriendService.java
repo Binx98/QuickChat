@@ -14,4 +14,8 @@ import com.quick.pojo.po.QuickChatFriend;
 public interface QuickChatFriendService extends IService<QuickChatFriend> {
 
     void getFriendList();
+
+    void addFriend();
+
+    void deleteFriend();
 }

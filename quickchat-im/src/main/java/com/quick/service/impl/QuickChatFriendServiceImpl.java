@@ -32,4 +32,14 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
         String accountId = (String) RequestHolderUtil.get().get("account_id");
         List<QuickChatFriend> friendList = friendStore.getListByAccountId(accountId);
     }
+
+    @Override
+    public void addFriend() {
+
+    }
+
+    @Override
+    public void deleteFriend() {
+
+    }
 }
