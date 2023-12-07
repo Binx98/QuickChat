@@ -4,7 +4,7 @@
 
 1. JDK 11
 2. SpringBoot
-3. MyBatis-Plus
+3. MyBatisPlus
 4. MySQL
 5. Redis 
 6. Redisson
@@ -19,7 +19,7 @@
 15. Kaptcha
 16. WebSocket + WebRTC
 
-前端：兼容移动端
+前端：
 
 1. HTML
 2. CSS
@@ -32,7 +32,7 @@
 
 部署：
 
-1. 公有云计算服务器
+1. 云服务器2核4G
 2. Nginx
 3. Docker 
 4. Jenkins 
