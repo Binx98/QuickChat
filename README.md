@@ -5,7 +5,7 @@
 </p>
 
 <h1 align="center">QuickChat</h1>
-<p align="center"><strong>IM实时通讯畅聊系统！<em>持续更新 ing～</em></strong></p>
+<p align="center"><strong>IM实时通讯畅聊系统</strong></p>
 
 <div align="center">
     <a href="https://github.com/zongzibinbin/MallChat"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
@@ -19,16 +19,10 @@
     <a href="https://github.com/zongzibinbin/MallChat/issues" target="_blank">
         <img alt="Issues" src="https://img.shields.io/github/issues/zongzibinbin/MallChat">
     </a> 
-    <a href="https://github.com/zongzibinbin/MallChat/blob/master/LICENSE" target="_blank">
-        <img alt="License: Apache-2.0" src="https://img.shields.io/badge/License-Apache--2.0-blue.svg">
-    </a> 
-    <a href="https://github.com/zongzibinbin/MallChat/stargazers" target="_blank">
-        <img alt="License" src="https://img.shields.io/github/stars/zongzibinbin/MallChat.svg?style=social">
-    </a> 
-
 </div>
 
 ### QuickChat介绍
+
 Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能非常丰富
 
 1. 单聊、群聊，孩子乐意咋聊咋聊
@@ -41,27 +35,29 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 
 后端：
 
-|        技术         | 说明                                       | 官网                                                         |
-| :-----------------: | ------------------------------------------ | ------------------------------------------------------------ |
-|     SpringBoot      | web开发必备框架                            | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot) |
-|       MyBatis       | ORM框架                                    | http://www.mybatis.org/mybatis-3/zh/index.html               |
-|     MyBatisPlus     | 零sql，简化数据库操作，分页插件            | [https://baomidou.com/](https://baomidou.com/)               |
-|        Redis        | 缓存加速，多数据结构支持业务功能           | [https://redis.io](https://redis.io)                         |
-|      Caffeine       | 本地缓存                                   | http://caffe.berkeleyvision.org/                             |
+|         技术          | 说明                            | 官网                                                         |
+|:-------------------:|-------------------------------| ------------------------------------------------------------ |
+|       JDK 11        | Java开发工具                      | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot) |
+|     SpringBoot      | web开发必备框架                     | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot) |
+|    MyBatis-Plus     | 零sql，简化数据库操作，分页插件             | [https://baomidou.com/](https://baomidou.com/)               |
+|        Redis        | 缓存加速，多数据结构支持业务功能              | [https://redis.io](https://redis.io)                         |
+|      Redisson       | 基于Redis的解决方案                  | [https://redis.io](https://redis.io)                         |
+|      Caffeine       | 本地缓存                          | http://caffe.berkeleyvision.org/                             |
+|        Netty        | 高性能服务端框架                      | http://caffe.berkeleyvision.org/                             |
+|    ElasticSearch    | 搜索引擎                          | http://caffe.berkeleyvision.org/                             |
 |        Nginx        | 负载均衡，https配置，websocket升级，ip频控 | [https://nginx.org](https://nginx.org)                       |
-|       Docker        | 应用容器引擎                               | [https://www.docker.com](https://www.docker.com)             |
-|         Oss         | 对象存储                                   | [https://letsencrypt.org/](https://letsencrypt.org/)         |
-|         Jwt         | 用户登录，认证方案                         | [https://jwt.io](https://jwt.io)                             |
-|       Lombok        | 简化代码                                   | [https://projectlombok.org](https://projectlombok.org)       |
-|       Hutool        | Java工具类库                               | https://github.com/looly/hutool                              |
-|     Swagger-UI      | API文档生成工具                            | https://github.com/swagger-api/swagger-ui                    |
-| Hibernate-validator | 接口校验框架                               | [hibernate.org/validator/](hibernate.org/validator/)         |
-|        minio        | 自建对象存储                               | https://github.com/minio/minio                               |
+|       Docker        | 应用容器引擎                        | [https://www.docker.com](https://www.docker.com)             |
+|         Jwt         | 用户登录，认证方案                     | [https://jwt.io](https://jwt.io)                             |
+|       Lombok        | 简化代码                          | [https://projectlombok.org](https://projectlombok.org)       |
+|       Hutool        | Java工具类库                      | https://github.com/looly/hutool                              |
+| Hibernate-validator | 接口校验框架                        | [hibernate.org/validator/](hibernate.org/validator/)         |
+|        MinIO        | 自建对象存储                        | https://github.com/minio/minio                               |
+
 1. JDK 11
 2. SpringBoot
 3. MyBatisPlus
 4. MySQL
-5. Redis 
+5. Redis
 6. Redisson
 7. Netty
 8. Kafka
@@ -75,7 +71,6 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 16. WebSocket + WebRTC
 
 ### 贡献者名单
-
 
 ### 如何成为贡献者
 
