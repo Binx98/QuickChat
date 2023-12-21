@@ -145,13 +145,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
         userStore.updateInfo(userPO);
 
-        // 生成Token
-        String token = JwtUtil.generate(loginDTO.getAccountId());
-
         // 封装结果，返回
         UserVO userVO = UserAdapter.buildUserVO(userPO);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("token", token);
+        resultMap.put("token", JwtUtil.generate(loginDTO.getAccountId()));
         resultMap.put("userInfo", userVO);
         return resultMap;
     }

@@ -35,9 +35,9 @@ public class FontHandler extends AbstractChatMsgStrategy {
     @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
-    private QuickChatSessionStore sessionStore;
-    @Autowired
     private KafkaProducer kafkaProducer;
+    @Autowired
+    private QuickChatSessionStore sessionStore;
 
     @Override
     protected ChatMsgEnum getEnum() {
@@ -58,7 +58,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
         String sendAccountId = chatMsg.getSendId();
         String receiveAccountId = chatMsg.getReceiveId();
 
-        // 获取通讯双方锁Key（无论谁主动发送消息，都会生成相同的KEY）
+        // 获取通讯双方会话锁Key（无论谁主动发送消息，都会生成相同锁KEY）
         String[] accountIdArr = {sendAccountId, receiveAccountId};
         Arrays.sort(accountIdArr);
         String sessionKey = accountIdArr[0] + accountIdArr[1];

@@ -28,9 +28,9 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
      * 查询好友列表
      */
     @Override
-    public void getFriendList() {
+    public List<QuickChatFriend> getFriendList() {
         String accountId = (String) RequestHolderUtil.get().get("account_id");
-        List<QuickChatFriend> friendList = friendStore.getListByAccountId(accountId);
+        return friendStore.getListByAccountId(accountId);
     }
 
     @Override

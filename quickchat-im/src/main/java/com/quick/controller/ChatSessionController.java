@@ -31,7 +31,7 @@ public class ChatSessionController {
     }
 
     /**
-     * 修改会话未读数量
+     * 修改会话未读数
      */
     @PutMapping("/unread/update/{sessionId}/{count}")
     public R clearUnread(@PathVariable Long sessionId, @PathVariable Integer count) {

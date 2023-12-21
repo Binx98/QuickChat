@@ -77,8 +77,6 @@ public class ChatUserController {
 
     /**
      * 发送邮件
-     * <p>
-     * TODO 这里使用策略模式，不同邮件对应不同的策略类
      */
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) {

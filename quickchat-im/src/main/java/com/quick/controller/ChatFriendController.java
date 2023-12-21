@@ -1,15 +1,18 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatFriend;
 import com.quick.response.R;
 import com.quick.service.QuickChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-21  10:08
- * @Description: TODO
+ * @Description: 聊天好友
  * @Version: 1.0
  */
 @RestController
