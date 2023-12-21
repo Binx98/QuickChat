@@ -42,20 +42,17 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |    MyBatis-Plus     | 零sql，简化数据库操作，分页插件             | [https://baomidou.com/](https://baomidou.com/)               |
 |        Redis        | 缓存加速，多数据结构支持业务功能              | [https://redis.io](https://redis.io)                         |
 |      Redisson       | 基于Redis的解决方案                  | [https://redis.io](https://redis.io)                         |
-|      Caffeine       | 本地缓存                          | http://caffe.berkeleyvision.org/                             |
 |        Netty        | 高性能服务端框架                      | http://caffe.berkeleyvision.org/                             |
 |    ElasticSearch    | 搜索引擎                          | http://caffe.berkeleyvision.org/                             |
 |        Nginx        | 负载均衡，https配置，websocket升级，ip频控 | [https://nginx.org](https://nginx.org)                       |
-|       Docker        | 应用容器引擎                        | [https://www.docker.com](https://www.docker.com)             |
 |         Jwt         | 用户登录，认证方案                     | [https://jwt.io](https://jwt.io)                             |
 |       Lombok        | 简化代码                          | [https://projectlombok.org](https://projectlombok.org)       |
 |       Hutool        | Java工具类库                      | https://github.com/looly/hutool                              |
-| Hibernate-validator | 接口校验框架                        | [hibernate.org/validator/](hibernate.org/validator/)         |
 |        MinIO        | 自建对象存储                        | https://github.com/minio/minio                               |
 
 1. JDK 11
 2. SpringBoot
-3. MyBatisPlus
+3. MyBatis-Plus
 4. MySQL
 5. Redis
 6. Redisson
@@ -63,12 +60,16 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 8. Kafka
 9. ElasticSearch
 10. MinIO
-11. Sharding-JDBC
-12. ip2region
-13. HuTool
-14. JWT
-15. Kaptcha
-16. WebSocket + WebRTC
+11. ip2region
+12. HuTool
+13. JWT
+14. Kaptcha
+15. WebSocket + WebRTC
+
+### 待开发功能项
+
+1. 敏感词校验（针对用户注册、修改信息）
+2. 
 
 ### 贡献者名单
 
