@@ -1,6 +1,5 @@
 package com.quick.kafka;
 
-import com.quick.constant.MQConstant;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.KafkaFuture;
 
@@ -17,9 +16,6 @@ import java.util.concurrent.ExecutionException;
 public class KafkaAdminClient {
     private static String url = "101.42.13.186:9092";
 
-    /**
-     *
-     */
     public static void main(String[] args) throws Exception {
 //        createTopic(MQConstant.CHAT_SEND_TOPIC);
 //        deleteTopic("COMMUNITY-POST-TOPIC");

@@ -13,11 +13,13 @@ import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
+import com.quick.utils.AESUtil;
 import com.quick.utils.RedissonLockUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -47,34 +49,38 @@ public class FontHandler extends AbstractChatMsgStrategy {
      */
     @Override
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 保存聊天记录信息（保存成功才算发送成功）
+        // 保存聊天记录信息（保存成功 = 发送成功）
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(msgDTO.getAccountId(),
                 msgDTO.getReceiveId(), msgDTO.getContent(), ChatMsgEnum.FONT.getType());
         msgStore.saveMsg(chatMsg);
 
         // 发送方id，接收方id
-        String sendId = chatMsg.getSendId();
-        String receiveId = chatMsg.getReceiveId();
+        String sendAccountId = chatMsg.getSendId();
+        String receiveAccountId = chatMsg.getReceiveId();
 
-        // 获取通讯双方锁Key：这个位置双方同时发送消息，根本锁不住（可以考虑加个字段锁key，用于控制双方会话）
-        String lockKey = RedisConstant.UNREAD_LOCK_KEY;
+        // 获取通讯双方锁Key（无论谁主动发送消息，都会生成相同的KEY）
+        String[] accountIdArr = {sendAccountId, receiveAccountId};
+        Arrays.sort(accountIdArr);
+        String sessionKey = accountIdArr[0] + accountIdArr[1];
+        String lockKey = RedisConstant.UNREAD_LOCK_KEY + AESUtil.encrypt(sessionKey);
 
         // 上锁：防止并发场景消息未读数量不准
         lockUtil.executeWithLock(lockKey, 15, TimeUnit.SECONDS,
                 () -> {
                     // 发送方
-                    QuickChatSession chatSession1 = sessionStore.getOneByAccountId(sendId, receiveId);
+                    QuickChatSession chatSession1 = sessionStore.getOneByAccountId(sendAccountId, receiveAccountId);
                     if (ObjectUtils.isEmpty(chatSession1)) {
-                        chatSession1 = ChatSessionAdapter.buildSessionPO(sendId, receiveId, 1);
+                        chatSession1 = ChatSessionAdapter.buildSessionPO(sendAccountId, receiveAccountId, 1);
                         sessionStore.saveInfo(chatSession1);
                     } else {
                         chatSession1.setUnreadCount(chatSession1.getUnreadCount() + 1);
                         sessionStore.updateInfo(chatSession1);
                     }
+
                     // 接收方
-                    QuickChatSession chatSession2 = sessionStore.getOneByAccountId(receiveId, sendId);
+                    QuickChatSession chatSession2 = sessionStore.getOneByAccountId(receiveAccountId, sendAccountId);
                     if (ObjectUtils.isEmpty(chatSession2)) {
-                        chatSession2 = ChatSessionAdapter.buildSessionPO(receiveId, sendId, 1);
+                        chatSession2 = ChatSessionAdapter.buildSessionPO(receiveAccountId, sendAccountId, 1);
                         return sessionStore.saveInfo(chatSession2);
                     } else {
                         chatSession2.setUnreadCount(chatSession2.getUnreadCount() + 1);
