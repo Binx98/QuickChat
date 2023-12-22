@@ -15,7 +15,7 @@ public class RedisConstant {
     /**
      * 分布式锁KEY
      */
-    public static final String UNREAD_LOCK_KEY = "UNREAD_LOCK_KEY";
+    public static final String UNREAD_LOCK_KEY = "UNREAD_LOCK_KEY:";
 
     /**
      * 缓存分区

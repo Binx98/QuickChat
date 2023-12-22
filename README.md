@@ -18,7 +18,7 @@
         <img alt="Commit" src="https://img.shields.io/github/commit-activity/m/zongzibinbin/MallChat"></a>
     <a href="https://github.com/zongzibinbin/MallChat/issues" target="_blank">
         <img alt="Issues" src="https://img.shields.io/github/issues/zongzibinbin/MallChat">
-    </a> 
+    </a>
 </div>
 
 ### QuickChat介绍
