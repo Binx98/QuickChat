@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     /**
-     * 读取客户端 Channel 数据（发送信息通过接口，不通过Channel，例如：抖音）
+     * 读取客户端 Channel 数据
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {

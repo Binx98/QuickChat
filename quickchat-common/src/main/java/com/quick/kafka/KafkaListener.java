@@ -30,12 +30,12 @@ public class KafkaListener {
         kafkaTemplate.setProducerListener(new ProducerListener<String, Object>() {
             @Override
             public void onSuccess(ProducerRecord<String, Object> producerRecord, RecordMetadata recordMetadata) {
-                log.info("-----------------------kafka ok,message:[{}]------------------------", producerRecord.value());
+                log.info("-----------------------Kafka执行成功：[{}]------------------------", producerRecord.value());
             }
 
             @Override
             public void onError(ProducerRecord<String, Object> producerRecord, RecordMetadata recordMetadata, Exception exception) {
-                log.error("========================kafka error,message:[{}]========================", producerRecord.value());
+                log.error("========================kafka执行失败：[{}]========================", producerRecord.value());
             }
         });
     }
