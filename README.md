@@ -65,9 +65,9 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 13. JWT
 14. Kaptcha
 15. WebSocket + WebRTC
+16. XXL-JOB
 
 ### 贡献者名单
-
 
 ### 如何成为贡献者
 
