@@ -20,6 +20,7 @@ import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -44,9 +45,11 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChatUser> implements QuickUserService {
     @Autowired
-    private QuickUserStore userStore;
-    @Autowired
     private DefaultKaptcha defaultKaptcha;
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private QuickUserStore userStore;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -80,19 +83,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         // 判断图片验证码
         String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
         String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
-        if (StringUtils.isEmpty(cacheVerifyCode)) {
-            throw new QuickException(ResponseEnum.IMG_CODE_EXPIRE);
-        }
-        if (!verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
+        if (StringUtils.isEmpty(cacheVerifyCode) || !verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
         // 判断邮箱验证码
         String cacheEmailCode = redisUtil.getCacheObject(email);
-        if (StringUtils.isEmpty(cacheEmailCode)) {
-            throw new QuickException(ResponseEnum.EMAIL_CODE_EXPIRE);
-        }
-        if (!emailCode.equalsIgnoreCase(cacheEmailCode)) {
+        if (StringUtils.isEmpty(cacheEmailCode) || !emailCode.equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
 
@@ -128,10 +125,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         // 校验图片验证码
         String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
-        if (StringUtils.isEmpty(cacheImgCode)) {
-            throw new QuickException(ResponseEnum.IMG_CODE_EXPIRE);
-        }
-        if (loginDTO.getImgCode().equalsIgnoreCase(cacheImgCode)) {
+        if (StringUtils.isEmpty(cacheImgCode) || loginDTO.getImgCode().equalsIgnoreCase(cacheImgCode)) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
@@ -201,17 +195,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
     @Override
     public Boolean sendEmail(EmailDTO emailDTO) {
-        // 生成邮箱验证码
-        String code = RandomUtil.generate(4, 1);
-//
-//        // 发送邮件
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setFrom("1262254123@qq.com");
-//        mailMessage.setTo(emailDTO.getEmail());
-//        mailMessage.setSubject("Bingo注册验证");
-//        mailMessage.setText("欢迎使用Bingo平台，您的验证码为：" + code + "，3分钟内自动过期~");
-//        mailMessage.setSentDate(new Date());
-//        mailSender.send(mailMessage);
         return null;
     }
 

@@ -132,6 +132,11 @@
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring-kafka.version}</version>
             </dependency>
+            <!--Email-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
