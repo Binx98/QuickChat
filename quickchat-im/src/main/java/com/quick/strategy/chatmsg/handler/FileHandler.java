@@ -16,7 +16,7 @@ public class FileHandler extends AbstractChatMsgStrategy {
 
     @Override
     protected ChatMsgEnum getEnum() {
-        return null;
+        return ChatMsgEnum.FILE;
     }
 
     /**

@@ -16,7 +16,7 @@ public class VideoCallHandler extends AbstractChatMsgStrategy {
 
     @Override
     protected ChatMsgEnum getEnum() {
-        return null;
+        return ChatMsgEnum.VIDEO_CALL;
     }
 
     /**

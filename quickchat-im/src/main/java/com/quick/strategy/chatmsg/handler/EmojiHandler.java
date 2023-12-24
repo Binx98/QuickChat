@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class EmojiHandler extends AbstractChatMsgStrategy {
     @Override
     protected ChatMsgEnum getEnum() {
-        return null;
+        return ChatMsgEnum.EMOJI;
     }
 
     /**

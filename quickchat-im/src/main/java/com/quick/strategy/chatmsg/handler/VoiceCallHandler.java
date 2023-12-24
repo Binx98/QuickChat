@@ -16,7 +16,7 @@ public class VoiceCallHandler extends AbstractChatMsgStrategy {
 
     @Override
     protected ChatMsgEnum getEnum() {
-        return null;
+        return ChatMsgEnum.VOICE_CALL;
     }
 
     /**
