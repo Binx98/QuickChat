@@ -22,9 +22,6 @@ public class BaseResponse {
      */
     private String msg;
 
-    protected BaseResponse() {
-    }
-
     protected BaseResponse(ResponseEnum code) {
         this.code = code.getCode();
         this.msg = code.getMsg();

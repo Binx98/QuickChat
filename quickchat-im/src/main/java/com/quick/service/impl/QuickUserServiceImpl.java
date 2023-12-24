@@ -20,7 +20,6 @@ import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -47,11 +46,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Autowired
     private DefaultKaptcha defaultKaptcha;
     @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
     private QuickUserStore userStore;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private EmailUtil emailUtil;
 
     /**
      * 根据 account_id 查询用户信息
@@ -195,6 +194,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
     @Override
     public Boolean sendEmail(EmailDTO emailDTO) {
+//        emailUtil.sendHtmlMail();
         return null;
     }
 

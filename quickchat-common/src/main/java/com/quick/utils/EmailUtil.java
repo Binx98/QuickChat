@@ -4,10 +4,9 @@ package com.quick.utils;
  * @Author 徐志斌
  * @Date: 2023/12/24 12:04
  * @Version 1.0
- * @Description: EmailUtil
+ * @Description: 发送邮件工具类
  */
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,6 +14,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -29,7 +29,7 @@ import java.io.File;
 
 @Component
 public class EmailUtil {
-    @Autowired
+    @Resource
     private JavaMailSender mailSender;
 
     // 配置文件中我的qq邮箱
@@ -61,8 +61,7 @@ public class EmailUtil {
      */
     public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper messageHelper;
-        messageHelper = new MimeMessageHelper(message, true);
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
         messageHelper.setFrom(from);
         InternetAddress[] internetAddressTo = InternetAddress.parse(to);
         messageHelper.setTo(internetAddressTo);

@@ -3,6 +3,7 @@ package com.quick.strategy.chatmsg.handler;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author: 徐志斌
@@ -10,6 +11,7 @@ import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
  * @Description: 视频通话消息
  * @Version: 1.0
  */
+@Component
 public class VideoCallHandler extends AbstractChatMsgStrategy {
 
     @Override
