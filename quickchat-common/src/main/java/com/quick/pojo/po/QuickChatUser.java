@@ -67,12 +67,6 @@ public class QuickChatUser implements Serializable {
     private String location;
 
     /**
-     * 手机
-     */
-    @TableField("phone")
-    private String phone;
-
-    /**
      * 邮箱
      */
     @TableField("email")
@@ -83,12 +77,6 @@ public class QuickChatUser implements Serializable {
      */
     @TableField("line_status")
     private String lineStatus;
-
-    /**
-     * 生日
-     */
-    @TableField("birth_day")
-    private LocalDateTime birthDay;
 
     /**
      * 创建时间

@@ -37,9 +37,7 @@ public class ChatSessionAdapter {
                 sessionVO.setNickName(user.getNickName());
                 sessionVO.setAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
-                sessionVO.setPhone(user.getPhone());
                 sessionVO.setEmail(user.getEmail());
-                sessionVO.setBirthDay(user.getBirthDay());
                 sessionVO.setLineStatus(user.getLineStatus());
                 resultList.add(sessionVO);
             }
