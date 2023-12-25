@@ -1,13 +1,10 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.po.QuickChatFriend;
 import com.quick.response.R;
 import com.quick.service.QuickChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -22,7 +19,7 @@ public class ChatFriendController {
     private QuickChatFriendService friendService;
 
     /**
-     * 查询好友列表
+     * TODO 查询好友列表 Terry
      */
     @GetMapping("/list")
     public R getFriendList() {
@@ -31,7 +28,7 @@ public class ChatFriendController {
     }
 
     /**
-     * 添加好友
+     * TODO 添加好友 JIU
      */
     @PostMapping("/add")
     public R addFriend() {
@@ -40,7 +37,7 @@ public class ChatFriendController {
     }
 
     /**
-     * 处理好友申请状态（同意 or 拒绝）
+     * TODO 处理好友申请状态（同意 or 拒绝） JIU
      */
     @PostMapping("/")
     public R handleApply() {
@@ -48,7 +45,7 @@ public class ChatFriendController {
     }
 
     /**
-     * 删除好友
+     * TODO 删除好友 Terry
      */
     @DeleteMapping("/delete")
     public R deleteFriend() {
