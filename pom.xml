@@ -34,6 +34,7 @@
         <ip2region.version>2.6.3</ip2region.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <xxljob.version>2.3.0</xxljob.version>
+        <elastic.version>7.8.0</elastic.version>
     </properties>
 
     <dependencyManagement>
@@ -138,6 +139,12 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxljob.version}</version>
+            </dependency>
+            <!--ElasticSearch-->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elastic.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

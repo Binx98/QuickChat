@@ -47,6 +47,8 @@ public class FontHandler extends AbstractChatMsgStrategy {
                 receiveAccountId, msgDTO.getContent(), ChatMsgEnum.FONT.getType());
         msgStore.saveMsg(chatMsg);
 
+        // TODO 将消息推送到 Kafka，同步到 ElasticSearch
+
         // 获取通讯双方会话锁Key（无论谁主动发送消息，都会生成相同锁KEY）
         String sessionLockKey = this.generateSessionLockKey(sendAccountId, receiveAccountId);
 
