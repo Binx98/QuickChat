@@ -72,6 +72,7 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 14. Kaptcha
 15. WebSocket + WebRTC
 16. XXL-JOB
+17. Canal
 
 ### 贡献者名单
 
