@@ -13,6 +13,7 @@ import com.quick.service.QuickUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -76,11 +77,11 @@ public class ChatUserController {
     }
 
     /**
-     * 发送邮件
+     * 发送验证码邮件
      */
     @PostMapping("/sendEmail")
-    public R sendEmail(@RequestBody EmailDTO emailDTO) {
-        userService.sendEmail(emailDTO);
+    public R sendEmail(@RequestBody EmailDTO emailDTO) throws MessagingException {
+        userService.sendCodeEmail(emailDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 

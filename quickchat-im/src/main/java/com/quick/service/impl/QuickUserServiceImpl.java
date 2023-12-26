@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -192,10 +193,15 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
     }
 
+    /**
+     * 发送验证码邮件
+     */
     @Override
-    public Boolean sendEmail(EmailDTO emailDTO) {
-//        emailUtil.sendHtmlMail();
-        return null;
+    public Boolean sendCodeEmail(EmailDTO emailDTO) throws MessagingException {
+        String code = RandomUtil.generate(4, 1);
+        String htmlContent = emailUtil.generateHtml(code);
+        emailUtil.sendHtmlMail(emailDTO.getToEmail(), null, htmlContent);
+        return true;
     }
 
     /**

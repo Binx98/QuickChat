@@ -13,8 +13,5 @@ public class EmailDTO {
     /**
      * 接收方邮箱
      */
-    private String email;
-    /**
-     *
-     */
+    private String toEmail;
 }
