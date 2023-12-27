@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Author 徐志斌
  * @Date: 2023/8/19 16:27
  * @Version 1.0
- * @Description: CookieUtil
+ * @Description: Cookie工具类
  */
 public class CookieUtil {
     /**

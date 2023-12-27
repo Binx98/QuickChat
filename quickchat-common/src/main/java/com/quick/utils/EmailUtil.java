@@ -21,20 +21,17 @@ import javax.mail.internet.MimeMessage;
 import java.io.*;
 
 /**
- * 发送邮件工具类 MailUtil
- *
- * @author heshi
- * @date 2021/3/22 16:52
+ * @author 徐志斌
+ * @description: 发送邮件工具类
+ * @date 2023/12/26 16:52
  */
 
 @Component
 public class EmailUtil {
     @Resource
     private JavaMailSender mailSender;
-
-    // 配置文件中我的qq邮箱
     @Value("${spring.mail.username}")
-    private String from;
+    private String fromEmail;
 
     /**
      * 简单文本邮件
@@ -45,7 +42,7 @@ public class EmailUtil {
      */
     public void sendSimpleMail(String to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
+        message.setFrom(fromEmail);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
@@ -55,14 +52,14 @@ public class EmailUtil {
     /**
      * html邮件
      *
-     * @param to      收件人,多个时参数形式 ："xxx@xxx.com,xxx@xxx.com,xxx@xxx.com"
+     * @param to      收件人，多个时参数形式 ："xxx@xxx.com,xxx@xxx.com,xxx@xxx.com"
      * @param subject 主题
      * @param content 内容
      */
     public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
-        messageHelper.setFrom(from);
+        messageHelper.setFrom(fromEmail);
         InternetAddress[] internetAddressTo = InternetAddress.parse(to);
         messageHelper.setTo(internetAddressTo);
         message.setSubject(subject);
@@ -81,7 +78,7 @@ public class EmailUtil {
     public void sendAttachmentsMail(String to, String subject, String content, String filePath) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom(from);
+        helper.setFrom(fromEmail);
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(content, true);
@@ -90,8 +87,6 @@ public class EmailUtil {
         helper.addAttachment(fileName, file);
         mailSender.send(message);
     }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * 读取文本内容
