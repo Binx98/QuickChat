@@ -198,8 +198,15 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      */
     @Override
     public Boolean sendCodeEmail(EmailDTO emailDTO) throws MessagingException {
+        // 生成HTML邮件模板
         String code = RandomUtil.generate(4, 1);
         String htmlContent = emailUtil.generateHtml(code);
+
+        // 验证码缓存到Redis
+        String emailKey = RedisConstant.EMAIL_KEY + emailDTO.getToEmail();
+        redisUtil.setCacheObject(emailKey, code);
+
+        // 发送邮件
         emailUtil.sendHtmlMail(emailDTO.getToEmail(), null, htmlContent);
         return true;
     }

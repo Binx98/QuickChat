@@ -24,4 +24,9 @@ public class RedisConstant {
     public static final String QUICK_CHAT_MSG = "quick_chat_msg";
     public static final String QUICK_CHAT_EMOJI = "quick_chat_emoji";
     public static final String QUICK_CHAT_SESSION = "quick_chat_session";
+
+    /**
+     * 其他
+     */
+    public static final String EMAIL_KEY = "EMAIL_KEY:";
 }
