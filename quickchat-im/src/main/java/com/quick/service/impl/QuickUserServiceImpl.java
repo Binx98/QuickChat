@@ -88,7 +88,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(email);
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + email);
         if (StringUtils.isEmpty(cacheEmailCode) || !emailCode.equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
@@ -100,9 +100,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 解析地址
+        String location = null;
         String ipAddress = IPUtil.getIpAddress(request);
-        Map<String, String> locationMap = IPUtil.getLocation(ipAddress);
-        String location = locationMap.get("province") + "-" + locationMap.get("city");
+        if ("0:0:0:0:0:0:0:1".equals(ipAddress)) {
+            userPO.setLocation("本地测试ip");
+        } else {
+            Map<String, String> locationMap = IPUtil.getLocation(ipAddress);
+            location = locationMap.get("province") + "-" + locationMap.get("city");
+        }
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(),
