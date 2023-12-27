@@ -70,26 +70,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      */
     @Override
     public Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception {
-        Integer gender = registerDTO.getGender();
-        String email = registerDTO.getEmail();
-        String emailCode = registerDTO.getEmailCode();
-        String verifyCode = registerDTO.getImgCode();
-
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // 判断图片验证码
-        String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
-        String cacheVerifyCode = redisUtil.getCacheObject(captchaKey);
-        if (StringUtils.isEmpty(cacheVerifyCode) || !verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
-            throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
-        }
-
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(email);
-        if (StringUtils.isEmpty(cacheEmailCode) || !emailCode.equalsIgnoreCase(cacheEmailCode)) {
+        String cacheEmailCode = redisUtil.getCacheObject(registerDTO.getEmail());
+        if (StringUtils.isEmpty(cacheEmailCode) || !registerDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
 
@@ -105,9 +93,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         String location = locationMap.get("province") + "-" + locationMap.get("city");
 
         // 保存账号信息
-        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(),
-                registerDTO.getNickName(), registerDTO.getPassword1(),
-                gender, email, location, YesNoEnum.NO.getStatus());
+        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
+                registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
     }
 
@@ -208,7 +195,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         htmlContent = String.format(htmlContent, code);
 
         // 发送HTML邮件
-        emailUtil.sendHtmlMail(emailDTO.getToEmail(), "注册账号", htmlContent);
+        emailUtil.sendHtmlMail(emailDTO.getToEmail(), "注册QuickChat账号", htmlContent);
         return true;
     }
 

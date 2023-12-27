@@ -78,7 +78,7 @@ public class ChatUserController {
     }
 
     /**
-     * 发送验证码邮件
+     * 发送邮件
      */
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) throws MessagingException, IOException {

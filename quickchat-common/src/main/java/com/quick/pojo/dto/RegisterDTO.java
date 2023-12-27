@@ -11,10 +11,6 @@ import lombok.Data;
 @Data
 public class RegisterDTO {
     /**
-     * 昵称
-     */
-    private String nickName;
-    /**
      * 账号
      */
     private String accountId;
@@ -38,8 +34,4 @@ public class RegisterDTO {
      * 邮箱验证码
      */
     private String emailCode;
-    /**
-     * 图片验证码
-     */
-    private String imgCode;
 }
