@@ -197,10 +197,18 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 发送验证码邮件
      */
     @Override
-    public Boolean sendCodeEmail(EmailDTO emailDTO) throws MessagingException {
+    public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
+        // 生成验证码，有效期 3min
         String code = RandomUtil.generate(4, 1);
-        String htmlContent = emailUtil.generateHtml(code);
-        emailUtil.sendHtmlMail(emailDTO.getToEmail(), null, htmlContent);
+        String emailKey = RedisConstant.EMAIL_KEY + emailDTO.getToEmail();
+        redisUtil.setCacheObject(emailKey, code, 3, TimeUnit.MINUTES);
+
+        // 读取HTML文本，替换%s
+        String htmlContent = emailUtil.readTextContent("/email/sendCode.html");
+        htmlContent = String.format(htmlContent, code);
+
+        // 发送HTML邮件
+        emailUtil.sendHtmlMail(emailDTO.getToEmail(), "注册账号", htmlContent);
         return true;
     }
 
