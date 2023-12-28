@@ -28,11 +28,10 @@ public class UserAdapter {
                 .build();
     }
 
-    public static QuickChatUser buildUserPO(String accountId, String nickName, String password1,
+    public static QuickChatUser buildUserPO(String accountId, String password1,
                                             Integer gender, String email, String location, String lineStatus) {
         return QuickChatUser.builder()
                 .accountId(accountId)
-                .nickName(nickName)
                 .password(password1)
                 .gender(gender)
                 .email(email)

@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-08-29  13:43
+ * @Description: 自定义线程池
  * -------------------------------------------------------------------------------
  * 为什么通过该方式使用线程池：
  * 0.阿里巴巴开发手册不建议直接用内置API创建线程池
@@ -21,9 +22,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class MyThreadPoolExecutor {
     public static final String CHAT_POOL_NAME = "CHAT_THREAD_POOL";
+    public static final String EMAIL_POOL_NAME = "EMAIL_POOL_NAME";
 
     /**
-     * 聊天专用——线程池
+     * 聊天专用
      */
     @Primary
     @Bean(CHAT_POOL_NAME)
@@ -31,9 +33,27 @@ public class MyThreadPoolExecutor {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(8);
-        executor.setQueueCapacity(100);
+        executor.setQueueCapacity(60);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("chat-pool-thread-");
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setThreadFactory(new MyThreadFactory(executor));
+        executor.initialize();
+        return executor;
+    }
+
+    /**
+     * 邮件专用
+     */
+    @Bean(EMAIL_POOL_NAME)
+    public ThreadPoolTaskExecutor emailExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(4);
+        executor.setQueueCapacity(30);
+        executor.setKeepAliveSeconds(60);
+        executor.setThreadNamePrefix("email-pool-thread-");
         executor.setWaitForTasksToCompleteOnShutdown(true);
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.setThreadFactory(new MyThreadFactory(executor));

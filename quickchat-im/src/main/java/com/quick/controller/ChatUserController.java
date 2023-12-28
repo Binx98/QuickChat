@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -77,11 +78,11 @@ public class ChatUserController {
     }
 
     /**
-     * 发送验证码邮件
+     * 发送邮件
      */
     @PostMapping("/sendEmail")
-    public R sendEmail(@RequestBody EmailDTO emailDTO) throws MessagingException {
-        userService.sendCodeEmail(emailDTO);
+    public R sendEmail(@RequestBody EmailDTO emailDTO) throws MessagingException, IOException {
+        userService.sendEmail(emailDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 

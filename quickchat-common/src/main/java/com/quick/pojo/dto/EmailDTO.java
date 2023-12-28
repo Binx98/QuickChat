@@ -11,6 +11,11 @@ import lombok.Data;
 @Data
 public class EmailDTO {
     /**
+     * 邮件类型
+     */
+    private Integer type;
+
+    /**
      * 接收方邮箱
      */
     private String toEmail;

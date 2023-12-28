@@ -11,6 +11,7 @@ import com.quick.pojo.vo.UserVO;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -31,7 +32,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
 
     void captcha(HttpServletRequest request, HttpServletResponse response);
 
-    Boolean sendCodeEmail(EmailDTO emailDTO) throws MessagingException;
+    Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException;
 
     Boolean updateUser(UserUpdateDTO userDTO);
 }
