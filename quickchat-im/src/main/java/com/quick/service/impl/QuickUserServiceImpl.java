@@ -91,9 +91,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 解析地址
-        String ipAddress = IPUtil.getIpAddress(request);
-        Map<String, String> locationMap = IPUtil.getLocation(ipAddress);
-        String location = locationMap.get("province") + "-" + locationMap.get("city");
+        String location = IPUtil.packageAddress(request);
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
@@ -128,6 +126,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         // 登录成功，切换用户状态：已上线
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
         userStore.updateInfo(userPO);
+
+        // 解析当前登录地址，同步到用户信息
+        String location = IPUtil.packageAddress(request);
+        if (!location.equals(userPO.getLocation())) {
+            userPO.setLocation(location);
+            userStore.updateInfo(userPO);
+        }
 
         // 封装结果，返回
         UserVO userVO = UserAdapter.buildUserVO(userPO);

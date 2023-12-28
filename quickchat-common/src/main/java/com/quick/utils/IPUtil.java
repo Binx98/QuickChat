@@ -70,6 +70,36 @@ public class IPUtil {
         }
     }
 
+
+    /**
+     * 封装地址信息
+     */
+    public static String packageAddress(HttpServletRequest request) throws Exception {
+        String location = "";
+        String ipAddress = IPUtil.getIpAddress(request);
+        if ("0:0:0:0:0:0:0:1".equals(ipAddress)) {
+            location = "本地测试地址";
+        } else {
+            // 根据 ip 解析获取 省、市、区
+            Map<String, String> locationMap = IPUtil.getLocation(ipAddress);
+            String country = locationMap.get("country");
+            String province = locationMap.get("province");
+            String city = locationMap.get("city");
+
+            // 省、市为空：判断是否有国家（可能来自海外ip）
+            if (StringUtils.isEmpty(province) && StringUtils.isEmpty(city)) {
+                if (StringUtils.isNotEmpty(country)) {
+                    location = country;
+                } else {
+                    location = "未知";
+                }
+            } else {
+                location = province + "-" + city;
+            }
+        }
+        return location;
+    }
+
     public static void main(String[] args) throws Exception {
 //        Map<String, String> location = getLocation("101.42.13.186");
         Map<String, String> location = getLocation("127.0.0.1");
