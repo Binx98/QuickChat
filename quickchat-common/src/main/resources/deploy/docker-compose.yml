@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  # Nginx
+  nginx:
+    image: nginx:1.24.0
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /opt/project/nginx/html:/usr/share/nginx/html
+      - /opt/project/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /opt/project/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/project/nginx/log:/var/log/nginx
+      - /opt/project/nginx/ssl/ssl.conf:/etc/nginx/ssl/ssl.conf
+      - /opt/project/nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
+      - /opt/project/nginx/letsencrypt:/etc/nginx/letsencrypt
+      - /etc/letsencrypt/live/paraverse.cc/fullchain.pem:/etc/letsencrypt/live/paraverse.cc/fullchain.pem
+      - /etc/letsencrypt/live/paraverse.cc/privkey.pem:/etc/letsencrypt/live/paraverse.cc/privkey.pem
+      - /etc/letsencrypt/live/paraverse.cc/chain.pem:/etc/letsencrypt/live/paraverse.cc/chain.pem
+  # MySQL
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - /opt/project/mysql/data:/var/lib/mysql
+      - /opt/project/mysql/conf:/etc/mysql/conf.d
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: dev_platform
+      MYSQL_ROOT_PASSWORD: root@pwd
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: user@pwd
+    restart: always
+  # Redis
+  redis:
+    image: redis:4.0.2
+    container_name: redis
+    ports:
+      - 6379:6379
+    environment:
+      TZ: Asia/Shanghai
+    command: [ redis-server, --requirepass, root@161122 ]
+    restart: always
+  # XXL-JOB
+  xxl-job-admin:
+    image: xuxueli/xxl-job-admin:2.3.1
+    container_name: xxl-job-admin
+    restart: always
+    ports:
+      - 8800:8800
+    volumes:
+      - /data/xxl-job-admin/logs:/data/applogs
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/xxl_job?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
+      SERVER_PORT: 8800
+  # Backend JAR 8888
+  backend-project:
+    image: backend-project
+    container_name: backend-project
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8888:8888
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
