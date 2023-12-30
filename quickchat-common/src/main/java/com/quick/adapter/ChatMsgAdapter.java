@@ -11,16 +11,16 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class ChatMsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String accountId, String receiveId, String content, Integer type) {
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content, Integer type) {
         return QuickChatMsg.builder()
-                .sendId(accountId)
-                .receiveId(receiveId)
+                .fromId(fromId)
+                .toId(toId)
                 .content(content)
-                .type(type)
+                .msgType(type)
                 .build();
     }
 
     public static void buildChatMsgVOList(List<QuickChatMsg> msgList) {
-        
+
     }
 }

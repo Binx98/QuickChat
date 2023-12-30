@@ -24,9 +24,8 @@ public class ChatSessionAdapter {
         // 遍历会话列表
         for (QuickChatSession chatSession : sessionList) {
             ChatSessionVO sessionVO = new ChatSessionVO();
-            sessionVO.setAccountId(chatSession.getReceiveId());
-            sessionVO.setUnreadCount(chatSession.getUnreadCount());
-            map.put(chatSession.getReceiveId(), sessionVO);
+            sessionVO.setAccountId(chatSession.getToId());
+            map.put(chatSession.getToId(), sessionVO);
         }
 
         // 遍历用户列表
@@ -45,11 +44,10 @@ public class ChatSessionAdapter {
         return resultList;
     }
 
-    public static QuickChatSession buildSessionPO(String sendId, String receiveId, Integer unreadCount) {
+    public static QuickChatSession buildSessionPO(String fromId, String toId) {
         return QuickChatSession.builder()
-                .sendId(sendId)
-                .receiveId(receiveId)
-                .unreadCount(unreadCount)
+                .fromId(fromId)
+                .toId(toId)
                 .build();
     }
 }

@@ -33,14 +33,14 @@ public class QuickChatMsg implements Serializable {
     /**
      * 账户id（发送人）
      */
-    @TableField("send_id")
-    private String sendId;
+    @TableField("from_id")
+    private String fromId;
 
     /**
      * 账户id（接收人）
      */
-    @TableField("receive_id")
-    private String receiveId;
+    @TableField("to_id")
+    private String toId;
 
     /**
      * 消息内容
@@ -53,26 +53,14 @@ public class QuickChatMsg implements Serializable {
      *
      * @see com.quick.enums.ChatMsgEnum
      */
-    @TableField("type")
-    private Integer type;
+    @TableField("msg_type")
+    private Integer msgType;
 
     /**
-     * 时间标识
+     * 发送目标类型（1：单聊，2：群聊）
      */
-    @TableField("show_flag")
-    private String showFlag;
-
-    /**
-     * 已读标识
-     */
-    @TableField("read_flag")
-    private String readFlag;
-
-    /**
-     * 艾特标识
-     */
-    @TableField("at_nick")
-    private String atNick;
+    @TableField("goal_type")
+    private Integer goalType;
 
     /**
      * 创建时间
@@ -86,6 +74,5 @@ public class QuickChatMsg implements Serializable {
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
-
 
 }

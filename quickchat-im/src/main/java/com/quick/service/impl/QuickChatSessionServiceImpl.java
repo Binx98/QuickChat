@@ -40,7 +40,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         String accountId = (String) RequestHolderUtil.get().get("account_id");
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(accountId);
         List<String> receiveIds = sessionList.stream()
-                .map(QuickChatSession::getReceiveId)
+                .map(QuickChatSession::getFromId)
                 .collect(Collectors.toList());
 
         // 查询会话用户信息
@@ -48,14 +48,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
-    }
-
-    /**
-     * 清空未读数量
-     */
-    @Override
-    public Boolean clearUnread(Long sessionId, Integer count) {
-        return sessionStore.updateUnreadBySessionId(sessionId, count);
     }
 
     /**

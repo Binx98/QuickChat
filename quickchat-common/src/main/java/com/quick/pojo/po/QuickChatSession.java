@@ -33,26 +33,20 @@ public class QuickChatSession implements Serializable {
     /**
      * 账户id（发送者）
      */
-    @TableField("send_id")
-    private String sendId;
+    @TableField("from_id")
+    private String fromId;
 
     /**
      * 账户id（接收者）
      */
-    @TableField("receive_id")
-    private String receiveId;
+    @TableField("to_id")
+    private String toId;
 
     /**
-     * 消息未读数
+     * 最后读取时间
      */
-    @TableField("unread_count")
-    private Integer unreadCount;
-
-    /**
-     * 最后一条聊天信息
-     */
-    @TableField("last_msg")
-    private String lastMsg;
+    @TableField("last_read_time")
+    private LocalDateTime lastReadTime;
 
     /**
      * 创建时间

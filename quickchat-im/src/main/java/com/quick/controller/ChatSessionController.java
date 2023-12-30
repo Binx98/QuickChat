@@ -31,15 +31,6 @@ public class ChatSessionController {
     }
 
     /**
-     * 修改会话未读数
-     */
-    @PutMapping("/unread/update/{sessionId}/{count}")
-    public R clearUnread(@PathVariable Long sessionId, @PathVariable Integer count) {
-        sessionService.clearUnread(sessionId, count);
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    /**
      * 删除聊天会话
      */
     @DeleteMapping("/delete/{sessionId}")

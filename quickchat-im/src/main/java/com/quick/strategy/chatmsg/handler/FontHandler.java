@@ -12,6 +12,7 @@ import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.utils.RedissonLockUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,9 +52,10 @@ public class FontHandler extends AbstractChatMsgStrategy {
         String sessionLockKey = this.generateSessionLockKey(sendAccountId, receiveAccountId);
         lockUtil.executeWithLock(sessionLockKey, 15, TimeUnit.SECONDS,
                 () -> {
-                    return this.handleSession(chatMsg.getSendId(), chatMsg.getReceiveId());
+                    return this.handleSession(chatMsg.getFromId(), chatMsg.getToId());
                 }
         );
+
 
         // 推送Kafka：聊天信息同步ElasticSearch、通过Channel推送消息
         kafkaProducer.send(MQConstant.SYNC_CHAT_MSG_ES, JSONUtil.toJsonStr(chatMsg));

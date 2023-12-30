@@ -30,7 +30,7 @@ public class ChatMsgConsumer {
     @KafkaListener(topics = MQConstant.SEND_CHAT_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsg(String message) throws Throwable {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
-        Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getReceiveId());
+        Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getFromId());
         if (ObjectUtils.isNotEmpty(channel)) {
             channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
         }

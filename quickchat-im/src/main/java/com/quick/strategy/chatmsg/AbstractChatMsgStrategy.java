@@ -62,21 +62,17 @@ public abstract class AbstractChatMsgStrategy {
         // 发送方
         QuickChatSession chatSession1 = sessionStore.getOneByAccountId(sendAccountId, receiveAccountId);
         if (ObjectUtils.isEmpty(chatSession1)) {
-            chatSession1 = ChatSessionAdapter.buildSessionPO(sendAccountId, receiveAccountId, 1);
+            chatSession1 = ChatSessionAdapter.buildSessionPO(sendAccountId, receiveAccountId);
             sessionStore.saveInfo(chatSession1);
-        } else {
-            chatSession1.setUnreadCount(chatSession1.getUnreadCount() + 1);
-            sessionStore.updateInfo(chatSession1);
         }
 
         // 接收方
         QuickChatSession chatSession2 = sessionStore.getOneByAccountId(receiveAccountId, sendAccountId);
         if (ObjectUtils.isEmpty(chatSession2)) {
-            chatSession2 = ChatSessionAdapter.buildSessionPO(receiveAccountId, sendAccountId, 1);
+            chatSession2 = ChatSessionAdapter.buildSessionPO(receiveAccountId, sendAccountId);
             return sessionStore.saveInfo(chatSession2);
-        } else {
-            chatSession2.setUnreadCount(chatSession2.getUnreadCount() + 1);
-            return sessionStore.updateInfo(chatSession2);
         }
+
+        return true;
     }
 }

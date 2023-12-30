@@ -56,23 +56,6 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
 |    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
 
-1. JDK 11
-2. SpringBoot
-3. MyBatis-Plus
-4. MySQL
-5. Redis
-6. Redisson
-7. Netty
-8. Kafka
-9. ElasticSearch
-10. MinIO
-11. ip2region
-12. HuTool
-13. JWT
-14. Kaptcha
-15. WebSocket + WebRTC
-16. XXL-JOB
-17. Canal
 
 ### 贡献者名单
 

@@ -28,21 +28,9 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0")
     public List<QuickChatSession> getListByAccountId(String accountId) {
         return this.lambdaQuery()
-                .eq(QuickChatSession::getSendId, accountId)
+                .eq(QuickChatSession::getFromId, accountId)
                 .orderByDesc(QuickChatSession::getUpdateTime)
                 .list();
-    }
-
-    /**
-     * 修改会话未读数量
-     */
-    @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
-    public Boolean updateUnreadBySessionId(Long sessionId, int count) {
-        return this.lambdaUpdate()
-                .eq(QuickChatSession::getId, sessionId)
-                .set(QuickChatSession::getUnreadCount, count)
-                .update();
     }
 
     /**
@@ -59,10 +47,10 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
      */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")
-    public QuickChatSession getOneByAccountId(String sendId, String receiveId) {
+    public QuickChatSession getOneByAccountId(String fromId, String toId) {
         return this.lambdaQuery()
-                .eq(QuickChatSession::getSendId, sendId)
-                .eq(QuickChatSession::getReceiveId, receiveId)
+                .eq(QuickChatSession::getFromId, fromId)
+                .eq(QuickChatSession::getToId, toId)
                 .one();
     }
 

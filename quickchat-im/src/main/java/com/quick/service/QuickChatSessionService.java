@@ -18,7 +18,5 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
 
     List<ChatSessionVO> getSessionList();
 
-    Boolean clearUnread(Long sessionId, Integer count);
-
     Boolean deleteSession(Long sessionId);
 }

@@ -85,11 +85,5 @@ public class ChatUserController {
         userService.sendEmail(emailDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    @GetMapping("/test")
-    public String test() {
-        QuickChatMsg build = QuickChatMsg.builder().receiveId("1111").sendId("123").build();
-        return "接口整体通过";
-    }
 }
 
