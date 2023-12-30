@@ -24,17 +24,15 @@ public class ChatMsgConsumer {
     private ThreadPoolTaskExecutor taskExecutor;
 
     /**
-     * 发送聊天消息
+     * 通过Channel推送消息
      * 接收方建立了WebSocket连接，推送消息通知客户端
      */
-    @KafkaListener(topics = MQConstant.CHAT_SEND_TOPIC, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = MQConstant.SEND_CHAT_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsg(String message) throws Throwable {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
-        taskExecutor.submit(() -> {
-            Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getReceiveId());
-            if (ObjectUtils.isNotEmpty(channel)) {
-                channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
-            }
-        });
+        Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getReceiveId());
+        if (ObjectUtils.isNotEmpty(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
+        }
     }
 }

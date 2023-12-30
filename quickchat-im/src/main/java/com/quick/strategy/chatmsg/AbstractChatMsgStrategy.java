@@ -46,7 +46,7 @@ public abstract class AbstractChatMsgStrategy {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * 生成会话锁Key
+     * 获取通讯双方会话锁Key（无论谁主动发送消息，都会生成相同锁KEY）
      */
     protected String generateSessionLockKey(String sendAccountId, String receiveAccountId) throws Exception {
         String[] accountIdArr = {sendAccountId, receiveAccountId};

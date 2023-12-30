@@ -47,19 +47,16 @@ public class FontHandler extends AbstractChatMsgStrategy {
                 receiveAccountId, msgDTO.getContent(), ChatMsgEnum.FONT.getType());
         msgStore.saveMsg(chatMsg);
 
-        // TODO 将消息推送到 Kafka，同步到 ElasticSearch
-
-        // 获取通讯双方会话锁Key（无论谁主动发送消息，都会生成相同锁KEY）
-        String sessionLockKey = this.generateSessionLockKey(sendAccountId, receiveAccountId);
-
         // 上锁：防止并发场景消息未读数量不准
+        String sessionLockKey = this.generateSessionLockKey(sendAccountId, receiveAccountId);
         lockUtil.executeWithLock(sessionLockKey, 15, TimeUnit.SECONDS,
                 () -> {
                     return this.handleSession(chatMsg.getSendId(), chatMsg.getReceiveId());
                 }
         );
 
-        // 将消息发送到 Kafka
-        kafkaProducer.send(MQConstant.CHAT_SEND_TOPIC, JSONUtil.toJsonStr(chatMsg));
+        // 推送Kafka：聊天信息同步ElasticSearch、通过Channel推送消息
+        kafkaProducer.send(MQConstant.SYNC_CHAT_MSG_ES, JSONUtil.toJsonStr(chatMsg));
+        kafkaProducer.send(MQConstant.SEND_CHAT_MSG, JSONUtil.toJsonStr(chatMsg));
     }
 }
