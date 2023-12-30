@@ -1,18 +1,18 @@
 package com.quick.strategy.chatmsg;
 
+import com.quick.adapter.ChatMsgAdapter;
 import com.quick.adapter.ChatSessionAdapter;
-import com.quick.constant.RedisConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
+import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
-import com.quick.utils.AESUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
 
 /**
  * @Author: 徐志斌
@@ -22,6 +22,8 @@ import java.util.Arrays;
  */
 @Component
 public abstract class AbstractChatMsgStrategy {
+    @Autowired
+    private QuickChatMsgStore msgStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
 
@@ -46,31 +48,21 @@ public abstract class AbstractChatMsgStrategy {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * 获取通讯双方会话锁Key（无论谁主动发送消息，都会生成相同锁KEY）
-     */
-    protected String generateSessionLockKey(String sendAccountId, String receiveAccountId) throws Exception {
-        String[] accountIdArr = {sendAccountId, receiveAccountId};
-        Arrays.sort(accountIdArr);
-        String sessionKey = accountIdArr[0] + accountIdArr[1];
-        return RedisConstant.UNREAD_LOCK_KEY + AESUtil.encrypt(sessionKey);
-    }
-
-    /**
      * 处理通信双方会话、未读数
      */
-    protected boolean handleSession(String sendAccountId, String receiveAccountId) {
+    protected boolean handleSession(String fromId, String toId) {
         // 发送方
-        QuickChatSession chatSession1 = sessionStore.getOneByAccountId(sendAccountId, receiveAccountId);
-        if (ObjectUtils.isEmpty(chatSession1)) {
-            chatSession1 = ChatSessionAdapter.buildSessionPO(sendAccountId, receiveAccountId);
-            sessionStore.saveInfo(chatSession1);
+        QuickChatSession fromSession = sessionStore.getOneByAccountId(fromId, toId);
+        if (ObjectUtils.isEmpty(fromSession)) {
+            fromSession = ChatSessionAdapter.buildSessionPO(fromId, toId);
+            sessionStore.saveInfo(fromSession);
         }
 
         // 接收方
-        QuickChatSession chatSession2 = sessionStore.getOneByAccountId(receiveAccountId, sendAccountId);
-        if (ObjectUtils.isEmpty(chatSession2)) {
-            chatSession2 = ChatSessionAdapter.buildSessionPO(receiveAccountId, sendAccountId);
-            return sessionStore.saveInfo(chatSession2);
+        QuickChatSession toSession = sessionStore.getOneByAccountId(toId, fromId);
+        if (ObjectUtils.isEmpty(toSession)) {
+            toSession = ChatSessionAdapter.buildSessionPO(toId, fromId);
+            sessionStore.saveInfo(toSession);
         }
 
         return true;

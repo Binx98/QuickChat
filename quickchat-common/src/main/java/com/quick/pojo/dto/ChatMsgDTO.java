@@ -13,17 +13,17 @@ public class ChatMsgDTO {
     /**
      * 发送方
      */
-    private String accountId;
+    private String fromId;
     /**
      * 接收方
      */
-    private String receiveId;
+    private String toId;
     /**
      * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum
      */
-    private Integer type;
+    private Integer msgType;
     /**
      * 消息内容
      */

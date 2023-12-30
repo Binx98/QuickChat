@@ -25,7 +25,7 @@ public class ChatMsgController {
      */
     @PostMapping("/send")
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getType());
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
