@@ -23,13 +23,9 @@ public class RegisterDTO {
      */
     private String password2;
     /**
-     * 性别
-     */
-    private Integer gender;
-    /**
      * 邮件
      */
-    private String email;
+    private String toEmail;
     /**
      * 邮箱验证码
      */

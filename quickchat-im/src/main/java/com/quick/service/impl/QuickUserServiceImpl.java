@@ -18,12 +18,10 @@ import com.quick.service.QuickUserService;
 import com.quick.store.QuickUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.strategy.email.EmailStrategyFactory;
-import com.quick.threadpool.MyThreadPoolExecutor;
 import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -80,7 +78,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(registerDTO.getEmail());
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + registerDTO.getToEmail());
         if (StringUtils.isEmpty(cacheEmailCode) || !registerDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
@@ -96,7 +94,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
-                registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getStatus());
+                registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
     }
 
@@ -193,7 +191,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 发送验证码邮件
      */
     @Override
-    @Async(MyThreadPoolExecutor.EMAIL_POOL_NAME)
     public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
         AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
         return emailStrategy.sendEmail(emailDTO);

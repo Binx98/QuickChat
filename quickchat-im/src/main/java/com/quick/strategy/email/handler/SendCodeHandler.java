@@ -4,10 +4,12 @@ import com.quick.constant.RedisConstant;
 import com.quick.enums.EmailEnum;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.strategy.email.AbstractEmailStrategy;
+import com.quick.threadpool.MyThreadPoolExecutor;
 import com.quick.utils.EmailUtil;
 import com.quick.utils.RandomUtil;
 import com.quick.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -33,6 +35,7 @@ public class SendCodeHandler extends AbstractEmailStrategy {
     }
 
     @Override
+    @Async(MyThreadPoolExecutor.EMAIL_POOL_NAME)
     public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
         // 生成验证码，有效期 3min
         String code = RandomUtil.generate(4, 1);

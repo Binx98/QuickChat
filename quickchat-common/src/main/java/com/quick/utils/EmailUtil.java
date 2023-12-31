@@ -56,11 +56,11 @@ public class EmailUtil {
      * @param subject 主题
      * @param content 内容
      */
-    public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
+    public void sendHtmlMail(String toEmail, String subject, String content) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true);
         messageHelper.setFrom(fromEmail);
-        InternetAddress[] internetAddressTo = InternetAddress.parse(to);
+        InternetAddress[] internetAddressTo = InternetAddress.parse(toEmail);
         messageHelper.setTo(internetAddressTo);
         message.setSubject(subject);
         messageHelper.setText(content, true);
