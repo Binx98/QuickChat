@@ -32,6 +32,7 @@ public class UserAdapter {
                                             String email, String location, String lineStatus) {
         return QuickChatUser.builder()
                 .accountId(accountId)
+                .nickName(accountId)
                 .password(password1)
                 .email(email)
                 .location(location)
