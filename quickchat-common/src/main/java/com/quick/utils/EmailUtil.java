@@ -89,9 +89,9 @@ public class EmailUtil {
     }
 
     /**
-     * 读取文本内容
+     * 读取 HTML 文本内容
      */
-    public String readTextContent(String path) throws IOException {
+    public String readHtmlText(String path) throws IOException {
         InputStream inputStream = EmailUtil.class.getResourceAsStream(path);
         StringBuilder resultStringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {

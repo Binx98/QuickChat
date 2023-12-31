@@ -28,10 +28,6 @@ public class ChatSessionVO {
      */
     private String avatar;
     /**
-     * 未读数量
-     */
-    private Integer unreadCount;
-    /**
      * 在线状态
      */
     private String lineStatus;
@@ -47,8 +43,4 @@ public class ChatSessionVO {
      * 邮箱
      */
     private String email;
-    /**
-     * 生日
-     */
-    private LocalDateTime birthDay;
 }

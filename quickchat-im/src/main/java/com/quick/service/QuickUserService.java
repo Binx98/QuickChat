@@ -32,7 +32,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
 
     void captcha(HttpServletRequest request, HttpServletResponse response);
 
-    Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException;
+    Boolean sendEmail(EmailDTO emailDTO) throws Throwable;
 
     Boolean updateUser(UserUpdateDTO userDTO);
 }

@@ -6,7 +6,6 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
@@ -81,8 +80,14 @@ public class ChatUserController {
      * 发送邮件
      */
     @PostMapping("/sendEmail")
-    public R sendEmail(@RequestBody EmailDTO emailDTO) throws MessagingException, IOException {
+    public R sendEmail(@RequestBody EmailDTO emailDTO) throws Throwable {
         userService.sendEmail(emailDTO);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+
+    @GetMapping("/test")
+    public R test() {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

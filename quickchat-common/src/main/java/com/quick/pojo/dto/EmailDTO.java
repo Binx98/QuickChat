@@ -12,6 +12,8 @@ import lombok.Data;
 public class EmailDTO {
     /**
      * 邮件类型
+     *
+     * @see com.quick.enums.EmailEnum
      */
     private Integer type;
 

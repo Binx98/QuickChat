@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.EmailEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
@@ -17,6 +16,8 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickUserStore;
+import com.quick.strategy.email.AbstractEmailStrategy;
+import com.quick.strategy.email.EmailStrategyFactory;
 import com.quick.threadpool.MyThreadPoolExecutor;
 import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
@@ -194,21 +195,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Override
     @Async(MyThreadPoolExecutor.EMAIL_POOL_NAME)
     public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
-        if (EmailEnum.VERIFY_CODE.getType().equals(emailDTO.getType())) {
-            // 生成验证码，有效期 3min
-            String code = RandomUtil.generate(4, 1);
-            String emailKey = RedisConstant.EMAIL_KEY + emailDTO.getToEmail();
-            redisUtil.setCacheObject(emailKey, code, 3, TimeUnit.MINUTES);
-
-            // 读取HTML文本，替换%s
-            String htmlContent = emailUtil.readTextContent("/email/sendCode.html");
-            htmlContent = String.format(htmlContent, code);
-
-            // 发送HTML邮件
-            emailUtil.sendHtmlMail(emailDTO.getToEmail(), "注册QuickChat账号", htmlContent);
-        }
-
-        return true;
+        AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
+        return emailStrategy.sendEmail(emailDTO);
     }
 
     /**
