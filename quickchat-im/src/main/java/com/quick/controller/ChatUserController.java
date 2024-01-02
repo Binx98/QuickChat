@@ -32,7 +32,7 @@ public class ChatUserController {
     /**
      * 查询用户信息
      */
-    @GetMapping("/getInfo/{accountId}")
+    @GetMapping("/getByAccountId/{accountId}")
     public R getInfo(@PathVariable String accountId) throws Exception {
         UserVO result = userService.getByAccountId(accountId);
         return R.out(ResponseEnum.SUCCESS, result);

@@ -7,7 +7,7 @@ spring:
   redis:
     host: localhost
     port: 6379
-    database: 10
+    database: 6
     timeout: 1800000
     lettuce:
       pool:

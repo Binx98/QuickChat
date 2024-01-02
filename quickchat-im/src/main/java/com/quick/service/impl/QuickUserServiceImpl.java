@@ -154,25 +154,17 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
 
-        // 生成验证码图片、内容
-        String verifyCode = defaultKaptcha.createText();
-        BufferedImage image = defaultKaptcha.createImage(verifyCode);
-
         // 没有CookieKey，赋值Cookie和Redis、有重新赋值
-        String uuid = null;
-        HttpServletRequest request = HttpServletUtil.getRequest();
-        if (!CookieUtil.hasCookie(request, RedisConstant.COOKIE_KEY)) {
-            uuid = UUID.randomUUID().toString();
-            CookieUtil.addCookie(response, RedisConstant.COOKIE_KEY, uuid, false, -1, "/");
-        } else {
-            uuid = CookieUtil.getValue(request, RedisConstant.COOKIE_KEY);
-        }
+        String uuid = UUID.randomUUID().toString();
+        CookieUtil.addCookie(response, RedisConstant.COOKIE_KEY, uuid, false, -1, "/");
 
-        // 验证码缓存到Redis（10min）
-        redisUtil.setCacheObject(uuid, verifyCode, 10, TimeUnit.MINUTES);
+        // 验证码缓存到Redis（3min）
+        String verifyCode = defaultKaptcha.createText();
+        redisUtil.setCacheObject(RedisConstant.COOKIE_KEY + ":" + uuid, verifyCode, 3, TimeUnit.MINUTES);
 
         // 将图片输出到页面
         ServletOutputStream outputStream = null;
+        BufferedImage image = defaultKaptcha.createImage(verifyCode);
         try {
             outputStream = response.getOutputStream();
             ImageIO.write(image, "jpg", outputStream);
@@ -216,7 +208,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get("account_id");
         QuickChatUser userPO = userStore.getByAccountId(accountId);
-        userPO.setPassword(null);
+        if (ObjectUtils.isNotEmpty(userPO)) {
+            userPO.setPassword(null);
+        }
         return userPO;
     }
 }
