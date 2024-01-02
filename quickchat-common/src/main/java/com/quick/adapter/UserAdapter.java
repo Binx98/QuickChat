@@ -3,6 +3,7 @@ package com.quick.adapter;
 import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
+import com.quick.utils.AESUtil;
 
 /**
  * @Author 徐志斌
@@ -28,12 +29,12 @@ public class UserAdapter {
                 .build();
     }
 
-    public static QuickChatUser buildUserPO(String accountId, String password1,
-                                            String email, String location, String lineStatus) {
+    public static QuickChatUser buildUserPO(String accountId, String password1, String email,
+                                            String location, String lineStatus) throws Exception {
         return QuickChatUser.builder()
                 .accountId(accountId)
                 .nickName(accountId)
-                .password(password1)
+                .password(AESUtil.encrypt(password1))
                 .email(email)
                 .location(location)
                 .lineStatus(lineStatus)
