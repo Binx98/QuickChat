@@ -6,16 +6,13 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -42,19 +39,28 @@ public class ChatUserController {
     }
 
     /**
+     * 根据 token 查询用户信息
+     */
+    @GetMapping("/getByToken")
+    public R getByToken(String token) {
+        QuickChatUser userInfo = userService.getByToken(token);
+        return R.out(ResponseEnum.SUCCESS, userInfo);
+    }
+
+    /**
      * 生成验证码
      */
     @GetMapping("/captcha")
-    public void captcha(HttpServletRequest request, HttpServletResponse response) {
-        userService.captcha(request, response);
+    public void captcha() {
+        userService.captcha();
     }
 
     /**
      * 注册账号
      */
     @PostMapping("/register")
-    public R register(@RequestBody RegisterDTO registerDTO, HttpServletRequest request) throws Exception {
-        userService.register(registerDTO, request);
+    public R register(@RequestBody RegisterDTO registerDTO) throws Exception {
+        userService.register(registerDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -62,8 +68,8 @@ public class ChatUserController {
      * 登录账号
      */
     @PostMapping("/login")
-    public R login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) throws Exception {
-        Map<String, Object> resultMap = userService.login(loginDTO, request);
+    public R login(@RequestBody LoginDTO loginDTO) throws Exception {
+        Map<String, Object> resultMap = userService.login(loginDTO);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 

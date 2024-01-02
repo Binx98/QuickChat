@@ -71,7 +71,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 注册账号
      */
     @Override
-    public Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception {
+    public Boolean register(RegisterDTO registerDTO) throws Exception {
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
@@ -90,7 +90,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 解析地址
-        String location = IPUtil.packageAddress(request);
+        String location = IPUtil.packageAddress(HttpServletUtil.getRequest());
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
@@ -102,7 +102,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 登陆账号
      */
     @Override
-    public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request) throws Exception {
+    public Map<String, Object> login(LoginDTO loginDTO) throws Exception {
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -110,7 +110,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 校验图片验证码
-        String captchaKey = request.getHeader(RedisConstant.COOKIE_KEY);
+        String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.COOKIE_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
         if (StringUtils.isEmpty(cacheImgCode) || loginDTO.getImgCode().equalsIgnoreCase(cacheImgCode)) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
@@ -127,7 +127,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         userStore.updateInfo(userPO);
 
         // 解析当前登录地址，同步到用户信息
-        String location = IPUtil.packageAddress(request);
+        String location = IPUtil.packageAddress(HttpServletUtil.getRequest());
         if (!location.equals(userPO.getLocation())) {
             userPO.setLocation(location);
             userStore.updateInfo(userPO);
@@ -145,7 +145,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 生成验证码
      */
     @Override
-    public void captcha(HttpServletRequest request, HttpServletResponse response) {
+    public void captcha() {
+        // 封装响应信息
+        HttpServletResponse response = HttpServletUtil.getResponse();
         response.setDateHeader("Expires", 0);
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -158,6 +160,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
         // 没有CookieKey，赋值Cookie和Redis、有重新赋值
         String uuid = null;
+        HttpServletRequest request = HttpServletUtil.getRequest();
         if (!CookieUtil.hasCookie(request, RedisConstant.COOKIE_KEY)) {
             uuid = UUID.randomUUID().toString();
             CookieUtil.addCookie(response, RedisConstant.COOKIE_KEY, uuid, false, -1, "/");
@@ -203,5 +206,17 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     public Boolean updateUser(UserUpdateDTO userDTO) {
         QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
         return userStore.updateInfo(userPO);
+    }
+
+    /**
+     * 根据 token 查询用户信息
+     */
+    @Override
+    public QuickChatUser getByToken(String token) {
+        Map<String, Object> resultMap = JwtUtil.resolve(token);
+        String accountId = (String) resultMap.get("account_id");
+        QuickChatUser userPO = userStore.getByAccountId(accountId);
+        userPO.setPassword(null);
+        return userPO;
     }
 }

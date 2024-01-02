@@ -8,10 +8,6 @@ import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -26,13 +22,15 @@ public interface QuickUserService extends IService<QuickChatUser> {
 
     UserVO getByAccountId(String accountId) throws Exception;
 
-    Boolean register(RegisterDTO registerDTO, HttpServletRequest request) throws Exception;
+    Boolean register(RegisterDTO registerDTO) throws Exception;
 
-    Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request) throws Exception;
+    Map<String, Object> login(LoginDTO loginDTO) throws Exception;
 
-    void captcha(HttpServletRequest request, HttpServletResponse response);
+    void captcha();
 
     Boolean sendEmail(EmailDTO emailDTO) throws Throwable;
 
     Boolean updateUser(UserUpdateDTO userDTO);
+
+    QuickChatUser getByToken(String token);
 }
