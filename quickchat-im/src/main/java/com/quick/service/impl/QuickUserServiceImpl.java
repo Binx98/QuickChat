@@ -27,11 +27,9 @@ import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -52,8 +50,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     private QuickUserStore userStore;
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private EmailUtil emailUtil;
 
     /**
      * 根据 account_id 查询用户信息
@@ -102,7 +98,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 登陆账号
      */
     @Override
-    public Map<String, Object> login(LoginDTO loginDTO) throws Exception {
+    public String login(LoginDTO loginDTO) throws Exception {
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -110,9 +106,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 校验图片验证码
-        String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.COOKIE_KEY);
+        String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
-        if (StringUtils.isEmpty(cacheImgCode) || loginDTO.getImgCode().equalsIgnoreCase(cacheImgCode)) {
+        if (StringUtils.isEmpty(cacheImgCode) || !cacheImgCode.equalsIgnoreCase(loginDTO.getVerifyCode())) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
 
@@ -134,18 +130,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 封装结果，返回
-        UserVO userVO = UserAdapter.buildUserVO(userPO);
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("token", JwtUtil.generate(loginDTO.getAccountId()));
-        resultMap.put("userInfo", userVO);
-        return resultMap;
+        return JwtUtil.generate(loginDTO.getAccountId());
     }
 
     /**
      * 生成验证码
      */
     @Override
-    public void captcha() {
+    public void captcha() throws IOException {
         // 封装响应信息
         HttpServletResponse response = HttpServletUtil.getResponse();
         response.setDateHeader("Expires", 0);
@@ -154,13 +146,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
 
-        // 没有CookieKey，赋值Cookie和Redis、有重新赋值
-        String uuid = UUID.randomUUID().toString();
-        CookieUtil.addCookie(response, RedisConstant.COOKIE_KEY, uuid, false, -1, "/");
+        // 生成Cookie通过Response传给前端
+        String captcha = RedisConstant.CAPTCHA_KEY + ":" + UUID.randomUUID();
+        CookieUtil.addCookie(response, RedisConstant.CAPTCHA_KEY, captcha, false, -1, "/");
 
         // 验证码缓存到Redis（3min）
         String verifyCode = defaultKaptcha.createText();
-        redisUtil.setCacheObject(RedisConstant.COOKIE_KEY + ":" + uuid, verifyCode, 3, TimeUnit.MINUTES);
+        redisUtil.setCacheObject(captcha, verifyCode, 2, TimeUnit.MINUTES);
 
         // 将图片输出到页面
         ServletOutputStream outputStream = null;
@@ -169,15 +161,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             outputStream = response.getOutputStream();
             ImageIO.write(image, "jpg", outputStream);
             outputStream.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                outputStream.close();
             }
         }
     }

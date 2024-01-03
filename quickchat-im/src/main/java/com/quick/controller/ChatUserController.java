@@ -13,7 +13,7 @@ import com.quick.service.QuickUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * <p>
@@ -51,7 +51,7 @@ public class ChatUserController {
      * 生成验证码
      */
     @GetMapping("/captcha")
-    public void captcha() {
+    public void captcha() throws IOException {
         userService.captcha();
     }
 
@@ -69,8 +69,8 @@ public class ChatUserController {
      */
     @PostMapping("/login")
     public R login(@RequestBody LoginDTO loginDTO) throws Exception {
-        Map<String, Object> resultMap = userService.login(loginDTO);
-        return R.out(ResponseEnum.SUCCESS, resultMap);
+        String token = userService.login(loginDTO);
+        return R.out(ResponseEnum.SUCCESS, token);
     }
 
     /**

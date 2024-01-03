@@ -8,7 +8,7 @@ import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.UserVO;
 
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * <p>
@@ -24,9 +24,9 @@ public interface QuickUserService extends IService<QuickChatUser> {
 
     Boolean register(RegisterDTO registerDTO) throws Exception;
 
-    Map<String, Object> login(LoginDTO loginDTO) throws Exception;
+    String login(LoginDTO loginDTO) throws Exception;
 
-    void captcha();
+    void captcha() throws IOException;
 
     Boolean sendEmail(EmailDTO emailDTO) throws Throwable;
 

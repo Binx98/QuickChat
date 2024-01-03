@@ -45,7 +45,7 @@ public class AESUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String encryptPwd = encrypt("admin123");
+        String encryptPwd = encrypt("xuzhibin");
         System.out.println(encryptPwd);
     }
 }
