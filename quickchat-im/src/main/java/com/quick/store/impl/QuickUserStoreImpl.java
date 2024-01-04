@@ -44,9 +44,9 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickChatUs
      * 批量查询用户信息
      */
     @Override
-    public List<QuickChatUser> getListByAccountIds(List<String> receiveIds) {
+    public List<QuickChatUser> getListByAccountIds(List<String> accountIds) {
         return this.lambdaQuery()
-                .in(QuickChatUser::getAccountId, receiveIds)
+                .in(QuickChatUser::getAccountId, accountIds)
                 .list();
     }
 

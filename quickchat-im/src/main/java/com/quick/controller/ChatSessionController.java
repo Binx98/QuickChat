@@ -24,9 +24,9 @@ public class ChatSessionController {
     /**
      * 查询聊天会话列表
      */
-    @GetMapping("/list")
-    public R getSessionList() {
-        List<ChatSessionVO> result = sessionService.getSessionList();
+    @GetMapping("/list/{accountId}")
+    public R getSessionList(@PathVariable String accountId) {
+        List<ChatSessionVO> result = sessionService.getSessionList(accountId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 

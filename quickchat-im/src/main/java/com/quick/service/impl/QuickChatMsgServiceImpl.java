@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,5 +34,14 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         String loginAccountId = (String) RequestHolderUtil.get().get("account_id");
         List<QuickChatMsg> msgList = msgStore.getChatMsg(loginAccountId, accountId);
         ChatMsgAdapter.buildChatMsgVOList(msgList);
+    }
+
+    /**
+     * 查询双方聊天信息列表
+     */
+    @Override
+    public Map<String, List<QuickChatMsg>> getMapByAccountIds(String accountId, List<String> accountIdList) {
+        
+        return null;
     }
 }

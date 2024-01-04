@@ -3,17 +3,19 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.mapper.QuickChatSessionMapper;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
+import com.quick.service.QuickChatMsgService;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickUserStore;
-import com.quick.utils.RequestHolderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -29,22 +31,26 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Autowired
     private QuickUserStore userStore;
     @Autowired
+    private QuickChatMsgService msgService;
+    @Autowired
     private QuickChatSessionStore sessionStore;
 
     /**
      * 查询会话列表
      */
     @Override
-    public List<ChatSessionVO> getSessionList() {
+    public List<ChatSessionVO> getSessionList(String accountId) {
         // 查询会话列表
-        String accountId = (String) RequestHolderUtil.get().get("account_id");
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(accountId);
-        List<String> receiveIds = sessionList.stream()
+        List<String> sessionAccountIds = sessionList.stream()
                 .map(QuickChatSession::getFromId)
                 .collect(Collectors.toList());
 
         // 查询会话用户信息
-        List<QuickChatUser> userList = userStore.getListByAccountIds(receiveIds);
+        List<QuickChatUser> userList = userStore.getListByAccountIds(sessionAccountIds);
+
+        // 查询聊天信息
+        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(accountId, sessionAccountIds);
 
         // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);

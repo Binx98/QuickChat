@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class ChatSessionAdapter {
     public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList, List<QuickChatUser> userList) {
-        // 使用HashMap数据结构降低O(N^2)时间复杂度
+        // 使用 Map 数据结构降低O(N^2)时间复杂度
         Map<String, ChatSessionVO> map = new HashMap<>();
         List<ChatSessionVO> resultList = new ArrayList<>();
 

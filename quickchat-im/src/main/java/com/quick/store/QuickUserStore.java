@@ -19,7 +19,7 @@ public interface QuickUserStore extends IService<QuickChatUser> {
 
     Boolean saveUser(QuickChatUser userPO);
 
-    List<QuickChatUser> getListByAccountIds(List<String> receiveIds);
+    List<QuickChatUser> getListByAccountIds(List<String> accountIds);
 
     Boolean updateInfo(QuickChatUser userPO);
 }
