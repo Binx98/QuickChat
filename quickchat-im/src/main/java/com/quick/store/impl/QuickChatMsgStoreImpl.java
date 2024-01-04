@@ -5,10 +5,8 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +21,11 @@ import java.util.List;
  */
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
-    @Autowired
-    private QuickChatMsgMapper msgMapper;
-
     /**
      * 保存聊天信息
      */
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0.sendId + #p0.receiveId"),
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0.receiveId + #p0.sendId"),
-    })
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0.relationId")
     public Boolean saveMsg(QuickChatMsg chatMsg) {
         return this.save(chatMsg);
     }
@@ -42,11 +34,10 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
      * 查询通讯双方聊天记录列表
      */
     @Override
-    @Caching(cacheable = {
-            @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0 + #p1"),
-            @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p1 + #p0")
-    })
-    public List<QuickChatMsg> getChatMsg(String loginAccountId, String accountId) {
-        return msgMapper.getChatMsgList();
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0")
+    public List<QuickChatMsg> getMsgByRelationId(String relationId) {
+        return this.lambdaQuery()
+                .eq(QuickChatMsg::getRelationId, relationId)
+                .list();
     }
 }

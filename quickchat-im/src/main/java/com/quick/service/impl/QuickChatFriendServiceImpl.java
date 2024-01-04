@@ -5,7 +5,7 @@ import com.quick.mapper.QuickChatFriendMapper;
 import com.quick.pojo.po.QuickChatFriend;
 import com.quick.service.QuickChatFriendService;
 import com.quick.store.QuickChatFriendStore;
-import com.quick.utils.RequestHolderUtil;
+import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
      */
     @Override
     public List<QuickChatFriend> getFriendList() {
-        String accountId = (String) RequestHolderUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get("account_id");
         return friendStore.getListByAccountId(accountId);
     }
 

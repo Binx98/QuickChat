@@ -3,9 +3,8 @@ package com.quick.interceptor;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.utils.JwtUtil;
-import com.quick.utils.RequestHolderUtil;
+import com.quick.utils.RequestContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +24,7 @@ import java.util.Map;
 public class LoginTokenInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // OPTIONS 预请求直接通过
         String httpMethod = "OPTIONS";
         if (httpMethod.equals(request.getMethod())) {
@@ -39,9 +38,9 @@ public class LoginTokenInterceptor implements HandlerInterceptor {
             throw new QuickException(ResponseEnum.TOKEN_EXPIRE);
         }
 
-        // 解析Token信息，封装 RequestHolderUtil
+        // 解析Token信息，封装 RequestContextUtil
         Map<String, Object> tokenMap = JwtUtil.resolve(token);
-        RequestHolderUtil.set(tokenMap);
+        RequestContextUtil.set(tokenMap);
         return true;
     }
 

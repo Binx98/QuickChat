@@ -11,8 +11,10 @@ import com.quick.service.QuickChatMsgService;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickUserStore;
+import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.List;
 import java.util.Map;
@@ -39,9 +41,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
      * 查询会话列表
      */
     @Override
-    public List<ChatSessionVO> getSessionList(String accountId) {
+    public List<ChatSessionVO> getSessionList() {
+        // 获取登录账户id
+        String loginAccountId = (String) RequestContextUtil.get().get("account_id");
+
         // 查询会话列表
-        List<QuickChatSession> sessionList = sessionStore.getListByAccountId(accountId);
+        List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
         List<String> sessionAccountIds = sessionList.stream()
                 .map(QuickChatSession::getFromId)
                 .collect(Collectors.toList());
@@ -50,7 +55,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         List<QuickChatUser> userList = userStore.getListByAccountIds(sessionAccountIds);
 
         // 查询聊天信息
-        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(accountId, sessionAccountIds);
+        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(loginAccountId, sessionAccountIds);
 
         // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);

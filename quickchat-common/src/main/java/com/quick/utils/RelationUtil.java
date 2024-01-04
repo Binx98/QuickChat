@@ -10,7 +10,7 @@ public class RelationUtil {
     /**
      * 通过参数生成：关系字符串
      */
-    public static String generate(String toId, String fromId) {
+    public static String generate(String fromId, String toId) {
         if (toId.compareTo(fromId) <= 0) {
             return toId + ":" + fromId;
         } else {

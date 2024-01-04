@@ -6,7 +6,7 @@ import com.quick.mapper.QuickChatEmojiMapper;
 import com.quick.pojo.po.QuickChatEmoji;
 import com.quick.service.QuickChatEmojiService;
 import com.quick.store.QuickChatEmojiStore;
-import com.quick.utils.RequestHolderUtil;
+import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
      */
     @Override
     public Boolean addEmoji(String url) {
-        String accountId = (String) RequestHolderUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get("account_id");
         QuickChatEmoji chatEmoji = ChatEmojiAdapter.buildEmojiPO(url, accountId);
         return emojiStore.saveEmoji(chatEmoji);
     }
@@ -48,7 +48,7 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
      */
     @Override
     public Boolean deleteEmoji(Long emojiId) {
-        String accountId = (String) RequestHolderUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get("account_id");
         return emojiStore.deleteByEmojiId(emojiId, accountId);
     }
 }

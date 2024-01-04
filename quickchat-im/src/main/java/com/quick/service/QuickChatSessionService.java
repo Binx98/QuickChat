@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface QuickChatSessionService extends IService<QuickChatSession> {
 
-    List<ChatSessionVO> getSessionList(String accountId);
+    List<ChatSessionVO> getSessionList();
 
     Boolean deleteSession(Long sessionId);
 }
