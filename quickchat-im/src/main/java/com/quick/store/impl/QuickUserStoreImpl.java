@@ -25,7 +25,7 @@ public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickChatUs
      * 根据 account_id 查询用户信息
      */
     @Override
-    @Cacheable(value = RedisConstant.QUICK_USER, key = "#p0")
+    @Cacheable(value = RedisConstant.QUICK_USER, key = "#p0", unless = "#result == null")
     public QuickChatUser getByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getAccountId, accountId)

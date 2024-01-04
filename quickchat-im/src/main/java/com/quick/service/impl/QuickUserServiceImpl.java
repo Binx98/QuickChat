@@ -190,12 +190,21 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 根据 token 查询用户信息
      */
     @Override
-    public QuickChatUser getByToken(String token) {
+    public QuickChatUser getByToken() {
+        // 请求头获取 token
+        String token = HttpContextUtil.getRequest().getHeader("token");
+        if (StringUtils.isEmpty(token)) {
+            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+        }
+
+        // 解析 token
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get("account_id");
+
+        // 查询用户信息
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isNotEmpty(userPO)) {
-            userPO.setPassword(null);
+            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
         return userPO;
     }

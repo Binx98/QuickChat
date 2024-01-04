@@ -32,5 +32,5 @@ public interface QuickUserService extends IService<QuickChatUser> {
 
     Boolean updateUser(UserUpdateDTO userDTO);
 
-    QuickChatUser getByToken(String token);
+    QuickChatUser getByToken();
 }

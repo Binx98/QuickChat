@@ -56,7 +56,6 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
 |    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
 
-
 ### 贡献者名单
 
 ### 如何成为贡献者

@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.lionsoul.ip2region.xdb.Searcher;
 
 import java.io.File;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -23,15 +24,14 @@ public class AddressUtil {
         try {
             String dbPath = Objects.requireNonNull(AddressUtil.class.getResource("/ip2region/ip2region.xdb")).getPath();
             File file = new File(dbPath);
-
             //如果当前文件不存在，则从缓存中复制一份
             if (!file.exists()) {
                 dbPath = TEMP_FILE_DIR + "ip.db";
                 System.out.println(MessageFormat.format("当前目录为:[{0}]", dbPath));
                 file = new File(dbPath);
-                FileUtils.copyInputStreamToFile(Objects.requireNonNull(AddressUtil.class.getClassLoader().getResourceAsStream("classpath:ip2region/ip2region.xdb")), file);
+                InputStream inputStream = AddressUtil.class.getClassLoader().getResourceAsStream("classpath:ip2region/ip2region.xdb");
+                FileUtils.copyInputStreamToFile(Objects.requireNonNull(inputStream), file);
             }
-
             Searcher searcher = Searcher.newWithFileOnly(dbPath);
             return searcher.searchByStr(ip);
         } catch (Exception e) {

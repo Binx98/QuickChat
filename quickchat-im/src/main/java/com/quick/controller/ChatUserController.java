@@ -42,8 +42,8 @@ public class ChatUserController {
      * 根据 token 查询用户信息
      */
     @GetMapping("/getByToken")
-    public R getByToken(String token) {
-        QuickChatUser userInfo = userService.getByToken(token);
+    public R getByToken() {
+        QuickChatUser userInfo = userService.getByToken();
         return R.out(ResponseEnum.SUCCESS, userInfo);
     }
 
