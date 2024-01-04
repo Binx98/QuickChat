@@ -32,6 +32,7 @@
         <jackson.version>2.13.3</jackson.version>
         <minio.version>8.0.3</minio.version>
         <ip2region.version>2.6.3</ip2region.version>
+        <commons-io.version>2.6</commons-io.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <xxljob.version>2.3.0</xxljob.version>
         <elastic.version>7.8.0</elastic.version>
@@ -115,6 +116,12 @@
                 <groupId>org.lionsoul</groupId>
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
+            </dependency>
+            <!-- 用于读取ip2region.xdb文件使用 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <!--AspectJ-->
             <dependency>

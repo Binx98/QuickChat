@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-03-24  17:46
- * @Description: HttpServlet 作用域工具类
+ * @Description: HttpContextUtil 工具类
  * @Version: 1.0
  */
-public class HttpServletUtil {
+public class HttpContextUtil {
     /**
      * 获取 Request
      */

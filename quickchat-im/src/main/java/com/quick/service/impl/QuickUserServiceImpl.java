@@ -86,7 +86,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 解析地址
-        String location = IPUtil.packageAddress(HttpServletUtil.getRequest());
+        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
 
         // 保存账号信息
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
@@ -106,7 +106,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         }
 
         // 校验图片验证码
-        String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
+        String captchaKey = HttpContextUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
         if (StringUtils.isEmpty(cacheImgCode) || !cacheImgCode.equalsIgnoreCase(loginDTO.getVerifyCode())) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
@@ -123,7 +123,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         userStore.updateInfo(userPO);
 
         // 解析当前登录地址，同步到用户信息
-        String location = IPUtil.packageAddress(HttpServletUtil.getRequest());
+        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
         if (!location.equals(userPO.getLocation())) {
             userPO.setLocation(location);
             userStore.updateInfo(userPO);
@@ -139,7 +139,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Override
     public void captcha() throws IOException {
         // 封装响应信息
-        HttpServletResponse response = HttpServletUtil.getResponse();
+        HttpServletResponse response = HttpContextUtil.getResponse();
         response.setDateHeader("Expires", 0);
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
