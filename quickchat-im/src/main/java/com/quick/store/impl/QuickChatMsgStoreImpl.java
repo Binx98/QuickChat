@@ -33,7 +33,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
      * 查询双方聊天记录列表
      */
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0", unless = "#result.total == 0")
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0 + '-' + #p1 + '-' + #p2", unless = "#result.total == 0")
     public Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)

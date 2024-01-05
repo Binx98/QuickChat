@@ -2,12 +2,15 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author 徐志斌
@@ -37,8 +40,8 @@ public class ChatMsgController {
     public R chatMsgList(@PathVariable String accountId,
                          @PathVariable Integer current,
                          @PathVariable Integer size) {
-        msgService.getByRelationId(accountId, current, size);
-        return R.out(ResponseEnum.SUCCESS);
+        List<QuickChatMsg> chatMsg = msgService.getByRelationId(accountId, current, size);
+        return R.out(ResponseEnum.SUCCESS, chatMsg);
     }
 
     /**

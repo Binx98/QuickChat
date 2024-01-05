@@ -1,9 +1,6 @@
 package com.quick.adapter;
 
 import com.quick.pojo.po.QuickChatMsg;
-import com.quick.pojo.vo.ChatMsgVO;
-
-import java.util.List;
 
 /**
  * @Author 徐志斌
@@ -19,9 +16,5 @@ public class ChatMsgAdapter {
                 .content(content)
                 .msgType(type)
                 .build();
-    }
-
-    public static ChatMsgVO buildChatMsgVOList(List<QuickChatMsg> msgList) {
-        return null;
     }
 }

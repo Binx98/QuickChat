@@ -1,7 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
@@ -33,17 +31,13 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询聊天记录
      */
     @Override
-    public void getByRelationId(String accountId, Integer current, Integer size) {
-        // 根据双方 account_id 生成 relation_id
+    public List<QuickChatMsg> getByRelationId(String accountId, Integer current, Integer size) {
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         String relationId = RelationUtil.generate(loginAccountId, accountId);
-
-        // 分页查询聊天记录
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
         List<QuickChatMsg> msgRecords = msgPage.getRecords();
         Collections.reverse(msgRecords);
-
-        ChatMsgAdapter.buildChatMsgVOList(msgRecords);
+        return msgRecords;
     }
 
     /**
