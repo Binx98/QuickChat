@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserVO {
+public class ChatUserVO {
     /**
      * 账号
      */

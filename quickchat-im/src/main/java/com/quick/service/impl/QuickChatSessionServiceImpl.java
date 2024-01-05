@@ -46,15 +46,15 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询会话列表
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
-        List<String> sessionAccountIds = sessionList.stream()
-                .map(QuickChatSession::getFromId)
+        List<String> toAccountIds = sessionList.stream()
+                .map(QuickChatSession::getToId)
                 .collect(Collectors.toList());
 
         // 查询会话用户信息
-        List<QuickChatUser> userList = userStore.getListByAccountIds(sessionAccountIds);
+        List<QuickChatUser> userList = userStore.getListByAccountIds(toAccountIds);
 
         // 查询聊天信息
-        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(loginAccountId, sessionAccountIds);
+        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(loginAccountId, toAccountIds);
 
         // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);

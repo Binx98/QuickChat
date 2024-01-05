@@ -13,7 +13,7 @@ import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
-import com.quick.pojo.vo.UserVO;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
@@ -55,7 +55,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 根据 account_id 查询用户信息
      */
     @Override
-    public UserVO getByAccountId(String accountId) {
+    public ChatUserVO getByAccountId(String accountId) {
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);

@@ -1,9 +1,8 @@
 package com.quick.store;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatMsg;
-
-import java.util.List;
 
 /**
  * <p>
@@ -17,5 +16,5 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
 
     Boolean saveMsg(QuickChatMsg chatMsg);
 
-    List<QuickChatMsg> getMsgByRelationId(String relationId);
+    Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size);
 }

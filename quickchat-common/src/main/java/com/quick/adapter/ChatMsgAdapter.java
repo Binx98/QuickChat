@@ -1,6 +1,7 @@
 package com.quick.adapter;
 
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.vo.ChatMsgVO;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ChatMsgAdapter {
                 .build();
     }
 
-    public static void buildChatMsgVOList(List<QuickChatMsg> msgList) {
-
+    public static ChatMsgVO buildChatMsgVOList(List<QuickChatMsg> msgList) {
+        return null;
     }
 }

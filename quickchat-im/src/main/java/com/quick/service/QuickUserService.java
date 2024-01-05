@@ -6,7 +6,7 @@ import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
-import com.quick.pojo.vo.UserVO;
+import com.quick.pojo.vo.ChatUserVO;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 public interface QuickUserService extends IService<QuickChatUser> {
 
-    UserVO getByAccountId(String accountId) throws Exception;
+    ChatUserVO getByAccountId(String accountId) throws Exception;
 
     Boolean register(RegisterDTO registerDTO) throws Exception;
 

@@ -33,9 +33,11 @@ public class ChatMsgController {
     /**
      * 查询通讯双方聊天记录
      */
-    @GetMapping("/getByRelationId/{accountId}")
-    public R chatMsgList(@PathVariable String accountId) {
-        msgService.getByRelationId(accountId);
+    @GetMapping("/getByRelationId/{accountId}/{current}/{size}")
+    public R chatMsgList(@PathVariable String accountId,
+                         @PathVariable Integer current,
+                         @PathVariable Integer size) {
+        msgService.getByRelationId(accountId, current, size);
         return R.out(ResponseEnum.SUCCESS);
     }
 

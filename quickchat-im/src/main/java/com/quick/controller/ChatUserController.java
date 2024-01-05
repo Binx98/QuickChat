@@ -7,7 +7,7 @@ import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
-import com.quick.pojo.vo.UserVO;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class ChatUserController {
      */
     @GetMapping("/getByAccountId/{accountId}")
     public R getInfo(@PathVariable String accountId) throws Exception {
-        UserVO result = userService.getByAccountId(accountId);
+        ChatUserVO result = userService.getByAccountId(accountId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 

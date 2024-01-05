@@ -2,7 +2,7 @@ package com.quick.adapter;
 
 import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
-import com.quick.pojo.vo.UserVO;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.utils.AESUtil;
 
 /**
@@ -12,8 +12,8 @@ import com.quick.utils.AESUtil;
  * @Description: 用户适配器
  */
 public class UserAdapter {
-    public static UserVO buildUserVO(QuickChatUser userPO) {
-        return UserVO.builder()
+    public static ChatUserVO buildUserVO(QuickChatUser userPO) {
+        return ChatUserVO.builder()
                 .accountId(userPO.getAccountId())
                 .nickName(userPO.getNickName())
                 .gender(userPO.getGender())

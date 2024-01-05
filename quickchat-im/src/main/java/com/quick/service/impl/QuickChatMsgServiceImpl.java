@@ -1,5 +1,8 @@
 package com.quick.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
@@ -11,10 +14,7 @@ import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -33,27 +33,34 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询聊天记录
      */
     @Override
-    public void getByRelationId(String accountId) {
+    public void getByRelationId(String accountId, Integer current, Integer size) {
+        // 根据双方 account_id 生成 relation_id
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         String relationId = RelationUtil.generate(loginAccountId, accountId);
-        List<QuickChatMsg> msgList = msgStore.getMsgByRelationId(relationId);
-        ChatMsgAdapter.buildChatMsgVOList(msgList);
+
+        // 分页查询聊天记录
+        Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
+        List<QuickChatMsg> msgRecords = msgPage.getRecords();
+        Collections.reverse(msgRecords);
+
+        ChatMsgAdapter.buildChatMsgVOList(msgRecords);
     }
 
     /**
      * 查询双方聊天信息列表
      */
     @Override
-    public Map<String, List<QuickChatMsg>> getMapByAccountIds(String loginAccountId, List<String> sessionAccountIds) {
+    public Map<String, List<QuickChatMsg>> getMapByAccountIds(String loginAccountId, List<String> toAccountIds) {
         // 构建通信双方关联key，封装List
         Set<String> relationSet = new HashSet<>();
-        for (String sessionAccountId : sessionAccountIds) {
-            String relationId = RelationUtil.generate(loginAccountId, sessionAccountId);
+        for (String toAccountId : toAccountIds) {
+            String relationId = RelationUtil.generate(loginAccountId, toAccountId);
             relationSet.add(relationId);
         }
 
         // 批量查询聊天信息
-
+        for (String relationId : relationSet) {
+        }
 
         return null;
     }
