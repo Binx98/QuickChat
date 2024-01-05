@@ -9,19 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-03-24  17:46
- * @Description: HttpContextUtil 工具类
+ * @Description: HttpServlet 工具类
  * @Version: 1.0
  */
 public class HttpContextUtil {
     /**
-     * 获取 Request
+     * 获取 HttpServletRequest
      */
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
     }
 
     /**
-     * 获取 Response
+     * 获取 HttpServletResponse
      */
     public static HttpServletResponse getResponse() {
         return getRequestAttributes().getResponse();

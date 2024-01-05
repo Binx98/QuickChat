@@ -2,7 +2,6 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.service.QuickChatMsgService;
@@ -41,7 +40,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     /**
-     * 查询双方聊天信息列表
+     * 查询双方聊天信息列表（首次登陆）
      */
     @Override
     public Map<String, List<QuickChatMsg>> getMapByAccountIds(String loginAccountId, List<String> toAccountIds) {
@@ -53,9 +52,11 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         }
 
         // 批量查询聊天信息
+        Map<String, List<QuickChatMsg>> resultMap = new HashMap<>();
         for (String relationId : relationSet) {
+            List<QuickChatMsg> msgList = this.getByRelationId(relationId, 0, 20);
+            resultMap.put(relationId, msgList);
         }
-
-        return null;
+        return resultMap;
     }
 }
