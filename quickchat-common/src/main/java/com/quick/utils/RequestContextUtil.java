@@ -9,6 +9,7 @@ import java.util.Map;
  * @Version: 1.0
  */
 public class RequestContextUtil {
+    public static final String ACCOUNT_ID = "account_id";
     private static final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
 
     /**

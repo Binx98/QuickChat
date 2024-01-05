@@ -199,7 +199,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
 
         // 解析 token
         Map<String, Object> resultMap = JwtUtil.resolve(token);
-        String accountId = (String) resultMap.get("account_id");
+        String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
 
         // 查询用户信息
         QuickChatUser userPO = userStore.getByAccountId(accountId);

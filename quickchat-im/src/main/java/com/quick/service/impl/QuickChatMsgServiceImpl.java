@@ -33,8 +33,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询聊天记录
      */
     @Override
-    public void getChatMsg(String accountId) {
-        String loginAccountId = (String) RequestContextUtil.get().get("account_id");
+    public void getByRelationId(String accountId) {
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         String relationId = RelationUtil.generate(loginAccountId, accountId);
         List<QuickChatMsg> msgList = msgStore.getMsgByRelationId(relationId);
         ChatMsgAdapter.buildChatMsgVOList(msgList);

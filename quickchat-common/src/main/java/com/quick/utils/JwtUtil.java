@@ -30,7 +30,7 @@ public class JwtUtil {
                 .setSubject("QuickChat")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
-                .claim("account_id", accountId)
+                .claim(RequestContextUtil.ACCOUNT_ID, accountId)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
                 .compact();
         return JwtToken;
@@ -42,9 +42,9 @@ public class JwtUtil {
     public static Map<String, Object> resolve(String token) {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
-        String accountId = (String) claims.get("account_id");
+        String accountId = (String) claims.get(RequestContextUtil.ACCOUNT_ID);
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("account_id", accountId);
+        resultMap.put(RequestContextUtil.ACCOUNT_ID, accountId);
         return resultMap;
     }
 

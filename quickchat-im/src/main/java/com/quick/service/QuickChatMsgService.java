@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public interface QuickChatMsgService extends IService<QuickChatMsg> {
 
-    void getChatMsg(String accountId);
+    void getByRelationId(String relationId);
 
     Map<String, List<QuickChatMsg>> getMapByAccountIds(String loginAccountId, List<String> accountIdList);
 }

@@ -38,7 +38,7 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
      */
     @Override
     public Boolean addEmoji(String url) {
-        String accountId = (String) RequestContextUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatEmoji chatEmoji = ChatEmojiAdapter.buildEmojiPO(url, accountId);
         return emojiStore.saveEmoji(chatEmoji);
     }
@@ -48,7 +48,7 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
      */
     @Override
     public Boolean deleteEmoji(Long emojiId) {
-        String accountId = (String) RequestContextUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         return emojiStore.deleteByEmojiId(emojiId, accountId);
     }
 }

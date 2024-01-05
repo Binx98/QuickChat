@@ -14,7 +14,6 @@ import com.quick.store.QuickUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public List<ChatSessionVO> getSessionList() {
         // 获取登录账户id
-        String loginAccountId = (String) RequestContextUtil.get().get("account_id");
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
 
         // 查询会话列表
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);

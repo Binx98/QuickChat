@@ -29,7 +29,7 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
      */
     @Override
     public List<QuickChatFriend> getFriendList() {
-        String accountId = (String) RequestContextUtil.get().get("account_id");
+        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         return friendStore.getListByAccountId(accountId);
     }
 
