@@ -1,17 +1,15 @@
 package com.quick.pojo.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.quick.pojo.po.QuickChatMsg;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author 徐志斌
  * @Date: 2023/11/25 12:47
  * @Version 1.0
- * @Description:
+ * @Description: 聊天会话VO
  */
 @Data
 public class ChatSessionVO {
@@ -43,4 +41,8 @@ public class ChatSessionVO {
      * 邮箱
      */
     private String email;
+    /**
+     * 聊天记录
+     */
+    private List<QuickChatMsg> msgList;
 }

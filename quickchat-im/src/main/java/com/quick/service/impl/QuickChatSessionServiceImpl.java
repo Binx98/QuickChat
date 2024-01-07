@@ -57,7 +57,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(loginAccountId, toAccountIds);
 
         // 封装结果集
-        return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
+        return ChatSessionAdapter.buildSessionVOList(sessionList, userList, msgMap);
     }
 
     /**
