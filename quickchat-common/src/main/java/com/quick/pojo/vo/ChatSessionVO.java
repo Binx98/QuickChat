@@ -1,9 +1,6 @@
 package com.quick.pojo.vo;
 
-import com.quick.pojo.po.QuickChatMsg;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @Author 徐志斌
@@ -41,8 +38,4 @@ public class ChatSessionVO {
      * 邮箱
      */
     private String email;
-    /**
-     * 聊天记录
-     */
-    private List<QuickChatMsg> msgList;
 }

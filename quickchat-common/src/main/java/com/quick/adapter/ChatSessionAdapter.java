@@ -1,6 +1,5 @@
 package com.quick.adapter;
 
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
@@ -17,9 +16,7 @@ import java.util.Map;
  * @Description: 用户会话适配器
  */
 public class ChatSessionAdapter {
-    public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList,
-                                                         List<QuickChatUser> userList,
-                                                         Map<String, List<QuickChatMsg>> msgMap) {
+    public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList, List<QuickChatUser> userList) {
         // 使用 Map 数据结构降低O(N^2)时间复杂度
         Map<String, ChatSessionVO> map = new HashMap<>();
         List<ChatSessionVO> resultList = new ArrayList<>();
@@ -40,7 +37,6 @@ public class ChatSessionAdapter {
                 sessionVO.setGender(user.getGender());
                 sessionVO.setEmail(user.getEmail());
                 sessionVO.setLineStatus(user.getLineStatus());
-                sessionVO.setMsgList(msgMap.get(user.getAccountId()));
                 resultList.add(sessionVO);
             }
         }

@@ -3,7 +3,6 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.mapper.QuickChatSessionMapper;
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -53,11 +51,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         // 查询会话用户信息
         List<QuickChatUser> userList = userStore.getListByAccountIds(toAccountIds);
 
-        // 查询会话列表的聊天信息
-        Map<String, List<QuickChatMsg>> msgMap = msgService.getMapByAccountIds(loginAccountId, toAccountIds);
-
         // 封装结果集
-        return ChatSessionAdapter.buildSessionVOList(sessionList, userList, msgMap);
+        return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
     }
 
     /**

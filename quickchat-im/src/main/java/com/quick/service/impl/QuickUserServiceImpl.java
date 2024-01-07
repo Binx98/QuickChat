@@ -197,11 +197,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
 
-        // 解析 token
+        // 解析 token、查询用户信息
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
-
-        // 查询用户信息
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isNotEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);

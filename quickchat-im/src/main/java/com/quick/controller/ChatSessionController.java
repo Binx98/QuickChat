@@ -22,7 +22,7 @@ public class ChatSessionController {
     private QuickChatSessionService sessionService;
 
     /**
-     * 查询聊天会话列表
+     * 查询会话列表
      */
     @GetMapping("/list")
     public R getSessionList() {
