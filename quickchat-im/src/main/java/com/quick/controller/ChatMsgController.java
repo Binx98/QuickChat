@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -31,6 +32,17 @@ public class ChatMsgController {
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 查询会话列表聊天记录（访问聊天页面）
+     */
+    @GetMapping("/list/{current}/{size}")
+    public R list(List<String> accountIds,
+                  @PathVariable Integer current,
+                  @PathVariable Integer size) {
+        Map<String, List<QuickChatMsg>> resultMap = msgService.getMapByAccountIds(accountIds, current, size);
+        return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     /**

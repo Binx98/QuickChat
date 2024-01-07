@@ -39,10 +39,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
      */
     @Override
     public List<ChatSessionVO> getSessionList() {
-        // 获取登录账户id
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-
         // 查询会话列表
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
         List<String> toAccountIds = sessionList.stream()
                 .map(QuickChatSession::getToId)
@@ -50,8 +48,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询会话用户信息
         List<QuickChatUser> userList = userStore.getListByAccountIds(toAccountIds);
-
-        // 封装结果集
         return ChatSessionAdapter.buildSessionVOList(sessionList, userList);
     }
 
