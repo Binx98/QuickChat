@@ -201,7 +201,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
         QuickChatUser userPO = userStore.getByAccountId(accountId);
-        if (ObjectUtils.isNotEmpty(userPO)) {
+        if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
         return userPO;

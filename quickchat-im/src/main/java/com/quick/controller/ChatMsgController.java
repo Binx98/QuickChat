@@ -46,7 +46,7 @@ public class ChatMsgController {
     }
 
     /**
-     * 查询通讯双方聊天记录
+     * 查询双方聊天记录
      */
     @GetMapping("/getByRelationId/{accountId}/{current}/{size}")
     public R chatMsgList(@PathVariable String accountId,
@@ -61,14 +61,6 @@ public class ChatMsgController {
      */
     @PostMapping("/recall")
     public R recallMsg() {
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    /**
-     * 点赞、点踩消息
-     */
-    @PostMapping("/like")
-    public R likeMsg() {
         return R.out(ResponseEnum.SUCCESS);
     }
 }
