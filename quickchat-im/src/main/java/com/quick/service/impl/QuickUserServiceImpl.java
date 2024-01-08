@@ -2,6 +2,7 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.quick.adapter.ChatSessionAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
 import com.quick.enums.ResponseEnum;
@@ -12,9 +13,11 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickUserService;
+import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.strategy.email.EmailStrategyFactory;
@@ -23,6 +26,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import javax.mail.MessagingException;
@@ -49,6 +53,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Autowired
     private QuickUserStore userStore;
     @Autowired
+    private QuickChatSessionStore sessionStore;
+    @Autowired
     private RedisUtil redisUtil;
 
     /**
@@ -67,6 +73,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
      * 注册账号
      */
     @Override
+    @Transactional
     public Boolean register(RegisterDTO registerDTO) throws Exception {
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
@@ -85,10 +92,12 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
 
-        // 解析地址
-        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
+        // 保存全员群聊会话（QuickChat大群聊）
+        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO(registerDTO.getAccountId(), null);
+        sessionStore.saveInfo(chatSession);
 
-        // 保存账号信息
+        // 解析地址、保存账号信息
+        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
                 registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
