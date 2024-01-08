@@ -19,7 +19,7 @@ public class ChatFriendController {
     private QuickChatFriendService friendService;
 
     /**
-     * TODO 查询好友列表 Terry
+     * 查询好友列表
      */
     @GetMapping("/list")
     public R getFriendList() {
@@ -28,7 +28,7 @@ public class ChatFriendController {
     }
 
     /**
-     * TODO 添加好友 JIU
+     * 添加好友
      */
     @PostMapping("/add")
     public R addFriend() {
@@ -37,7 +37,7 @@ public class ChatFriendController {
     }
 
     /**
-     * TODO 处理好友申请状态（同意 or 拒绝） JIU
+     * 处理好友申请状态（同意 or 拒绝）
      */
     @PostMapping("/")
     public R handleApply() {
@@ -45,7 +45,7 @@ public class ChatFriendController {
     }
 
     /**
-     * TODO 删除好友 Terry
+     * 删除好友
      */
     @DeleteMapping("/delete")
     public R deleteFriend() {

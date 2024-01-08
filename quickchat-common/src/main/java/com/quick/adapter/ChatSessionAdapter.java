@@ -4,6 +4,7 @@ import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ChatSessionAdapter {
         return QuickChatSession.builder()
                 .fromId(fromId)
                 .toId(toId)
+                .lastReadTime(LocalDateTime.now())
                 .build();
     }
 }
