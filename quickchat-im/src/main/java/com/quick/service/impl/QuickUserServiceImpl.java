@@ -18,7 +18,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickChatSessionStore;
-import com.quick.store.QuickUserStore;
+import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.strategy.email.EmailStrategyFactory;
 import com.quick.utils.*;
@@ -51,7 +51,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Autowired
     private DefaultKaptcha defaultKaptcha;
     @Autowired
-    private QuickUserStore userStore;
+    private QuickChatUserStore userStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired

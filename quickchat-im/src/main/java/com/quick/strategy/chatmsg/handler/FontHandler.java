@@ -51,9 +51,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
         // 上锁：防止并发场景消息未读数量不准
         String lockKey = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());
         lockUtil.executeWithLock(lockKey, 15, TimeUnit.SECONDS,
-                () -> {
-                    return this.handleSession(chatMsg.getFromId(), chatMsg.getToId());
-                }
+                () -> this.handleSession(chatMsg.getFromId(), chatMsg.getToId())
         );
 
         // 推送Kafka：聊天信息同步ElasticSearch、通过Channel推送消息

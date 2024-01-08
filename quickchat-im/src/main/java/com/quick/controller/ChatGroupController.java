@@ -1,10 +1,16 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.response.R;
+import com.quick.service.QuickChatGroupMemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -15,12 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {
+    @Autowired
+    private QuickChatGroupMemberService memberService;
+
     /**
-     * 查询群成员
+     * 查询群成员列表
      */
-    @GetMapping("/member")
-    public R getMemberList() {
-        return R.out(ResponseEnum.SUCCESS);
+    @GetMapping("/member/{groupId}")
+    public R getMemberList(@PathVariable Long groupId) {
+        List<QuickChatUser> userList = memberService.getMemberByGroupId(groupId);
+        return R.out(ResponseEnum.SUCCESS, userList);
     }
 
     /**

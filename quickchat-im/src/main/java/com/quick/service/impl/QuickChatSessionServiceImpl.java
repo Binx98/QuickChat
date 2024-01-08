@@ -9,7 +9,7 @@ import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatSessionStore;
-import com.quick.store.QuickUserStore;
+import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionService {
     @Autowired
-    private QuickUserStore userStore;
+    private QuickChatUserStore userStore;
     @Autowired
     private QuickChatMsgService msgService;
     @Autowired

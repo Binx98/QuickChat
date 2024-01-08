@@ -2,6 +2,9 @@ package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.pojo.po.QuickChatUser;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.quick.pojo.po.QuickChatGroupMember;
  */
 public interface QuickChatGroupMemberService extends IService<QuickChatGroupMember> {
 
+    List<QuickChatUser> getMemberByGroupId(Long groupId);
 }

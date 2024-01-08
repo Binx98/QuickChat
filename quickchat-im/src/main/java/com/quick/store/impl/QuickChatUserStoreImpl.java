@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickUserMapper;
 import com.quick.pojo.po.QuickChatUser;
-import com.quick.store.QuickUserStore;
+import com.quick.store.QuickChatUserStore;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2023-11-13
  */
 @Service
-public class QuickUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickChatUser> implements QuickUserStore {
+public class QuickChatUserStoreImpl extends ServiceImpl<QuickUserMapper, QuickChatUser> implements QuickChatUserStore {
     /**
      * 根据 account_id 查询用户信息
      */

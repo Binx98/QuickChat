@@ -3,6 +3,8 @@ package com.quick.store;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatGroupMember;
 
+import java.util.List;
+
 /**
  * <p>
  * 群成员 服务类
@@ -13,4 +15,5 @@ import com.quick.pojo.po.QuickChatGroupMember;
  */
 public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember> {
 
+    List<QuickChatGroupMember> getMemberByGroupId(Long groupId);
 }

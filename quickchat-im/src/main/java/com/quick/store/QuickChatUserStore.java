@@ -13,7 +13,7 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface QuickUserStore extends IService<QuickChatUser> {
+public interface QuickChatUserStore extends IService<QuickChatUser> {
 
     QuickChatUser getByAccountId(String accountId);
 

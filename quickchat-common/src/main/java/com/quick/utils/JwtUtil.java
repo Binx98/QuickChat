@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class JwtUtil {
     public static final long EXPIRE = 86400000;
-    public static final String JWT_SECRET = "Quick_Chat_Xu_1998";
+    public static final String JWT_SECRET = "Quick_Chat_XZB1998";
 
     /**
      * 根据 uid 生成 Token

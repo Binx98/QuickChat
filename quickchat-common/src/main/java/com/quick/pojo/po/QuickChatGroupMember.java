@@ -42,7 +42,7 @@ public class QuickChatGroupMember implements Serializable {
      * 账户id
      */
     @TableField("account_id")
-    private Long accountId;
+    private String accountId;
 
     /**
      * 创建时间（入群时间）
