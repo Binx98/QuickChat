@@ -41,7 +41,7 @@ public class ChatMsgController {
     public R list(List<String> accountIds,
                   @PathVariable Integer current,
                   @PathVariable Integer size) {
-        Map<String, List<QuickChatMsg>> resultMap = msgService.getMapByAccountIds(accountIds, current, size);
+        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 

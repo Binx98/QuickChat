@@ -43,7 +43,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询双方聊天信息列表（首次登陆）
      */
     @Override
-    public Map<String, List<QuickChatMsg>> getMapByAccountIds(List<String> accountIds, Integer current, Integer size) {
+    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds, Integer current, Integer size) {
         // 构建通信双方关联key，封装List
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         Set<String> relationSet = new HashSet<>();

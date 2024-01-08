@@ -41,6 +41,9 @@ public class ChatSessionAdapter {
                 resultList.add(sessionVO);
             }
         }
+
+        // TODO 针对群聊
+
         return resultList;
     }
 

@@ -18,5 +18,5 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
 
     List<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size);
 
-    Map<String, List<QuickChatMsg>> getMapByAccountIds(List<String> accountIds, Integer current, Integer size);
+    Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds, Integer current, Integer size);
 }

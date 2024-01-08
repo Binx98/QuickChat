@@ -42,7 +42,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         // 查询会话列表
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
+
+        // TODO 按照用户、群聊分组
+
+
         List<String> toAccountIds = sessionList.stream()
+                .distinct()
                 .map(QuickChatSession::getToId)
                 .collect(Collectors.toList());
 
