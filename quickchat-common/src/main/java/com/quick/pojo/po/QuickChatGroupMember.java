@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,6 +22,7 @@ import lombok.EqualsAndHashCode;
  * @since 2024-01-08
  */
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 @TableName("quick_chat_group_member")
 public class QuickChatGroupMember implements Serializable {

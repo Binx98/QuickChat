@@ -3,6 +3,7 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.ChatSessionAdapter;
+import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
 import com.quick.enums.ResponseEnum;
@@ -13,10 +14,14 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.po.QuickChatGroup;
+import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickUserService;
+import com.quick.store.QuickChatGroupMemberStore;
+import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
@@ -25,6 +30,7 @@ import com.quick.utils.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,9 +59,16 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
+    private QuickChatGroupStore groupStore;
+    @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
+    private QuickChatGroupMemberStore memberStore;
+    @Autowired
     private RedisUtil redisUtil;
+
+    @Value("${quick_chat.common_group_id}")
+    private Long commonGroupId;
 
     /**
      * 根据 account_id 查询用户信息
@@ -92,9 +105,16 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
 
-        // 保存全员群聊会话（QuickChat大群聊）
-        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO(registerDTO.getAccountId(), null);
+        // 加入全员群聊、保存会话
+        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
+        memberStore.enterGroup(memberPO);
+        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO(registerDTO.getAccountId(), commonGroupId.toString());
         sessionStore.saveInfo(chatSession);
+
+        // 修改群聊信息（群成员数量）
+        QuickChatGroup chatGroup = groupStore.getByGroupId(commonGroupId);
+        chatGroup.setMemberCount(chatGroup.getMemberCount() + 1);
+        groupStore.updateInfo(chatGroup);
 
         // 解析地址、保存账号信息
         String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());

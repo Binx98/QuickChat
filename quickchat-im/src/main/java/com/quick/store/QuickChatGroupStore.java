@@ -13,4 +13,7 @@ import com.quick.pojo.po.QuickChatGroup;
  */
 public interface QuickChatGroupStore extends IService<QuickChatGroup> {
 
+    QuickChatGroup getByGroupId(Long groupId);
+
+    Boolean updateInfo(QuickChatGroup chatGroup);
 }

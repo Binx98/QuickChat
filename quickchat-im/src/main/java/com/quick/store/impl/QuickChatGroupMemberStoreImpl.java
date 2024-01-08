@@ -30,4 +30,12 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .list();
     }
+
+    /**
+     * 加入群聊
+     */
+    @Override
+    public Boolean enterGroup(QuickChatGroupMember memberPO) {
+        return this.save(memberPO);
+    }
 }

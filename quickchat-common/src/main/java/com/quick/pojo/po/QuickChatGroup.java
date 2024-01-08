@@ -1,15 +1,11 @@
 package com.quick.pojo.po;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -43,6 +39,12 @@ public class QuickChatGroup implements Serializable {
      */
     @TableField("group_name")
     private String groupName;
+
+    /**
+     * 群成员数量
+     */
+    @TableField("member_count")
+    private Integer memberCount;
 
     /**
      * 创建时间
