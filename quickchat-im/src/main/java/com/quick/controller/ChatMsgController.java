@@ -38,9 +38,7 @@ public class ChatMsgController {
      * 查询会话列表聊天记录（访问聊天页面）
      */
     @GetMapping("/list/{current}/{size}")
-    public R list(List<String> accountIds,
-                  @PathVariable Integer current,
-                  @PathVariable Integer size) {
+    public R list(List<String> accountIds, @PathVariable Integer current, @PathVariable Integer size) {
         Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
@@ -49,9 +47,7 @@ public class ChatMsgController {
      * 查询双方聊天记录
      */
     @GetMapping("/getByRelationId/{accountId}/{current}/{size}")
-    public R chatMsgList(@PathVariable String accountId,
-                         @PathVariable Integer current,
-                         @PathVariable Integer size) {
+    public R chatMsgList(@PathVariable String accountId, @PathVariable Integer current, @PathVariable Integer size) {
         List<QuickChatMsg> chatMsg = msgService.getByRelationId(accountId, current, size);
         return R.out(ResponseEnum.SUCCESS, chatMsg);
     }

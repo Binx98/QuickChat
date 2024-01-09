@@ -9,6 +9,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 群聊 服务实现类
@@ -35,5 +37,15 @@ public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, Q
     @CacheEvict(value = RedisConstant.QUICK_CHAT_GROUP, key = "#p0.groupId")
     public Boolean updateInfo(QuickChatGroup chatGroup) {
         return this.updateById(chatGroup);
+    }
+
+    /**
+     * 根据 group_id 列表查询群信息
+     */
+    @Override
+    public List<QuickChatGroup> getListByGroupIds(List<String> groupIds) {
+        return this.lambdaQuery()
+                .in(QuickChatGroup::getGroupId, groupIds)
+                .list();
     }
 }

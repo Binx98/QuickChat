@@ -1,14 +1,13 @@
 package com.quick.adapter;
 
+import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author 徐志斌
@@ -17,15 +16,18 @@ import java.util.Map;
  * @Description: 用户会话适配器
  */
 public class ChatSessionAdapter {
-    public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList, List<QuickChatUser> userList) {
+    public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList,
+                                                         List<QuickChatUser> userList,
+                                                         List<QuickChatGroup> groupList) {
         // 使用 Map 数据结构降低O(N^2)时间复杂度
         Map<String, ChatSessionVO> map = new HashMap<>();
         List<ChatSessionVO> resultList = new ArrayList<>();
 
-        // 遍历会话列表
+        // 遍历会话列表，封装到 Map(to_id, sessionVO)
         for (QuickChatSession chatSession : sessionList) {
             ChatSessionVO sessionVO = new ChatSessionVO();
             sessionVO.setAccountId(chatSession.getToId());
+            sessionVO.setUpdateTime(chatSession.getUpdateTime());
             map.put(chatSession.getToId(), sessionVO);
         }
 
@@ -42,8 +44,20 @@ public class ChatSessionAdapter {
             }
         }
 
-        // TODO 针对群聊
+        // 遍历群聊列表
+        for (QuickChatGroup group : groupList) {
+            if (map.containsKey(group.getGroupId())) {
+                ChatSessionVO sessionVO = map.get(group.getGroupId());
+                sessionVO.setAvatar(group.getGroupAvatar());
+                sessionVO.setNickName(group.getGroupName());
+                resultList.add(sessionVO);
+            }
+        }
 
+        // 根据修改时间倒排（用于展示）
+        resultList = resultList.stream()
+                .sorted(Comparator.comparing(ChatSessionVO::getUpdateTime).reversed())
+                .collect(Collectors.toList());
         return resultList;
     }
 

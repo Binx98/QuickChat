@@ -49,6 +49,12 @@ public class QuickChatSession implements Serializable {
     private LocalDateTime lastReadTime;
 
     /**
+     * 会话类型（1：单聊，2：群聊）
+     */
+    @TableField("type")
+    private Integer type;
+
+    /**
      * 创建时间
      */
     @TableField(value = "create_time", fill = FieldFill.INSERT)

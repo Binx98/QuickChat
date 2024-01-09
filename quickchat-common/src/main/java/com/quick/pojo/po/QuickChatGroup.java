@@ -41,6 +41,12 @@ public class QuickChatGroup implements Serializable {
     private String groupName;
 
     /**
+     * 群头像
+     */
+    @TableField("group_avatar")
+    private String groupAvatar;
+
+    /**
      * 群成员数量
      */
     @TableField("member_count")

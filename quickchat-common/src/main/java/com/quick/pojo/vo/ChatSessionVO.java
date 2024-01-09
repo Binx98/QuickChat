@@ -2,6 +2,8 @@ package com.quick.pojo.vo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author 徐志斌
  * @Date: 2023/11/25 12:47
@@ -31,11 +33,11 @@ public class ChatSessionVO {
      */
     private Integer gender;
     /**
-     * 手机号
-     */
-    private String phone;
-    /**
      * 邮箱
      */
     private String email;
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updateTime;
 }
