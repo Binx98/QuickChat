@@ -68,7 +68,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
     private RedisUtil redisUtil;
 
     @Value("${quick_chat.common_group_id}")
-    private Long commonGroupId;
+    private String commonGroupId;
 
     /**
      * 根据 account_id 查询用户信息

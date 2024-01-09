@@ -9,7 +9,7 @@ import com.quick.pojo.po.QuickChatGroupMember;
  * @Description: GroupMemberAdapter
  */
 public class GroupMemberAdapter {
-    public static QuickChatGroupMember buildMemberPO(Long groupId, String accountId) {
+    public static QuickChatGroupMember buildMemberPO(String groupId, String accountId) {
         return QuickChatGroupMember.builder()
                 .groupId(groupId)
                 .accountId(accountId)

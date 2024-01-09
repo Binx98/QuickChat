@@ -26,7 +26,7 @@ public class ChatSessionAdapter {
         // 遍历会话列表，封装到 Map(to_id, sessionVO)
         for (QuickChatSession chatSession : sessionList) {
             ChatSessionVO sessionVO = new ChatSessionVO();
-            sessionVO.setAccountId(chatSession.getToId());
+            sessionVO.setToId(chatSession.getToId());
             sessionVO.setUpdateTime(chatSession.getUpdateTime());
             map.put(chatSession.getToId(), sessionVO);
         }

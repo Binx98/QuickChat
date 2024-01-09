@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface QuickChatGroupStore extends IService<QuickChatGroup> {
 
-    QuickChatGroup getByGroupId(Long groupId);
+    QuickChatGroup getByGroupId(String groupId);
 
     Boolean updateInfo(QuickChatGroup chatGroup);
 

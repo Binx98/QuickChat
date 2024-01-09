@@ -26,7 +26,7 @@ public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, Q
      */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP, key = "#p0", unless = "#result == null")
-    public QuickChatGroup getByGroupId(Long groupId) {
+    public QuickChatGroup getByGroupId(String groupId) {
         return this.getById(groupId);
     }
 

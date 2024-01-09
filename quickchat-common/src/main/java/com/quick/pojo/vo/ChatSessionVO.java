@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Data
 public class ChatSessionVO {
     /**
-     * 账号id
+     * 目标账号id
      */
-    private String accountId;
+    private String toId;
     /**
      * 昵称
      */
