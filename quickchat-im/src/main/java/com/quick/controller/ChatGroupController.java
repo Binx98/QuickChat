@@ -4,11 +4,9 @@ import com.quick.enums.ResponseEnum;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupMemberService;
+import com.quick.store.QuickChatGroupStore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +29,15 @@ public class ChatGroupController {
     public R getMemberList(@PathVariable String groupId) {
         List<QuickChatUser> userList = memberService.getMemberByGroupId(groupId);
         return R.out(ResponseEnum.SUCCESS, userList);
+    }
+
+    /**
+     * 加入群聊
+     */
+    @PostMapping("/enter/{groupId}")
+    public R enterGroup(@PathVariable String groupId) {
+        memberService.enterGroup(groupId);
+        return R.out(ResponseEnum.SUCCESS);
     }
 
     /**

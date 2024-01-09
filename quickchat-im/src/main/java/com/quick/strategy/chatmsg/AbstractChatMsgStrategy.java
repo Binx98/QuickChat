@@ -1,16 +1,15 @@
 package com.quick.strategy.chatmsg;
 
-import com.quick.adapter.ChatMsgAdapter;
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 
@@ -50,6 +49,7 @@ public abstract class AbstractChatMsgStrategy {
     /**
      * 处理通信双方会话、未读数
      */
+    @Transactional
     protected boolean handleSession(String fromId, String toId) {
         // 发送方
         QuickChatSession fromSession = sessionStore.getOneByAccountId(fromId, toId);

@@ -1,12 +1,14 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.GroupMemberAdapter;
 import com.quick.mapper.QuickChatGroupMemberMapper;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.service.QuickChatGroupMemberService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatUserStore;
+import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,19 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     @Override
     public List<QuickChatUser> getMemberByGroupId(String groupId) {
         List<QuickChatGroupMember> memberList = memberStore.getByGroupId(groupId);
-        List<String> accountIds = memberList.stream().map(QuickChatGroupMember::getAccountId).collect(Collectors.toList());
+        List<String> accountIds = memberList.stream()
+                .map(QuickChatGroupMember::getAccountId)
+                .collect(Collectors.toList());
         return userStore.getListByAccountIds(accountIds);
+    }
+
+    /**
+     * 加入群聊
+     */
+    @Override
+    public Boolean enterGroup(String groupId) {
+        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(groupId, accountId);
+        return memberStore.enterGroup(memberPO);
     }
 }
