@@ -39,7 +39,7 @@ public class QuickChatGroupMember implements Serializable {
      * 群组id
      */
     @TableField("group_id")
-    private Long groupId;
+    private String groupId;
 
     /**
      * 账户id

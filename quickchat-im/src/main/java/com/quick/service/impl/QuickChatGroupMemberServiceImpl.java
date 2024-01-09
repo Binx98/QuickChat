@@ -32,8 +32,8 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
      * 查询群成员列表
      */
     @Override
-    public List<QuickChatUser> getMemberByGroupId(Long groupId) {
-        List<QuickChatGroupMember> memberList = memberStore.getMemberByGroupId(groupId);
+    public List<QuickChatUser> getMemberByGroupId(String groupId) {
+        List<QuickChatGroupMember> memberList = memberStore.getByGroupId(groupId);
         List<String> accountIds = memberList.stream().map(QuickChatGroupMember::getAccountId).collect(Collectors.toList());
         return userStore.getListByAccountIds(accountIds);
     }

@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface QuickChatGroupMemberService extends IService<QuickChatGroupMember> {
 
-    List<QuickChatUser> getMemberByGroupId(Long groupId);
+    List<QuickChatUser> getMemberByGroupId(String groupId);
 }

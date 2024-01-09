@@ -26,7 +26,7 @@ public class QuickChatGroup implements Serializable {
      * 群组id
      */
     @TableId(value = "group_id", type = IdType.ASSIGN_ID)
-    private Long groupId;
+    private String groupId;
 
     /**
      * 群主id

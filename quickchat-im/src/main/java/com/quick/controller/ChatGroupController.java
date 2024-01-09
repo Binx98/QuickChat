@@ -28,7 +28,7 @@ public class ChatGroupController {
      * 查询群成员列表
      */
     @GetMapping("/member/{groupId}")
-    public R getMemberList(@PathVariable Long groupId) {
+    public R getMemberList(@PathVariable String groupId) {
         List<QuickChatUser> userList = memberService.getMemberByGroupId(groupId);
         return R.out(ResponseEnum.SUCCESS, userList);
     }

@@ -25,7 +25,7 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
      */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP_MEMBER, key = "#p0", unless = "#result.isEmpty()")
-    public List<QuickChatGroupMember> getMemberByGroupId(Long groupId) {
+    public List<QuickChatGroupMember> getByGroupId(String groupId) {
         return this.lambdaQuery()
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .list();
