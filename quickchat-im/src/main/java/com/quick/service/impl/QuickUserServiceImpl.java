@@ -108,7 +108,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChat
         // 加入全员群聊、保存会话
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
         memberStore.enterGroup(memberPO);
-        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO(registerDTO.getAccountId(), commonGroupId.toString());
+        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO(registerDTO.getAccountId(), commonGroupId);
         sessionStore.saveInfo(chatSession);
 
         // 修改群聊信息（群成员数量）

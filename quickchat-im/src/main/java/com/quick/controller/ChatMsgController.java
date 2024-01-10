@@ -19,7 +19,8 @@ import java.util.Map;
  * @Version 1.0
  * @Description: 聊天相关
  */
-@RestController("/chat/msg")
+@RestController
+@RequestMapping("/chat/msg")
 public class ChatMsgController {
     @Autowired
     private QuickChatMsgService msgService;
@@ -37,9 +38,11 @@ public class ChatMsgController {
     /**
      * 查询会话列表聊天记录（访问聊天页面）
      */
-    @GetMapping("/list/{current}/{size}")
-    public R list(List<String> accountIds, @PathVariable Integer current, @PathVariable Integer size) {
-        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds, current, size);
+    @PostMapping("/list/{current}/{size}")
+    public R list(@RequestBody List<String> toIds,
+                  @PathVariable Integer current,
+                  @PathVariable Integer size) {
+        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(toIds, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 

@@ -35,10 +35,9 @@ public class ChatSessionAdapter {
         for (QuickChatUser user : userList) {
             if (map.containsKey(user.getAccountId())) {
                 ChatSessionVO sessionVO = map.get(user.getAccountId());
-                sessionVO.setNickName(user.getNickName());
+                sessionVO.setName(user.getNickName());
                 sessionVO.setAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
-                sessionVO.setEmail(user.getEmail());
                 sessionVO.setLineStatus(user.getLineStatus());
                 resultList.add(sessionVO);
             }
@@ -49,7 +48,7 @@ public class ChatSessionAdapter {
             if (map.containsKey(group.getGroupId())) {
                 ChatSessionVO sessionVO = map.get(group.getGroupId());
                 sessionVO.setAvatar(group.getGroupAvatar());
-                sessionVO.setNickName(group.getGroupName());
+                sessionVO.setName(group.getGroupName());
                 resultList.add(sessionVO);
             }
         }

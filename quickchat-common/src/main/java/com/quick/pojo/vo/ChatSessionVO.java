@@ -17,25 +17,21 @@ public class ChatSessionVO {
      */
     private String toId;
     /**
-     * 昵称
+     * 名称
      */
-    private String nickName;
+    private String name;
     /**
      * 头像
      */
     private String avatar;
     /**
-     * 在线状态
+     * 在线状态（针对用户）
      */
     private String lineStatus;
     /**
      * 性别
      */
     private Integer gender;
-    /**
-     * 邮箱
-     */
-    private String email;
     /**
      * 修改时间
      */
