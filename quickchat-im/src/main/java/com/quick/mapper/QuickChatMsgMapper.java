@@ -2,6 +2,9 @@ package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.quick.pojo.po.QuickChatMsg;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.quick.pojo.po.QuickChatMsg;
  * @since 2023-11-25
  */
 public interface QuickChatMsgMapper extends BaseMapper<QuickChatMsg> {
-
+    @Select("")
+    List<QuickChatMsg> getByRelationIdList(List<String> relationIds);
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -43,21 +44,21 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询双方聊天信息列表（首次登陆）
      */
     @Override
-    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> toIds, Integer current, Integer size) {
-        // 构建通信双方关联key，封装List
+    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) {
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-        Set<String> relationSet = new HashSet<>();
-        for (String toAccountId : toIds) {
+
+        // 遍历生成 relation_id（去重）
+        Set<String> relationIdSet = new HashSet<>();
+        for (String toAccountId : accountIds) {
             String relationId = RelationUtil.generate(loginAccountId, toAccountId);
-            relationSet.add(relationId);
+            relationIdSet.add(relationId);
         }
 
-        // 批量查询聊天信息
-        Map<String, List<QuickChatMsg>> resultMap = new HashMap<>();
-        for (String relationId : relationSet) {
-            List<QuickChatMsg> msgList = this.getByRelationId(relationId, current, size);
-            resultMap.put(relationId, msgList);
-        }
+        // 批量查询聊天记录 TODO 转成VO
+        List<String> relationIds = relationIdSet.stream().collect(Collectors.toList());
+        List<QuickChatMsg> msgList = msgStore.getByRelationIdList(relationIds);
+
+        Map<String, List<QuickChatMsg>> resultMap = msgList.stream().collect(Collectors.groupingBy(QuickChatMsg::getToId));
         return resultMap;
     }
 }

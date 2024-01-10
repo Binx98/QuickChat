@@ -6,9 +6,12 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,6 +23,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
+    @Autowired
+    private QuickChatMsgMapper msgMapper;
+
     /**
      * 保存聊天信息
      */
@@ -39,5 +45,32 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .eq(QuickChatMsg::getRelationId, relationId)
                 .orderByDesc(QuickChatMsg::getCreateTime)
                 .page(new Page<>(current, size));
+    }
+
+    /**
+     * 批量查询聊天信息（考虑 union all方式）
+     * (
+     *     SELECT
+     *         relation_id
+     *     FROM
+     *         quick_chat_msg
+     *     WHERE
+     *         relation_id = '1'
+     *     LIMIT 20
+     * )
+     * UNION
+     * (
+     *     SELECT
+     *         relation_id
+     *     FROM
+     *         quick_chat_msg
+     *     WHERE
+     *         relation_id = '2'
+     *     LIMIT 20
+     * );
+     */
+    @Override
+    public List<QuickChatMsg> getByRelationIdList(List<String> relationIds) {
+        return msgMapper.getByRelationIdList(relationIds);
     }
 }
