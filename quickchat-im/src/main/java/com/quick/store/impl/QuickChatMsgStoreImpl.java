@@ -48,26 +48,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     /**
-     * 批量查询聊天信息（考虑 union all方式）
-     * (
-     *     SELECT
-     *         relation_id
-     *     FROM
-     *         quick_chat_msg
-     *     WHERE
-     *         relation_id = '1'
-     *     LIMIT 20
-     * )
-     * UNION
-     * (
-     *     SELECT
-     *         relation_id
-     *     FROM
-     *         quick_chat_msg
-     *     WHERE
-     *         relation_id = '2'
-     *     LIMIT 20
-     * );
+     * 批量查询聊天信息
      */
     @Override
     public List<QuickChatMsg> getByRelationIdList(List<String> relationIds) {

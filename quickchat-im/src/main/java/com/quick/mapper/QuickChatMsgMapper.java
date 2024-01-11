@@ -15,6 +15,5 @@ import java.util.List;
  * @since 2023-11-25
  */
 public interface QuickChatMsgMapper extends BaseMapper<QuickChatMsg> {
-    @Select("")
     List<QuickChatMsg> getByRelationIdList(List<String> relationIds);
 }
