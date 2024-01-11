@@ -54,17 +54,14 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             relationIdSet.add(relationId);
         }
 
-        // 平均10个一组
+        // 平均5个一组
         List<String> relationIds = relationIdSet.stream().collect(Collectors.toList());
-        List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 10);
+        List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 5);
 
         // 循环查询
         for (List<String> idList : relationIdList) {
             List<QuickChatMsg> msgList = msgStore.getByRelationIdList(idList);
-
         }
-
-//        Map<String, List<QuickChatMsg>> resultMap = msgList.stream().collect(Collectors.groupingBy(QuickChatMsg::getToId));
         return null;
     }
 

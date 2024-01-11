@@ -11,5 +11,5 @@ import com.quick.pojo.po.QuickChatUser;
  * @author 徐志斌
  * @since 2023-11-13
  */
-public interface QuickUserMapper extends BaseMapper<QuickChatUser> {
+public interface QuickChatUserMapper extends BaseMapper<QuickChatUser> {
 }

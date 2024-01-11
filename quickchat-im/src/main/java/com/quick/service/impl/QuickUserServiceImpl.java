@@ -9,7 +9,7 @@ import com.quick.constant.RedisConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.mapper.QuickUserMapper;
+import com.quick.mapper.QuickChatUserMapper;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2023-11-13
  */
 @Service
-public class QuickUserServiceImpl extends ServiceImpl<QuickUserMapper, QuickChatUser> implements QuickUserService {
+public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickUserService {
     @Autowired
     private DefaultKaptcha defaultKaptcha;
     @Autowired

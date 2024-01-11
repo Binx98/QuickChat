@@ -40,7 +40,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     private QuickChatSessionStore sessionStore;
 
     /**
-     * 查询会话列表
+     * 查询会话列表（TODO 考虑限制最大会话数：很久没发送消息的会话自动干掉）
      */
     @Override
     public List<ChatSessionVO> getSessionList() {
