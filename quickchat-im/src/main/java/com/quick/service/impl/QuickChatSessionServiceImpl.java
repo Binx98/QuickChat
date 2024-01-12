@@ -45,7 +45,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     private ThreadPoolTaskExecutor poolExecutor;
 
     /**
-     * 查询会话列表：尽可能限制30个以内（TODO 考虑限制最大会话数：很久没发送消息的会话自动干掉： last_read_time 晚于 update_time）
+     * 查询会话列表：限制50个会话以内
      */
     @Override
     public List<ChatSessionVO> getSessionList() throws ExecutionException, InterruptedException {
@@ -56,11 +56,23 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             return new ArrayList<>();
         }
 
-        Map<Integer, List<QuickChatSession>> sessionMap = sessionList.stream().distinct()
+        // 超过50个会话：超出部分已经已读，那就干掉
+        if (sessionList.size() > 50) {
+            List<QuickChatSession> over50List = sessionList.subList(49, sessionList.size());
+            over50List = over50List.stream()
+                    .filter(item -> item.getLastReadTime().isAfter(item.getUpdateTime()))
+                    .collect(Collectors.toList());
+            sessionList.removeAll(over50List);
+        }
+
+        // 按照单聊、群聊分组
+        Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
+                .distinct()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
+
         // 单聊
         CompletableFuture<List<QuickChatUser>> userFuture = null;
-        List<QuickChatSession> singleList = sessionMap.get(ChatTypeEnum.SINGLE.getType());
+        List<QuickChatSession> singleList = sessionListMap.get(ChatTypeEnum.SINGLE.getType());
         if (CollectionUtils.isNotEmpty(singleList)) {
             userFuture = CompletableFuture.supplyAsync(() -> {
                 List<String> accountIds = singleList.stream()
@@ -72,7 +84,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 群聊
         CompletableFuture<List<QuickChatGroup>> groupFuture = null;
-        List<QuickChatSession> groupList = sessionMap.get(ChatTypeEnum.GROUP.getType());
+        List<QuickChatSession> groupList = sessionListMap.get(ChatTypeEnum.GROUP.getType());
         if (CollectionUtils.isNotEmpty(groupList)) {
             groupFuture = CompletableFuture.supplyAsync(() -> {
                 List<String> groupIds = groupList.stream()

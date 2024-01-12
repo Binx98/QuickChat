@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Author 徐志斌
@@ -25,7 +26,7 @@ public class ChatSessionController {
      * 查询会话列表
      */
     @GetMapping("/list")
-    public R getSessionList() {
+    public R getSessionList() throws ExecutionException, InterruptedException {
         List<ChatSessionVO> result = sessionService.getSessionList();
         return R.out(ResponseEnum.SUCCESS, result);
     }
