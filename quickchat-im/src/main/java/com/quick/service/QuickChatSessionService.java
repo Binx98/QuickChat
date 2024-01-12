@@ -5,7 +5,6 @@ import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatSessionVO;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * <p>
@@ -17,7 +16,7 @@ import java.util.concurrent.ExecutionException;
  */
 public interface QuickChatSessionService extends IService<QuickChatSession> {
 
-    List<ChatSessionVO> getSessionList() throws ExecutionException, InterruptedException;
+    List<ChatSessionVO> getSessionList();
 
     Boolean deleteSession(Long sessionId);
 }

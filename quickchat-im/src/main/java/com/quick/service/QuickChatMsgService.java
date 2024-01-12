@@ -5,6 +5,7 @@ import com.quick.pojo.po.QuickChatMsg;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * <p>
@@ -18,5 +19,5 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
 
     List<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size);
 
-    Map<String, List<QuickChatMsg>> getByAccountIds(List<String> toIds);
+    Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException;
 }

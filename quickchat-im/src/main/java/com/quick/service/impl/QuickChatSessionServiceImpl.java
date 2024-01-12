@@ -15,14 +15,11 @@ import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -41,14 +38,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     private QuickChatGroupStore groupStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
-    @Autowired
-    private ThreadPoolTaskExecutor poolExecutor;
 
     /**
      * 查询会话列表：限制50个会话以内
      */
     @Override
-    public List<ChatSessionVO> getSessionList() throws ExecutionException, InterruptedException {
+    public List<ChatSessionVO> getSessionList() {
         // 查询会话列表
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
@@ -71,32 +66,26 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
 
         // 单聊
-        CompletableFuture<List<QuickChatUser>> userFuture = null;
+        List<QuickChatUser> users = new ArrayList<>();
         List<QuickChatSession> singleList = sessionListMap.get(ChatTypeEnum.SINGLE.getType());
         if (CollectionUtils.isNotEmpty(singleList)) {
-            userFuture = CompletableFuture.supplyAsync(() -> {
-                List<String> accountIds = singleList.stream()
-                        .map(QuickChatSession::getToId)
-                        .collect(Collectors.toList());
-                return userStore.getListByAccountIds(accountIds);
-            }, poolExecutor);
+            List<String> accountIds = singleList.stream()
+                    .map(QuickChatSession::getToId)
+                    .collect(Collectors.toList());
+            users = userStore.getListByAccountIds(accountIds);
         }
 
         // 群聊
-        CompletableFuture<List<QuickChatGroup>> groupFuture = null;
+        List<QuickChatGroup> groups = new ArrayList<>();
         List<QuickChatSession> groupList = sessionListMap.get(ChatTypeEnum.GROUP.getType());
         if (CollectionUtils.isNotEmpty(groupList)) {
-            groupFuture = CompletableFuture.supplyAsync(() -> {
-                List<String> groupIds = groupList.stream()
-                        .map(QuickChatSession::getToId)
-                        .collect(Collectors.toList());
-                return groupStore.getListByGroupIds(groupIds);
-            }, poolExecutor);
+            List<String> groupIds = groupList.stream()
+                    .map(QuickChatSession::getToId)
+                    .collect(Collectors.toList());
+            groups = groupStore.getListByGroupIds(groupIds);
         }
 
-        // 等待线程执行完毕，封装结果
-        CompletableFuture.allOf(userFuture, groupFuture);
-        return ChatSessionAdapter.buildSessionVOList(sessionList, userFuture.get(), groupFuture.get());
+        return ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
     }
 
     /**

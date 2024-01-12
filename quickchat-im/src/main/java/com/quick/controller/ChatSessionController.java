@@ -26,7 +26,7 @@ public class ChatSessionController {
      * 查询会话列表
      */
     @GetMapping("/list")
-    public R getSessionList() throws ExecutionException, InterruptedException {
+    public R getSessionList() {
         List<ChatSessionVO> result = sessionService.getSessionList();
         return R.out(ResponseEnum.SUCCESS, result);
     }

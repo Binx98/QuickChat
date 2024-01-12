@@ -39,8 +39,8 @@ public class ChatMsgController {
      * 查询会话列表聊天记录（访问聊天页面）
      */
     @PostMapping("/list")
-    public R list(@RequestBody List<String> toIds) {
-        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(toIds);
+    public R list(@RequestBody List<String> accountIds) {
+        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 

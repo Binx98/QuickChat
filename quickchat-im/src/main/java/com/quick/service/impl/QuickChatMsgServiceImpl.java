@@ -10,9 +10,12 @@ import com.quick.utils.ListUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +30,8 @@ import java.util.stream.Collectors;
 public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgService {
     @Autowired
     private QuickChatMsgStore msgStore;
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
 
     /**
      * 查询聊天记录
@@ -45,8 +50,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询双方聊天信息列表（首次登陆）
      */
     @Override
-    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) {
-        // 遍历生成 relation_id（去重）
+    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
+        // 遍历生成 relation_id
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         Set<String> relationIdSet = new HashSet<>();
         for (String toAccountId : accountIds) {
@@ -54,14 +59,28 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             relationIdSet.add(relationId);
         }
 
-        // 平均5个一组
+        // 分组：10个/组
         List<String> relationIds = relationIdSet.stream().collect(Collectors.toList());
-        List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 5);
+        List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 10);
 
-        // 循环查询
+        // 多线程异步查询聊天信息
+        List<CompletableFuture<List<QuickChatMsg>>> futureList = new ArrayList<>();
         for (List<String> idList : relationIdList) {
-            List<QuickChatMsg> msgList = msgStore.getByRelationIdList(idList);
+            CompletableFuture<List<QuickChatMsg>> future = CompletableFuture.supplyAsync(
+                    () -> msgStore.getByRelationIdList(idList), taskExecutor
+            );
+            futureList.add(future);
         }
+
+        // 同步等待线程任务完毕，拿到聊天记录结果
+        List<QuickChatMsg> msgResultList = new ArrayList<>();
+        for (CompletableFuture<List<QuickChatMsg>> future : futureList) {
+            List<QuickChatMsg> msgList = future.get();
+            msgResultList.addAll(msgList);
+        }
+
+        // TODO 按照 relation_id 分组
+        // TODO 封装VO
         return null;
     }
 
