@@ -1,3 +1,5 @@
+quick_chat:
+  common_group_id: 1
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -46,10 +48,6 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
-
-quick_chat:
-  common_group_id: 1
-
 minio:
   endpoint: http://localhost:9000
   accessKey: minioadmin

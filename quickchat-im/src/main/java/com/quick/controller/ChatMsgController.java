@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @Author 徐志斌
@@ -39,7 +40,7 @@ public class ChatMsgController {
      * 查询会话列表聊天记录（访问聊天页面）
      */
     @PostMapping("/list")
-    public R list(@RequestBody List<String> accountIds) {
+    public R list(@RequestBody List<String> accountIds) throws ExecutionException, InterruptedException {
         Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }

@@ -52,6 +52,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         }
 
         // 超过50个会话：超出部分已经已读，那就干掉
+        sessionList = sessionList.stream().distinct().collect(Collectors.toList());
         if (sessionList.size() > 50) {
             List<QuickChatSession> over50List = sessionList.subList(49, sessionList.size());
             over50List = over50List.stream()
@@ -62,7 +63,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 按照单聊、群聊分组
         Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
-                .distinct()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
 
         // 单聊

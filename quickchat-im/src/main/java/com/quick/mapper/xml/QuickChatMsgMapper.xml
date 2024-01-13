@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quick.mapper.QuickChatMsgMapper">
-
+    <!--查询会话列表聊天记录信息-->
+    <select id="getByRelationIdList">
+        <foreach collection="relationIds" item="item" separator="union all">
+            SELECT
+                *
+            FROM
+                quick_chat_msg
+            WHERE
+                relation_id = #{item.accountId}
+            ORDER BY
+                create_time DESC
+            LIMIT 30
+        </foreach>
+    </select>
 </mapper>

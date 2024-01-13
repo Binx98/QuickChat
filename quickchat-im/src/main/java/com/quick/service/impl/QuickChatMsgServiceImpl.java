@@ -53,14 +53,13 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
         // 遍历生成 relation_id
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-        Set<String> relationIdSet = new HashSet<>();
+        List<String> relationIds = new ArrayList<>();
         for (String toAccountId : accountIds) {
             String relationId = RelationUtil.generate(loginAccountId, toAccountId);
-            relationIdSet.add(relationId);
+            relationIds.add(relationId);
         }
 
         // 分组：10个/组
-        List<String> relationIds = relationIdSet.stream().collect(Collectors.toList());
         List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 10);
 
         // 多线程异步查询聊天信息
@@ -79,33 +78,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             msgResultList.addAll(msgList);
         }
 
-        // TODO 按照 relation_id 分组
         // TODO 封装VO
+        // TODO 按照 relation_id 分组
         return null;
-    }
-
-    /**
-     * 将一组List数据平均分成n组
-     *
-     * @param source 要分组的数据源
-     * @param n      平均分成n组
-     */
-    private <T> List<List<T>> averageAssign(List<T> source, int n) {
-        List<List<T>> result = new ArrayList<>();
-        int remainder = source.size() % n;
-        int number = source.size() / n;
-        int offset = 0;//偏移量
-        for (int i = 0; i < n; i++) {
-            List<T> value = null;
-            if (remainder > 0) {
-                value = source.subList(i * number + offset, (i + 1) * number + offset + 1);
-                remainder--;
-                offset++;
-            } else {
-                value = source.subList(i * number + offset, (i + 1) * number + offset);
-            }
-            result.add(value);
-        }
-        return result;
     }
 }
