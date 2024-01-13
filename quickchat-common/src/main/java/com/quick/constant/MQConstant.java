@@ -11,7 +11,8 @@ public class MQConstant {
      * 主题
      */
     public static final String SEND_CHAT_MSG = "CHAT_SEND_TOPIC";
-    public static final String SYNC_CHAT_MSG_ES = "CHAT_SEND_TOPIC";
+    public static final String SEND_CHAT_GROUP_MSG = "SEND_CHAT_GROUP_MSG";
+    public static final String SYNC_CHAT_MSG_ES = "SYNC_CHAT_MSG_ES";
 
     /**
      * 消费组

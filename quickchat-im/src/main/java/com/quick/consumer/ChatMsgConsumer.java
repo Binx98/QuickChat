@@ -2,7 +2,6 @@ package com.quick.consumer;
 
 import cn.hutool.json.JSONUtil;
 import com.quick.constant.MQConstant;
-import com.quick.enums.ChatTypeEnum;
 import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
@@ -28,32 +27,28 @@ public class ChatMsgConsumer {
     private QuickChatGroupMemberStore memberStore;
 
     /**
-     * 通过Channel推送消息
-     * 接收方建立了WebSocket连接，推送消息通知客户端
+     * 单聊 Channel 推送
      */
     @KafkaListener(topics = MQConstant.SEND_CHAT_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
-    public void sendChatMsg(String message) throws Throwable {
-        // 解析 MQ 消息体
+    public void sendChatMsg(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
-        Integer goalType = chatMsg.getGoalType();
-        String toId = chatMsg.getToId();
+        Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getToId());
+        if (ObjectUtils.isNotEmpty(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
+        }
+    }
 
-        // 1.单聊
-        if (ChatTypeEnum.SINGLE.getType().equals(goalType)) {
-            Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
+    /**
+     * 群聊 Channel 推送
+     */
+    @KafkaListener(topics = MQConstant.SEND_CHAT_GROUP_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    public void sendChatMsgToGroup(String message) {
+        QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
+        List<QuickChatGroupMember> memberList = memberStore.getByGroupId(chatMsg.getToId());
+        for (QuickChatGroupMember member : memberList) {
+            Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
             if (ObjectUtils.isNotEmpty(channel)) {
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
-            }
-        }
-
-        // 2.群聊
-        if (ChatTypeEnum.GROUP.getType().equals(goalType)) {
-            List<QuickChatGroupMember> memberList = memberStore.getByGroupId(toId);
-            for (QuickChatGroupMember member : memberList) {
-                Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
-                if (ObjectUtils.isNotEmpty(channel)) {
-                    channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
-                }
             }
         }
     }

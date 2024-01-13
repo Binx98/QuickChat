@@ -63,12 +63,6 @@ public class QuickChatMsg implements Serializable {
     private Integer msgType;
 
     /**
-     * 发送目标类型（1：单聊，2：群聊）
-     */
-    @TableField("goal_type")
-    private Integer goalType;
-
-    /**
      * 创建时间
      */
     @TableField(value = "create_time", fill = FieldFill.INSERT)

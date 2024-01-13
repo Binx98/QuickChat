@@ -49,8 +49,8 @@ public class FontHandler extends AbstractChatMsgStrategy {
         msgStore.saveMsg(chatMsg);
 
         // 上锁：防止并发场景会话重复创建问题
-        String lockKey = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());
-        lockUtil.executeWithLock(lockKey, 15, TimeUnit.SECONDS,
+        String relationId = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());
+        lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(chatMsg.getFromId(), chatMsg.getToId())
         );
 
