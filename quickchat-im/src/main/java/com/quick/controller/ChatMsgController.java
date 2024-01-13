@@ -3,6 +3,7 @@ package com.quick.controller;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
@@ -41,8 +42,8 @@ public class ChatMsgController {
      */
     @PostMapping("/list")
     public R list(@RequestBody List<String> accountIds) throws ExecutionException, InterruptedException {
-        Map<String, List<QuickChatMsg>> resultMap = msgService.getByAccountIds(accountIds);
-        return R.out(ResponseEnum.SUCCESS, resultMap);
+        Map<String, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
+        return R.out(ResponseEnum.SUCCESS, result);
     }
 
     /**

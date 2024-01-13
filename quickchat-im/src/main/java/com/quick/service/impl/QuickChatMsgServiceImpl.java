@@ -2,8 +2,10 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.utils.ListUtil;
@@ -53,7 +55,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询双方聊天信息列表（首次登陆）
      */
     @Override
-    public Map<String, List<QuickChatMsg>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
+    public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
         // 遍历生成 relation_id
         String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         List<String> relationIds = new ArrayList<>();
@@ -62,10 +64,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             relationIds.add(relationId);
         }
 
-        // 分组：10个/组
+        // 分组：10个/组，多线程异步查询聊天信息
         List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 10);
-
-        // 多线程异步查询聊天信息
         List<CompletableFuture<List<QuickChatMsg>>> futureList = new ArrayList<>();
         for (List<String> idList : relationIdList) {
             CompletableFuture<List<QuickChatMsg>> future = CompletableFuture.supplyAsync(
@@ -81,7 +81,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             msgResultList.addAll(msgList);
         }
 
-        // 按照 relation_id 分组
-        return msgResultList.stream().collect(Collectors.groupingBy(QuickChatMsg::getRelationId));
+        // 转换成VO、按照 relation_id 分组
+        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgResultList);
+        return chatMsgVOList.stream().collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
     }
 }

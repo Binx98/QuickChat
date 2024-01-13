@@ -5,6 +5,8 @@
     <select id="getByRelationIdList" resultType="com.quick.pojo.po.QuickChatMsg">
         <foreach collection="list" item="relationId" separator="union all">
             (SELECT
+                from_id,
+                to_id,
                 relation_id,
                 content,
                 msg_type,

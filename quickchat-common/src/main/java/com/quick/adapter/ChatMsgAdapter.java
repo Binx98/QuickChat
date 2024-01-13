@@ -1,6 +1,10 @@
 package com.quick.adapter;
 
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.vo.ChatMsgVO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author 徐志斌
@@ -16,5 +20,20 @@ public class ChatMsgAdapter {
                 .content(content)
                 .msgType(type)
                 .build();
+    }
+
+    public static List<ChatMsgVO> buildChatMsgVOList(List<QuickChatMsg> msgList) {
+        List<ChatMsgVO> resultList = new ArrayList<>();
+        for (QuickChatMsg chatMsg : msgList) {
+            ChatMsgVO msgVO = ChatMsgVO.builder()
+                    .accountId(chatMsg.getFromId())
+                    .content(chatMsg.getContent())
+                    .relationId(chatMsg.getRelationId())
+                    .msgType(chatMsg.getMsgType())
+                    .createTime(chatMsg.getCreateTime())
+                    .build();
+            resultList.add(msgVO);
+        }
+        return resultList;
     }
 }
