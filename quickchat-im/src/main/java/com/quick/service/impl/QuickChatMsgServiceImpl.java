@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -78,8 +81,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             msgResultList.addAll(msgList);
         }
 
-        // TODO 封装VO
-        // TODO 按照 relation_id 分组
-        return null;
+        // 按照 relation_id 分组
+        return msgResultList.stream().collect(Collectors.groupingBy(QuickChatMsg::getRelationId));
     }
 }

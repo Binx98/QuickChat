@@ -2,17 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quick.mapper.QuickChatMsgMapper">
     <!--查询会话列表聊天记录信息-->
-    <select id="getByRelationIdList">
-        <foreach collection="relationIds" item="item" separator="union all">
-            SELECT
-                *
+    <select id="getByRelationIdList" resultType="com.quick.pojo.po.QuickChatMsg">
+        <foreach collection="list" item="relationId" separator="union all">
+            (SELECT
+                relation_id,
+                content,
+                msg_type,
+                create_time
             FROM
                 quick_chat_msg
             WHERE
-                relation_id = #{item.accountId}
+                relation_id = #{relationId}
             ORDER BY
                 create_time DESC
-            LIMIT 30
+                LIMIT 30)
         </foreach>
     </select>
 </mapper>
