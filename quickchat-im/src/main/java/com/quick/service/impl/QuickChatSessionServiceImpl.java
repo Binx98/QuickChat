@@ -61,6 +61,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             sessionList.removeAll(over50List);
         }
 
+        // TODO 未读数数量处理
+
         // 按照单聊、群聊分组
         Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
