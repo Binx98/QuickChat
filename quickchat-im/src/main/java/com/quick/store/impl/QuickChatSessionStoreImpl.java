@@ -47,7 +47,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
      */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")
-    public QuickChatSession getOneByAccountId(String fromId, String toId) {
+    public QuickChatSession getByAccountId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, fromId)
                 .eq(QuickChatSession::getToId, toId)

@@ -2,6 +2,7 @@ package com.quick.strategy.chatmsg;
 
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.enums.ChatMsgEnum;
+import com.quick.enums.ChatTypeEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
@@ -47,24 +48,26 @@ public abstract class AbstractChatMsgStrategy {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * 处理通信双方会话、未读数
+     * 处理通信双方会话
      */
     @Transactional
-    protected boolean handleSession(String fromId, String toId) {
+    protected Integer handleSession(String fromId, String toId) {
         // 发送方
-        QuickChatSession fromSession = sessionStore.getOneByAccountId(fromId, toId);
+        QuickChatSession fromSession = sessionStore.getByAccountId(fromId, toId);
         if (ObjectUtils.isEmpty(fromSession)) {
             fromSession = ChatSessionAdapter.buildSessionPO(fromId, toId);
             sessionStore.saveInfo(fromSession);
         }
 
-        // 接收方
-        QuickChatSession toSession = sessionStore.getOneByAccountId(toId, fromId);
-        if (ObjectUtils.isEmpty(toSession)) {
-            toSession = ChatSessionAdapter.buildSessionPO(toId, fromId);
-            sessionStore.saveInfo(toSession);
+        // 接收方：群聊无需处理
+        if (ChatTypeEnum.SINGLE.getType().equals(fromSession.getType())) {
+            QuickChatSession toSession = sessionStore.getByAccountId(toId, fromId);
+            if (ObjectUtils.isEmpty(toSession)) {
+                toSession = ChatSessionAdapter.buildSessionPO(toId, fromId);
+                sessionStore.saveInfo(toSession);
+            }
         }
 
-        return true;
+        return fromSession.getType();
     }
 }

@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
+import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
@@ -50,12 +51,18 @@ public class FontHandler extends AbstractChatMsgStrategy {
 
         // 上锁：防止并发场景会话重复创建问题
         String relationId = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());
-        lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
+        Integer chatType = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(chatMsg.getFromId(), chatMsg.getToId())
         );
 
-        // 推送Kafka：聊天信息同步ElasticSearch、通过Channel推送消息
+        // 通过Channel推送消息
+        if (ChatTypeEnum.SINGLE.getType().equals(chatType)) {
+            kafkaProducer.send(MQConstant.SEND_CHAT_MSG, JSONUtil.toJsonStr(chatMsg));
+        } else {
+            kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
+        }
+
+        // 聊天信息同步ElasticSearch
         kafkaProducer.send(MQConstant.SYNC_CHAT_MSG_ES, JSONUtil.toJsonStr(chatMsg));
-        kafkaProducer.send(MQConstant.SEND_CHAT_MSG, JSONUtil.toJsonStr(chatMsg));
     }
 }
