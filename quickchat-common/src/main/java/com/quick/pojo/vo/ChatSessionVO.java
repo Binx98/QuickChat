@@ -43,7 +43,7 @@ public class ChatSessionVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastReadTime;
     /**
-     * 修改时间
+     * 修改时间（发送消息）
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;

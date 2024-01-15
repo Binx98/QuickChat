@@ -91,8 +91,7 @@ public abstract class AbstractChatMsgStrategy {
                     .filter(item -> !memberAccountIds.contains(item))
                     .collect(Collectors.toList());
             for (String accountId : memberIds) {
-                QuickChatSession sessionPO = ChatSessionAdapter.buildSessionPO(accountId, groupId);
-                sessionPOList.add(sessionPO);
+                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, groupId));
             }
 
             // 批量保存会话

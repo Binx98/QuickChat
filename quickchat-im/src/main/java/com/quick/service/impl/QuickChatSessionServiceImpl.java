@@ -51,25 +51,22 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             return new ArrayList<>();
         }
 
-        // 超过50个会话：超出部分已经已读，那就干掉
+        // 超过50个会话：超出部分已读直接干掉
         sessionList = sessionList.stream().distinct().collect(Collectors.toList());
         if (sessionList.size() > 50) {
-            List<QuickChatSession> over50List = sessionList.subList(49, sessionList.size());
-            over50List = over50List.stream()
+            List<QuickChatSession> subSessionList = sessionList.subList(49, sessionList.size());
+            List<QuickChatSession> over50List = subSessionList.stream()
                     .filter(item -> item.getLastReadTime().isAfter(item.getUpdateTime()))
                     .collect(Collectors.toList());
             sessionList.removeAll(over50List);
         }
 
-        // 按照单聊、群聊分组
+        // 单聊：会话列表
         Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
-
-        // 单聊：会话列表
         List<QuickChatUser> users = new ArrayList<>();
         List<QuickChatSession> singleList = sessionListMap.get(ChatTypeEnum.SINGLE.getType());
         if (CollectionUtils.isNotEmpty(singleList)) {
-            // 查询会话列表信息
             List<String> accountIds = singleList.stream()
                     .map(QuickChatSession::getToId)
                     .collect(Collectors.toList());
@@ -88,6 +85,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询获取未读数量
         List<ChatSessionVO> chatSessionVOList = ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
+//        chatSessionVOList = chatSessionVOList.stream().map(item -> {
+//        }).collect(Collectors.toList());
         return null;
     }
 
