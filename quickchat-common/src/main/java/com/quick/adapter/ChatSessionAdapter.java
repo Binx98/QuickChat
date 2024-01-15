@@ -28,6 +28,7 @@ public class ChatSessionAdapter {
             ChatSessionVO sessionVO = new ChatSessionVO();
             sessionVO.setToId(chatSession.getToId());
             sessionVO.setUpdateTime(chatSession.getUpdateTime());
+            sessionVO.setLastReadTime(chatSession.getLastReadTime());
             map.put(chatSession.getToId(), sessionVO);
         }
 

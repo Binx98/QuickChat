@@ -5,6 +5,7 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatSession;
+import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import org.apache.commons.lang3.ObjectUtils;
@@ -24,6 +25,8 @@ import javax.annotation.PostConstruct;
 public abstract class AbstractChatMsgStrategy {
     @Autowired
     private QuickChatMsgStore msgStore;
+    @Autowired
+    private QuickChatGroupMemberStore memberStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
 
@@ -48,26 +51,23 @@ public abstract class AbstractChatMsgStrategy {
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * 处理通信双方会话
+     * 处理接收方会话
      */
     @Transactional
     protected Integer handleSession(String fromId, String toId) {
-        // 发送方
-        QuickChatSession fromSession = sessionStore.getByAccountId(fromId, toId);
-        if (ObjectUtils.isEmpty(fromSession)) {
-            fromSession = ChatSessionAdapter.buildSessionPO(fromId, toId);
-            sessionStore.saveInfo(fromSession);
-        }
-
-        // 接收方：群聊无需处理
-        if (ChatTypeEnum.SINGLE.getType().equals(fromSession.getType())) {
-            QuickChatSession toSession = sessionStore.getByAccountId(toId, fromId);
+        // 单聊：接受方没有会话，新增
+        QuickChatSession toSession = sessionStore.getByAccountId(fromId, toId);
+        if (ChatTypeEnum.SINGLE.getType().equals(toSession.getType())) {
             if (ObjectUtils.isEmpty(toSession)) {
-                toSession = ChatSessionAdapter.buildSessionPO(toId, fromId);
-                sessionStore.saveInfo(toSession);
+                QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
+
+                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId);
+                sessionStore.saveInfo(sessionPO);
             }
         }
 
-        return fromSession.getType();
+        // 群聊：接收方是群内所有成员，没有会话，新增
+
+        return null;
     }
 }

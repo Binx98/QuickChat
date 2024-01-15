@@ -61,23 +61,22 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             sessionList.removeAll(over50List);
         }
 
-        // TODO 未读数数量处理
-
         // 按照单聊、群聊分组
         Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
 
-        // 单聊
+        // 单聊：会话列表
         List<QuickChatUser> users = new ArrayList<>();
         List<QuickChatSession> singleList = sessionListMap.get(ChatTypeEnum.SINGLE.getType());
         if (CollectionUtils.isNotEmpty(singleList)) {
+            // 查询会话列表信息
             List<String> accountIds = singleList.stream()
                     .map(QuickChatSession::getToId)
                     .collect(Collectors.toList());
             users = userStore.getListByAccountIds(accountIds);
         }
 
-        // 群聊
+        // 群聊：会话列表
         List<QuickChatGroup> groups = new ArrayList<>();
         List<QuickChatSession> groupList = sessionListMap.get(ChatTypeEnum.GROUP.getType());
         if (CollectionUtils.isNotEmpty(groupList)) {
@@ -87,8 +86,11 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             groups = groupStore.getListByGroupIds(groupIds);
         }
 
-        return ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
+        // 查询获取未读数量
+        List<ChatSessionVO> chatSessionVOList = ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
+        return null;
     }
+
 
     /**
      * 删除聊天会话
@@ -97,4 +99,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean deleteSession(Long sessionId) {
         return sessionStore.deleteBySessionId(sessionId);
     }
+
+    /**
+     * 查询会话未读数量
+     */
 }
