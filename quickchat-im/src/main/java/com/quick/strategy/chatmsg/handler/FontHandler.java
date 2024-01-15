@@ -8,6 +8,7 @@ import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.utils.RedissonLockUtil;
@@ -51,12 +52,12 @@ public class FontHandler extends AbstractChatMsgStrategy {
 
         // 上锁：防止并发场景会话重复创建问题
         String relationId = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());
-        Integer chatType = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
+        QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(chatMsg.getFromId(), chatMsg.getToId())
         );
 
         // 通过Channel推送消息
-        if (ChatTypeEnum.SINGLE.getType().equals(chatType)) {
+        if (ChatTypeEnum.SINGLE.getType().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_MSG, JSONUtil.toJsonStr(chatMsg));
         } else {
             kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));

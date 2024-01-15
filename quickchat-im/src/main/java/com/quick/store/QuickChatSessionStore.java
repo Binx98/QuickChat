@@ -24,4 +24,8 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     Boolean saveInfo(QuickChatSession chatSession);
 
     Boolean updateInfo(QuickChatSession chatSession1);
+
+    List<QuickChatSession> getListByAccountIdList(List<String> fromIds, String toId);
+
+    Boolean saveList(List<QuickChatSession> sessionPOList);
 }

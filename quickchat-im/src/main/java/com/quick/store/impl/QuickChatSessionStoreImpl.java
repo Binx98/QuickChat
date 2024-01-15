@@ -71,4 +71,23 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     public Boolean updateInfo(QuickChatSession chatSession) {
         return this.updateById(chatSession);
     }
+
+    /**
+     * 查询会话列表
+     */
+    @Override
+    public List<QuickChatSession> getListByAccountIdList(List<String> fromIds, String toId) {
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getToId, toId)
+                .in(QuickChatSession::getFromId, fromIds)
+                .list();
+    }
+
+    /**
+     * 批量保存会话列表
+     */
+    @Override
+    public Boolean saveList(List<QuickChatSession> sessionPOList) {
+        return this.saveBatch(sessionPOList);
+    }
 }
