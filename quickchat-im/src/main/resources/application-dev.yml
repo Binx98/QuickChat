@@ -3,9 +3,9 @@ quick_chat:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: Xuzhibin123.
     url: jdbc:mysql://localhost:3306/quick_chat?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: 123456
   redis:
     host: localhost
     port: 6379
@@ -18,7 +18,7 @@ spring:
         min-idle: 0
         max-active: 20
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 101.42.13.186:9092
     producer:
       retries: 0 # 重试次数
       acks: 1 # 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)
@@ -48,11 +48,11 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml
 minio:
-  endpoint: http://localhost:9000
+  endpoint: http://101.42.13.186:9000
   accessKey: minioadmin
   secretKey: minioadmin
-  bucket:
-    avatar: avatar-bucket
-    chat-voice: chat-voice-bucket
-    chat-file: chat-file-bucket
+  avatarBucket: avatar-bucket
+  voiceBucket: voice-bucket
