@@ -87,7 +87,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         List<ChatSessionVO> chatSessionVOList = ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
 //        chatSessionVOList = chatSessionVOList.stream().map(item -> {
 //        }).collect(Collectors.toList());
-        return null;
+        return chatSessionVOList;
     }
 
 
@@ -98,8 +98,4 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean deleteSession(Long sessionId) {
         return sessionStore.deleteBySessionId(sessionId);
     }
-
-    /**
-     * 查询会话未读数量
-     */
 }

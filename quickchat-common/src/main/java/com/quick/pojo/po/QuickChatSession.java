@@ -44,6 +44,12 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
+     * 账户id（接收者）
+     */
+    @TableField("relation_id")
+    private String relationId;
+
+    /**
      * 最后读取时间
      */
     @TableField("last_read_time")

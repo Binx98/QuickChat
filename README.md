@@ -55,6 +55,11 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |    Hutool     | Java工具类库          | https://github.com/looly/hutool                              |
 |   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
 |    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
+|    Docker     | Java工具类库          | https://github.com/looly/hutool                              |
+|     Nginx     | Java工具类库          | https://github.com/looly/hutool                              |
+|    Jenkins    | Java工具类库          | https://github.com/looly/hutool                              |
+|     Shell     | Java工具类库          | https://github.com/looly/hutool                              |
+|    阿里云ECS     | Java工具类库          | https://github.com/looly/hutool                              |
 
 ### 贡献者名单
 
