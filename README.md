@@ -23,12 +23,12 @@
 
 ### QuickChat介绍
 
-Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能非常丰富
+Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能丰富好玩
 
 1. 单聊、群聊，孩子乐意咋聊咋聊
-2. 语音、视频通话，面对面畅聊
-3. PC、移动都适配，随时随地自由切换
-4. 图片、文件面对面快速传输
+2. 语音通话、视频通话，面对面实时畅聊
+3. PC、移动适配，随时随地自由切换
+4. 图片、文件、视频面对面快速传输
 5. 白天、夜间模式自由切换
 
 ### 技术栈
@@ -55,11 +55,10 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |    Hutool     | Java工具类库          | https://github.com/looly/hutool                              |
 |   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
 |    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
-|    Docker     | Java工具类库          | https://github.com/looly/hutool                              |
 |     Nginx     | Java工具类库          | https://github.com/looly/hutool                              |
+|    Docker     | Java工具类库          | https://github.com/looly/hutool                              |
 |    Jenkins    | Java工具类库          | https://github.com/looly/hutool                              |
 |     Shell     | Java工具类库          | https://github.com/looly/hutool                              |
-|    阿里云ECS     | Java工具类库          | https://github.com/looly/hutool                              |
 
 ### 贡献者名单
 
