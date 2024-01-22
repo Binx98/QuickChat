@@ -19,4 +19,6 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
     List<ChatSessionVO> getSessionList();
 
     Boolean deleteSession(Long sessionId);
+
+    Boolean updateLastReadTime(Long sessionId);
 }

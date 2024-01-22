@@ -68,4 +68,11 @@ public class ChatSessionAdapter {
                 .lastReadTime(LocalDateTime.now())
                 .build();
     }
+
+    public static QuickChatSession buildSessionPO(Long sessionId, LocalDateTime time) {
+        return QuickChatSession.builder()
+                .id(sessionId)
+                .lastReadTime(time)
+                .build();
+    }
 }

@@ -17,6 +17,7 @@ import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,5 +98,14 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public Boolean deleteSession(Long sessionId) {
         return sessionStore.deleteBySessionId(sessionId);
+    }
+
+    /**
+     * 修改会话最后已读时间
+     */
+    @Override
+    public Boolean updateLastReadTime(Long sessionId) {
+        QuickChatSession sessionPO = ChatSessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
+        return sessionStore.updateInfo(sessionPO);
     }
 }

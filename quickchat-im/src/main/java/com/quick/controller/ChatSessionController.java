@@ -31,6 +31,15 @@ public class ChatSessionController {
     }
 
     /**
+     * 修改会话最后已读时间
+     */
+    @PostMapping("/updateLastReadTime/{sessionId}")
+    public R updateSession(@PathVariable Long sessionId) {
+        sessionService.updateLastReadTime(sessionId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
      * 删除聊天会话
      */
     @DeleteMapping("/delete/{sessionId}")
