@@ -22,27 +22,12 @@ import org.springframework.stereotype.Component;
 @Component
 @ChannelHandler.Sharable
 public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
-
     /**
      * 读取客户端 Channel 数据
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {
-//        Long uid = JSON.parse(frame.text(), Long.class);
-//        ChannelAccountIdRelation.getChannelGroup().add(ctx.channel());
-//        ChannelAccountIdRelation.getUserChannelMap().put(uid, ctx.channel());
-//        AttributeKey<Long> key = AttributeKey.valueOf("uid");
-        // 相当于为channel做个标识，用于removeUserId()
-//        ctx.channel().attr(key).setIfAbsent(uid);
-        log.info("--------------建立连接成功：{}--------------", frame.text());
-    }
-
-    /**
-     * 建立连接
-     */
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) {
-        log.info("------------------客户端建立连接成功:{}------------------", ctx.channel());
+        log.info("--------------接收信息：{}--------------", frame.text());
     }
 
     /**
@@ -71,6 +56,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
     public void userEventTriggered(ChannelHandlerContext ctx, Object event) {
         // 连接建立，握手完成
         if (event instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            // TODO 修改用户在线状态
             log.info("--------------------客户端建立连接成功：{}--------------------", ctx);
         }
 
@@ -82,6 +68,5 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
                 ctx.close(); // 需要手动触发，否则不会主动给下线
             }
         }
-
     }
 }
