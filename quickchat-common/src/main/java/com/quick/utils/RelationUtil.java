@@ -17,4 +17,9 @@ public class RelationUtil {
             return fromId + ":" + toId;
         }
     }
+
+    public static void main(String[] args) {
+        String result = generate("xuzhibin", "wenshuangxin");
+        System.out.println(result);
+    }
 }

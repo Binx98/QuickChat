@@ -51,7 +51,6 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |    Lombok     | 简化代码              | [https://projectlombok.org](https://projectlombok.org)       |
 |   WebSocket   | Java工具类库          | https://github.com/looly/hutool                              |
 |    WebRTC     | Java工具类库          | https://github.com/looly/hutool                              |
-|    XXL-JOB    | 定时任务              | https://github.com/looly/hutool                              |
 |    Hutool     | Java工具类库          | https://github.com/looly/hutool                              |
 |   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
 |    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
