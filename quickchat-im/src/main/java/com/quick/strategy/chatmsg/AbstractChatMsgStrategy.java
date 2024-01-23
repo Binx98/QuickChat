@@ -65,7 +65,7 @@ public abstract class AbstractChatMsgStrategy {
         if (ChatTypeEnum.SINGLE.getType().equals(toSession.getType())) {
             QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
             if (ObjectUtils.isEmpty(sessionPO)) {
-                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId);
+                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId, toSession.getType());
                 sessionStore.saveInfo(sessionPO);
             }
         }
@@ -91,7 +91,7 @@ public abstract class AbstractChatMsgStrategy {
                     .filter(item -> !memberAccountIds.contains(item))
                     .collect(Collectors.toList());
             for (String accountId : memberIds) {
-                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, groupId));
+                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, groupId, toSession.getType()));
             }
 
             // 批量保存会话

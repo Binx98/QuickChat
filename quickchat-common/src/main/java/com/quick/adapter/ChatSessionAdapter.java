@@ -4,6 +4,7 @@ import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
+import com.quick.utils.RelationUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -61,10 +62,12 @@ public class ChatSessionAdapter {
         return resultList;
     }
 
-    public static QuickChatSession buildSessionPO(String fromId, String toId) {
+    public static QuickChatSession buildSessionPO(String fromId, String toId, Integer type) {
         return QuickChatSession.builder()
                 .fromId(fromId)
                 .toId(toId)
+                .relationId(RelationUtil.generate(fromId, toId))
+                .type(type)
                 .lastReadTime(LocalDateTime.now())
                 .build();
     }
