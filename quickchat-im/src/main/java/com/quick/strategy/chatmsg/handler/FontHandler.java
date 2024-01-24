@@ -1,7 +1,6 @@
 package com.quick.strategy.chatmsg.handler;
 
 import cn.hutool.json.JSONUtil;
-import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
@@ -44,11 +43,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
     @Override
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 保存聊天记录信息（保存成功 = 发送成功）
-        String fromId = msgDTO.getFromId();
-        String toId = msgDTO.getToId();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO
-                (fromId, toId, msgDTO.getContent(), ChatMsgEnum.FONT.getType());
-        msgStore.saveMsg(chatMsg);
+        QuickChatMsg chatMsg = this.saveChatMsg(msgDTO);
 
         // 上锁：防止并发场景会话重复创建问题
         String relationId = RelationUtil.generate(chatMsg.getFromId(), chatMsg.getToId());

@@ -1,11 +1,13 @@
 package com.quick.strategy.chatmsg;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.quick.adapter.ChatMsgAdapter;
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
@@ -54,6 +56,19 @@ public abstract class AbstractChatMsgStrategy {
     public abstract void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable;
 
     /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * 保存聊天信息
+     */
+    @Transactional
+    protected QuickChatMsg saveChatMsg(ChatMsgDTO msgDTO) {
+        String fromId = msgDTO.getFromId();
+        String toId = msgDTO.getToId();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO
+                (fromId, toId, msgDTO.getContent(), this.getEnum().getType());
+        msgStore.saveMsg(chatMsg);
+        return chatMsg;
+    }
 
     /**
      * 处理接收方会话
