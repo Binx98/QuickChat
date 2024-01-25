@@ -20,4 +20,6 @@ public interface QuickChatGroupStore extends IService<QuickChatGroup> {
     Boolean updateInfo(QuickChatGroup chatGroup);
 
     List<QuickChatGroup> getListByGroupIds(List<String> groupIds);
+
+    List<QuickChatGroup> getListByAccountId(String accountId);
 }

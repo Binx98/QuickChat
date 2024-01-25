@@ -21,31 +21,29 @@ import java.util.List;
  */
 @Service
 public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupStore {
-    /**
-     * 根据 group_id 查询群信息
-     */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP, key = "#p0", unless = "#result == null")
     public QuickChatGroup getByGroupId(String groupId) {
         return this.getById(groupId);
     }
 
-    /**
-     * 根据 group_id 修改群聊信息
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_GROUP, key = "#p0.groupId")
     public Boolean updateInfo(QuickChatGroup chatGroup) {
         return this.updateById(chatGroup);
     }
 
-    /**
-     * 根据 group_id 列表查询群信息
-     */
     @Override
     public List<QuickChatGroup> getListByGroupIds(List<String> groupIds) {
         return this.lambdaQuery()
                 .in(QuickChatGroup::getGroupId, groupIds)
+                .list();
+    }
+
+    @Override
+    public List<QuickChatGroup> getListByAccountId(String accountId) {
+        return this.lambdaQuery()
+                .eq(QuickChatGroup::getAccountId, accountId)
                 .list();
     }
 }

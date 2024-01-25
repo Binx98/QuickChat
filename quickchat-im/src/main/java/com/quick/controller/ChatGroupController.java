@@ -1,9 +1,11 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupMemberService;
+import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {
+    @Autowired
+    private QuickChatGroupService groupService;
     @Autowired
     private QuickChatGroupMemberService memberService;
 
@@ -41,8 +45,13 @@ public class ChatGroupController {
     }
 
     /**
-     * 查询用户群聊列表
+     * 查询群聊列表
      */
+    @GetMapping("/list")
+    public R getGroupList() {
+        List<QuickChatGroup> groups = groupService.getGroupList();
+        return R.out(ResponseEnum.SUCCESS, groups);
+    }
 
     /**
      * 创建群组
