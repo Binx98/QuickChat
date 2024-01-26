@@ -27,6 +27,15 @@ public class ChatGroupController {
     private QuickChatGroupMemberService memberService;
 
     /**
+     * 查询群聊列表
+     */
+    @GetMapping("/list")
+    public R getGroupList() {
+        List<QuickChatGroup> groups = groupService.getGroupList();
+        return R.out(ResponseEnum.SUCCESS, groups);
+    }
+
+    /**
      * 查询群成员列表
      */
     @GetMapping("/member/{groupId}")
@@ -42,15 +51,6 @@ public class ChatGroupController {
     public R enterGroup(@PathVariable String groupId) {
         memberService.enterGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
-    }
-
-    /**
-     * 查询群聊列表
-     */
-    @GetMapping("/list")
-    public R getGroupList() {
-        List<QuickChatGroup> groups = groupService.getGroupList();
-        return R.out(ResponseEnum.SUCCESS, groups);
     }
 
     /**

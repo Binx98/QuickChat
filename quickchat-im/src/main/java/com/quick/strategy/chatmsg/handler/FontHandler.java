@@ -8,7 +8,6 @@ import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
-import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
@@ -27,8 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class FontHandler extends AbstractChatMsgStrategy {
     @Autowired
     private RedissonLockUtil lockUtil;
-    @Autowired
-    private QuickChatMsgStore msgStore;
     @Autowired
     private KafkaProducer kafkaProducer;
 

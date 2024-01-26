@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -34,11 +33,17 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
         return friendStore.getListByAccountId(accountId);
     }
 
+    /**
+     * 添加好友
+     */
     @Override
     public void addFriend() {
 
     }
 
+    /**
+     * 删除好友
+     */
     @Override
     public void deleteFriend() {
 

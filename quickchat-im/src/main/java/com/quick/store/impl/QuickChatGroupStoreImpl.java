@@ -41,6 +41,7 @@ public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, Q
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP, key = "#p0", unless = "#result.isEmpty()")
     public List<QuickChatGroup> getListByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatGroup::getAccountId, accountId)
