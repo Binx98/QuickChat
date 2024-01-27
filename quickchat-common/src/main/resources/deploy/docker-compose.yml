@@ -47,21 +47,21 @@ services:
       TZ: Asia/Shanghai
     command: [ redis-server, --requirepass, root@161122 ]
     restart: always
-  # XXL-JOB
-  xxl-job-admin:
-    image: xuxueli/xxl-job-admin:2.3.1
-    container_name: xxl-job-admin
-    restart: always
-    ports:
-      - 8800:8800
-    volumes:
-      - /data/xxl-job-admin/logs:/data/applogs
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/xxl_job?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
-      SERVER_PORT: 8800
+#  # XXL-JOB
+#  xxl-job-admin:
+#    image: xuxueli/xxl-job-admin:2.3.1
+#    container_name: xxl-job-admin
+#    restart: always
+#    ports:
+#      - 8800:8800
+#    volumes:
+#      - /data/xxl-job-admin/logs:/data/applogs
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/xxl_job?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+#      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: root
+#      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
+#      SERVER_PORT: 8800
   # Backend JAR 8888
   backend-project:
     image: backend-project
