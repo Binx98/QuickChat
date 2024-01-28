@@ -14,33 +14,37 @@ import java.time.LocalDateTime;
 @Data
 public class ChatSessionVO {
     /**
-     * 目标账号id
+     * 发送方账号id
+     */
+    private String fromId;
+    /**
+     * 接收方账号id
      */
     private String toId;
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 头像
-     */
-    private String avatar;
-    /**
-     * 在线状态（针对用户）
-     */
-    private String lineStatus;
-    /**
-     * 性别
-     */
-    private Integer gender;
     /**
      * 关联id
      */
     private String relationId;
     /**
+     * 名称
+     */
+    private String sessionName;
+    /**
+     * 头像
+     */
+    private String sessionAvatar;
+    /**
      * 未读数量
      */
     private Integer unreadCount;
+    /**
+     * 在线状态（针对用户）
+     */
+    private String lineStatus;
+    /**
+     * 性别（针对用户）
+     */
+    private Integer gender;
     /**
      * 最后已读时间
      */

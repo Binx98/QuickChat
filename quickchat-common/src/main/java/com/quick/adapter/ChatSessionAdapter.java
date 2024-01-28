@@ -28,6 +28,7 @@ public class ChatSessionAdapter {
         for (QuickChatSession chatSession : sessionList) {
             ChatSessionVO sessionVO = new ChatSessionVO();
             sessionVO.setToId(chatSession.getToId());
+            sessionVO.setFromId(chatSession.getFromId());
             sessionVO.setRelationId(chatSession.getRelationId());
             sessionVO.setUpdateTime(chatSession.getUpdateTime());
             sessionVO.setLastReadTime(chatSession.getLastReadTime());
@@ -38,8 +39,8 @@ public class ChatSessionAdapter {
         for (QuickChatUser user : userList) {
             if (map.containsKey(user.getAccountId())) {
                 ChatSessionVO sessionVO = map.get(user.getAccountId());
-                sessionVO.setName(user.getNickName());
-                sessionVO.setAvatar(user.getAvatar());
+                sessionVO.setSessionName(user.getNickName());
+                sessionVO.setSessionAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
                 sessionVO.setLineStatus(user.getLineStatus());
                 resultList.add(sessionVO);
@@ -50,8 +51,8 @@ public class ChatSessionAdapter {
         for (QuickChatGroup group : groupList) {
             if (map.containsKey(group.getGroupId())) {
                 ChatSessionVO sessionVO = map.get(group.getGroupId());
-                sessionVO.setAvatar(group.getGroupAvatar());
-                sessionVO.setName(group.getGroupName());
+                sessionVO.setSessionAvatar(group.getGroupAvatar());
+                sessionVO.setSessionName(group.getGroupName());
                 resultList.add(sessionVO);
             }
         }
