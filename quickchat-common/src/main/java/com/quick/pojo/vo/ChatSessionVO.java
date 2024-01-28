@@ -34,6 +34,10 @@ public class ChatSessionVO {
      */
     private Integer gender;
     /**
+     * 关联id
+     */
+    private String relationId;
+    /**
      * 未读数量
      */
     private Integer unreadCount;

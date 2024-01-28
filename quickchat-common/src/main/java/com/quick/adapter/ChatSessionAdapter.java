@@ -28,6 +28,7 @@ public class ChatSessionAdapter {
         for (QuickChatSession chatSession : sessionList) {
             ChatSessionVO sessionVO = new ChatSessionVO();
             sessionVO.setToId(chatSession.getToId());
+            sessionVO.setRelationId(chatSession.getRelationId());
             sessionVO.setUpdateTime(chatSession.getUpdateTime());
             sessionVO.setLastReadTime(chatSession.getLastReadTime());
             map.put(chatSession.getToId(), sessionVO);
