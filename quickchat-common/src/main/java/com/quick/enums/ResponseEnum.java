@@ -23,6 +23,7 @@ public enum ResponseEnum {
     EMAIL_CODE_EXPIRE(500, "邮箱验证码输入错误，请重试！"),
     EMAIL_CODE_ERROR(500, "邮箱验证码输入错误，请重试！"),
     TOKEN_EXPIRE(500, "Token身份信息已过期，请重新登录！"),
+    RELATION_GENERATE_ERROR(500, "生成 relation_id 失败，缺少关键信息！"),
     REQUEST_HOLDER_NO_ACCOUNT_ID(500, "全局请求上下文未获取到账号信息！"),
     ;
 

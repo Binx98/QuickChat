@@ -123,11 +123,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        <!--XXL-JOB-->
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-        </dependency>
         <!--ElasticSearch-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
