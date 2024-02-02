@@ -29,14 +29,15 @@ import javax.annotation.PreDestroy;
 @Slf4j
 @Component
 public class NettyWebSocketServer {
-    private static final int WEB_SOCKET_PORT = 10086;
     @Autowired
     private NettyChannelHandler channelHandler;
 
     /**
-     * boss接受客户端连接等事件
-     * work处理boss接收的事件
+     * WebSocket Server端口
+     * boss：接受客户端连接等事件
+     * work：处理boss接收的事件
      */
+    private static final int WEB_SOCKET_PORT = 10086;
     private EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private EventLoopGroup workGroup = new NioEventLoopGroup(NettyRuntime.availableProcessors());
 
@@ -68,7 +69,7 @@ public class NettyWebSocketServer {
             }
         });
         ChannelFuture future = server.bind(WEB_SOCKET_PORT).sync();
-        log.info("-------------------WebSocket Server启动成功：{}-------------------", future.channel().localAddress());
+        log.info("----------------WebSocket Server启动成功：{}----------------", future.channel().localAddress());
     }
 
     /**

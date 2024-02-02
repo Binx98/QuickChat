@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.ChatSessionAdapter;
@@ -119,7 +118,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         chatGroup.setMemberCount(chatGroup.getMemberCount() + 1);
         groupStore.updateInfo(chatGroup);
 
-        // 解析地址信息、分配头像、默认昵称
+        // 解析地址信息、密码对称加密
         String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
         String password = AESUtil.encrypt(registerDTO.getPassword1());
 

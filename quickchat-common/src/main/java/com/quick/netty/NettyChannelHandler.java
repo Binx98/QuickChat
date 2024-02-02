@@ -30,6 +30,8 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
      */
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
+        // 建立 account_id 和 Channel 关联
+        // 通知在线好友，我已经上线了
         log.info("--------------WebSocket连接建立：{}--------------", ctx);
     }
 
@@ -38,27 +40,8 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
+        // 登陆状态调整：下线
+        // 通知在线好友：我已经下线了！
         log.info("--------------WebSocket连接断开：{}--------------", ctx);
     }
-
-    /**
-     * 事件触发监听
-     */
-//    @Override
-//    public void userEventTriggered(ChannelHandlerContext ctx, Object event) {
-//        // 连接建立，握手完成
-//        if (event instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
-//            // TODO 修改用户在线状态
-//            log.info("--------------------客户端建立连接成功：{}--------------------", ctx);
-//        }
-//
-//        // 心跳检测：30s无心跳触发断开事件
-//        else if (event instanceof IdleStateEvent) {
-//            IdleStateEvent idleStateEvent = (IdleStateEvent) event;
-//            if (idleStateEvent.state() == IdleState.READER_IDLE) {
-//                log.info("--------------------30s未检测到心跳，断开WebSocket链接：{}--------------------", ctx);
-//                ctx.close(); // 需要手动触发，否则不会主动给下线
-//            }
-//        }
-//    }
 }
