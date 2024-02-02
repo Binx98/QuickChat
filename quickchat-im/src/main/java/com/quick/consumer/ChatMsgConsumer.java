@@ -29,7 +29,7 @@ public class ChatMsgConsumer {
     /**
      * 单聊 Channel 推送
      */
-    @KafkaListener(topics = MQConstant.SEND_CHAT_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = MQConstant.SEND_CHAT_SINGLE_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsg(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getToId());

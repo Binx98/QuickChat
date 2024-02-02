@@ -33,7 +33,7 @@ public class MyThreadPoolExecutor {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(4);
         executor.setMaxPoolSize(8);
-        executor.setQueueCapacity(60);
+        executor.setQueueCapacity(100);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("chat-pool-thread-");
         executor.setWaitForTasksToCompleteOnShutdown(true);
@@ -51,7 +51,7 @@ public class MyThreadPoolExecutor {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(4);
-        executor.setQueueCapacity(30);
+        executor.setQueueCapacity(20);
         executor.setKeepAliveSeconds(60);
         executor.setThreadNamePrefix("email-pool-thread-");
         executor.setWaitForTasksToCompleteOnShutdown(true);

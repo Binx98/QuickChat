@@ -48,14 +48,14 @@ public class FontHandler extends AbstractChatMsgStrategy {
                 () -> this.handleSession(chatMsg.getFromId(), chatMsg.getToId())
         );
 
-        // 通过Channel推送消息
+        // 通过Channel推送消息（区分单聊、群聊）
         if (ChatTypeEnum.SINGLE.getType().equals(chatSession.getType())) {
-            kafkaProducer.send(MQConstant.SEND_CHAT_MSG, JSONUtil.toJsonStr(chatMsg));
+            kafkaProducer.send(MQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
         } else {
             kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
         }
 
         // 聊天信息同步ElasticSearch
-        kafkaProducer.send(MQConstant.SYNC_CHAT_MSG_ES, JSONUtil.toJsonStr(chatMsg));
+        kafkaProducer.send(MQConstant.SYNC_DB_TO_ES, JSONUtil.toJsonStr(chatMsg));
     }
 }

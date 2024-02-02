@@ -22,6 +22,6 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
      */
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        log.error("=========================线程池：[{}]，出现异常：[{}]=========================", t.getName(), e);
+        log.error("==============线程池：[{}]，出现异常：[{}]==============", t.getName(), e);
     }
 }
