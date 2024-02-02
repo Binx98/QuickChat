@@ -7,11 +7,12 @@ services:
     container_name: minio
     ports:
       - 9000:9000
-      - 9090:9090
+      - 9001:9001
     volumes:
-      - /home/minio/data:/data
-      - /home/minio/config:/root/.minio
+      - /opt/minio/data:/data
+      - /opt/minio/config:/root/.minio
     environment:
-      MINIO_ACCESS_KEY: "minioadmin"
-      MINIO_SECRET_KEY: "minioadmin"
+      MINIO_ACCESS_KEY: "admin"
+      MINIO_SECRET_KEY: "admin123"
+    command: server /data --console-address ":9001"
     restart: always
