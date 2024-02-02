@@ -52,6 +52,11 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
      */
     @Override
     public List<QuickChatMsg> getByRelationIdList(List<String> relationIds) {
-        return msgMapper.getByRelationIdList(relationIds);
+        return this.lambdaQuery()
+                .in(QuickChatMsg::getRelationId, relationIds)
+                .orderByDesc(QuickChatMsg::getCreateTime)
+                .last(" LIMIT 30 ")
+                .list();
+//        return msgMapper.getByRelationIdList(relationIds);
     }
 }
