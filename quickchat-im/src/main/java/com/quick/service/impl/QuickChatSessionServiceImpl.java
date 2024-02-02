@@ -11,6 +11,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionService {
+    @Autowired
+    private QuickChatMsgStore msgStore;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
@@ -83,12 +86,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                     .collect(Collectors.toList());
             groups = groupStore.getListByGroupIds(groupIds);
         }
-
-        // 查询获取未读数量
-        List<ChatSessionVO> chatSessionVOList = ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
-//        chatSessionVOList = chatSessionVOList.stream().map(item -> {
-//        }).collect(Collectors.toList());
-        return chatSessionVOList;
+        return ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
     }
 
 
@@ -107,5 +105,14 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean updateLastReadTime(Long sessionId) {
         QuickChatSession sessionPO = ChatSessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
         return sessionStore.updateInfo(sessionPO);
+    }
+
+    @Override
+    public Map<String, Integer> getUnreadCountList(List<QuickChatSession> sessionList) {
+
+        for (QuickChatSession chatSession : sessionList) {
+            LocalDateTime lastReadTime = chatSession.getLastReadTime();
+        }
+        return null;
     }
 }

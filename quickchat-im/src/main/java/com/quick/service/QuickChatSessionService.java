@@ -5,6 +5,7 @@ import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatSessionVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,4 +22,6 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
     Boolean deleteSession(Long sessionId);
 
     Boolean updateLastReadTime(Long sessionId);
+
+    Map<String, Integer> getUnreadCountList( List<QuickChatSession> sessionList);
 }

@@ -1,6 +1,7 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatSessionService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -22,7 +24,7 @@ public class ChatSessionController {
     private QuickChatSessionService sessionService;
 
     /**
-     * 查询会话列表
+     * 查询会话列表（访问聊天页面）
      */
     @GetMapping("/list")
     public R getSessionList() {
@@ -31,9 +33,18 @@ public class ChatSessionController {
     }
 
     /**
-     * 修改会话最后已读时间
+     * 查询会话列表未读数（访问聊天页面）
      */
-    @PostMapping("/updateLastReadTime/{sessionId}")
+    @GetMapping("/getUnreadCountList")
+    public R getUnreadCountList(@RequestBody List<QuickChatSession> sessionList) {
+        Map<String, Integer> resultMap = sessionService.getUnreadCountList(sessionList);
+        return R.out(ResponseEnum.SUCCESS, resultMap);
+    }
+
+    /**
+     * 修改会话已读时间
+     */
+    @PostMapping("/updateReadTime/{sessionId}")
     public R updateSession(@PathVariable Long sessionId) {
         sessionService.updateLastReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
