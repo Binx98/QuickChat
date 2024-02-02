@@ -6,7 +6,6 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,6 @@ import java.util.List;
  */
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
-    @Autowired
-    private QuickChatMsgMapper msgMapper;
-
     /**
      * 保存聊天信息
      */
@@ -57,6 +53,5 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .orderByDesc(QuickChatMsg::getCreateTime)
                 .last(" LIMIT 30 ")
                 .list();
-//        return msgMapper.getByRelationIdList(relationIds);
     }
 }
