@@ -50,7 +50,7 @@ public class QuickChatUser implements Serializable {
     private String nickName;
 
     /**
-     * 昵称
+     * 头像
      */
     @TableField("avatar")
     private String avatar;

@@ -1,5 +1,6 @@
 package com.quick.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.ChatSessionAdapter;
@@ -87,7 +88,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
      * 注册账号
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean register(RegisterDTO registerDTO) throws Exception {
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
@@ -118,10 +119,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         chatGroup.setMemberCount(chatGroup.getMemberCount() + 1);
         groupStore.updateInfo(chatGroup);
 
-        // 解析地址、保存账号信息
+        // 解析地址信息、分配头像、默认昵称
         String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
-        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), registerDTO.getPassword1(),
-                registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
+        String password = AESUtil.encrypt(registerDTO.getPassword1());
+
+        // 保存账号信息
+        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), "",
+                password, registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
     }
 
@@ -149,7 +153,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // 登录成功，切换用户状态：已上线
+        // 登录成功，切换用户状态【已上线】
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
         userStore.updateInfo(userPO);
 

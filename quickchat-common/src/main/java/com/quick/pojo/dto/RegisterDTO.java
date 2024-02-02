@@ -15,6 +15,10 @@ public class RegisterDTO {
      */
     private String accountId;
     /**
+     * 昵称
+     */
+    private String nickName;
+    /**
      * 密码
      */
     private String password1;
