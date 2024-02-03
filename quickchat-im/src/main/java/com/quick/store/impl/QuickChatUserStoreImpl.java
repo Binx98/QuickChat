@@ -25,7 +25,7 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
      * 根据 account_id 查询用户信息
      */
     @Override
-    @Cacheable(value = RedisConstant.QUICK_USER, key = "#p0", unless = "#result == null")
+    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
     public QuickChatUser getByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getAccountId, accountId)
@@ -54,7 +54,7 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
      * 更新用户信息
      */
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_USER, key = "#p0.accountId")
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "#p0.accountId")
     public Boolean updateInfo(QuickChatUser userPO) {
         return this.updateById(userPO);
     }
