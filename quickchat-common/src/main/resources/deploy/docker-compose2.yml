@@ -1,22 +1,6 @@
 version: '3'
 
 services:
-  # MinIO
-  minio:
-    image: minio/minio
-    container_name: minio
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - /opt/minio/data:/data
-      - /opt/minio/config:/root/.minio
-    environment:
-      MINIO_ACCESS_KEY: "admin"
-      MINIO_SECRET_KEY: "admin123"
-    command: server /data --console-address ":9001"
-    restart: always
-
   # Zookeeper
   zookeeper:
     image: wurstmeister/zookeeper
@@ -46,4 +30,30 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://101.42.13.186:9092
       KAFKA_BROKER_ID: 1
+    restart: always
+
+  # JAR 8888
+  backend-project-8888:
+    image: backend-project
+    container_name: backend-project
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+  # JAR 8889
+  backend-project-8889:
+    image: backend-project
+    container_name: backend-project
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
     restart: always

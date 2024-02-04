@@ -2,6 +2,7 @@ package com.quick.adapter;
 
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
+import com.quick.utils.RelationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ChatMsgAdapter {
         return QuickChatMsg.builder()
                 .fromId(fromId)
                 .toId(toId)
+                .relationId(RelationUtil.generate(fromId, toId))
                 .content(content)
                 .msgType(type)
                 .build();

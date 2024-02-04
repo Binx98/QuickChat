@@ -49,14 +49,21 @@ services:
       TZ: Asia/Shanghai
     command: [ redis-server, --requirepass, root@161122 ]
     restart: always
-  backend-project:
-    image: backend-project
-    container_name: backend-project
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    restart: always
+
+  # MinIO
+  minio:
+    image: minio/minio
+    container_name: minio
     ports:
-      - "8888:8888"
+      - "9000:9000"
+      - "9001:9001"
     volumes:
-      - /opt/project/backend/myLogs:/myLogs
+      - /opt/minio/data:/data
+      - /opt/minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: "admin"
+      MINIO_SECRET_KEY: "admin123"
+    command: server /data --console-address ":9001"
+    restart: always
+
+  # ElasticSearch
