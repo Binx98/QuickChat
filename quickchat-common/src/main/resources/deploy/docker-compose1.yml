@@ -6,8 +6,8 @@ services:
     image: nginx:1.24.0
     container_name: nginx
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -21,12 +21,13 @@ services:
       - /etc/letsencrypt/live/paraverse.cc/fullchain.pem:/etc/letsencrypt/live/paraverse.cc/fullchain.pem
       - /etc/letsencrypt/live/paraverse.cc/privkey.pem:/etc/letsencrypt/live/paraverse.cc/privkey.pem
       - /etc/letsencrypt/live/paraverse.cc/chain.pem:/etc/letsencrypt/live/paraverse.cc/chain.pem
+
   # MySQL
   mysql:
     image: mysql:8.0.27
     container_name: mysql
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       - /opt/project/mysql/data:/var/lib/mysql
       - /opt/project/mysql/conf:/etc/mysql/conf.d
@@ -37,12 +38,13 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: user@pwd
     restart: always
+
   # Redis
   redis:
     image: redis:4.0.2
     container_name: redis
     ports:
-      - 6379:6379
+      - "6379:6379"
     environment:
       TZ: Asia/Shanghai
     command: [ redis-server, --requirepass, root@161122 ]
@@ -55,6 +57,6 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 8888:8888
+      - "8888:8888"
     volumes:
       - /opt/project/backend/myLogs:/myLogs
