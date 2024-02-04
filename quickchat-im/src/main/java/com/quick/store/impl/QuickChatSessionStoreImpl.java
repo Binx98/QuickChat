@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
+import com.quick.pojo.vo.UnreadCountVO;
 import com.quick.store.QuickChatSessionStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -21,9 +24,9 @@ import java.util.List;
  */
 @Service
 public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionStore {
-    /**
-     * 根据 account_id 查询会话列表
-     */
+    @Autowired
+    private QuickChatSessionMapper sessionMapper;
+
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0", unless = "#result.size() == 0")
     public List<QuickChatSession> getListByAccountId(String accountId) {
@@ -33,18 +36,12 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
                 .list();
     }
 
-    /**
-     * 删除会话
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean deleteBySessionId(Long sessionId) {
         return this.removeById(sessionId);
     }
 
-    /**
-     * 通信双方 account_id 查询单条会话信息
-     */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")
     public QuickChatSession getByAccountId(String fromId, String toId) {
@@ -54,27 +51,18 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
                 .one();
     }
 
-    /**
-     * 保存会话信息
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean saveInfo(QuickChatSession chatSession) {
         return this.save(chatSession);
     }
 
-    /**
-     * 修改会话信息
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean updateInfo(QuickChatSession chatSession) {
         return this.updateById(chatSession);
     }
 
-    /**
-     * 查询会话列表
-     */
     @Override
     public List<QuickChatSession> getListByAccountIdList(List<String> fromIds, String toId) {
         return this.lambdaQuery()
@@ -83,11 +71,13 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
                 .list();
     }
 
-    /**
-     * 批量保存会话列表
-     */
     @Override
     public Boolean saveList(List<QuickChatSession> sessionPOList) {
         return this.saveBatch(sessionPOList);
+    }
+
+    @Override
+    public UnreadCountVO getUnreadCount(String relationId, LocalDateTime lastReadTime) {
+        return sessionMapper.getUnreadCount(relationId, lastReadTime);
     }
 }

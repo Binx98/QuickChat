@@ -9,6 +9,7 @@ import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
+import com.quick.pojo.vo.UnreadCountVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatMsgStore;
@@ -43,9 +44,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Autowired
     private QuickChatSessionStore sessionStore;
 
-    /**
-     * 查询会话列表：限制50个会话以内
-     */
     @Override
     public List<ChatSessionVO> getSessionList() {
         // 查询会话列表
@@ -89,18 +87,11 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         return ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
     }
 
-
-    /**
-     * 删除聊天会话
-     */
     @Override
     public Boolean deleteSession(Long sessionId) {
         return sessionStore.deleteBySessionId(sessionId);
     }
 
-    /**
-     * 修改会话最后已读时间
-     */
     @Override
     public Boolean updateLastReadTime(Long sessionId) {
         QuickChatSession sessionPO = ChatSessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
@@ -108,11 +99,14 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Map<String, Integer> getUnreadCountList(List<QuickChatSession> sessionList) {
-
-        for (QuickChatSession chatSession : sessionList) {
-            LocalDateTime lastReadTime = chatSession.getLastReadTime();
+    public List<UnreadCountVO> getUnreadCountList(List<ChatSessionVO> sessionList) {
+        List<UnreadCountVO> result = new ArrayList<>();
+        for (ChatSessionVO session : sessionList) {
+            String relationId = session.getRelationId();
+            LocalDateTime lastReadTime = session.getLastReadTime();
+            UnreadCountVO unreadCountVO = sessionStore.getUnreadCount(relationId, lastReadTime);
+            result.add(unreadCountVO);
         }
-        return null;
+        return result;
     }
 }
