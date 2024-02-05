@@ -49,12 +49,12 @@ public class ChatMsgController {
     /**
      * 查询双方聊天记录
      */
-    @GetMapping("/getByRelationId/{accountId}/{current}/{size}")
-    public R chatMsgList(@PathVariable String accountId,
+    @GetMapping("/getByRelationId/{relationId}/{current}/{size}")
+    public R chatMsgList(@PathVariable String relationId,
                          @PathVariable Integer current,
                          @PathVariable Integer size) {
-        List<QuickChatMsg> chatMsg = msgService.getByRelationId(accountId, current, size);
-        return R.out(ResponseEnum.SUCCESS, chatMsg);
+        Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
+        return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     /**

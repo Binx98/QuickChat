@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -39,13 +42,12 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
      * 查询聊天记录
      */
     @Override
-    public List<QuickChatMsg> getByRelationId(String accountId, Integer current, Integer size) {
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-        String relationId = RelationUtil.generate(loginAccountId, accountId);
+    public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
-        List<QuickChatMsg> msgRecords = msgPage.getRecords();
-        Collections.reverse(msgRecords);
-        return msgRecords;
+        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgPage.getRecords());
+        return chatMsgVOList.stream()
+                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
+                .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
     }
 
     /**

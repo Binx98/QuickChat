@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
  */
 public interface QuickChatMsgService extends IService<QuickChatMsg> {
 
-    List<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size);
+    Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size);
 
     Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException;
 }
