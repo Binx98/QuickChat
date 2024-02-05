@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -83,6 +80,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
         // 转换成VO、按照 relation_id 分组
         List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgResultList);
-        return chatMsgVOList.stream().collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
+        return chatMsgVOList.stream()
+                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
+                .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
     }
 }
