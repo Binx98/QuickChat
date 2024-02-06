@@ -82,8 +82,16 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
         // 转换成VO、按照 relation_id 分组
         List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgResultList);
-        return chatMsgVOList.stream()
+        Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
+
+        // 没有 relation_id，空列表占位（首次发送消息需要占位）
+        for (String relationId : relationIds) {
+            if (!resultMap.containsKey(relationId)) {
+                resultMap.put(relationId, new ArrayList<>());
+            }
+        }
+        return resultMap;
     }
 }
