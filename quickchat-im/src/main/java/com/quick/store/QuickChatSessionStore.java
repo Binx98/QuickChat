@@ -2,7 +2,6 @@ package com.quick.store;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatSession;
-import com.quick.pojo.vo.UnreadCountVO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,5 +30,5 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
 
     Boolean saveList(List<QuickChatSession> sessionPOList);
 
-    UnreadCountVO getUnreadCount(String relationId, LocalDateTime lastReadTime);
+    Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
 }

@@ -9,7 +9,6 @@ import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
-import com.quick.pojo.vo.UnreadCountVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatMsgStore;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -99,14 +99,23 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public List<UnreadCountVO> getUnreadCountList(List<ChatSessionVO> sessionList) {
-        List<UnreadCountVO> result = new ArrayList<>();
+    public Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
+        Map<String, Integer> resultMap = new HashMap<>();
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         for (ChatSessionVO session : sessionList) {
             String relationId = session.getRelationId();
             LocalDateTime lastReadTime = session.getLastReadTime();
-            UnreadCountVO unreadCountVO = sessionStore.getUnreadCount(relationId, lastReadTime);
-            result.add(unreadCountVO);
+            Integer unreadCount = sessionStore.getUnreadCount(loginAccountId, relationId, lastReadTime);
+            resultMap.put(relationId, unreadCount);
         }
-        return result;
+        List<String> relationIds = sessionList.stream()
+                .map(ChatSessionVO::getRelationId)
+                .collect(Collectors.toList());
+        for (String relationId : relationIds) {
+            if (!resultMap.containsKey(relationId)) {
+                resultMap.put(relationId, null);
+            }
+        }
+        return resultMap;
     }
 }

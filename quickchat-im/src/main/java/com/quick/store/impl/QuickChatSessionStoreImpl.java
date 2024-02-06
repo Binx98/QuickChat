@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
-import com.quick.pojo.vo.UnreadCountVO;
 import com.quick.store.QuickChatSessionStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -77,7 +76,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    public UnreadCountVO getUnreadCount(String relationId, LocalDateTime lastReadTime) {
-        return sessionMapper.getUnreadCount(relationId, lastReadTime);
+    public Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime) {
+        return sessionMapper.getUnreadCount(loginAccountId, relationId, lastReadTime);
     }
 }

@@ -3,9 +3,9 @@ package com.quick.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatSessionVO;
-import com.quick.pojo.vo.UnreadCountVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,5 +23,5 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
 
     Boolean updateLastReadTime(Long sessionId);
 
-    List<UnreadCountVO> getUnreadCountList(List<ChatSessionVO> sessionList);
+    Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList);
 }

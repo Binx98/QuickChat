@@ -2,16 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.quick.mapper.QuickChatSessionMapper">
     <!--查询唯独数量-->
-    <select id="getUnreadCount" resultType="com.quick.pojo.vo.UnreadCountVO">
-        SELECT
-            relation_id,
-            COUNT(*) AS unreadCount
-        FROM
-            quick_chat_msg
-        WHERE
-            relation_id = #{relationId}
+    <select id="getUnreadCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM quick_chat_msg
+        WHERE relation_id = #{relationId}
+          AND from_id != #{loginAccountId}
           AND create_time > #{lastReadTime}
-        GROUP BY
-            relation_id
+        GROUP BY relation_id
     </select>
 </mapper>

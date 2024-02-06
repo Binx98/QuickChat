@@ -2,13 +2,13 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.vo.ChatSessionVO;
-import com.quick.pojo.vo.UnreadCountVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -36,7 +36,7 @@ public class ChatSessionController {
      */
     @PostMapping("/getUnreadCountList")
     public R getUnreadCountList(@RequestBody List<ChatSessionVO> sessionList) {
-        List<UnreadCountVO> result = sessionService.getUnreadCountList(sessionList);
+        Map<String, Integer> result = sessionService.getUnreadCountMap(sessionList);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
