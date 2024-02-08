@@ -32,14 +32,20 @@ public class QuickChatFriend implements Serializable {
     /**
      * 账号id（发送方）
      */
-    @TableField("send_id")
-    private String sendId;
+    @TableField("from_id")
+    private String fromId;
 
     /**
      * 账号id（接收方）
      */
-    @TableField("receive_id")
-    private String receiveId;
+    @TableField("to_id")
+    private String toId;
+
+    /**
+     * 关联id
+     */
+    @TableField("relation_id")
+    private String relationId;
 
     /**
      * 状态（0：未处理，1：已通过，2：未通过）
