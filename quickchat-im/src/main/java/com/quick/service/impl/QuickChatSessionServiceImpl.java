@@ -11,7 +11,6 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatGroupStore;
-import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
@@ -35,8 +34,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionService {
-    @Autowired
-    private QuickChatMsgStore msgStore;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
@@ -84,7 +81,17 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                     .collect(Collectors.toList());
             groups = groupStore.getListByGroupIds(groupIds);
         }
-        return ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
+        List<ChatSessionVO> sessionVOList = ChatSessionAdapter.buildSessionVOList(sessionList, users, groups);
+
+        // 查询会话未读数量
+        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
+        for (ChatSessionVO sessionVO : sessionVOList) {
+            String relationId = sessionVO.getRelationId();
+            if (unreadCountMap.containsKey(relationId)) {
+                sessionVO.setUnreadCount(unreadCountMap.get(relationId));
+            }
+        }
+        return sessionVOList;
     }
 
     @Override

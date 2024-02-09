@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -28,15 +27,6 @@ public class ChatSessionController {
     @GetMapping("/list")
     public R getSessionList() {
         List<ChatSessionVO> result = sessionService.getSessionList();
-        return R.out(ResponseEnum.SUCCESS, result);
-    }
-
-    /**
-     * 查询会话列表未读数（访问聊天页面）
-     */
-    @PostMapping("/getUnreadCountList")
-    public R getUnreadCountList(@RequestBody List<ChatSessionVO> sessionList) {
-        Map<String, Integer> result = sessionService.getUnreadCountMap(sessionList);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
