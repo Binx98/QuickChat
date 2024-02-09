@@ -24,4 +24,9 @@ public class LoginDTO {
      * 图片验证码
      */
     private String verifyCode;
+
+    /**
+     * 记住我
+     */
+    private Boolean rememberPwd;
 }

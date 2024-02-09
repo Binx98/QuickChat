@@ -1,6 +1,8 @@
 package com.quick.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,10 @@ import java.time.LocalDateTime;
  */
 @Data
 public class ChatSessionVO {
+    /**
+     * 主键id
+     */
+    private Long sessionId;
     /**
      * 发送方账号id
      */

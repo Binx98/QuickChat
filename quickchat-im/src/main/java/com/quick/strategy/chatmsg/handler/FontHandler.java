@@ -34,9 +34,6 @@ public class FontHandler extends AbstractChatMsgStrategy {
         return ChatMsgEnum.FONT;
     }
 
-    /**
-     * 发送文字消息
-     */
     @Override
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 保存聊天记录信息（保存成功 = 发送成功）
