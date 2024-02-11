@@ -1,5 +1,6 @@
 package com.quick.netty;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -18,21 +19,14 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable
 public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     /**
-     * 读取客户端 Channel 数据
+     * 读取客户端 Channel 数据：建立 account_id 和 Channel 的关联
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame frame) {
-        log.info("--------------接收信息：{}--------------", frame.text());
-    }
-
-    /**
-     * 建立连接
-     */
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) {
-        // 建立 account_id 和 Channel 关联
-        // 通知在线好友，我已经上线了
-        log.info("--------------WebSocket连接建立：{}--------------", ctx);
+        log.info("-----------channelRead0()调用：{}-----------", frame.text());
+        String accountId = frame.text();
+        Channel channel = ctx.channel();
+        UserChannelRelation.getUserChannelMap().put(accountId, channel);
     }
 
     /**
@@ -40,8 +34,7 @@ public class NettyChannelHandler extends SimpleChannelInboundHandler<TextWebSock
      */
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
-        // 登陆状态调整：下线
-        // 通知在线好友：我已经下线了！
+
         log.info("--------------WebSocket连接断开：{}--------------", ctx);
     }
 }
