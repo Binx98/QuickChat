@@ -1,6 +1,8 @@
 package com.quick.service.impl;
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatSessionAdapter;
 import com.quick.enums.ChatTypeEnum;
@@ -124,5 +126,24 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             }
         }
         return resultMap;
+    }
+
+    @Override
+    public ChatSessionVO getSessionInfo(String fromId, String toId) {
+        QuickChatSession sessionPO = sessionStore.getSessionInfo(fromId, toId);
+        if (ObjectUtils.isEmpty(sessionPO)) {
+            return null;
+        }
+        ChatSessionVO sessionVO = null;
+        if (ChatTypeEnum.SINGLE.getType().equals(sessionPO.getType())) {
+            QuickChatUser userPO = userStore.getByAccountId(sessionPO.getToId());
+            sessionVO = ChatSessionAdapter.buildUserSessionPO(userPO, sessionPO);
+        } else {
+            QuickChatGroup groupPO = groupStore.getByGroupId(sessionPO.getToId());
+            sessionVO = ChatSessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
+        }
+        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
+        sessionVO.setUnreadCount(unreadCountMap.get(sessionVO.getRelationId()));
+        return sessionVO;
     }
 }

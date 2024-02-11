@@ -81,4 +81,32 @@ public class ChatSessionAdapter {
                 .lastReadTime(time)
                 .build();
     }
+
+    public static ChatSessionVO buildUserSessionPO(QuickChatUser userPO, QuickChatSession sessionPO) {
+        return ChatSessionVO.builder()
+                .sessionId(sessionPO.getId())
+                .fromId(sessionPO.getFromId())
+                .toId(sessionPO.getToId())
+                .relationId(sessionPO.getRelationId())
+                .updateTime(sessionPO.getUpdateTime())
+                .lastReadTime(sessionPO.getLastReadTime())
+                .sessionName(userPO.getNickName())
+                .sessionAvatar(userPO.getAvatar())
+                .gender(userPO.getGender())
+                .lineStatus(userPO.getLineStatus())
+                .build();
+    }
+
+    public static ChatSessionVO buildGroupSessionPO(QuickChatGroup groupPO, QuickChatSession sessionPO) {
+        return ChatSessionVO.builder()
+                .sessionId(sessionPO.getId())
+                .fromId(sessionPO.getFromId())
+                .toId(sessionPO.getToId())
+                .relationId(sessionPO.getRelationId())
+                .updateTime(sessionPO.getUpdateTime())
+                .lastReadTime(sessionPO.getLastReadTime())
+                .sessionName(groupPO.getGroupName())
+                .sessionAvatar(groupPO.getGroupAvatar())
+                .build();
+    }
 }

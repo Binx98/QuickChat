@@ -31,4 +31,6 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     Boolean saveList(List<QuickChatSession> sessionPOList);
 
     Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
+
+    QuickChatSession getSessionInfo(String fromId, String toId);
 }

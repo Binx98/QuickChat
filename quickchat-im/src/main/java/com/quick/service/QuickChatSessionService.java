@@ -24,4 +24,6 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
     Boolean updateLastReadTime(Long sessionId);
 
     Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList);
+
+    ChatSessionVO getSessionInfo(String fromId, String toId);
 }

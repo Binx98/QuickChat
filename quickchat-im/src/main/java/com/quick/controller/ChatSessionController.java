@@ -31,6 +31,15 @@ public class ChatSessionController {
     }
 
     /**
+     * 查询双方会话信息
+     */
+    @GetMapping("/getSessionInfo/{fromId}/{toId}")
+    public R getSessionInfo(@PathVariable String fromId, @PathVariable String toId) {
+        ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);
+        return R.out(ResponseEnum.SUCCESS, result);
+    }
+
+    /**
      * 修改会话已读时间
      */
     @PostMapping("/updateReadTime/{sessionId}")

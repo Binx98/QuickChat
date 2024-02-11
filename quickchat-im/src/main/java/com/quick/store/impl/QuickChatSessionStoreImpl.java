@@ -79,4 +79,12 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     public Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime) {
         return sessionMapper.getUnreadCount(loginAccountId, relationId, lastReadTime);
     }
+
+    @Override
+    public QuickChatSession getSessionInfo(String fromId, String toId) {
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getFromId, fromId)
+                .eq(QuickChatSession::getToId, toId)
+                .one();
+    }
 }
