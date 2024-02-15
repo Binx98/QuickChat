@@ -1,8 +1,9 @@
 package com.quick.controller;
 
+import com.quick.annotation.RateLimiter;
+import com.quick.enums.LimitType;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
@@ -31,6 +32,7 @@ public class ChatMsgController {
      * 发送消息
      */
     @PostMapping("/send")
+    @RateLimiter(time = 3, count = 5, limitType = LimitType.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);

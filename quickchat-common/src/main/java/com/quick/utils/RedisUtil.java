@@ -223,7 +223,16 @@ public class RedisUtil {
         return redisTemplate.keys(pattern);
     }
 
-    public Long executeScript(RedisScript<Long> script, List<Object> keys, int count, int time) {
-        return (Long) redisTemplate.execute(script, keys, count, time);
+    /**
+     * 执行 LUA 脚本
+     *
+     * @param script RedisScript
+     * @param keys   键
+     * @param params 参数
+     * @param <T>    返回值
+     * @return
+     */
+    public <T> T executeScript(RedisScript<T> script, List<Object> keys, Object... params) {
+        return (T) redisTemplate.execute(script, keys, params);
     }
 }

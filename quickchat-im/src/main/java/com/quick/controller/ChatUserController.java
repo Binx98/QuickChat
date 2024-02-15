@@ -1,6 +1,8 @@
 package com.quick.controller;
 
 
+import com.quick.annotation.RateLimiter;
+import com.quick.enums.LimitType;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
@@ -93,6 +95,7 @@ public class ChatUserController {
 
 
     @GetMapping("/test")
+    @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitType.IP)
     public R test() {
         return R.out(ResponseEnum.SUCCESS);
     }

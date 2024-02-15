@@ -25,6 +25,7 @@ public enum ResponseEnum {
     TOKEN_EXPIRE(500, "Token身份信息已过期，请重新登录！"),
     RELATION_GENERATE_ERROR(500, "生成 relation_id 失败，缺少关键信息！"),
     REQUEST_HOLDER_NO_ACCOUNT_ID(500, "全局请求上下文未获取到账号信息！"),
+    SEND_MSG_FAST(500, "慢点发消息嘛，别急..."),
     ;
 
 

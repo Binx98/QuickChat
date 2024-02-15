@@ -17,7 +17,7 @@ public class LuaScriptConfig {
     public static final String RATE_LIMIT_LUA = "RATE_LIMIT_LUA";
 
     /**
-     * RateLimiter.lua限流脚本
+     * RateLimiter.lua 限流脚本
      */
     @Bean(RATE_LIMIT_LUA)
     public DefaultRedisScript<Long> rateLimitScript() {
