@@ -1,5 +1,9 @@
-quick_chat:
-  common_group_id: 1
+quick-chat:
+  common-group-id: 1
+  bucket:
+    avatar: avatar-bucket
+    voice: voice-bucket
+    msg: msg-bucket
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

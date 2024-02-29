@@ -1,6 +1,7 @@
 package com.quick.pojo.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Author: 徐志斌
@@ -28,4 +29,8 @@ public class ChatMsgDTO {
      * 消息内容
      */
     private String content;
+    /**
+     * 文件
+     */
+    private MultipartFile file;
 }
