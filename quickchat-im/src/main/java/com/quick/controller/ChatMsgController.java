@@ -7,8 +7,6 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
-import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
-import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +32,7 @@ public class ChatMsgController {
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitType.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        chatMsgHandler.sendChatMsg(msgDTO);
+        msgService.sendMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 

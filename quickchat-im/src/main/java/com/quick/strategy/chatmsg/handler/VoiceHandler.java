@@ -2,6 +2,8 @@ package com.quick.strategy.chatmsg.handler;
 
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.po.QuickChatSession;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +25,7 @@ public class VoiceHandler extends AbstractChatMsgStrategy {
      * 发送语音消息
      */
     @Override
-    public void sendChatMsg(ChatMsgDTO msgDTO) {
+    public void sendChatMsg(QuickChatMsg chatMsg, QuickChatSession chatSession) {
 
     }
 }

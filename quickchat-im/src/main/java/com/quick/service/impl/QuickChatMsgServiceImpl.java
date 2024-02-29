@@ -1,19 +1,32 @@
 package com.quick.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
+import com.quick.adapter.ChatSessionAdapter;
+import com.quick.enums.ChatTypeEnum;
 import com.quick.mapper.QuickChatMsgMapper;
+import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
+import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
+import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
+import com.quick.store.QuickChatSessionStore;
+import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
+import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import com.quick.utils.ListUtil;
+import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +48,13 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgService {
     @Autowired
+    private RedissonLockUtil lockUtil;
+    @Autowired
     private QuickChatMsgStore msgStore;
+    @Autowired
+    private QuickChatSessionStore sessionStore;
+    @Autowired
+    private QuickChatGroupMemberStore memberStore;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
@@ -93,5 +113,70 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             }
         }
         return resultMap;
+    }
+
+    @Override
+    public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
+        // 保存聊天信息
+        String fromId = msgDTO.getFromId();
+        String toId = msgDTO.getToId();
+        String content = msgDTO.getContent();
+        Integer msgType = msgDTO.getMsgType();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, msgType);
+        msgStore.saveMsg(chatMsg);
+
+        // 双方会话创建
+        String relationId = RelationUtil.generate(fromId, toId);
+        QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
+                () -> this.handleSession(fromId, toId)
+        );
+
+        // 针对不同消息类型，策略模式处理
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgType);
+        chatMsgHandler.sendChatMsg(chatMsg, chatSession);
+    }
+
+    @Transactional
+    protected QuickChatSession handleSession(String fromId, String toId) {
+        // 单聊：接受方没有会话，新增
+        QuickChatSession toSession = sessionStore.getByAccountId(fromId, toId);
+        if (ChatTypeEnum.SINGLE.getType().equals(toSession.getType())) {
+            QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
+            if (ObjectUtils.isEmpty(sessionPO)) {
+                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId, toSession.getType());
+                sessionStore.saveInfo(sessionPO);
+            }
+        }
+
+        // 群聊：群成员没有会话，新增
+        else {
+            // 查询群成员列表
+            String groupId = toId;
+            List<QuickChatGroupMember> memberList = memberStore.getByGroupId(groupId);
+            List<String> memberAccountIds = memberList.stream()
+                    .map(QuickChatGroupMember::getAccountId)
+                    .collect(Collectors.toList());
+
+            // 查询群内成员会话列表
+            List<QuickChatSession> memberSessionList = sessionStore.getListByAccountIdList(memberAccountIds, groupId);
+            List<String> memberIds = memberSessionList.stream()
+                    .map(QuickChatSession::getFromId)
+                    .collect(Collectors.toList());
+
+            // 过滤留下没有会话的用户列表、批量保存会话
+            List<QuickChatSession> sessionPOList = new ArrayList<>();
+            memberIds = memberIds.stream()
+                    .filter(item -> !memberAccountIds.contains(item))
+                    .collect(Collectors.toList());
+            for (String accountId : memberIds) {
+                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, groupId, toSession.getType()));
+            }
+
+            // 批量保存会话
+            if (CollectionUtils.isNotEmpty(sessionPOList)) {
+                sessionStore.saveList(sessionPOList);
+            }
+        }
+        return toSession;
     }
 }
