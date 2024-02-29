@@ -54,9 +54,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
-    private QuickChatGroupMemberStore memberStore;
-    @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
+    @Autowired
+    private QuickChatGroupMemberStore memberStore;
 
     /**
      * 查询聊天记录
@@ -113,70 +113,5 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             }
         }
         return resultMap;
-    }
-
-    @Override
-    public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 保存聊天信息
-        String fromId = msgDTO.getFromId();
-        String toId = msgDTO.getToId();
-        String content = msgDTO.getContent();
-        Integer msgType = msgDTO.getMsgType();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, msgType);
-        msgStore.saveMsg(chatMsg);
-
-        // 双方会话创建
-        String relationId = RelationUtil.generate(fromId, toId);
-        QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
-                () -> this.handleSession(fromId, toId)
-        );
-
-        // 针对不同消息类型，策略模式处理
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgType);
-        chatMsgHandler.sendChatMsg(chatMsg, chatSession);
-    }
-
-    @Transactional
-    protected QuickChatSession handleSession(String fromId, String toId) {
-        // 单聊：接受方没有会话，新增
-        QuickChatSession toSession = sessionStore.getByAccountId(fromId, toId);
-        if (ChatTypeEnum.SINGLE.getType().equals(toSession.getType())) {
-            QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
-            if (ObjectUtils.isEmpty(sessionPO)) {
-                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId, toSession.getType());
-                sessionStore.saveInfo(sessionPO);
-            }
-        }
-
-        // 群聊：群成员没有会话，新增
-        else {
-            // 查询群成员列表
-            String groupId = toId;
-            List<QuickChatGroupMember> memberList = memberStore.getByGroupId(groupId);
-            List<String> memberAccountIds = memberList.stream()
-                    .map(QuickChatGroupMember::getAccountId)
-                    .collect(Collectors.toList());
-
-            // 查询群内成员会话列表
-            List<QuickChatSession> memberSessionList = sessionStore.getListByAccountIdList(memberAccountIds, groupId);
-            List<String> memberIds = memberSessionList.stream()
-                    .map(QuickChatSession::getFromId)
-                    .collect(Collectors.toList());
-
-            // 过滤留下没有会话的用户列表、批量保存会话
-            List<QuickChatSession> sessionPOList = new ArrayList<>();
-            memberIds = memberIds.stream()
-                    .filter(item -> !memberAccountIds.contains(item))
-                    .collect(Collectors.toList());
-            for (String accountId : memberIds) {
-                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, groupId, toSession.getType()));
-            }
-
-            // 批量保存会话
-            if (CollectionUtils.isNotEmpty(sessionPOList)) {
-                sessionStore.saveList(sessionPOList);
-            }
-        }
-        return toSession;
     }
 }

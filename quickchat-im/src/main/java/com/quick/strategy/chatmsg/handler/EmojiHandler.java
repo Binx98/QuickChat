@@ -20,11 +20,8 @@ public class EmojiHandler extends AbstractChatMsgStrategy {
         return ChatMsgEnum.EMOJI;
     }
 
-    /**
-     * 发送表情包消息
-     */
     @Override
-    public void sendChatMsg(QuickChatMsg chatMsg, QuickChatSession chatSession) {
+    public void sendChatMsg(ChatMsgDTO msgDTO) {
 
     }
 }

@@ -25,7 +25,7 @@ public class VideoCallHandler extends AbstractChatMsgStrategy {
      * 发送视频通话消息
      */
     @Override
-    public void sendChatMsg(QuickChatMsg chatMsg, QuickChatSession chatSession) {
+    public void sendChatMsg(ChatMsgDTO msgDTO) {
 
     }
 }

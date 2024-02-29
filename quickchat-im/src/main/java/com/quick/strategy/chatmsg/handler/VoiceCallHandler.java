@@ -25,7 +25,7 @@ public class VoiceCallHandler extends AbstractChatMsgStrategy {
      * 发送语音通话消息
      */
     @Override
-    public void sendChatMsg(QuickChatMsg chatMsg, QuickChatSession chatSession) {
+    public void sendChatMsg(ChatMsgDTO msgDTO) {
 
     }
 }

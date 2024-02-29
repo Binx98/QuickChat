@@ -14,18 +14,15 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class VoiceHandler extends AbstractChatMsgStrategy {
+public class VoiceMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     protected ChatMsgEnum getEnum() {
         return ChatMsgEnum.VOICE;
     }
 
-    /**
-     * 发送语音消息
-     */
     @Override
-    public void sendChatMsg(QuickChatMsg chatMsg, QuickChatSession chatSession) {
+    public void sendChatMsg(ChatMsgDTO msgDTO) {
 
     }
 }

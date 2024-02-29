@@ -1,7 +1,6 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 
@@ -22,6 +21,4 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
     Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size);
 
     Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException;
-
-    void sendMsg(ChatMsgDTO msgDTO) throws Throwable;
 }
