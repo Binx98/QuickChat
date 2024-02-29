@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
  * @Author 徐志斌
  * @Date: 2023/11/13 21:35
  * @Version 1.0
- * @Description: 聊天相关
+ * @Description: 聊天消息相关
  */
 @RestController
 @RequestMapping("/chat/msg")
