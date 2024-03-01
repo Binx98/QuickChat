@@ -1,16 +1,11 @@
 package com.quick.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
-import com.quick.adapter.ChatSessionAdapter;
-import com.quick.enums.ChatTypeEnum;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
-import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatGroupMemberStore;
@@ -22,11 +17,9 @@ import com.quick.utils.ListUtil;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -58,9 +50,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
-    /**
-     * 查询聊天记录
-     */
     @Override
     public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
@@ -70,9 +59,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
     }
 
-    /**
-     * 查询双方聊天信息列表（首次登陆）
-     */
     @Override
     public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
         // 遍历生成 relation_id
@@ -113,5 +99,12 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             }
         }
         return resultMap;
+    }
+
+    @Override
+    public Boolean sendMsg(ChatMsgDTO msgDTO) throws Throwable {
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
+        chatMsgHandler.sendChatMsg(msgDTO);
+        return null;
     }
 }

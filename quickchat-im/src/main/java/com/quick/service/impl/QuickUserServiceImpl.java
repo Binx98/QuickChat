@@ -71,9 +71,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Value("${quick-chat.common-group-id}")
     private String commonGroupId;
 
-    /**
-     * 根据 account_id 查询用户信息
-     */
     @Override
     public ChatUserVO getByAccountId(String accountId) {
         QuickChatUser userPO = userStore.getByAccountId(accountId);
@@ -83,9 +80,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         return UserAdapter.buildUserVO(userPO);
     }
 
-    /**
-     * 注册账号
-     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean register(RegisterDTO registerDTO) throws Exception {
@@ -119,7 +113,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         groupStore.updateInfo(chatGroup);
 
         // 解析地址信息、密码对称加密
-        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
+        String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         String password = AESUtil.encrypt(registerDTO.getPassword1());
 
         // 保存账号信息
@@ -128,9 +122,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         return userStore.saveUser(userPO);
     }
 
-    /**
-     * 登陆账号
-     */
     @Override
     public String login(LoginDTO loginDTO) throws Exception {
         // 判断账号是否存在
@@ -140,7 +131,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 校验图片验证码
-        String captchaKey = HttpContextUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
+        String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
         if (StringUtils.isEmpty(cacheImgCode) || !cacheImgCode.equalsIgnoreCase(loginDTO.getVerifyCode())) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
@@ -157,7 +148,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         userStore.updateInfo(userPO);
 
         // 解析当前登录地址，同步到用户信息
-        String location = IpUtil.getIpAddr(HttpContextUtil.getRequest());
+        String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         if (!location.equals(userPO.getLocation())) {
             userPO.setLocation(location);
             userStore.updateInfo(userPO);
@@ -167,13 +158,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         return JwtUtil.generate(loginDTO.getAccountId());
     }
 
-    /**
-     * 生成验证码
-     */
     @Override
     public void captcha() throws IOException {
         // 封装响应信息
-        HttpServletResponse response = HttpContextUtil.getResponse();
+        HttpServletResponse response = HttpServletUtil.getResponse();
         response.setDateHeader("Expires", 0);
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -202,42 +190,31 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
     }
 
-    /**
-     * 发送验证码邮件
-     */
     @Override
     public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
         AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
         return emailStrategy.sendEmail(emailDTO);
     }
 
-    /**
-     * 修改用户信息
-     */
     @Override
     public Boolean updateUser(UserUpdateDTO userDTO) {
         QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
         return userStore.updateInfo(userPO);
     }
 
-    /**
-     * 根据 token 查询用户信息
-     */
     @Override
     public QuickChatUser getByToken() {
-        // 请求头获取 token
-        String token = HttpContextUtil.getRequest().getHeader("token");
+        String token = HttpServletUtil.getRequest().getHeader("token");
         if (StringUtils.isEmpty(token)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
-
-        // 解析 token、查询用户信息
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.USER_NOT_EXIST);
         }
+        userPO.setPassword(null);
         return userPO;
     }
 }

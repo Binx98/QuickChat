@@ -5,7 +5,7 @@ import com.quick.config.LuaScriptConfig;
 import com.quick.enums.LimitType;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
-import com.quick.utils.HttpContextUtil;
+import com.quick.utils.HttpServletUtil;
 import com.quick.utils.IpUtil;
 import com.quick.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,7 @@ public class RateLimiterAspect {
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
         StringBuffer buffer = new StringBuffer(rateLimiter.key());
         if (rateLimiter.limitType() == LimitType.IP) {
-            buffer.append(IpUtil.getIpAddr(HttpContextUtil.getRequest())).append("-");
+            buffer.append(IpUtil.getIpAddr(HttpServletUtil.getRequest())).append("-");
         }
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();

@@ -24,26 +24,17 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     @Autowired
     private QuickChatFriendStore friendStore;
 
-    /**
-     * 查询好友列表
-     */
     @Override
     public List<QuickChatFriend> getFriendList() {
         String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         return friendStore.getListByAccountId(accountId);
     }
 
-    /**
-     * 添加好友
-     */
     @Override
     public void addFriend() {
 
     }
 
-    /**
-     * 删除好友
-     */
     @Override
     public void deleteFriend() {
 

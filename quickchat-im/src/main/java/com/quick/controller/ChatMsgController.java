@@ -34,8 +34,7 @@ public class ChatMsgController {
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitType.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        chatMsgHandler.sendChatMsg(msgDTO);
+        msgService.sendMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 

@@ -25,17 +25,11 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
     @Autowired
     private QuickChatEmojiStore emojiStore;
 
-    /**
-     * 查询该用户表情包列表
-     */
     @Override
     public List<QuickChatEmoji> getEmojiList(String accountId) {
         return emojiStore.getEmojiList(accountId);
     }
 
-    /**
-     * 添加表情包
-     */
     @Override
     public Boolean addEmoji(String url) {
         String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
@@ -43,12 +37,9 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
         return emojiStore.saveEmoji(chatEmoji);
     }
 
-    /**
-     * 删除表情包
-     */
     @Override
-    public Boolean deleteEmoji(Long emojiId) {
+    public Boolean deleteEmoji(Long id) {
         String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-        return emojiStore.deleteByEmojiId(emojiId, accountId);
+        return emojiStore.deleteByEmojiId(id, accountId);
     }
 }

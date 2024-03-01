@@ -12,22 +12,16 @@ import javax.servlet.http.HttpServletResponse;
  * @Description: HttpServlet 工具类
  * @Version: 1.0
  */
-public class HttpContextUtil {
-    /**
-     * 获取 HttpServletRequest
-     */
+public class HttpServletUtil {
+    private static ServletRequestAttributes getRequestAttributes() {
+        return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    }
+
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
     }
 
-    /**
-     * 获取 HttpServletResponse
-     */
     public static HttpServletResponse getResponse() {
         return getRequestAttributes().getResponse();
-    }
-
-    private static ServletRequestAttributes getRequestAttributes() {
-        return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     }
 }
