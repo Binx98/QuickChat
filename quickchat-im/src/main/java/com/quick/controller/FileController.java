@@ -5,8 +5,10 @@ import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @Version 1.0
  * @Description: 文件控制器
  */
+@RestController
 @RequestMapping("/file")
 public class FileController {
     @Autowired
@@ -27,8 +30,8 @@ public class FileController {
      * @param file 文件实体信息
      * @return 响应信息
      */
-    @PostMapping("/upload")
-    public R uploadFile(int type, MultipartFile file) throws Exception {
+    @PostMapping("/upload/{type}")
+    public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
         if (FileEnum.AVATAR.getType().equals(type)) {
             minioUtil.upload(file, FileEnum.AVATAR.getBucketName());
         } else if (FileEnum.VOICE.getType().equals(type)) {

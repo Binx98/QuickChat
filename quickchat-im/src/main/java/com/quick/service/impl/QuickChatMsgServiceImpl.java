@@ -8,13 +8,10 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
-import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
-import com.quick.store.QuickChatSessionStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
 import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import com.quick.utils.ListUtil;
-import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +37,9 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgService {
     @Autowired
-    private RedissonLockUtil lockUtil;
-    @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
-    private QuickChatSessionStore sessionStore;
-    @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
-    @Autowired
-    private QuickChatGroupMemberStore memberStore;
 
     @Override
     public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {

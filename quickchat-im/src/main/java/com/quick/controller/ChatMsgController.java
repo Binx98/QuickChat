@@ -55,12 +55,4 @@ public class ChatMsgController {
         Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
-
-    /**
-     * 撤回消息
-     */
-    @PostMapping("/recall")
-    public R recallMsg() {
-        return R.out(ResponseEnum.SUCCESS);
-    }
 }
