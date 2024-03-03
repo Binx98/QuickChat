@@ -18,6 +18,6 @@ public enum FileEnum {
     ;
 
     private Integer type;
-    private String desc;
     private String bucketName;
+    private String desc;
 }

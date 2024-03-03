@@ -32,13 +32,14 @@ public class FileController {
      */
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
+        String url = null;
         if (FileEnum.AVATAR.getType().equals(type)) {
-            minioUtil.upload(file, FileEnum.AVATAR.getBucketName());
+            url = minioUtil.upload(file, FileEnum.AVATAR.getBucketName());
         } else if (FileEnum.VOICE.getType().equals(type)) {
-            minioUtil.upload(file, FileEnum.VOICE.getBucketName());
+            url = minioUtil.upload(file, FileEnum.VOICE.getBucketName());
         } else {
-            minioUtil.upload(file, FileEnum.FILE.getBucketName());
+            url = minioUtil.upload(file, FileEnum.FILE.getBucketName());
         }
-        return R.out(ResponseEnum.SUCCESS);
+        return R.out(ResponseEnum.SUCCESS, url);
     }
 }

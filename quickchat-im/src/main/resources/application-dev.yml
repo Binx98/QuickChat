@@ -52,7 +52,5 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*Mapper.xml
 minio:
   endpoint: http://101.42.13.186:9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  avatarBucket: avatar-bucket
-  voiceBucket: voice-bucket
+  accessKey: admin
+  secretKey: admin123

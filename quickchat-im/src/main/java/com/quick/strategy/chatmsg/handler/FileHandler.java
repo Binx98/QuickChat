@@ -5,7 +5,6 @@ import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
-import com.quick.enums.FileEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
@@ -35,8 +34,6 @@ public class FileHandler extends AbstractChatMsgStrategy {
     private QuickChatMsgStore msgStore;
     @Autowired
     private RedissonLockUtil lockUtil;
-    @Autowired
-    private MinioUtil minioUtil;
 
     @Override
     protected ChatMsgEnum getEnum() {
@@ -46,13 +43,11 @@ public class FileHandler extends AbstractChatMsgStrategy {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 上传文件
-        String url = minioUtil.upload(msgDTO.getFile(), FileEnum.FILE.getBucketName());
-
         // 保存聊天信息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, url, ChatMsgEnum.FILE.getType());
+        String fileUrl = msgDTO.getContent();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, fileUrl, ChatMsgEnum.FILE.getType());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息

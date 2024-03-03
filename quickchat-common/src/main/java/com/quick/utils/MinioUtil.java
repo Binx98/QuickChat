@@ -62,6 +62,7 @@ public class MinioUtil {
         }
         StringBuffer url = new StringBuffer();
         url.append(endPoint);
+        url.append("/");
         url.append(bucketName);
         url.append("/");
         url.append(fileName);
