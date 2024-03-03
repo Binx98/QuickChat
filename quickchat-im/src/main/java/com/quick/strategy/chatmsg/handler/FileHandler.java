@@ -7,11 +7,11 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
-import com.quick.utils.MinioUtil;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,9 @@ public class FileHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String fileUrl = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, fileUrl, ChatMsgEnum.FILE.getType());
+        ExtraInfoDTO extraInfo = msgDTO.getExtraInfo();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
+                fileUrl, JSONUtil.toJsonStr(extraInfo), ChatMsgEnum.FILE.getType());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息

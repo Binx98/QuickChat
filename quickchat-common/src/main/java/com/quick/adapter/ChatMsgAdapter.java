@@ -14,12 +14,13 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class ChatMsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content, Integer type) {
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content, String extraInfo, Integer type) {
         return QuickChatMsg.builder()
                 .fromId(fromId)
                 .toId(toId)
                 .relationId(RelationUtil.generate(fromId, toId))
                 .content(content)
+                .extraInfo(extraInfo)
                 .msgType(type)
                 .build();
     }

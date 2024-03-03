@@ -7,6 +7,7 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
@@ -46,7 +47,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String content = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, ChatMsgEnum.FONT.getType());
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, null, ChatMsgEnum.FONT.getType());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息
