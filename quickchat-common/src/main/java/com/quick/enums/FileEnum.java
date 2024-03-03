@@ -12,11 +12,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum FileEnum {
-    AVATAR(1, "头像"),
-    VOICE(2, "语音"),
-    FILE(3, "文件（图片、视频）"),
+    AVATAR(1, "avatar-bucket", "头像"),
+    VOICE(2, "voice-bucket", "语音"),
+    FILE(3, "file-bucket", "文件"),
     ;
 
     private Integer type;
     private String desc;
+    private String bucketName;
 }

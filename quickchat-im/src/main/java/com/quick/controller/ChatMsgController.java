@@ -7,8 +7,6 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
-import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
-import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

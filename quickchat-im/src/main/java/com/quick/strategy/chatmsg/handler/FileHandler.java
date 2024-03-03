@@ -5,6 +5,7 @@ import com.quick.adapter.ChatMsgAdapter;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
+import com.quick.enums.FileEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
@@ -15,7 +16,6 @@ import com.quick.utils.MinioUtil;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,9 +38,6 @@ public class FileHandler extends AbstractChatMsgStrategy {
     @Autowired
     private MinioUtil minioUtil;
 
-    @Value("${quick-chat.bucket.msg}")
-    private String msgBucket;
-
     @Override
     protected ChatMsgEnum getEnum() {
         return ChatMsgEnum.FILE;
@@ -50,7 +47,7 @@ public class FileHandler extends AbstractChatMsgStrategy {
     @Transactional(rollbackFor = Exception.class)
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 上传文件
-        String url = minioUtil.upload(msgDTO.getFile(), msgBucket);
+        String url = minioUtil.upload(msgDTO.getFile(), FileEnum.FILE.getBucketName());
 
         // 保存聊天信息
         String fromId = msgDTO.getFromId();
