@@ -5,10 +5,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -41,5 +38,24 @@ public class FileController {
             url = minioUtil.upload(file, FileEnum.FILE.getBucketName());
         }
         return R.out(ResponseEnum.SUCCESS, url);
+    }
+
+    /**
+     * 文件下载功能
+     *
+     * @param type     文件类型
+     * @param fileName 文件名
+     * @return 响应信息
+     */
+    @GetMapping("/download/{type}/{fileName}")
+    public R downloadFile(@PathVariable int type, @PathVariable String fileName) {
+        if (FileEnum.AVATAR.getType().equals(type)) {
+            minioUtil.download(FileEnum.AVATAR.getBucketName(), fileName);
+        } else if (FileEnum.VOICE.getType().equals(type)) {
+            minioUtil.download(FileEnum.VOICE.getBucketName(), fileName);
+        } else {
+            minioUtil.download(FileEnum.FILE.getBucketName(), fileName);
+        }
+        return R.out(ResponseEnum.SUCCESS);
     }
 }

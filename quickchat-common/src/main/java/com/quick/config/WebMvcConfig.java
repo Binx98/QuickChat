@@ -44,7 +44,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 "/user/captcha",
                 "/user/register",
                 "/user/login",
-                "/user/sendEmail"
+                "/user/sendEmail",
+                "/file/download"
         );
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
