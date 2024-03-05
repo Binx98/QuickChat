@@ -1,6 +1,7 @@
 package com.quick.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.quick.pojo.dto.ExtraInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,6 +38,10 @@ public class ChatMsgVO {
      * @see com.quick.enums.ChatMsgEnum
      */
     private Integer msgType;
+    /**
+     * 额外信息
+     */
+    private ExtraInfoDTO extraInfo;
     /**
      * 发送时间
      */

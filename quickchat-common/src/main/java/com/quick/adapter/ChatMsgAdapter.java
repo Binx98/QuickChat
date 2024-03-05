@@ -1,5 +1,8 @@
 package com.quick.adapter;
 
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.utils.RelationUtil;
@@ -35,6 +38,9 @@ public class ChatMsgAdapter {
                     .msgType(chatMsg.getMsgType())
                     .createTime(chatMsg.getCreateTime())
                     .build();
+            if (ObjectUtils.isNotEmpty(chatMsg.getExtraInfo())) {
+                msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), ExtraInfoDTO.class));
+            }
             resultList.add(msgVO);
         }
         return resultList;
