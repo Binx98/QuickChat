@@ -6,7 +6,6 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupMemberService;
 import com.quick.service.QuickChatGroupService;
-import com.quick.store.QuickChatGroupStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,11 +53,15 @@ public class ChatGroupController {
     }
 
     /**
-     * 创建群组
+     * 创建群聊
      */
+    @PostMapping("/create")
+    public R createGroup(@RequestBody List<String> accountIds) {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
-     * 修改群组
+     * 修改群聊信息
      */
 
     /**

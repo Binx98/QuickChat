@@ -47,9 +47,16 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0", unless = "#result == null")
     public QuickChatMsg getByMsgId(Long msgId) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getId, msgId)
                 .one();
+    }
+
+    @Override
+    @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0")
+    public Boolean updateByMsgId(QuickChatMsg chatMsg) {
+        return this.updateById(chatMsg);
     }
 }
