@@ -47,7 +47,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String content = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, null, ChatMsgEnum.FONT.getType());
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, null, this.getEnum().getType());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息

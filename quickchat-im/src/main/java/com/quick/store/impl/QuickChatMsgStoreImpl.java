@@ -22,18 +22,12 @@ import java.util.List;
  */
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
-    /**
-     * 保存聊天信息
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0.relationId")
     public Boolean saveMsg(QuickChatMsg chatMsg) {
         return this.save(chatMsg);
     }
 
-    /**
-     * 查询双方聊天记录列表
-     */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0 + '-' + #p1 + '-' + #p2", unless = "#result.total == 0")
     public Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size) {
@@ -43,9 +37,6 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .page(new Page<>(current, size));
     }
 
-    /**
-     * 批量查询聊天信息
-     */
     @Override
     public List<QuickChatMsg> getByRelationIdList(List<String> relationIds) {
         return this.lambdaQuery()
@@ -53,5 +44,12 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .orderByDesc(QuickChatMsg::getCreateTime)
                 .last(" LIMIT 30 ")
                 .list();
+    }
+
+    @Override
+    public QuickChatMsg getByMsgId(Long msgId) {
+        return this.lambdaQuery()
+                .eq(QuickChatMsg::getId, msgId)
+                .one();
     }
 }
