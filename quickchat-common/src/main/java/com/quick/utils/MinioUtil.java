@@ -2,23 +2,17 @@ package com.quick.utils;
 
 import io.minio.*;
 import io.minio.messages.Item;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -72,45 +66,49 @@ public class MinioUtil {
     /**
      * 下载文件
      */
-    public ResponseEntity<byte[]> download(String bucketName, String fileName) {
-        ResponseEntity<byte[]> responseEntity = null;
-        InputStream in = null;
-        ByteArrayOutputStream out = null;
-        try {
-            in = minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(fileName).build());
-            out = new ByteArrayOutputStream();
-            IOUtils.copy(in, out);
-            //封装返回值
-            byte[] bytes = out.toByteArray();
-            HttpHeaders headers = new HttpHeaders();
-            try {
-                headers.add("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            headers.setContentLength(bytes.length);
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setAccessControlExposeHeaders(Arrays.asList("*"));
-            responseEntity = new ResponseEntity<>(bytes, headers, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void download(String bucketName, String url) throws Exception {
+        HttpServletResponse response = HttpServletUtil.getResponse();
+        if (StringUtils.isBlank(url)) {
+            response.setHeader("Content-type", "text/html;charset=UTF-8");
+            String data = "文件下载失败";
+            OutputStream ps = response.getOutputStream();
+            ps.write(data.getBytes("UTF-8"));
+            return;
         }
-        return responseEntity;
+        try {
+            // 获取文件对象
+            GetObjectArgs args = GetObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(this.getFileNameFromURL(url))
+                    .build();
+            InputStream object = minioClient.getObject(args);
+            byte buf[] = new byte[1024];
+            int length = 0;
+            response.reset();
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(this.getFileNameFromURL(url), "UTF-8"));
+            response.setContentType("application/octet-stream");
+            response.setCharacterEncoding("UTF-8");
+            OutputStream outputStream = response.getOutputStream();
+            // 输出文件
+            while ((length = object.read(buf)) > 0) {
+                outputStream.write(buf, 0, length);
+            }
+            // 关闭输出流
+            outputStream.close();
+        } catch (Exception ex) {
+            response.setHeader("Content-type", "text/html;charset=UTF-8");
+            String data = "文件下载失败";
+            OutputStream ps = response.getOutputStream();
+            ps.write(data.getBytes("UTF-8"));
+        }
+    }
+
+    private String getFileNameFromURL(String url) {
+        int lastSlashIndex = url.lastIndexOf('/');
+        if (lastSlashIndex == -1) {
+            return url;
+        }
+        return url.substring(lastSlashIndex + 1);
     }
 
     /**

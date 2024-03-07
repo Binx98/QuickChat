@@ -5,7 +5,10 @@ import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -43,18 +46,18 @@ public class FileController {
     /**
      * 文件下载功能
      *
-     * @param type     文件类型
-     * @param fileName 文件名
+     * @param type 文件类型
+     * @param url  文件url
      * @return 响应信息
      */
-    @GetMapping("/download/{type}/{fileName}")
-    public R downloadFile(@PathVariable int type, @PathVariable String fileName) {
+    @PostMapping("/download")
+    public R downloadFile(int type, String url) throws Exception {
         if (FileEnum.AVATAR.getType().equals(type)) {
-            minioUtil.download(FileEnum.AVATAR.getBucketName(), fileName);
+            minioUtil.download(FileEnum.AVATAR.getBucketName(), url);
         } else if (FileEnum.VOICE.getType().equals(type)) {
-            minioUtil.download(FileEnum.VOICE.getBucketName(), fileName);
+            minioUtil.download(FileEnum.VOICE.getBucketName(), url);
         } else {
-            minioUtil.download(FileEnum.FILE.getBucketName(), fileName);
+            minioUtil.download(FileEnum.FILE.getBucketName(), url);
         }
         return R.out(ResponseEnum.SUCCESS);
     }
