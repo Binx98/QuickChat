@@ -1,10 +1,8 @@
-package com.quick.strategy.chatmsg.handler;
+package com.quick.strategy.msg.handler;
 
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatMsg;
-import com.quick.pojo.po.QuickChatSession;
-import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
+import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import org.springframework.stereotype.Component;
 
 /**

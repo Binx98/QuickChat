@@ -9,8 +9,8 @@ import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatMsgStore;
-import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
-import com.quick.strategy.chatmsg.ChatMsgStrategyFactory;
+import com.quick.strategy.msg.AbstractChatMsgStrategy;
+import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import com.quick.utils.ListUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
@@ -53,11 +53,10 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Override
     public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
         // 遍历生成 relation_id
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         List<String> relationIds = new ArrayList<>();
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         for (String toAccountId : accountIds) {
-            String relationId = RelationUtil.generate(loginAccountId, toAccountId);
-            relationIds.add(relationId);
+            relationIds.add(RelationUtil.generate(loginAccountId, toAccountId));
         }
 
         // 分组：10个/组，多线程异步查询聊天信息
@@ -73,8 +72,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         // 同步等待线程任务完毕，拿到聊天记录结果
         List<QuickChatMsg> msgResultList = new ArrayList<>();
         for (CompletableFuture<List<QuickChatMsg>> future : futureList) {
-            List<QuickChatMsg> msgList = future.get();
-            msgResultList.addAll(msgList);
+            msgResultList.addAll(future.get());
         }
 
         // 转换成VO、按照 relation_id 分组
@@ -93,9 +91,14 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     @Override
-    public Boolean sendMsg(ChatMsgDTO msgDTO) throws Throwable {
+    public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);
+    }
+
+    @Override
+    public Boolean deleteByMsgId(Long msgId) {
+        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
         return null;
     }
 }

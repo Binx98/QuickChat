@@ -1,4 +1,4 @@
-package com.quick.strategy.chatmsg.handler;
+package com.quick.strategy.msg.handler;
 
 import cn.hutool.json.JSONUtil;
 import com.quick.adapter.ChatMsgAdapter;
@@ -7,11 +7,10 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
-import com.quick.strategy.chatmsg.AbstractChatMsgStrategy;
+import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -57,6 +57,11 @@ public class ChatMsgController {
     }
 
     /**
-     * TODO：删除
+     * 删除消息
      */
+    @DeleteMapping("/delete/{msgId}")
+    public R deleteMsg(@PathVariable Long msgId) {
+        msgService.deleteByMsgId(msgId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }

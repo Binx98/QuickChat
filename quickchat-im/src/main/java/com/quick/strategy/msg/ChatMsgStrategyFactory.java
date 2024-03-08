@@ -1,4 +1,4 @@
-package com.quick.strategy.chatmsg;
+package com.quick.strategy.msg;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;

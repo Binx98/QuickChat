@@ -1,4 +1,4 @@
-package com.quick.strategy.chatmsg;
+package com.quick.strategy.msg;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.quick.adapter.ChatSessionAdapter;
