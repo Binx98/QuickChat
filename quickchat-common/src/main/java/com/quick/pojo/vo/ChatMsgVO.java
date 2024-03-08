@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * @Author 徐志斌
  * @Date: 2024/1/13 19:24
  * @Version 1.0
- * @Description: ChatMsgVO
+ * @Description: 聊天信息VO
  */
 @Data
 @Builder
@@ -46,16 +46,6 @@ public class ChatMsgVO {
      * 额外信息
      */
     private ExtraInfoDTO extraInfo;
-
-    /**
-     * 左关联可见（N：否、Y：是）
-     */
-    private String leftVisible;
-
-    /**
-     * 右关联可见（N：否、Y：是）
-     */
-    private String rightVisible;
 
     /**
      * 发送时间

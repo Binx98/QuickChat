@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
-import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatMsgStore;
-import com.quick.strategy.msg.AbstractChatMsgStrategy;
-import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import com.quick.utils.ListUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
@@ -88,17 +85,5 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
             }
         }
         return resultMap;
-    }
-
-    @Override
-    public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        chatMsgHandler.sendChatMsg(msgDTO);
-    }
-
-    @Override
-    public Boolean deleteByMsgId(Long msgId) {
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
-        return null;
     }
 }

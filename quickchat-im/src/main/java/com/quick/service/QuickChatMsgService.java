@@ -1,7 +1,6 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 
@@ -37,20 +36,4 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @throws InterruptedException
      */
     Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException;
-
-    /**
-     * 发送聊天信息
-     *
-     * @param msgDTO 聊天内容入参
-     * @throws Throwable
-     */
-    void sendMsg(ChatMsgDTO msgDTO) throws Throwable;
-
-    /**
-     * 根据 msg_id 删除聊天信息
-     *
-     * @param msgId 消息id
-     * @return 执行结果
-     */
-    Boolean deleteByMsgId(Long msgId);
 }

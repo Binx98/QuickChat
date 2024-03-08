@@ -3,7 +3,6 @@ package com.quick.adapter;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.quick.enums.ChatMsgEnum;
-import com.quick.enums.YesNoEnum;
 import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
@@ -27,8 +26,6 @@ public class ChatMsgAdapter {
                 .content(content)
                 .extraInfo(extraInfo)
                 .msgType(type)
-                .leftVisible(YesNoEnum.NO.getStatus())
-                .rightVisible(YesNoEnum.NO.getStatus())
                 .build();
     }
 
@@ -41,8 +38,6 @@ public class ChatMsgAdapter {
                     .content(chatMsg.getContent())
                     .relationId(chatMsg.getRelationId())
                     .msgType(chatMsg.getMsgType())
-                    .leftVisible(chatMsg.getLeftVisible())
-                    .rightVisible(chatMsg.getRightVisible())
                     .createTime(chatMsg.getCreateTime())
                     .build();
             // 文件消息：封装文件额外信息

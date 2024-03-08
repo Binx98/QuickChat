@@ -7,6 +7,8 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
+import com.quick.strategy.msg.AbstractChatMsgStrategy;
+import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +29,13 @@ public class ChatMsgController {
     private QuickChatMsgService msgService;
 
     /**
-     * 发送消息
+     * 发送聊天消息
      */
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitType.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
-        msgService.sendMsg(msgDTO);
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
+        chatMsgHandler.sendChatMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -58,10 +61,10 @@ public class ChatMsgController {
 
     /**
      * 删除消息
+     * TODO：❌暂时无法落地。原因：Web系统数据存储在MySQL中，群聊场景千人千面展示代价太大！
      */
     @DeleteMapping("/delete/{msgId}")
     public R deleteMsg(@PathVariable Long msgId) {
-        msgService.deleteByMsgId(msgId);
         return R.out(ResponseEnum.SUCCESS);
     }
 }

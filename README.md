@@ -49,14 +49,16 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |     MinIO     | 自建对象存储            | https://github.com/minio/minio                               |
 |      Jwt      | 用户登录，认证方案         | [https://jwt.io](https://jwt.io)                             |
 |    Lombok     | 简化代码              | [https://projectlombok.org](https://projectlombok.org)       |
-|   WebSocket   | Java工具类库          | https://github.com/looly/hutool                              |
-|    WebRTC     | Java工具类库          | https://github.com/looly/hutool                              |
-|    Hutool     | Java工具类库          | https://github.com/looly/hutool                              |
-|   Ip2Region   | Java工具类库          | https://github.com/looly/hutool                              |
-|    Kaptcha    | Java工具类库          | https://github.com/looly/hutool                              |
-|     Nginx     | Java工具类库          | https://github.com/looly/hutool                              |
-|    Docker     | Java工具类库          | https://github.com/looly/hutool                              |
-|     Shell     | Java工具类库          | https://github.com/looly/hutool                              |
+|   WebSocket   | 全双工通信协议           | https://github.com/looly/hutool                              |
+|    WebRTC     | 视频流推送协议           | https://github.com/looly/hutool                              |
+| ShardingJDBC  | 分库分表中间件           | https://github.com/looly/hutool                              |
+|    Hutool     | HuTool工具包         | https://github.com/looly/hutool                              |
+|   Ip2Region   | 地址解析              | https://github.com/looly/hutool                              |
+|    Kaptcha    | Google图片生成        | https://github.com/looly/hutool                              |
+|     Nginx     | 高性能网关服务器          | https://github.com/looly/hutool                              |
+|    Docker     | 容器                | https://github.com/looly/hutool                              |
+|     Shell     | 自动化脚本             | https://github.com/looly/hutool                              |
+|    Jenkins    | CICD控制台           | https://github.com/looly/hutool                              |
 
 ### 贡献者名单
 

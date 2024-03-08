@@ -70,18 +70,6 @@ public class QuickChatMsg implements Serializable {
     private Integer msgType;
 
     /**
-     * 左关联可见（N：否、Y：是）
-     */
-    @TableField("left_visible")
-    private String leftVisible;
-
-    /**
-     * 右关联可见（N：否、Y：是）
-     */
-    @TableField("right_visible")
-    private String rightVisible;
-
-    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
