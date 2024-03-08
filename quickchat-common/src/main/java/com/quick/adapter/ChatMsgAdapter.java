@@ -2,6 +2,7 @@ package com.quick.adapter;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.pojo.dto.ExtraInfoDTO;
 import com.quick.pojo.po.QuickChatMsg;
@@ -34,6 +35,7 @@ public class ChatMsgAdapter {
     public static List<ChatMsgVO> buildChatMsgVOList(List<QuickChatMsg> msgList) {
         List<ChatMsgVO> resultList = new ArrayList<>();
         for (QuickChatMsg chatMsg : msgList) {
+            // 封装消息展示VO
             ChatMsgVO msgVO = ChatMsgVO.builder()
                     .accountId(chatMsg.getFromId())
                     .content(chatMsg.getContent())
@@ -43,8 +45,16 @@ public class ChatMsgAdapter {
                     .rightVisible(chatMsg.getRightVisible())
                     .createTime(chatMsg.getCreateTime())
                     .build();
+            // 文件消息：封装文件额外信息
             if (ObjectUtils.isNotEmpty(chatMsg.getExtraInfo())) {
                 msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), ExtraInfoDTO.class));
+            }
+            // 撤回消息：隐藏敏感数据
+            if (ChatMsgEnum.RECALL.getType().equals(chatMsg.getMsgType())) {
+                msgVO.setContent(null);
+                msgVO.setMsgType(null);
+                msgVO.setExtraInfo(null);
+                msgVO.setCreateTime(null);
             }
             resultList.add(msgVO);
         }

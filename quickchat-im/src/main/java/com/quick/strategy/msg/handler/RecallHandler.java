@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,11 +45,16 @@ public class RecallHandler extends AbstractChatMsgStrategy {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 消息类型修改为撤回
+        // 超过2分钟消息不可撤回
         QuickChatMsg chatMsg = msgStore.getByMsgId(msgDTO.getMsgId());
         if (ObjectUtils.isEmpty(chatMsg)) {
             throw new QuickException(ResponseEnum.FAIL);
         }
+        if (chatMsg.getCreateTime().minusMinutes(2).isBefore(LocalDateTime.now())) {
+            throw new QuickException(ResponseEnum.CAN_NOT_RECALL);
+        }
+
+        // 消息类型修改为撤回
         chatMsg.setMsgType(this.getEnum().getType());
         msgStore.updateByMsgId(chatMsg);
 
