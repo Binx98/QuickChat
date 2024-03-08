@@ -24,24 +24,39 @@ public class ChatMsgVO {
      * 发送账户id
      */
     private String accountId;
+
     /**
      * 内容
      */
     private String content;
+
     /**
      * 关系id
      */
     private String relationId;
+
     /**
      * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum
      */
     private Integer msgType;
+
     /**
      * 额外信息
      */
     private ExtraInfoDTO extraInfo;
+
+    /**
+     * 左关联可见（N：否、Y：是）
+     */
+    private String leftVisible;
+
+    /**
+     * 右关联可见（N：否、Y：是）
+     */
+    private String rightVisible;
+
     /**
      * 发送时间
      */
