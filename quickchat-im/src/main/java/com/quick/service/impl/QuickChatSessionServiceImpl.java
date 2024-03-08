@@ -130,7 +130,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public ChatSessionVO getSessionInfo(String fromId, String toId) {
-        QuickChatSession sessionPO = sessionStore.getSessionInfo(fromId, toId);
+        QuickChatSession sessionPO = sessionStore.getByAccountId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             return null;
         }
