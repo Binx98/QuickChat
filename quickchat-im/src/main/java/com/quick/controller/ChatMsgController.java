@@ -58,13 +58,4 @@ public class ChatMsgController {
         Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
-
-    /**
-     * 删除消息
-     * TODO：❌暂时无法落地。原因：Web系统数据存储在MySQL中，群聊场景千人千面展示代价太大！
-     */
-    @DeleteMapping("/delete/{msgId}")
-    public R deleteMsg(@PathVariable Long msgId) {
-        return R.out(ResponseEnum.SUCCESS);
-    }
 }

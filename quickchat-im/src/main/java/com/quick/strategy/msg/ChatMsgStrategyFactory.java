@@ -18,16 +18,10 @@ import java.util.Map;
 public class ChatMsgStrategyFactory {
     private static final Map<Integer, AbstractChatMsgStrategy> STRATEGY_MAP = new HashMap<>();
 
-    /**
-     * 注册工厂
-     */
     public static void register(Integer type, AbstractChatMsgStrategy orderStrategy) {
         STRATEGY_MAP.put(type, orderStrategy);
     }
 
-    /**
-     * 获取对应Handler
-     */
     public static AbstractChatMsgStrategy getStrategyHandler(Integer code) {
         AbstractChatMsgStrategy strategyHandler = STRATEGY_MAP.get(code);
         if (ObjectUtils.isEmpty(strategyHandler)) {
