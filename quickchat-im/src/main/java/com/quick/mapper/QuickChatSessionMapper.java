@@ -2,9 +2,6 @@ package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.quick.pojo.po.QuickChatSession;
-import org.apache.ibatis.annotations.Param;
-
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,7 +12,5 @@ import java.time.LocalDateTime;
  * @since 2023-11-25
  */
 public interface QuickChatSessionMapper extends BaseMapper<QuickChatSession> {
-    Integer getUnreadCount(@Param("loginAccountId") String loginAccountId,
-                           @Param("relationId") String relationId,
-                           @Param("lastReadTime") LocalDateTime lastReadTime);
+
 }

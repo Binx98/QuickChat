@@ -4,34 +4,22 @@
     </a>
 </p>
 
-<h1 align="center">QuickChat</h1>
-<p align="center"><strong>IM实时通讯畅聊系统</strong></p>
+<h1 align="center">Quick Chat</h1>
+<p align="center"><strong>实时通讯IM系统</strong></p>
 
 <div align="center">
-    <a href="https://github.com/zongzibinbin/MallChat"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
-    <a href="https://github.com/Evansy/MallChatWeb"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
-    <a href="https://github.com/zongzibinbin/MallChat/commits" target="_blank"><br>
-    <a href="https://github.com/Evansy/MallChatWeb/actions/workflows/deploy.yml" target="_blank">
-        <img alt="Commit" src="https://github.com/Evansy/MallChatWeb/actions/workflows/deploy.yml/badge.svg?branch=main">
-    </a>
-    <a href="https://github.com/zongzibinbin/MallChat/commits" target="_blank">
-        <img alt="Commit" src="https://img.shields.io/github/commit-activity/m/zongzibinbin/MallChat"></a>
-    <a href="https://github.com/zongzibinbin/MallChat/issues" target="_blank">
-        <img alt="Issues" src="https://img.shields.io/github/issues/zongzibinbin/MallChat">
-    </a>
+    <a href="https://github.com/CoderXu666/QuickChat"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
+    <a href="https://github.com/CoderXu666/QuickChat-Front"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
+    <a href="" target="_blank">
+    <br>
 </div>
 
 ### QuickChat介绍
 
 Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能丰富好玩
 
-1. 支持单聊、群聊，孩子乐意咋聊咋聊
-2. 支持语音通话、视频通话，面对面实时畅聊
-3. 支持PC、移动多终端适配，满足各种使用场景
-4. 支持图片、文件、视频、文字、表情包等多种消息媒体
-5. 白天、夜间风格模式自由切换
 
-### 技术栈
+### 架构图
 
 后端：
 
@@ -62,7 +50,7 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 
 ### 贡献者名单
 
-### 如何成为贡献者
+### 如何参与贡献
 
 ### 开源不易，感谢打赏
 

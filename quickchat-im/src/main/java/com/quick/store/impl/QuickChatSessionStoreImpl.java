@@ -5,7 +5,6 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatSessionStore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,6 @@ import java.util.List;
  */
 @Service
 public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionStore {
-    @Autowired
-    private QuickChatSessionMapper sessionMapper;
-
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0", unless = "#result.size() == 0")
     public List<QuickChatSession> getListByAccountId(String accountId) {
@@ -77,6 +73,11 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
 
     @Override
     public Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime) {
-        return sessionMapper.getUnreadCount(loginAccountId, relationId, lastReadTime);
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getRelationId, relationId)
+                .ne(QuickChatSession::getFromId, loginAccountId)
+                .gt(QuickChatSession::getCreateTime, lastReadTime)
+                .groupBy(QuickChatSession::getRelationId)
+                .count();
     }
 }
