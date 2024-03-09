@@ -4,6 +4,6 @@ server:
     context-path: /api
 spring:
   profiles:
-    active: prod
+    active: dev
   application:
     name: QuickChat

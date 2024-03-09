@@ -90,7 +90,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         for (ChatSessionVO sessionVO : sessionVOList) {
             String relationId = sessionVO.getRelationId();
             if (unreadCountMap.containsKey(relationId)) {
-                sessionVO.setUnreadCount(unreadCountMap.get(relationId));
+                Integer unreadCount = unreadCountMap.get(relationId);
+                sessionVO.setUnreadCount(unreadCount == 0 ? null : unreadCount);
             }
         }
         return sessionVOList;
