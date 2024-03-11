@@ -22,11 +22,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-17  17:02
- * @Description: 文字、Emoji
+ * @Description: 文字消息
  * @Version: 1.0
  */
 @Component
-public class FontHandler extends AbstractChatMsgStrategy {
+public class FontMsgHandler extends AbstractChatMsgStrategy {
     @Autowired
     private RedissonLockUtil lockUtil;
     @Autowired
@@ -46,7 +46,7 @@ public class FontHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String content = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, null, this.getEnum().getType());
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, content, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息

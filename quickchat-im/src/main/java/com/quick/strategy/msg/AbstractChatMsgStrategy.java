@@ -33,7 +33,7 @@ public abstract class AbstractChatMsgStrategy {
 
     @PostConstruct
     private void initStrategyHandler() {
-        ChatMsgStrategyFactory.register(this.getEnum().getType(), this);
+        ChatMsgStrategyFactory.register(this.getEnum().getCode(), this);
     }
 
     /**

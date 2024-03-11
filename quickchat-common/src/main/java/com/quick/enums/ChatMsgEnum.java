@@ -20,6 +20,6 @@ public enum ChatMsgEnum {
     VIDEO_CALL(6, "视频通话"),
     RECALL(7, "撤回消息");
 
-    private Integer type;
-    private String desc;
+    private Integer code;
+    private String msg;
 }

@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @Version: 1.0
  */
 @Component
-public class FileHandler extends AbstractChatMsgStrategy {
+public class FileMsgHandler extends AbstractChatMsgStrategy {
     @Autowired
     private KafkaProducer kafkaProducer;
     @Autowired
@@ -49,7 +49,7 @@ public class FileHandler extends AbstractChatMsgStrategy {
         String fileUrl = msgDTO.getContent();
         FileExtraDTO extraInfo = msgDTO.getExtraInfo();
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
-                fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getType());
+                fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
 
         // 处理双方会话信息

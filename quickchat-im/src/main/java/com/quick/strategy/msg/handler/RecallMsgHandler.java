@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @Version: 1.0
  */
 @Component
-public class RecallHandler extends AbstractChatMsgStrategy {
+public class RecallMsgHandler extends AbstractChatMsgStrategy {
     @Autowired
     private RedissonLockUtil lockUtil;
     @Autowired
@@ -58,7 +58,7 @@ public class RecallHandler extends AbstractChatMsgStrategy {
 
 
         // 消息类型修改为撤回
-        chatMsg.setMsgType(this.getEnum().getType());
+        chatMsg.setMsgType(this.getEnum().getCode());
         msgStore.updateByMsgId(chatMsg);
 
         // 处理双方会话信息

@@ -45,7 +45,7 @@ public class ChatMsgAdapter {
                 msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), FileExtraDTO.class));
             }
             // 撤回消息：隐藏敏感数据
-            if (ChatMsgEnum.RECALL.getType().equals(chatMsg.getMsgType())) {
+            if (ChatMsgEnum.RECALL.getCode().equals(chatMsg.getMsgType())) {
                 msgVO.setContent(null);
                 msgVO.setMsgType(null);
                 msgVO.setExtraInfo(null);
