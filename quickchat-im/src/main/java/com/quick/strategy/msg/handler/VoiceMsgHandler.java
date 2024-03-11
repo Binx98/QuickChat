@@ -21,6 +21,6 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     public void sendChatMsg(ChatMsgDTO msgDTO) {
-
+        
     }
 }

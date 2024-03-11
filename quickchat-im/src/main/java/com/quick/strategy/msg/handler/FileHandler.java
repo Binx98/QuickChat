@@ -7,7 +7,7 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.dto.ExtraInfoDTO;
+import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatMsgStore;
@@ -47,7 +47,7 @@ public class FileHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String fileUrl = msgDTO.getContent();
-        ExtraInfoDTO extraInfo = msgDTO.getExtraInfo();
+        FileExtraDTO extraInfo = msgDTO.getExtraInfo();
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
                 fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getType());
         msgStore.saveMsg(chatMsg);

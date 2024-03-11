@@ -3,7 +3,7 @@ package com.quick.adapter;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.quick.enums.ChatMsgEnum;
-import com.quick.pojo.dto.ExtraInfoDTO;
+import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.utils.RelationUtil;
@@ -42,7 +42,7 @@ public class ChatMsgAdapter {
                     .build();
             // 文件消息：封装文件额外信息
             if (ObjectUtils.isNotEmpty(chatMsg.getExtraInfo())) {
-                msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), ExtraInfoDTO.class));
+                msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), FileExtraDTO.class));
             }
             // 撤回消息：隐藏敏感数据
             if (ChatMsgEnum.RECALL.getType().equals(chatMsg.getMsgType())) {

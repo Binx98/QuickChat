@@ -54,6 +54,9 @@ public class RecallHandler extends AbstractChatMsgStrategy {
             throw new QuickException(ResponseEnum.CAN_NOT_RECALL);
         }
 
+        // TODO 针对文件消息，删除 minio 文件
+
+
         // 消息类型修改为撤回
         chatMsg.setMsgType(this.getEnum().getType());
         msgStore.updateByMsgId(chatMsg);
