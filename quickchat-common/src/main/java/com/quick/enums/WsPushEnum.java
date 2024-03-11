@@ -12,11 +12,11 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum WsPushEnum {
-    SYS_MSG(0, "系统通知"),
+    SYSTEM_NOTICE(0, "系统通知"),
     CHAT_MSG(1, "聊天信息"),
     FRIEND_APPLY(2, "好友申请"),
     ONLINE_STATUS(3, "登陆状态"),
-    GROUP_NOTICE(4, "群组通知"),
+    GROUP_NOTICE(4, "群内通知"),
     ;
 
     private Integer code;
