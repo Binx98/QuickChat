@@ -143,16 +143,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // 登录成功，切换用户状态【已上线】
+        // 登录成功：解析当前登录地址，切换用户状态【已上线】
+        String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
+        userPO.setLocation(location);
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
         userStore.updateInfo(userPO);
-
-        // 解析当前登录地址，同步到用户信息
-        String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
-        if (!location.equals(userPO.getLocation())) {
-            userPO.setLocation(location);
-            userStore.updateInfo(userPO);
-        }
 
         // 封装结果，返回
         return JwtUtil.generate(loginDTO.getAccountId());

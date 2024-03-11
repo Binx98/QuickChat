@@ -20,9 +20,6 @@ import java.util.List;
  */
 @Service
 public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberStore {
-    /**
-     * 查询群成员列表
-     */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP_MEMBER, key = "#p0", unless = "#result.isEmpty()")
     public List<QuickChatGroupMember> getByGroupId(String groupId) {
@@ -31,9 +28,6 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
                 .list();
     }
 
-    /**
-     * 加入群聊
-     */
     @Override
     public Boolean enterGroup(QuickChatGroupMember memberPO) {
         return this.save(memberPO);

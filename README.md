@@ -18,7 +18,6 @@
 
 Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能丰富好玩
 
-
 ### 架构图
 
 后端：
@@ -38,7 +37,7 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |      Jwt      | 用户登录，认证方案         | [https://jwt.io](https://jwt.io)                             |
 |    Lombok     | 简化代码              | [https://projectlombok.org](https://projectlombok.org)       |
 |   WebSocket   | 全双工通信协议           | https://github.com/looly/hutool                              |
-|    WebRTC     | 视频流推送协议           | https://github.com/looly/hutool                              |
+|    WebRTC     | 音视频流媒体协议          | https://github.com/looly/hutool                              |
 | ShardingJDBC  | 分库分表中间件           | https://github.com/looly/hutool                              |
 |    Hutool     | HuTool工具包         | https://github.com/looly/hutool                              |
 |   Ip2Region   | 地址解析              | https://github.com/looly/hutool                              |

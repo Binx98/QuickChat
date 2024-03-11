@@ -21,9 +21,6 @@ import java.util.List;
  */
 @Service
 public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickChatUserStore {
-    /**
-     * 根据 account_id 查询用户信息
-     */
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
     public QuickChatUser getByAccountId(String accountId) {
@@ -32,17 +29,11 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
                 .one();
     }
 
-    /**
-     * 保存用户信息
-     */
     @Override
     public Boolean saveUser(QuickChatUser userPO) {
         return this.save(userPO);
     }
 
-    /**
-     * 批量查询用户信息
-     */
     @Override
     public List<QuickChatUser> getListByAccountIds(List<String> accountIds) {
         return this.lambdaQuery()
@@ -50,9 +41,6 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
                 .list();
     }
 
-    /**
-     * 更新用户信息
-     */
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "#p0.accountId")
     public Boolean updateInfo(QuickChatUser userPO) {
