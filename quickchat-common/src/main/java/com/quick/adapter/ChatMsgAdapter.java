@@ -40,10 +40,12 @@ public class ChatMsgAdapter {
                     .msgType(chatMsg.getMsgType())
                     .createTime(chatMsg.getCreateTime())
                     .build();
+
             // 文件消息：封装文件额外信息
             if (ObjectUtils.isNotEmpty(chatMsg.getExtraInfo())) {
                 msgVO.setExtraInfo(JSONUtil.toBean(chatMsg.getExtraInfo(), FileExtraDTO.class));
             }
+
             // 撤回消息：隐藏敏感数据
             if (ChatMsgEnum.RECALL.getCode().equals(chatMsg.getMsgType())) {
                 msgVO.setContent(null);

@@ -1,10 +1,13 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatFriend;
 import com.quick.response.R;
 import com.quick.service.QuickChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -23,24 +26,34 @@ public class ChatFriendController {
      */
     @GetMapping("/list")
     public R getFriendList() {
-        friendService.getFriendList();
-        return R.out(ResponseEnum.SUCCESS, null);
+        List<QuickChatFriend> friendList = friendService.getFriendList();
+        return R.out(ResponseEnum.SUCCESS, friendList);
     }
 
     /**
      * 添加好友
      */
     @PostMapping("/add")
-    public R addFriend() {
-        friendService.addFriend();
+    public R addFriend(String accountId) {
+        friendService.addFriend(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     /**
-     * 处理好友申请状态（同意 or 拒绝）
+     * 同意好友申请
      */
-    @PostMapping("/")
-    public R handleApply() {
+    @PostMapping("/agree")
+    public R agreeApply(String accountId) {
+        friendService.agreeApply(accountId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 拉黑好友
+     */
+    @PostMapping("/block")
+    public R blockFriend(String accountId) {
+        friendService.blockFriend(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -48,8 +61,8 @@ public class ChatFriendController {
      * 删除好友
      */
     @DeleteMapping("/delete")
-    public R deleteFriend() {
-        friendService.deleteFriend();
+    public R deleteFriend(String accountId) {
+        friendService.deleteFriend(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 }

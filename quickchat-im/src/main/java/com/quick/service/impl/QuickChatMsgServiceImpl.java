@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatFriend;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
+import com.quick.service.QuickChatFriendService;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
@@ -38,6 +40,8 @@ import java.util.stream.Collectors;
 public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgService {
     @Autowired
     private QuickChatMsgStore msgStore;
+    @Autowired
+    private QuickChatFriendService friendService;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
@@ -92,7 +96,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 判断双方是否是好友
+        // 判断对方是否是您的好友
+        QuickChatFriend friendPO = friendService.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
 
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);

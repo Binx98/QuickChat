@@ -14,6 +14,20 @@ import java.util.List;
  * @since 2023-11-30
  */
 public interface QuickChatFriendStore extends IService<QuickChatFriend> {
+    /**
+     * 根据 from_id 查询好友列表
+     *
+     * @param fromId 用户id
+     * @return 好友列表
+     */
+    List<QuickChatFriend> getListByFromId(String fromId);
 
-    List<QuickChatFriend> getListByAccountId(String accountId);
+    /**
+     * 根据 from_id、to_id 查询好友信息
+     *
+     * @param fromId 账号id
+     * @param toId   账号id
+     * @return 好友信息
+     */
+    QuickChatFriend getByFromIdAndToId(String fromId, String toId);
 }

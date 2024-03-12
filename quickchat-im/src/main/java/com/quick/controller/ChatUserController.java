@@ -32,7 +32,7 @@ public class ChatUserController {
     private QuickUserService userService;
 
     /**
-     * 查询用户信息
+     * 根据 account_id 查询用户信息
      */
     @GetMapping("/getByAccountId/{accountId}")
     public R getInfo(@PathVariable String accountId) throws Exception {

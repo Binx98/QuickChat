@@ -19,7 +19,17 @@ import java.util.List;
 @Service
 public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriend> implements QuickChatFriendStore {
     @Override
-    public List<QuickChatFriend> getListByAccountId(String accountId) {
-        return this.lambdaQuery().list();
+    public List<QuickChatFriend> getListByFromId(String fromId) {
+        return this.lambdaQuery()
+                .eq(QuickChatFriend::getFromId, fromId)
+                .list();
+    }
+
+    @Override
+    public QuickChatFriend getByFromIdAndToId(String fromId, String toId) {
+        return this.lambdaQuery()
+                .eq(QuickChatFriend::getFromId, fromId)
+                .eq(QuickChatFriend::getToId, toId)
+                .one();
     }
 }
