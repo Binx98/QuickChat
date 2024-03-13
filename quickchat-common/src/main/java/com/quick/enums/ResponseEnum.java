@@ -27,6 +27,7 @@ public enum ResponseEnum {
     REQUEST_HOLDER_NO_ACCOUNT_ID(500, "全局请求上下文未获取到账号信息！"),
     SEND_MSG_FAST(500, "慢点发消息嘛，别急..."),
     CAN_NOT_RECALL(500, "信息发送已超过2分钟，不可撤回"),
+    IS_YOUR_FRIEND(500, "对方已经是您的好友，不可重复添加"),
     ;
 
 

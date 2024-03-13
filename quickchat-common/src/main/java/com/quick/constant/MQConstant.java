@@ -8,11 +8,15 @@ package com.quick.constant;
  */
 public class MQConstant {
     /**
-     * 主题
+     * 单聊、群聊发送
      */
     public static final String SEND_CHAT_SINGLE_MSG = "SEND_CHAT_SINGLE_MSG";
     public static final String SEND_CHAT_GROUP_MSG = "SEND_CHAT_GROUP_MSG";
-    public static final String SYNC_DB_TO_ES = "SYNC_DB_TO_ES";
+
+    /**
+     * 好友申请发送
+     */
+    public static final String FRIEND_APPLY_TOPIC = "FRIEND_APPLY_TOPIC";
 
     /**
      * 消费组
