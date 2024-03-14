@@ -97,6 +97,10 @@ public class ChatUserController {
      * FIXME 测试接口
      *
      * dev 提交代码测试：21：02：40
+     *
+     * dev 提交代码测试：21：14：40
+     *
+     * dev 提交代码测试：21：19
      */
     @GetMapping("/test")
     @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitType.IP)
