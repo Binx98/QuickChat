@@ -64,7 +64,21 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
 
     @Override
     public Boolean deleteFriend(String accountId) {
-        return null;
+        // 查询用户信息是否存在
+        QuickChatUser userPO = userStore.getByAccountId(accountId);
+        if (ObjectUtils.isEmpty(userPO)) {
+            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+        }
+
+        // 判断对方是否是好友
+        String fromId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatFriend friendPO = friendStore.getByFromIdAndToId(fromId, accountId);
+        if (ObjectUtils.isEmpty(friendPO)) {
+            return true;
+        }
+
+        // 删除好友
+        return friendStore.deleteByFromIdAndToId(fromId, accountId);
     }
 
     @Override

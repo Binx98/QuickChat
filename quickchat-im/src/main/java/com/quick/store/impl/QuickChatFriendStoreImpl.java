@@ -32,4 +32,12 @@ public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper,
                 .eq(QuickChatFriend::getToId, toId)
                 .one();
     }
+
+    @Override
+    public Boolean deleteByFromIdAndToId(String fromId, String toId) {
+        return lambdaUpdate()
+                .eq(QuickChatFriend::getFromId, fromId)
+                .eq(QuickChatFriend::getToId, toId)
+                .remove();
+    }
 }
