@@ -3,6 +3,8 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
+import com.quick.enums.ResponseEnum;
+import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatFriend;
@@ -16,6 +18,7 @@ import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import com.quick.utils.ListUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -98,6 +101,10 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 判断对方是否是您的好友
         QuickChatFriend friendPO = friendService.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+        if (ObjectUtils.isEmpty(friendPO)) {
+            throw new QuickException(ResponseEnum.NOT_YOUR_FRIEND);
+        }
+
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);
     }
