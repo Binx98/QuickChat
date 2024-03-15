@@ -23,11 +23,20 @@ public interface QuickChatFriendStore extends IService<QuickChatFriend> {
     List<QuickChatFriend> getListByFromId(String fromId);
 
     /**
-     * 根据 from_id、to_id 查询好友信息
+     * 根据 from_id to_id 查询好友信息
      *
      * @param fromId 账号id
      * @param toId   账号id
      * @return 好友信息
      */
     QuickChatFriend getByFromIdAndToId(String fromId, String toId);
+
+    /**
+     * 根据 from_id to_id 删除好友信息
+     *
+     * @param fromId 账号id
+     * @param toId   账号id
+     * @return 执行结果
+     */
+    Boolean deleteByFromIdAndToId(String fromId, String toId);
 }
