@@ -32,4 +32,12 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
     public Boolean enterGroup(QuickChatGroupMember memberPO) {
         return this.save(memberPO);
     }
+
+    @Override
+    public Boolean deleteByGroupIdAndAccountId(String groupId, String accountId) {
+        return this.lambdaUpdate()
+                .eq(QuickChatGroupMember::getGroupId, groupId)
+                .eq(QuickChatGroupMember::getAccountId, accountId)
+                .remove();
+    }
 }

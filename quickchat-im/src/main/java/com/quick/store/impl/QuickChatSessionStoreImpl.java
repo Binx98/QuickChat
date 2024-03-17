@@ -80,4 +80,12 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
                 .groupBy(QuickChatSession::getRelationId)
                 .count();
     }
+
+    @Override
+    public Boolean deleteByFromIdAndToId(String fromId, String toId) {
+        return this.lambdaUpdate()
+                .eq(QuickChatSession::getFromId, fromId)
+                .eq(QuickChatSession::getToId, toId)
+                .remove();
+    }
 }

@@ -97,7 +97,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Override
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 判断对方是否是您的好友
-        QuickChatFriend friendPO = friendService.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+//        QuickChatFriend friendPO = friendService.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         chatMsgHandler.sendChatMsg(msgDTO);
     }

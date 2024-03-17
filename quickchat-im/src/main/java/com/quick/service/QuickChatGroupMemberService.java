@@ -30,4 +30,13 @@ public interface QuickChatGroupMemberService extends IService<QuickChatGroupMemb
      * @return 执行结果
      */
     Boolean enterGroup(String groupId);
+
+    /**
+     * 退出群聊
+     *
+     * @param groupId   群聊id
+     * @param accountId 账号id
+     * @return 执行结果
+     */
+    Boolean exitGroup(String groupId, String accountId);
 }

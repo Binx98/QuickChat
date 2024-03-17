@@ -82,4 +82,13 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
      * @return 未读数量
      */
     Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
+
+    /**
+     * 根据 from_id to_id 删除会话信息
+     *
+     * @param fromId 账户id
+     * @param toId   账户id
+     * @return 执行结果
+     */
+    Boolean deleteByFromIdAndToId(String fromId, String toId);
 }

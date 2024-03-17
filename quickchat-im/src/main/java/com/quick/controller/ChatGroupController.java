@@ -53,6 +53,16 @@ public class ChatGroupController {
     }
 
     /**
+     * 移除群聊
+     */
+    @DeleteMapping("/delete/{groupId}/{accountId}")
+    public R exitGroup(@PathVariable Long groupId, @PathVariable String accountId) {
+        memberService.exitGroup(groupId, accountId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+
+    /**
      * 创建群聊
      */
     @PostMapping("/create")
