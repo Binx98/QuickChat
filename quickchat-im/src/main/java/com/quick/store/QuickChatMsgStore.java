@@ -56,4 +56,12 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @return 执行结果
      */
     Boolean updateByMsgId(QuickChatMsg chatMsg);
+
+    /**
+     * 根据 to_id 批量删除聊天记录
+     *
+     * @param toId 群聊id
+     * @return 执行结果
+     */
+    Boolean deleteByToId(String toId);
 }

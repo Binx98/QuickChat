@@ -59,4 +59,11 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     public Boolean updateByMsgId(QuickChatMsg chatMsg) {
         return this.updateById(chatMsg);
     }
+
+    @Override
+    public Boolean deleteByToId(String toId) {
+        return this.lambdaUpdate()
+                .eq(QuickChatMsg::getToId, toId)
+                .remove();
+    }
 }
