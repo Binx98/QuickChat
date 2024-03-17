@@ -40,4 +40,11 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
                 .eq(QuickChatGroupMember::getAccountId, accountId)
                 .remove();
     }
+
+    @Override
+    public Boolean deleteByGroupId(String groupId) {
+        return this.lambdaUpdate()
+                .eq(QuickChatGroupMember::getGroupId, groupId)
+                .remove();
+    }
 }

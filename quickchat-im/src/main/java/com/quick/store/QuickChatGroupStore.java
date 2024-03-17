@@ -45,4 +45,12 @@ public interface QuickChatGroupStore extends IService<QuickChatGroup> {
      * @return 群组信息列表
      */
     List<QuickChatGroup> getListByAccountId(String accountId);
+
+    /**
+     * 根据 group_id 解散群聊
+     *
+     * @param groupId 群组id
+     * @return 执行结果
+     */
+    Boolean dismissByGroupId(String groupId);
 }

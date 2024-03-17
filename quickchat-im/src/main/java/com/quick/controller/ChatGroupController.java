@@ -56,11 +56,19 @@ public class ChatGroupController {
      * 移除群聊
      */
     @DeleteMapping("/delete/{groupId}/{accountId}")
-    public R exitGroup(@PathVariable Long groupId, @PathVariable String accountId) {
+    public R exitGroup(@PathVariable String groupId, @PathVariable String accountId) {
         memberService.exitGroup(groupId, accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
+    /**
+     * 解散群组
+     */
+    @DeleteMapping("/dismiss/{groupId}")
+    public R dismiss(@PathVariable String groupId) {
+        groupService.dismiss(groupId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
      * 创建群聊
@@ -74,7 +82,4 @@ public class ChatGroupController {
      * 修改群聊信息
      */
 
-    /**
-     * 解散群组
-     */
 }

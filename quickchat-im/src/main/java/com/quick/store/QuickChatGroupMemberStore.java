@@ -27,4 +27,12 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @return 执行结果
      */
     Boolean deleteByGroupIdAndAccountId(String groupId, String accountId);
+
+    /**
+     * 根据 group_id 删除群成员列表
+     *
+     * @param groupId 群id
+     * @return 执行结果
+     */
+    Boolean deleteByGroupId(String groupId);
 }
