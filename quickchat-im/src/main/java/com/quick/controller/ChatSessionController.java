@@ -56,4 +56,8 @@ public class ChatSessionController {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
+
+    /**
+     * 置顶会话框
+     */
 }

@@ -38,7 +38,7 @@ public class ChatMsgDTO {
     private FileExtraDTO extraInfo;
 
     /**
-     * 消息id：针对撤回消息
+     * 消息id：撤回消息、回复消息
      */
     private Long msgId;
 }
