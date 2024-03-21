@@ -143,6 +143,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
+        // TODO 保证只有一个客户端登录账号
+
         // 登录成功：解析当前登录地址，切换用户状态【已上线】
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);

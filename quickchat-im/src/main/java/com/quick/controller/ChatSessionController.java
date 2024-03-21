@@ -58,6 +58,6 @@ public class ChatSessionController {
     }
 
     /**
-     * 置顶会话框
+     * 置顶会话
      */
 }
