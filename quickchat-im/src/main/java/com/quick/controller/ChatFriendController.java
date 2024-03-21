@@ -65,4 +65,12 @@ public class ChatFriendController {
         friendService.deleteFriend(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
+
+    /**
+     * 消息免打扰
+     */
+
+    /**
+     * 设置备注
+     */
 }

@@ -44,7 +44,7 @@ public class ChatGroupController {
     }
 
     /**
-     * 加入群聊
+     * 添加成员
      */
     @PostMapping("/enter/{groupId}")
     public R enterGroup(@PathVariable String groupId) {
@@ -53,11 +53,19 @@ public class ChatGroupController {
     }
 
     /**
-     * 移除群聊
+     * 移除成员
      */
     @DeleteMapping("/delete/{groupId}/{accountId}")
     public R exitGroup(@PathVariable String groupId, @PathVariable String accountId) {
         memberService.exitGroup(groupId, accountId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    /**
+     * 创建群聊
+     */
+    @PostMapping("/create")
+    public R createGroup(@RequestBody List<String> accountIds) {
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -71,16 +79,11 @@ public class ChatGroupController {
     }
 
     /**
-     * 创建群聊
-     */
-    @PostMapping("/create")
-    public R createGroup(@RequestBody List<String> accountIds) {
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    /**
      * 修改群聊信息
      */
 
 
+    /**
+     * 退出群聊
+     */
 }
