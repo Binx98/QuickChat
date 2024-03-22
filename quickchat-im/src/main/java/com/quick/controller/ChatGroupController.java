@@ -79,9 +79,12 @@ public class ChatGroupController {
     }
 
     /**
-     * 修改群聊信息
+     * 修改群组信息
      */
 
+    /**
+     * 修改群成员昵称
+     */
 
     /**
      * 退出群聊

@@ -58,7 +58,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
         // 遍历生成 relation_id
         List<String> relationIds = new ArrayList<>();
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         for (String toAccountId : accountIds) {
             relationIds.add(RelationUtil.generate(loginAccountId, toAccountId));
         }

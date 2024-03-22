@@ -13,23 +13,23 @@ public class RequestContextUtil {
     private static final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
 
     /**
-     * 保存设置信息
+     * 保存信息
      */
-    public static void set(Map<String, Object> map) {
+    public static void setData(Map<String, Object> map) {
         threadLocal.set(map);
     }
 
     /**
      * 获取信息
      */
-    public static Map<String, Object> get() {
+    public static Map<String, Object> getData() {
         return threadLocal.get();
     }
 
     /**
      * 移除信息
      */
-    public static void remove() {
+    public static void removeData() {
         threadLocal.remove();
     }
 }

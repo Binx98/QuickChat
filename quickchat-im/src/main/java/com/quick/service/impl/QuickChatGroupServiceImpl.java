@@ -36,7 +36,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
     @Override
     public List<QuickChatGroup> getGroupList() {
-        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         return groupStore.getListByAccountId(accountId);
     }
 
@@ -50,7 +50,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         }
 
         // 判断是否是群主操作
-        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         if (accountId.equals(groupPO.getAccountId())) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
