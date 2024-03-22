@@ -46,7 +46,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public List<ChatSessionVO> getSessionList() {
         // 查询会话列表
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
         if (CollectionUtils.isEmpty(sessionList)) {
             return new ArrayList<>();
@@ -72,6 +72,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                     .map(QuickChatSession::getToId)
                     .collect(Collectors.toList());
             users = userStore.getListByAccountIds(accountIds);
+            // TODO 封装昵称备注
         }
 
         // 群聊：会话列表
@@ -111,7 +112,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
         Map<String, Integer> resultMap = new HashMap<>();
-        String loginAccountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         for (ChatSessionVO session : sessionList) {
             String relationId = session.getRelationId();
             LocalDateTime lastReadTime = session.getLastReadTime();

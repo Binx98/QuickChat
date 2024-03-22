@@ -46,12 +46,13 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         List<String> accountIds = memberList.stream()
                 .map(QuickChatGroupMember::getAccountId)
                 .collect(Collectors.toList());
+        // TODO 设置了群昵称备注
         return userStore.getListByAccountIds(accountIds);
     }
 
     @Override
     public Boolean enterGroup(String groupId) {
-        String accountId = (String) RequestContextUtil.get().get(RequestContextUtil.ACCOUNT_ID);
+        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(groupId, accountId);
         return memberStore.enterGroup(memberPO);
     }

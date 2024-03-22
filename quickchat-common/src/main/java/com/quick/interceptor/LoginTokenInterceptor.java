@@ -22,7 +22,6 @@ import java.util.Map;
 @Slf4j
 @Component
 public class LoginTokenInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // OPTIONS 预请求直接通过
@@ -40,7 +39,7 @@ public class LoginTokenInterceptor implements HandlerInterceptor {
 
         // 解析Token信息，封装 RequestContextUtil
         Map<String, Object> tokenMap = JwtUtil.resolve(token);
-        RequestContextUtil.set(tokenMap);
+        RequestContextUtil.setData(tokenMap);
         return true;
     }
 
@@ -51,6 +50,6 @@ public class LoginTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        RequestContextUtil.remove();
+        RequestContextUtil.removeData();
     }
 }
