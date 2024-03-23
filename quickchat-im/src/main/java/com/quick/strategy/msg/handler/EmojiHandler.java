@@ -2,6 +2,7 @@ package com.quick.strategy.msg.handler;
 
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatMsg;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class EmojiHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    public void sendChatMsg(ChatMsgDTO msgDTO) {
-
+    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) {
+        return null;
     }
 }

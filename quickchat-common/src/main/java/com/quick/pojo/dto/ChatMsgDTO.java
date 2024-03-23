@@ -12,11 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class ChatMsgDTO {
     /**
-     * 消息id：撤回消息、回复消息
-     */
-    private Long msgId;
-
-    /**
      * 发送方
      */
     private String fromId;
@@ -38,13 +33,19 @@ public class ChatMsgDTO {
      */
     private String content;
 
+    /*-----------------------------------------------下方特殊信息--------------------------------------------------------*/
     /**
-     * 额外信息：针对文件消息
+     * 消息id：撤回消息、回复消息
+     */
+    private Long msgId;
+
+    /**
+     * 文件消息（除了语音）
      */
     private FileExtraDTO extraInfo;
 
     /**
-     * 文件：针对语音
+     * 语音文件
      */
     private MultipartFile file;
 }
