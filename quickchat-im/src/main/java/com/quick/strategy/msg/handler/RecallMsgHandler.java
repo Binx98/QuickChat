@@ -4,7 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.quick.constant.MQConstant;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ChatTypeEnum;
-import com.quick.enums.FileEnum;
+import com.quick.enums.BucketEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
@@ -60,9 +60,9 @@ public class RecallMsgHandler extends AbstractChatMsgStrategy {
 
         // 针对文件消息：删除文件
         if (msgDTO.getMsgType().equals(ChatMsgEnum.VOICE.getCode())) {
-            minioUtil.removeObject(FileEnum.VOICE.getBucketName(), msgDTO.getExtraInfo().getName());
+            minioUtil.removeObject(BucketEnum.VOICE.getBucketName(), msgDTO.getExtraInfo().getName());
         } else if (msgDTO.getMsgType().equals(ChatMsgEnum.FILE.getCode())) {
-            minioUtil.removeObject(FileEnum.FILE.getBucketName(), msgDTO.getExtraInfo().getName());
+            minioUtil.removeObject(BucketEnum.FILE.getBucketName(), msgDTO.getExtraInfo().getName());
         }
 
         // 消息类型修改为撤回

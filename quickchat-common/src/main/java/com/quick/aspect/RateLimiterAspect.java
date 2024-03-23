@@ -2,7 +2,7 @@ package com.quick.aspect;
 
 import com.quick.annotation.RateLimiter;
 import com.quick.config.LuaScriptConfig;
-import com.quick.enums.LimitType;
+import com.quick.enums.LimitTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.utils.HttpServletUtil;
@@ -54,7 +54,7 @@ public class RateLimiterAspect {
 
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
         StringBuffer buffer = new StringBuffer(rateLimiter.key());
-        if (rateLimiter.limitType() == LimitType.IP) {
+        if (rateLimiter.limitType() == LimitTypeEnum.IP) {
             buffer.append(IpUtil.getIpAddr(HttpServletUtil.getRequest())).append("-");
         }
         MethodSignature signature = (MethodSignature) point.getSignature();

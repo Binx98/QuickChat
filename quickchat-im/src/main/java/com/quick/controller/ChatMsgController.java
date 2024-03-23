@@ -1,7 +1,7 @@
 package com.quick.controller;
 
 import com.quick.annotation.RateLimiter;
-import com.quick.enums.LimitType;
+import com.quick.enums.LimitTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.vo.ChatMsgVO;
@@ -30,7 +30,7 @@ public class ChatMsgController {
      * 发送聊天消息
      */
     @PostMapping("/send")
-    @RateLimiter(time = 3, count = 5, limitType = LimitType.IP)
+    @RateLimiter(time = 3, count = 5, limitType = LimitTypeEnum.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
         msgService.sendMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);

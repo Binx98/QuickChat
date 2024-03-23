@@ -1,6 +1,6 @@
 package com.quick.controller;
 
-import com.quick.enums.FileEnum;
+import com.quick.enums.BucketEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.utils.MinioUtil;
@@ -33,12 +33,12 @@ public class ChatFileController {
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
         String url = null;
-        if (FileEnum.AVATAR.getType().equals(type)) {
-            url = minioUtil.upload(file, FileEnum.AVATAR.getBucketName());
-        } else if (FileEnum.VOICE.getType().equals(type)) {
-            url = minioUtil.upload(file, FileEnum.VOICE.getBucketName());
+        if (BucketEnum.AVATAR.getType().equals(type)) {
+            url = minioUtil.upload(file, BucketEnum.AVATAR.getBucketName());
+        } else if (BucketEnum.VOICE.getType().equals(type)) {
+            url = minioUtil.upload(file, BucketEnum.VOICE.getBucketName());
         } else {
-            url = minioUtil.upload(file, FileEnum.FILE.getBucketName());
+            url = minioUtil.upload(file, BucketEnum.FILE.getBucketName());
         }
         return R.out(ResponseEnum.SUCCESS, url);
     }
@@ -52,12 +52,12 @@ public class ChatFileController {
      */
     @PostMapping("/download")
     public R downloadFile(int type, String url) throws Exception {
-        if (FileEnum.AVATAR.getType().equals(type)) {
-            minioUtil.download(FileEnum.AVATAR.getBucketName(), url);
-        } else if (FileEnum.VOICE.getType().equals(type)) {
-            minioUtil.download(FileEnum.VOICE.getBucketName(), url);
+        if (BucketEnum.AVATAR.getType().equals(type)) {
+            minioUtil.download(BucketEnum.AVATAR.getBucketName(), url);
+        } else if (BucketEnum.VOICE.getType().equals(type)) {
+            minioUtil.download(BucketEnum.VOICE.getBucketName(), url);
         } else {
-            minioUtil.download(FileEnum.FILE.getBucketName(), url);
+            minioUtil.download(BucketEnum.FILE.getBucketName(), url);
         }
         return R.out(ResponseEnum.SUCCESS);
     }
