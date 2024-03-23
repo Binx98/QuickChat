@@ -6,7 +6,7 @@ import com.quick.adapter.ChatSessionAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.ChatTypeEnum;
+import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
@@ -104,7 +104,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
         memberStore.enterGroup(memberPO);
         QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO
-                (registerDTO.getAccountId(), commonGroupId, ChatTypeEnum.GROUP.getType());
+                (registerDTO.getAccountId(), commonGroupId, SessionTypeEnum.GROUP.getType());
         sessionStore.saveInfo(chatSession);
 
         // 修改群聊信息（群成员数量）
