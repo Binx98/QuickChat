@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum FileEnum {
+public enum BucketEnum {
     AVATAR(1, "avatar-bucket", "头像"),
     VOICE(2, "voice-bucket", "语音"),
     FILE(3, "file-bucket", "文件"),

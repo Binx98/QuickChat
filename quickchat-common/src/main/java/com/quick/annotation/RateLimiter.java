@@ -1,6 +1,6 @@
 package com.quick.annotation;
 
-import com.quick.enums.LimitType;
+import com.quick.enums.LimitTypeEnum;
 
 import java.lang.annotation.*;
 
@@ -32,6 +32,6 @@ public @interface RateLimiter {
     /**
      * 限流类型
      */
-    LimitType limitType() default LimitType.DEFAULT;
+    LimitTypeEnum limitType() default LimitTypeEnum.DEFAULT;
 }
 

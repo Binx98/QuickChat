@@ -2,7 +2,7 @@ package com.quick.controller;
 
 
 import com.quick.annotation.RateLimiter;
-import com.quick.enums.LimitType;
+import com.quick.enums.LimitTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
@@ -99,7 +99,7 @@ public class ChatUserController {
      * FIXME 测试接口
      */
     @GetMapping("/test")
-    @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitType.IP)
+    @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitTypeEnum.IP)
     public R test() {
         // String ——> LocalDateTime：通过parse
         String dateStr = "2024-01-01 00:00:00";

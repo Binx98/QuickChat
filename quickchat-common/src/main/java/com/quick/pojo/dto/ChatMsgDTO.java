@@ -1,6 +1,7 @@
 package com.quick.pojo.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Author: 徐志斌
@@ -10,6 +11,11 @@ import lombok.Data;
  */
 @Data
 public class ChatMsgDTO {
+    /**
+     * 消息id：撤回消息、回复消息
+     */
+    private Long msgId;
+
     /**
      * 发送方
      */
@@ -38,7 +44,7 @@ public class ChatMsgDTO {
     private FileExtraDTO extraInfo;
 
     /**
-     * 消息id：撤回消息、回复消息
+     * 文件：针对语音
      */
-    private Long msgId;
+    private MultipartFile file;
 }
