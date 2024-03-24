@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -69,16 +68,6 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     @Override
     public Boolean saveList(List<QuickChatSession> sessionPOList) {
         return this.saveBatch(sessionPOList);
-    }
-
-    @Override
-    public Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime) {
-        return this.lambdaQuery()
-                .eq(QuickChatSession::getRelationId, relationId)
-                .ne(QuickChatSession::getFromId, loginAccountId)
-                .gt(QuickChatSession::getCreateTime, lastReadTime)
-                .groupBy(QuickChatSession::getRelationId)
-                .count();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatMsg;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -64,4 +65,14 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @return 执行结果
      */
     Boolean deleteByToId(String toId);
+
+    /**
+     * 获取消息未读数量
+     *
+     * @param loginAccountId 登录账号id
+     * @param relationId     关联id
+     * @param lastReadTime   上次已读时间
+     * @return 未读数量
+     */
+    Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
 }

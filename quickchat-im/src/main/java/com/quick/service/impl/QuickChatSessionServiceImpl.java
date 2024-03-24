@@ -13,6 +13,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.service.QuickChatSessionService;
 import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
@@ -36,6 +37,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionService {
+    @Autowired
+    private QuickChatMsgStore msgStore;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
@@ -116,7 +119,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         for (ChatSessionVO session : sessionList) {
             String relationId = session.getRelationId();
             LocalDateTime lastReadTime = session.getLastReadTime();
-            Integer unreadCount = sessionStore.getUnreadCount(loginAccountId, relationId, lastReadTime);
+            Integer unreadCount = msgStore.getUnreadCount(loginAccountId, relationId, lastReadTime);
             resultMap.put(relationId, unreadCount);
         }
         List<String> relationIds = sessionList.stream()
