@@ -3,7 +3,6 @@ package com.quick.store;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatSession;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -72,16 +71,6 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
      * @return 执行结果
      */
     Boolean saveList(List<QuickChatSession> sessionPOList);
-
-    /**
-     * 查询未读数量
-     *
-     * @param loginAccountId 登录用户id
-     * @param relationId     关联id
-     * @param lastReadTime   最后读取时间
-     * @return 未读数量
-     */
-    Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
 
     /**
      * 根据 from_id to_id 删除会话信息
