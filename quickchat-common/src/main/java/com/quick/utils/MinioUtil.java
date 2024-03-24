@@ -2,15 +2,15 @@ package com.quick.utils;
 
 import io.minio.*;
 import io.minio.messages.Item;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.List;
  * @Version 1.0
  * @Description: MinIO工具类
  */
+@Slf4j
 @Component
 public class MinioUtil {
     @Value("${minio.endpoint}")
@@ -66,49 +67,26 @@ public class MinioUtil {
     /**
      * 下载文件
      */
-    public void download(String bucketName, String url) throws Exception {
-        HttpServletResponse response = HttpServletUtil.getResponse();
-        if (StringUtils.isBlank(url)) {
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            String data = "文件下载失败";
-            OutputStream ps = response.getOutputStream();
-            ps.write(data.getBytes("UTF-8"));
-            return;
-        }
-        try {
-            // 获取文件对象
-            GetObjectArgs args = GetObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(this.getFileNameFromURL(url))
-                    .build();
-            InputStream object = minioClient.getObject(args);
-            byte buf[] = new byte[1024];
-            int length = 0;
-            response.reset();
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(this.getFileNameFromURL(url), "UTF-8"));
+    public void download(String bucketName, String url) {
+        String filename = this.getFileNameFromURL(url);
+        try (InputStream inputStream = minioClient.getObject(GetObjectArgs.builder()
+                .bucket(bucketName)
+                .object(filename)
+                .build())) {
+            HttpServletResponse response = HttpServletUtil.getResponse();
+            ServletOutputStream outputStream = response.getOutputStream();
             response.setContentType("application/octet-stream");
-            response.setCharacterEncoding("UTF-8");
-            OutputStream outputStream = response.getOutputStream();
-            // 输出文件
-            while ((length = object.read(buf)) > 0) {
-                outputStream.write(buf, 0, length);
+            response.setCharacterEncoding("utf-8");
+            response.addHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, len);
             }
-            // 关闭输出流
             outputStream.close();
-        } catch (Exception ex) {
-            response.setHeader("Content-type", "text/html;charset=UTF-8");
-            String data = "文件下载失败";
-            OutputStream ps = response.getOutputStream();
-            ps.write(data.getBytes("UTF-8"));
+        } catch (Exception e) {
+//            log.error("file download from minio exception, file name: {}", filename, e);
         }
-    }
-
-    private String getFileNameFromURL(String url) {
-        int lastSlashIndex = url.lastIndexOf('/');
-        if (lastSlashIndex == -1) {
-            return url;
-        }
-        return url.substring(lastSlashIndex + 1);
     }
 
     /**
@@ -158,5 +136,13 @@ public class MinioUtil {
         if (!exists) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(name).build());
         }
+    }
+
+    private String getFileNameFromURL(String url) {
+        int lastSlashIndex = url.lastIndexOf('/');
+        if (lastSlashIndex == -1) {
+            return url;
+        }
+        return url.substring(lastSlashIndex + 1);
     }
 }
