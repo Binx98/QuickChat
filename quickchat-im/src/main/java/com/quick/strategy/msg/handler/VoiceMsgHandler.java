@@ -1,7 +1,6 @@
 package com.quick.strategy.msg.handler;
 
 import com.quick.adapter.ChatMsgAdapter;
-import com.quick.enums.BucketEnum;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
@@ -31,12 +30,9 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 上传语音文件
-        String url = minioUtil.upload(msgDTO.getFile(), BucketEnum.VOICE.getBucketName());
-
-        // 保存聊天信息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
+        String url = msgDTO.getContent();
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, url, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
