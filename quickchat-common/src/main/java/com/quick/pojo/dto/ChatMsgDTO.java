@@ -43,9 +43,4 @@ public class ChatMsgDTO {
      * 文件消息（除了语音）
      */
     private FileExtraDTO extraInfo;
-
-    /**
-     * 语音文件
-     */
-    private MultipartFile file;
 }
