@@ -69,7 +69,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         Map<Integer, List<QuickChatSession>> sessionListMap = sessionList.stream()
                 .collect(Collectors.groupingBy(QuickChatSession::getType));
         List<QuickChatUser> users = new ArrayList<>();
-        List<QuickChatSession> singleList = sessionListMap.get(SessionTypeEnum.SINGLE.getType());
+        List<QuickChatSession> singleList = sessionListMap.get(SessionTypeEnum.SINGLE.getCode());
         if (CollectionUtils.isNotEmpty(singleList)) {
             List<String> accountIds = singleList.stream()
                     .map(QuickChatSession::getToId)
@@ -80,7 +80,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 群聊：会话列表
         List<QuickChatGroup> groups = new ArrayList<>();
-        List<QuickChatSession> groupList = sessionListMap.get(SessionTypeEnum.GROUP.getType());
+        List<QuickChatSession> groupList = sessionListMap.get(SessionTypeEnum.GROUP.getCode());
         if (CollectionUtils.isNotEmpty(groupList)) {
             List<String> groupIds = groupList.stream()
                     .map(QuickChatSession::getToId)
@@ -140,7 +140,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             return null;
         }
         ChatSessionVO sessionVO = null;
-        if (SessionTypeEnum.SINGLE.getType().equals(sessionPO.getType())) {
+        if (SessionTypeEnum.SINGLE.getCode().equals(sessionPO.getType())) {
             QuickChatUser userPO = userStore.getByAccountId(sessionPO.getToId());
             sessionVO = ChatSessionAdapter.buildUserSessionPO(userPO, sessionPO);
         } else {

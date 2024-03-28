@@ -124,10 +124,10 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         QuickChatMsg chatMsg = chatMsgHandler.sendChatMsg(msgDTO);
 
         // 通过Channel推送消息（单聊、群聊）
-        if (SessionTypeEnum.SINGLE.getType().equals(chatSession.getType())) {
+        if (SessionTypeEnum.SINGLE.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
         }
-        if (SessionTypeEnum.GROUP.getType().equals(chatSession.getType())) {
+        if (SessionTypeEnum.GROUP.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
         }
     }
@@ -142,7 +142,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     private QuickChatSession handleSession(String fromId, String toId) {
         // 单聊：接收方没有会话，新增
         QuickChatSession toSession = sessionStore.getByAccountId(fromId, toId);
-        if (SessionTypeEnum.SINGLE.getType().equals(toSession.getType())) {
+        if (SessionTypeEnum.SINGLE.getCode().equals(toSession.getType())) {
             QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
             if (ObjectUtils.isEmpty(sessionPO)) {
                 sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId, toSession.getType());

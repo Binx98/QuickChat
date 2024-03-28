@@ -62,7 +62,7 @@ public class QuickChatMsg implements Serializable {
     private String extraInfo;
 
     /**
-     * 消息类型（1：文字，2：语音，3：表情包，4：文件，5：语音通话，6：视频通话）
+     * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum
      */
