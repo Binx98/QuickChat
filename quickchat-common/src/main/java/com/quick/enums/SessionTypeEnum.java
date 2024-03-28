@@ -15,6 +15,6 @@ public enum SessionTypeEnum {
     SINGLE(1, "单聊"),
     GROUP(2, "群聊");
 
-    private Integer type;
-    private String desc;
+    private Integer code;
+    private String msg;
 }

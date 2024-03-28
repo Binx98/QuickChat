@@ -20,9 +20,6 @@ public class VideoCallHandler extends AbstractChatMsgStrategy {
         return ChatMsgEnum.VIDEO_CALL;
     }
 
-    /**
-     * 发送视频通话消息
-     */
     @Override
     public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) {
         return null;

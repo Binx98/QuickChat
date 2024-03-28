@@ -6,7 +6,6 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
-import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class VoiceMsgHandler extends AbstractChatMsgStrategy {
-    @Autowired
-    private MinioUtil minioUtil;
     @Autowired
     private QuickChatMsgStore msgStore;
 
