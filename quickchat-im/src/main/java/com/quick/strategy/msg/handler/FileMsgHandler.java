@@ -30,7 +30,7 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
+    public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 保存聊天信息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();

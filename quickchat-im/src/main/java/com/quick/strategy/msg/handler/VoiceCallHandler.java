@@ -21,7 +21,7 @@ public class VoiceCallHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) {
+    public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) {
         return null;
     }
 }

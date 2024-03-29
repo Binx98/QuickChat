@@ -20,7 +20,7 @@ public class EmojiHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) {
+    public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) {
         return null;
     }
 }

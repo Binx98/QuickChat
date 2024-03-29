@@ -11,6 +11,7 @@ import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.utils.MinioUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,8 @@ public class RecallMsgHandler extends AbstractChatMsgStrategy {
     private MinioUtil minioUtil;
     @Autowired
     private QuickChatMsgStore msgStore;
+    @Value("${quick-chat.no-recall-time}")
+    private int noRecallTime;
 
     @Override
     protected ChatMsgEnum getEnum() {
@@ -36,13 +39,13 @@ public class RecallMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
+    public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 超过2分钟消息不可撤回
         QuickChatMsg chatMsg = msgStore.getByMsgId(msgDTO.getMsgId());
         if (ObjectUtils.isEmpty(chatMsg)) {
             throw new QuickException(ResponseEnum.FAIL);
         }
-        if (chatMsg.getCreateTime().minusMinutes(2).isBefore(LocalDateTime.now())) {
+        if (chatMsg.getCreateTime().minusMinutes(noRecallTime).isBefore(LocalDateTime.now())) {
             throw new QuickException(ResponseEnum.CAN_NOT_RECALL);
         }
 

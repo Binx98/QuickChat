@@ -113,17 +113,17 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 处理双方会话信息
+        // 发送消息
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
+        QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
+
+        // 处理双方会话框
         String relationId = RelationUtil.generate(msgDTO.getFromId(), msgDTO.getToId());
         QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(msgDTO.getFromId(), msgDTO.getToId())
         );
 
-        // 发送消息处理
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        QuickChatMsg chatMsg = chatMsgHandler.sendChatMsg(msgDTO);
-
-        // 通过Channel推送消息（单聊、群聊）
+        // 通过 Channel 推送给客户端（单聊、群聊）
         if (SessionTypeEnum.SINGLE.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
         }

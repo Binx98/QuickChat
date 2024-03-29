@@ -1,5 +1,6 @@
 quick-chat:
   common-group-id: 1
+  no-recall-time: 2
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

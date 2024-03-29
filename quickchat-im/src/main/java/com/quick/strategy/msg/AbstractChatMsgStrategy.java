@@ -30,8 +30,9 @@ public abstract class AbstractChatMsgStrategy {
     /**
      * 发送聊天消息
      *
-     * @param msgDTO 消息体入参
-     * @throws Throwable 异常
+     * @param msgDTO 消息参数
+     * @return 消息实体PO
+     * @throws Throwable 顶级异常
      */
-    public abstract QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) throws Throwable;
+    public abstract QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable;
 }
