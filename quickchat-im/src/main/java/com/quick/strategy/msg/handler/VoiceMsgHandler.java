@@ -26,7 +26,7 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    public QuickChatMsg sendChatMsg(ChatMsgDTO msgDTO) throws Throwable {
+    public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String url = msgDTO.getContent();
