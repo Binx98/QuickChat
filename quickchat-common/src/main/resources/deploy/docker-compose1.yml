@@ -1,69 +1,75 @@
 version: '3'
 
 services:
-  # Nginx
-  nginx:
-    image: nginx:1.24.0
-    container_name: nginx
+  # XXL-JOB
+  xxl-job-admin:
+    image: xuxueli/xxl-job-admin:2.3.1
+    container_name: xxl-job-admin
     ports:
-      - "80:80"
-      - "443:443"
+      - "8800:8800"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - /opt/project/nginx/html:/usr/share/nginx/html
-      - /opt/project/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /opt/project/nginx/conf.d:/etc/nginx/conf.d
-      - /opt/project/nginx/log:/var/log/nginx
-      - /opt/project/nginx/ssl/ssl.conf:/etc/nginx/ssl/ssl.conf
-      - /opt/project/nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
-      - /opt/project/nginx/letsencrypt:/etc/nginx/letsencrypt
-      - /etc/letsencrypt/live/paraverse.cc/fullchain.pem:/etc/letsencrypt/live/paraverse.cc/fullchain.pem
-      - /etc/letsencrypt/live/paraverse.cc/privkey.pem:/etc/letsencrypt/live/paraverse.cc/privkey.pem
-      - /etc/letsencrypt/live/paraverse.cc/chain.pem:/etc/letsencrypt/live/paraverse.cc/chain.pem
-
-  # MySQL
-  mysql:
-    image: mysql:8.0.27
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    volumes:
-      - /opt/project/mysql/data:/var/lib/mysql
-      - /opt/project/mysql/conf:/etc/mysql/conf.d
+      - /data/xxl-job-admin/logs:/data/applogs
     environment:
-      TZ: Asia/Shanghai
-      MYSQL_DATABASE: dev_platform
-      MYSQL_ROOT_PASSWORD: root@pwd
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: user@pwd
+      SPRING_DATASOURCE_URL:
+      SPRING_DATASOURCE_USERNAME:
+      SPRING_DATASOURCE_PASSWORD:
+      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
+      SERVER_PORT: 8800
     restart: always
 
-  # Redis
-  redis:
-    image: redis:4.0.2
-    container_name: redis
+  # Zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
     ports:
-      - "6379:6379"
-    environment:
-      TZ: Asia/Shanghai
-    command: [ redis-server, --requirepass, root@161122 ]
+      - "2181:2181"
     restart: always
 
-  # MinIO
-  minio:
-    image: minio/minio
-    container_name: minio
-    ports:
-      - "9000:9000"
-      - "9001:9001"
+  # Kafka
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
     volumes:
-      - /opt/minio/data:/data
-      - /opt/minio/config:/root/.minio
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9092:9092"
     environment:
-      MINIO_ACCESS_KEY: "admin"
-      MINIO_SECRET_KEY: "admin123"
-    command: server /data --console-address ":9001"
+      KAFKA_ADVERTISED_HOST_NAME: 101.42.13.186
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_LOG_RETENTION_HOURS: 120
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://101.42.13.186:9092
+      KAFKA_BROKER_ID: 1
     restart: always
 
-  # ElasticSearch
+  # JAR 8888
+  backend-project-8888:
+    image: backend-project
+    container_name: quick-chat-8888
+    build:
+      context: ./backend
+      dockerfile: Dockerfile1
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+  # JAR 8889
+  backend-project-8889:
+    image: backend-project
+    container_name: quick-chat-8889
+    build:
+      context: ./backend
+      dockerfile: Dockerfile2
+    ports:
+      - "8889:8889"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always

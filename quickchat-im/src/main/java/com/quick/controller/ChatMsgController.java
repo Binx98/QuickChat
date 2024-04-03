@@ -55,4 +55,8 @@ public class ChatMsgController {
         Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
+
+    /**
+     * 消息定时提示功能
+     */
 }
