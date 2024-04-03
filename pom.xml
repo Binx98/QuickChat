@@ -35,6 +35,8 @@
         <commons-io.version>2.6</commons-io.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <elastic.version>7.8.0</elastic.version>
+        <sensitive.version>0.2.1</sensitive.version>
+        <xxljob.version>2.3.1</xxljob.version>
     </properties>
 
     <dependencyManagement>
@@ -151,6 +153,18 @@
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
                 <version>${elastic.version}</version>
+            </dependency>
+            <!--Sensitive-->
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>sensitive-word</artifactId>
+                <version>${sensitive.version}</version>
+            </dependency>
+            <!--XXL-JOB-->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxljob.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

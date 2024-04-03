@@ -17,7 +17,11 @@ public class ChatCollectionController {
      */
 
     /**
-     * 查询收藏记录
+     * 查询收藏记录详情
+     */
+
+    /**
+     * 查询收藏记录列表
      */
 
     /**

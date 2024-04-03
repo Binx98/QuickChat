@@ -55,3 +55,15 @@ minio:
   endpoint: http://101.42.13.186:9000
   accessKey: admin
   secretKey: admin123
+xxl:
+  job:
+    accessToken: default_token
+    admin:
+      addresses: http://公网ip:8800/xxl-job-admin/
+    executor:
+      address: http://内网ip:9999
+      appname: prod-executor
+      ip: ''
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 5
+      port: 9999
