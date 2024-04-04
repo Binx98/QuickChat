@@ -33,10 +33,10 @@ services:
       - /opt/project/mysql/conf:/etc/mysql/conf.d
     environment:
       TZ: Asia/Shanghai
-      MYSQL_DATABASE: dev_platform
-      MYSQL_ROOT_PASSWORD: root@pwd
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: user@pwd
+      MYSQL_DATABASE: 数据库名
+      MYSQL_ROOT_PASSWORD: root密码
+      MYSQL_USER: 用户账号
+      MYSQL_PASSWORD: 用户密码
     restart: always
 
   # Redis
@@ -47,7 +47,7 @@ services:
       - "6379:6379"
     environment:
       TZ: Asia/Shanghai
-    command: [ redis-server, --requirepass, root@161122 ]
+    command: [ redis-server, --requirepass, 密码 ]
     restart: always
 
   # MinIO

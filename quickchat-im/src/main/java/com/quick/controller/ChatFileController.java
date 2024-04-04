@@ -1,10 +1,8 @@
 package com.quick.controller;
 
-import com.quick.enums.BucketEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.service.QuickChatFileService;
-import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("/file")
 public class ChatFileController {
-    @Autowired
-    private MinioUtil minioUtil;
     @Autowired
     private QuickChatFileService fileService;
 
@@ -46,7 +42,8 @@ public class ChatFileController {
      * @return 响应信息
      */
     @GetMapping("/download/{type}")
-    public void downloadFile(@PathVariable int type, String url) {
+    public R downloadFile(@PathVariable int type, String url) {
         fileService.downloadFile(type, url);
+        return R.out(ResponseEnum.SUCCESS);
     }
 }
