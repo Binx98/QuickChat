@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class VoiceCallHandler extends AbstractChatMsgStrategy {
-
     @Override
     protected ChatMsgEnum getEnum() {
         return ChatMsgEnum.VOICE_CALL;

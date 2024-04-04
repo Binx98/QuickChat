@@ -27,7 +27,6 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();

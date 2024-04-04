@@ -3,6 +3,7 @@ package com.quick.controller;
 import com.quick.enums.BucketEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
+import com.quick.service.QuickChatFileService;
 import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChatFileController {
     @Autowired
     private MinioUtil minioUtil;
+    @Autowired
+    private QuickChatFileService fileService;
 
     /**
      * 上传文件
@@ -31,14 +34,7 @@ public class ChatFileController {
     @ResponseBody
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
-        String url = null;
-        if (BucketEnum.AVATAR.getType().equals(type)) {
-            url = minioUtil.upload(file, BucketEnum.AVATAR.getBucketName());
-        } else if (BucketEnum.VOICE.getType().equals(type)) {
-            url = minioUtil.upload(file, BucketEnum.VOICE.getBucketName());
-        } else {
-            url = minioUtil.upload(file, BucketEnum.FILE.getBucketName());
-        }
+        String url = fileService.uploadFile(type, file);
         return R.out(ResponseEnum.SUCCESS, url);
     }
 
@@ -51,12 +47,6 @@ public class ChatFileController {
      */
     @GetMapping("/download/{type}")
     public void downloadFile(@PathVariable int type, String url) {
-        if (BucketEnum.AVATAR.getType().equals(type)) {
-            minioUtil.download(BucketEnum.AVATAR.getBucketName(), url);
-        } else if (BucketEnum.VOICE.getType().equals(type)) {
-            minioUtil.download(BucketEnum.VOICE.getBucketName(), url);
-        } else {
-            minioUtil.download(BucketEnum.FILE.getBucketName(), url);
-        }
+        fileService.downloadFile(type, url);
     }
 }
