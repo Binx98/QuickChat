@@ -17,7 +17,7 @@ public enum BucketEnum {
     FILE(3, "file-bucket", "文件"),
     ;
 
-    private Integer type;
+    private Integer code;
     private String bucketName;
     private String desc;
 }

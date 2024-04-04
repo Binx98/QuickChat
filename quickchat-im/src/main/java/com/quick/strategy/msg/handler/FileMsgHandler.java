@@ -10,7 +10,6 @@ import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author: 徐志斌
@@ -29,9 +28,11 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 保存聊天信息
+        // 文件大小限制
+
+
+        // 保存消息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String fileUrl = msgDTO.getContent();

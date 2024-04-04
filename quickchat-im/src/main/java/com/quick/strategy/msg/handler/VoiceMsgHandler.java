@@ -1,8 +1,10 @@
 package com.quick.strategy.msg.handler;
 
+import cn.hutool.json.JSONUtil;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
@@ -27,10 +29,15 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
+        // 校验语音时长
+
+        // 保存聊天信息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String url = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, url, null, this.getEnum().getCode());
+        FileExtraDTO extraInfo = msgDTO.getExtraInfo();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
+                url, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
