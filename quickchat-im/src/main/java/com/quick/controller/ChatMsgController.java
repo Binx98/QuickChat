@@ -37,7 +37,7 @@ public class ChatMsgController {
     }
 
     /**
-     * 查询会话列表聊天记录（访问聊天页面）
+     * 批量查询聊天记录
      */
     @PostMapping("/list")
     public R list(@RequestBody List<String> accountIds) throws ExecutionException, InterruptedException {

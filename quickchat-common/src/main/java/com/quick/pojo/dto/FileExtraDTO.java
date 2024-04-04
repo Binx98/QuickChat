@@ -1,6 +1,9 @@
 package com.quick.pojo.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Author 徐志斌
@@ -9,6 +12,9 @@ import lombok.Data;
  * @Description: 针对文件信息
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileExtraDTO {
     /**
      * 文件名

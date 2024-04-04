@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 
 /**
  * @Author: 徐志斌
@@ -30,9 +31,9 @@ public abstract class AbstractFileStrategy {
      * 上传文件
      *
      * @param file 文件对象
-     * @return 文件 url
+     * @return 文件信息
      */
-    public abstract String uploadFile(MultipartFile file);
+    public abstract Map<String, Object> uploadFile(MultipartFile file) throws Exception;
 
     /**
      * 下载文件

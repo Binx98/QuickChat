@@ -2,8 +2,12 @@ package com.quick.strategy.file.handler;
 
 import com.quick.enums.BucketEnum;
 import com.quick.strategy.file.AbstractFileStrategy;
+import com.quick.utils.MinioUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -13,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Component
 public class AvatarHandler extends AbstractFileStrategy {
+    @Autowired
+    private MinioUtil minioUtil;
 
     @Override
     protected BucketEnum getEnum() {
@@ -20,14 +26,14 @@ public class AvatarHandler extends AbstractFileStrategy {
     }
 
     @Override
-    public String uploadFile(MultipartFile file) {
-        // 头像文件大小校验
-
+    public Map<String, Object> uploadFile(MultipartFile file) throws Exception {
+        // 文件大小校验
+        minioUtil.upload(file, this.getEnum().getBucketName());
         return null;
     }
 
     @Override
     public void downloadFile(String url) {
-
+        minioUtil.download(this.getEnum().getBucketName(), url);
     }
 }

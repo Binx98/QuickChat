@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * <p>
@@ -101,17 +99,6 @@ public class ChatUserController {
     @GetMapping("/test")
     @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitTypeEnum.IP)
     public R test() {
-        // String ——> LocalDateTime：通过parse
-        String dateStr = "2024-01-01 00:00:00";
-        LocalDateTime dateTime = LocalDateTime.parse(dateStr);
-        System.out.println(dateTime);
-
-        // LocalDateTime ——> String，通过
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime time = LocalDateTime.now();
-        String dateTimeStr = df.format(time);
-        System.out.println(dateTimeStr);
-
         return R.out(ResponseEnum.SUCCESS);
     }
 }

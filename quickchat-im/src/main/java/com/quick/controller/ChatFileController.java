@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * @Author 徐志斌
  * @Date: 2024/3/3 16:29
@@ -23,23 +25,21 @@ public class ChatFileController {
     /**
      * 上传文件
      *
-     * @param type 文件类型
+     * @param type Bucket类型
      * @param file 文件实体信息
-     * @return 响应信息
      */
     @ResponseBody
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
-        String url = fileService.uploadFile(type, file);
-        return R.out(ResponseEnum.SUCCESS, url);
+        Map<String, Object> resultMap = fileService.uploadFile(type, file);
+        return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     /**
      * 文件下载功能
      *
-     * @param type 文件类型
+     * @param type Bucket类型
      * @param url  文件url
-     * @return 响应信息
      */
     @GetMapping("/download/{type}")
     public R downloadFile(@PathVariable int type, String url) {

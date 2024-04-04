@@ -2,6 +2,8 @@ package com.quick.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 /**
  * <p>
  * 表情包 服务类
@@ -16,16 +18,15 @@ public interface QuickChatFileService {
      *
      * @param type Bucket类型
      * @param file 文件对象
-     * @return 文件访问url
+     * @return 文件信息
      */
-    String uploadFile(int type, MultipartFile file) throws Exception;
+    Map<String, Object> uploadFile(int type, MultipartFile file) throws Exception;
 
     /**
      * 下载文件
      *
      * @param type Bucket类型
      * @param url  文件url
-     * @return 执行结果
      */
-    Boolean downloadFile(int type, String url);
+    void downloadFile(int type, String url);
 }
