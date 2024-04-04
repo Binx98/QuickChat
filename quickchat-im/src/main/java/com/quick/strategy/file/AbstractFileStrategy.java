@@ -1,11 +1,11 @@
 package com.quick.strategy.file;
 
 import com.quick.enums.BucketEnum;
+import com.quick.pojo.dto.FileExtraDTO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
 
 /**
  * @Author: 徐志斌
@@ -33,7 +33,7 @@ public abstract class AbstractFileStrategy {
      * @param file 文件对象
      * @return 文件信息
      */
-    public abstract Map<String, Object> uploadFile(MultipartFile file) throws Exception;
+    public abstract FileExtraDTO uploadFile(MultipartFile file) throws Exception;
 
     /**
      * 下载文件

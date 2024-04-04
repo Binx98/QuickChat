@@ -1,14 +1,13 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
+import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.response.R;
 import com.quick.service.QuickChatFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -31,8 +30,8 @@ public class ChatFileController {
     @ResponseBody
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
-        Map<String, Object> resultMap = fileService.uploadFile(type, file);
-        return R.out(ResponseEnum.SUCCESS, resultMap);
+        FileExtraDTO fileInfo = fileService.uploadFile(type, file);
+        return R.out(ResponseEnum.SUCCESS, fileInfo);
     }
 
     /**
@@ -42,8 +41,7 @@ public class ChatFileController {
      * @param url  文件url
      */
     @GetMapping("/download/{type}")
-    public R downloadFile(@PathVariable int type, String url) {
+    public void downloadFile(@PathVariable int type, String url) {
         fileService.downloadFile(type, url);
-        return R.out(ResponseEnum.SUCCESS);
     }
 }

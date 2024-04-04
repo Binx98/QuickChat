@@ -1,8 +1,7 @@
 package com.quick.service;
 
+import com.quick.pojo.dto.FileExtraDTO;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 /**
  * <p>
@@ -20,7 +19,7 @@ public interface QuickChatFileService {
      * @param file 文件对象
      * @return 文件信息
      */
-    Map<String, Object> uploadFile(int type, MultipartFile file) throws Exception;
+    FileExtraDTO uploadFile(int type, MultipartFile file) throws Exception;
 
     /**
      * 下载文件
