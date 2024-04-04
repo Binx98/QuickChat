@@ -10,11 +10,10 @@ import com.quick.pojo.dto.FileExtraDTO;
  */
 public class FileExtraAdapter {
 
-    public static FileExtraDTO buildFileExtraPO(String fileName, long size, String url) {
+    public static FileExtraDTO buildFileExtraPO(String fileName, long size) {
         return FileExtraDTO.builder()
                 .name(fileName)
                 .size(size)
-                .url(url)
                 .build();
     }
 }

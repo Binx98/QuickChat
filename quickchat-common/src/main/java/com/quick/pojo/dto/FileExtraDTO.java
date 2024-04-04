@@ -30,9 +30,4 @@ public class FileExtraDTO {
      * 文件类型
      */
     private String type;
-
-    /**
-     * 文件 url
-     */
-    private String url;
 }

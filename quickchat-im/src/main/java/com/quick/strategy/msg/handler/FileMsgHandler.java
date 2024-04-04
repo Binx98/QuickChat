@@ -29,6 +29,10 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
 
     @Override
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
+        // 文件大小限制
+
+
+        // 保存消息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String fileUrl = msgDTO.getContent();

@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author 徐志斌
  * @Date: 2024/4/4 14:10
@@ -28,7 +31,7 @@ public class VoiceHandler extends AbstractFileStrategy {
     }
 
     @Override
-    public FileExtraDTO uploadFile(MultipartFile file) throws Exception {
+    public Map<String, Object> uploadFile(MultipartFile file) throws Exception {
         // 文件大小校验
 
 
@@ -36,7 +39,11 @@ public class VoiceHandler extends AbstractFileStrategy {
         String url = minioUtil.upload(file, this.getEnum().getBucketName());
 
         // 封装结果集
-        return FileExtraAdapter.buildFileExtraPO(file.getOriginalFilename(), file.getSize(), url);
+        FileExtraDTO extraDTO = FileExtraAdapter.buildFileExtraPO(file.getOriginalFilename(), file.getSize());
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("url", url);
+        resultMap.put("extraInfo", extraDTO);
+        return resultMap;
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.quick.strategy.file.handler;
 
 import com.quick.enums.BucketEnum;
-import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.strategy.file.AbstractFileStrategy;
 import com.quick.utils.MinioUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -25,10 +27,12 @@ public class FileHandler extends AbstractFileStrategy {
     }
 
     @Override
-    public FileExtraDTO uploadFile(MultipartFile file) throws Exception {
+    public Map<String, Object> uploadFile(MultipartFile file) throws Exception {
         // 文件大小校验
         String url = minioUtil.upload(file, this.getEnum().getBucketName());
-        return null;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("url", url);
+        return resultMap;
     }
 
     @Override
