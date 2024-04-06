@@ -2,6 +2,7 @@ package com.quick.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @Author 徐志斌
@@ -30,9 +31,11 @@ public enum ResponseEnum {
     IS_YOUR_FRIEND(500, "对方已经是您的好友，不可重复添加"),
     GROUP_NOT_EXIST(500, "群组信息不存在！"),
     NOT_GROUP_OWNER(500, "您不是群主，不可进行当前操作！"),
+    FILE_OVER_SIZE(500, "文件内存过大！"),
     ;
 
-
+    @Setter
     private Integer code;
+    @Setter
     private String msg;
 }
