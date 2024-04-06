@@ -40,7 +40,9 @@ public class VoiceHandler extends AbstractFileStrategy {
         // 文件大小校验
         long size = file.getSize() / 1024 / 1024;
         if (size > voiceSize) {
-            throw new QuickException(ResponseEnum.FILE_OVER_SIZE);
+            ResponseEnum responseEnum = ResponseEnum.FILE_OVER_SIZE;
+            responseEnum.setMsg(String.format(responseEnum.getMsg(), voiceSize + "MB"));
+            throw new QuickException(responseEnum);
         }
 
         // 上传文件至 Minio
