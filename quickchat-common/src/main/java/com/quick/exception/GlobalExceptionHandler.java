@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(QuickException.class)
     public R quickException(QuickException e) {
+        log.error("========================QuickException：{}========================", e);
         return R.out(e.getResponseEnum());
     }
 

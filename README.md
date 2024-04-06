@@ -32,7 +32,6 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 |   Redisson    | 基于Redis的解决方案      |
 |     Kafka     | 消息队列              |
 | ElasticSearch | 搜索引擎              |
-|    XXL-JOB    | 定时任务              |
 |     MinIO     | 自建对象存储            |
 |      Jwt      | 用户登录，认证方案         |
 |    Lombok     | 简化代码              |

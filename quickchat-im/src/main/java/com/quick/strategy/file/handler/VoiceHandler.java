@@ -2,11 +2,14 @@ package com.quick.strategy.file.handler;
 
 import com.quick.adapter.FileExtraAdapter;
 import com.quick.enums.BucketEnum;
+import com.quick.enums.ResponseEnum;
+import com.quick.exception.QuickException;
 import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.strategy.file.AbstractFileStrategy;
 import com.quick.utils.MinioUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +27,8 @@ import java.util.Map;
 public class VoiceHandler extends AbstractFileStrategy {
     @Autowired
     private MinioUtil minioUtil;
+    @Value("${quick-chat.size.voice}")
+    private Integer voiceSize;
 
     @Override
     protected BucketEnum getEnum() {
@@ -33,7 +38,12 @@ public class VoiceHandler extends AbstractFileStrategy {
     @Override
     public Map<String, Object> uploadFile(MultipartFile file) throws Exception {
         // 文件大小校验
-
+        long size = file.getSize() / 1024 / 1024;
+        if (size > voiceSize) {
+            ResponseEnum responseEnum = ResponseEnum.FILE_OVER_SIZE;
+            responseEnum.setMsg(String.format(responseEnum.getMsg(), voiceSize + "MB"));
+            throw new QuickException(responseEnum);
+        }
 
         // 上传文件至 Minio
         String url = minioUtil.upload(file, this.getEnum().getBucketName());

@@ -13,13 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BaseResponse {
-    /**
-     * 状态码
-     */
     private Integer code;
-    /**
-     * 响应消息
-     */
     private String msg;
 
     protected BaseResponse(ResponseEnum code) {

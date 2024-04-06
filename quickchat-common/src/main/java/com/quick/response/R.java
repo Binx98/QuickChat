@@ -15,20 +15,20 @@ import lombok.Setter;
 public class R<T> extends BaseResponse {
     private T data;
 
-    private R(ResponseEnum code) {
-        super(code);
+    private R(ResponseEnum respEnum) {
+        super(respEnum);
     }
 
-    private R(ResponseEnum code, T data) {
-        super(code);
+    private R(ResponseEnum respEnum, T data) {
+        super(respEnum);
         this.data = data;
     }
 
-    public static <T> R<T> out(ResponseEnum code) {
-        return new R<>(code);
+    public static <T> R<T> out(ResponseEnum respEnum) {
+        return new R<>(respEnum);
     }
 
-    public static <T> R<T> out(ResponseEnum code, T data) {
-        return new R<>(code, data);
+    public static <T> R<T> out(ResponseEnum respEnum, T data) {
+        return new R<>(respEnum, data);
     }
 }
