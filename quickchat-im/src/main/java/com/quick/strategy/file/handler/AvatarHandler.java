@@ -46,7 +46,7 @@ public class AvatarHandler extends AbstractFileStrategy {
         // 上传文件至 Minio
         String url = minioUtil.upload(file, this.getEnum().getBucketName());
 
-        // 封装结果集
+        // 封装结果
         FileExtraDTO extraDTO = FileExtraAdapter.buildFileExtraPO(file.getOriginalFilename(), file.getSize());
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("url", url);
@@ -57,5 +57,10 @@ public class AvatarHandler extends AbstractFileStrategy {
     @Override
     public void downloadFile(String url) {
         minioUtil.download(this.getEnum().getBucketName(), url);
+    }
+
+    @Override
+    public void deleteFile(String url) throws Exception {
+        minioUtil.delete(this.getEnum().getBucketName(), url);
     }
 }

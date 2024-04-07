@@ -32,6 +32,7 @@ public enum ResponseEnum {
     GROUP_NOT_EXIST(500, "群组信息不存在！"),
     NOT_GROUP_OWNER(500, "您不是群主，不可进行当前操作！"),
     FILE_OVER_SIZE(500, "文件大小不可超过：%s"),
+    VOICE_TIME_NOT_ALLOW(500, "语音消息时长不可超过%s秒！"),
     ;
 
     @Setter

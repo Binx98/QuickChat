@@ -58,4 +58,9 @@ public class FileHandler extends AbstractFileStrategy {
     public void downloadFile(String url) {
         minioUtil.download(this.getEnum().getBucketName(), url);
     }
+
+    @Override
+    public void deleteFile(String url) throws Exception {
+        minioUtil.delete(this.getEnum().getBucketName(), url);
+    }
 }
