@@ -36,7 +36,7 @@ public class ChatFileController {
     }
 
     /**
-     * 文件下载功能
+     * 下载文件
      *
      * @param type Bucket类型
      * @param url  文件url
@@ -44,5 +44,16 @@ public class ChatFileController {
     @GetMapping("/download/{type}")
     public void downloadFile(@PathVariable int type, String url) {
         fileService.downloadFile(type, url);
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param type Bucket类型
+     * @param url  文件url
+     */
+    @DeleteMapping("/delete/{type}")
+    public void deleteFile(@PathVariable int type, String url) throws Exception {
+        fileService.deleteFile(type, url);
     }
 }

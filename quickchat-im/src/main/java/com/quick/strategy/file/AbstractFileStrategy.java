@@ -38,7 +38,15 @@ public abstract class AbstractFileStrategy {
     /**
      * 下载文件
      *
-     * @param url 文件 url
+     * @param url 文件url
      */
     public abstract void downloadFile(String url);
+
+
+    /**
+     * 删除文件
+     *
+     * @param url 文件url
+     */
+    public abstract void deleteFile(String url) throws Exception;
 }

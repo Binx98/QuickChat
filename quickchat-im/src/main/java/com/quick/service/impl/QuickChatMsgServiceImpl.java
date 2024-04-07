@@ -126,8 +126,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         // 通过 Channel 推送给客户端（单聊、群聊）
         if (SessionTypeEnum.SINGLE.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
-        }
-        if (SessionTypeEnum.GROUP.getCode().equals(chatSession.getType())) {
+        } else if (SessionTypeEnum.GROUP.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
         }
     }

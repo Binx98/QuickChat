@@ -1,14 +1,14 @@
 package com.quick.strategy.msg.handler;
 
-import com.quick.enums.BucketEnum;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
+import com.quick.strategy.file.handler.FileHandler;
+import com.quick.strategy.file.handler.VoiceHandler;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
-import com.quick.utils.MinioUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,9 @@ import java.time.LocalDateTime;
 @Component
 public class RecallMsgHandler extends AbstractChatMsgStrategy {
     @Autowired
-    private MinioUtil minioUtil;
+    private FileHandler fileHandler;
+    @Autowired
+    private VoiceHandler voiceHandler;
     @Autowired
     private QuickChatMsgStore msgStore;
     @Value("${quick-chat.no-recall-time}")
@@ -50,10 +52,11 @@ public class RecallMsgHandler extends AbstractChatMsgStrategy {
         }
 
         // 针对文件消息：删除文件
-        if (msgDTO.getMsgType().equals(ChatMsgEnum.VOICE.getCode())) {
-            minioUtil.removeObject(BucketEnum.VOICE.getBucketName(), msgDTO.getExtraInfo().getName());
-        } else if (msgDTO.getMsgType().equals(ChatMsgEnum.FILE.getCode())) {
-            minioUtil.removeObject(BucketEnum.FILE.getBucketName(), msgDTO.getExtraInfo().getName());
+        Integer msgType = msgDTO.getMsgType();
+        if (ChatMsgEnum.VOICE.getCode().equals(msgType)) {
+            fileHandler.deleteFile(msgDTO.getContent());
+        } else if (ChatMsgEnum.FILE.getCode().equals(msgType)) {
+            voiceHandler.deleteFile(msgDTO.getContent());
         }
 
         // 消息类型修改为撤回

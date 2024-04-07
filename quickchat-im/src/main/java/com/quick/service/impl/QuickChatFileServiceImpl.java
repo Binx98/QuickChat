@@ -29,4 +29,10 @@ public class QuickChatFileServiceImpl implements QuickChatFileService {
         AbstractFileStrategy fileStrategy = FileStrategyFactory.getStrategyHandler(type);
         fileStrategy.downloadFile(url);
     }
+
+    @Override
+    public void deleteFile(int type, String url) throws Exception {
+        AbstractFileStrategy fileStrategy = FileStrategyFactory.getStrategyHandler(type);
+        fileStrategy.deleteFile(url);
+    }
 }

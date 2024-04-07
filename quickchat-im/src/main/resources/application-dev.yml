@@ -1,11 +1,3 @@
-quick-chat:
-  common-group-id: 1
-  no-recall-time: 2
-  # 单位：MB
-  size:
-    avatar: 2
-    voice: 5
-    file: 50
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -60,15 +52,15 @@ minio:
   endpoint: http://101.42.13.186:9000
   accessKey: admin
   secretKey: admin123
-xxl:
-  job:
-    accessToken: default_token
-    admin:
-      addresses: http://localhost:8800/xxl-job-admin/
-    executor:
-      address: http://localhost:9999
-      appname: prod-executor
-      ip: ''
-      logpath: /data/applogs/xxl-job/jobhandler
-      logretentiondays: 5
-      port: 9999
+quick-chat:
+  # 通用群聊id
+  common-group-id: 1
+  # 撤回时间限制（分）
+  no-recall-time: 2
+  # 语音时长限制（秒）
+  voice-time-limit: 60
+  # 文件大小限制（MB）
+  size:
+    avatar: 2
+    voice: 5
+    file: 50

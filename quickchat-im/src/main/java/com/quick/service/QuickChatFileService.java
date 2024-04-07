@@ -29,4 +29,12 @@ public interface QuickChatFileService {
      * @param url  文件url
      */
     void downloadFile(int type, String url);
+
+    /**
+     * 删除文件
+     *
+     * @param type Bucket类型
+     * @param url  文件url
+     */
+    void deleteFile(int type, String url) throws Exception;
 }

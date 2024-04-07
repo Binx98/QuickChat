@@ -28,7 +28,7 @@ public class VoiceHandler extends AbstractFileStrategy {
     @Autowired
     private MinioUtil minioUtil;
     @Value("${quick-chat.size.voice}")
-    private Integer voiceSize;
+    private Integer fileSize;
 
     @Override
     protected BucketEnum getEnum() {
@@ -39,9 +39,9 @@ public class VoiceHandler extends AbstractFileStrategy {
     public Map<String, Object> uploadFile(MultipartFile file) throws Exception {
         // 文件大小校验
         long size = file.getSize() / 1024 / 1024;
-        if (size > voiceSize) {
+        if (size > fileSize) {
             ResponseEnum responseEnum = ResponseEnum.FILE_OVER_SIZE;
-            responseEnum.setMsg(String.format(responseEnum.getMsg(), voiceSize + "MB"));
+            responseEnum.setMsg(String.format(responseEnum.getMsg(), fileSize + "MB"));
             throw new QuickException(responseEnum);
         }
 
@@ -59,5 +59,10 @@ public class VoiceHandler extends AbstractFileStrategy {
     @Override
     public void downloadFile(String url) {
         minioUtil.download(this.getEnum().getBucketName(), url);
+    }
+
+    @Override
+    public void deleteFile(String url) throws Exception {
+        minioUtil.delete(this.getEnum().getBucketName(), url);
     }
 }
