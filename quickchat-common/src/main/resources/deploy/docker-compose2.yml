@@ -45,6 +45,10 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    volumes:
+      - /opt/project/redis/redis.conf:/etc/redis/redis.conf
+      - /opt/project/redis/data:/data
+      - /opt/project/redis/logs:/logs
     environment:
       TZ: Asia/Shanghai
     command: [ redis-server, --requirepass, 密码 ]
