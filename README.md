@@ -1,30 +1,23 @@
-<p align="center">
-    <a href="" target="_blank">
-      <img src="" width="280" />
-    </a>
-</p>
-
 <h1 align="center">Quick Chat</h1>
-<p align="center"><strong>实时通讯IM系统</strong></p>
-
 <div align="center">
-    <a href="https://github.com/CoderXu666/QuickChat"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
+    <a href="https://github.com/CoderXu666/QuickChat"><img src="https://img.shields.io/badge/后端-项目地址-yellow.svg?style=plasticr"></a>
     <a href="https://github.com/CoderXu666/QuickChat-Front"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
     <a href="" target="_blank">
     <br>
 </div>
 
-### 功能介绍
+## ✨系统介绍
 
-Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服务器，功能丰富好玩
+功能丰富的实时IM通讯系统，通过Netty构建高性能WebSocket服务器，具有：单聊、群聊、文件传输、语音消息、音视频通话等强大功能。<br>
+支持任何联网设备直接通过浏览器随时随地访问，消息多端实时同步
 
-### 架构讲解
+## 🚀技术架构
 
 后端：
 
 |      技术       | 说明                |
 |:-------------:|-------------------|
-|    JDK 11     | Java开发工具          |
+|    JDK 17     | Java开发工具          |
 |  SpringBoot   | web开发必备框架         |
 | MyBatis-Plus  | 零sql，简化数据库操作，分页插件 |
 |     MySQL     | 关系型数据             |
@@ -41,15 +34,22 @@ Web实时聊天IM通讯系统，通过Netty基于WebSocket协议构建通讯服�
 | ShardingJDBC  | 分库分表中间件           |
 |    Hutool     | HuTool工具包         |
 |   Ip2Region   | 地址解析              |
+|   JavaMail    | 电子邮件              |
 |    Kaptcha    | Google图片生成        |
 |     Nginx     | 高性能网关服务器          |
 |    Docker     | 容器                |
 |     Shell     | 自动化脚本             |
 |    Jenkins    | CICD控制台           |
+|     雷池WAF     | Web防火墙            |
+|      CDN      | 内容分发服务器           |
 
-### 启动流程
+## ✋参与贡献
+- [🚢开发环境部署](开发环境部署)
+- [✍提交PR流程](开发环境部署)
 
-### 如何参与贡献
 
-### 优秀贡献者名单
+## 🎉贡献者名单
 
+<a href="https://github.com/Binx98/QuickChat/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Binx98/QuickChat"/>
+</a>
