@@ -1,5 +1,5 @@
 # 基础镜像：构建镜像依赖
-FROM openjdk:11
+FROM openjdk:17
 
 # 维护者
 MAINTAINER 徐志斌

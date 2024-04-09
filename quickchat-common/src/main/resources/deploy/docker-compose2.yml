@@ -18,9 +18,6 @@ services:
       - /opt/project/nginx/ssl/ssl.conf:/etc/nginx/ssl/ssl.conf
       - /opt/project/nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
       - /opt/project/nginx/letsencrypt:/etc/nginx/letsencrypt
-      - /etc/letsencrypt/live/paraverse.cc/fullchain.pem:/etc/letsencrypt/live/paraverse.cc/fullchain.pem
-      - /etc/letsencrypt/live/paraverse.cc/privkey.pem:/etc/letsencrypt/live/paraverse.cc/privkey.pem
-      - /etc/letsencrypt/live/paraverse.cc/chain.pem:/etc/letsencrypt/live/paraverse.cc/chain.pem
 
   # MySQL
   mysql:
