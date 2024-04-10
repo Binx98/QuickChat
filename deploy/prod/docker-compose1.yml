@@ -1,22 +1,6 @@
 version: '3'
 
 services:
-  # XXL-JOB
-  xxl-job-admin:
-    image: xuxueli/xxl-job-admin:2.3.1
-    container_name: xxl-job-admin
-    ports:
-      - "8800:8800"
-    volumes:
-      - /data/xxl-job-admin/logs:/data/applogs
-    environment:
-      SPRING_DATASOURCE_URL:
-      SPRING_DATASOURCE_USERNAME:
-      SPRING_DATASOURCE_PASSWORD:
-      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
-      SERVER_PORT: 8800
-    restart: always
-
   # Zookeeper
   zookeeper:
     image: wurstmeister/zookeeper
@@ -73,3 +57,19 @@ services:
     volumes:
       - /opt/project/backend/myLogs:/myLogs
     restart: always
+
+#  # XXL-JOB
+#  xxl-job-admin:
+#    image: xuxueli/xxl-job-admin:2.3.1
+#    container_name: xxl-job-admin
+#    ports:
+#      - "8800:8800"
+#    volumes:
+#      - /data/xxl-job-admin/logs:/data/applogs
+#    environment:
+#      SPRING_DATASOURCE_URL:
+#      SPRING_DATASOURCE_USERNAME:
+#      SPRING_DATASOURCE_PASSWORD:
+#      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
+#      SERVER_PORT: 8800
+#    restart: always
