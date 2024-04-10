@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  # MySQL
+  mysql:
+    image: mysql:8.0.16
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/project/mysql/data:/var/lib/mysql
+      - /opt/project/mysql/conf:/etc/mysql/conf.d
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: 数据库名
+      MYSQL_ROOT_PASSWORD: root密码
+      MYSQL_USER: 用户账号
+      MYSQL_PASSWORD: 用户密码
+    restart: always
+
+  # Redis
+  redis:
+    image: redis:6.0.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /opt/project/redis/redis.conf:/etc/redis/redis.conf
+      - /opt/project/redis/data:/data
+      - /opt/project/redis/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+    command: [ redis-server, --requirepass, 密码 ]
+    restart: always
+
+  # JAR 8888
+  quick-chat-8888:
+    image: quick-chat-8888
+    container_name: quick-chat-8888
+    build:
+      context: ./backend
+      dockerfile: Dockerfile1
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+  # JAR 8889
+  quick-chat-8889:
+    image: quick-chat-8889
+    container_name: quick-chat-8889
+    build:
+      context: ./backend
+      dockerfile: Dockerfile2
+    ports:
+      - "8889:8889"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+#  # XXL-JOB
+#  xxl-job-admin:
+#    image: xuxueli/xxl-job-admin:2.3.1
+#    container_name: xxl-job-admin
+#    ports:
+#      - "8800:8800"
+#    volumes:
+#      - /data/xxl-job-admin/logs:/data/applogs
+#    environment:
+#      SPRING_DATASOURCE_URL:
+#      SPRING_DATASOURCE_USERNAME:
+#      SPRING_DATASOURCE_PASSWORD:
+#      SERVER_SERVLET_CONTEXT_PATH: /xxl-job-admin
+#      SERVER_PORT: 8800
+#    restart: always
