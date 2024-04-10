@@ -1,40 +1,41 @@
 version: '3'
 
 services:
-  # Zookeeper
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
+  # MySQL
+  mysql:
+    image: mysql:8.0.16
+    container_name: mysql
     ports:
-      - "2181:2181"
+      - "3306:3306"
+    volumes:
+      - /opt/project/mysql/data:/var/lib/mysql
+      - /opt/project/mysql/conf:/etc/mysql/conf.d
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: 数据库名
+      MYSQL_ROOT_PASSWORD: root密码
+      MYSQL_USER: 用户账号
+      MYSQL_PASSWORD: 用户密码
     restart: always
 
-  # Kafka
-  kafka:
-    image: wurstmeister/kafka
-    container_name: kafka
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  # Redis
+  redis:
+    image: redis:6.0.2
+    container_name: redis
     ports:
-      - "9092:9092"
+      - "6379:6379"
+    volumes:
+      - /opt/project/redis/redis.conf:/etc/redis/redis.conf
+      - /opt/project/redis/data:/data
+      - /opt/project/redis/logs:/logs
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 公网ip
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_PORT: 9092
-      KAFKA_LOG_RETENTION_HOURS: 120
-      KAFKA_MESSAGE_MAX_BYTES: 10000000
-      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
-      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
-      KAFKA_NUM_PARTITIONS: 3
-      KAFKA_DELETE_RETENTION_MS: 1000
-      KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://公网ip:9092
-      KAFKA_BROKER_ID: 1
+      TZ: Asia/Shanghai
+    command: [ redis-server, --requirepass, 密码 ]
     restart: always
 
   # JAR 8888
-  backend-project-8888:
-    image: backend-project
+  quick-chat-8888:
+    image: quick-chat-8888
     container_name: quick-chat-8888
     build:
       context: ./backend
@@ -46,8 +47,8 @@ services:
     restart: always
 
   # JAR 8889
-  backend-project-8889:
-    image: backend-project
+  quick-chat-8889:
+    image: quick-chat-8889
     container_name: quick-chat-8889
     build:
       context: ./backend
