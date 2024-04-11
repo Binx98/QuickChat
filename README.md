@@ -15,22 +15,22 @@
 
 ## 🚀技术架构
 
-|      后端       |        前端         |     运维     |
-|:-------------:|:-----------------:|:----------:|
-|    JDK 17     |       HTML        |   Linux    |
-|  SpringBoot   |        CSS        |   Shell    |
-|   SpringMVC   |    JavaScript     |   Docker   |
-|  MyBatisPlus  |      Node.js      |   Nginx    |
-|     MySQL     |       AJAX        | Prometheus |
-|     Redis     |       Axios       |  Grafana   |
-|   Redisson    |        Vue        |  Jenkins   |
-|     Kafka     |       Vuex        |    CDN     |
-| ElasticSearch |    Vue-Router     |    WAF     |
-|     MinIO     |     ElementUI     |    SSL     |
-| ShardingJDBC  | vue-emoji-picker  |            |
-|     Netty     |     js-cookie     |            |
-|   WebSocket   | js-audio-recorder |            |
-|    WebRTC     |     iconfont      |            |
+|      后端       |        前端         |   运维   |
+|:-------------:|:-----------------:|:------:|
+|    JDK 17     |       HTML        | Linux  |
+|  SpringBoot   |        CSS        | Shell  |
+|   SpringMVC   |    JavaScript     | Docker |
+|  MyBatisPlus  |      Node.js      | Nginx  |
+|     MySQL     |       AJAX        |  CDN   |
+|     Redis     |       Axios       |  WAF   |
+|   Redisson    |        Vue        |  SSL   |
+|     Kafka     |       Vuex        |        |
+| ElasticSearch |    Vue-Router     |        |
+|     MinIO     |     ElementUI     |        |
+| ShardingJDBC  | vue-emoji-picker  |        |
+|     Netty     |     js-cookie     |        |
+|   WebSocket   | js-audio-recorder |        |
+|    WebRTC     |     iconfont      |        |
 
 ## ✋加入我们
 
@@ -43,6 +43,6 @@
   <img src="https://contrib.rocks/image?repo=Binx98/QuickChat"/>
 </a>
 
-| 姓名       | Github                                                     | 公司              |
-|----------| --------------------------------------------------------- |-----------------|
-| 徐志斌 | https://github.com/Binx98          | PARAVERSE 平行云科技 |
+| 姓名       | Github     | 公司              |
+|:-------------:|:-------------:|:-------------:|
+| 徐志斌 | https://github.com/Binx98  | PARAVERSE 平行云科技 |
