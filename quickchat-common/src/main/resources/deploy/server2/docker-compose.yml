@@ -19,6 +19,8 @@ services:
       - /opt/project/nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
       - /opt/project/nginx/letsencrypt:/etc/nginx/letsencrypt
 
+  # 雷池WAF
+
   # Zookeeper
   zookeeper:
     image: wurstmeister/zookeeper
@@ -51,22 +53,6 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://公网ip:9092
       KAFKA_BROKER_ID: 1
-    restart: always
-
-  # MinIO
-  minio:
-    image: minio/minio
-    container_name: minio
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - /opt/minio/data:/data
-      - /opt/minio/config:/root/.minio
-    environment:
-      MINIO_ACCESS_KEY: "admin"
-      MINIO_SECRET_KEY: "admin123"
-    command: server /data --console-address ":9001"
     restart: always
 
   # ElasticSearch
