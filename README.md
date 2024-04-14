@@ -39,16 +39,18 @@
 
 ## ✋加入我们
 
-- [🚢本地环境部署](本地环境部署)
-- [✍提交PR流程](提交PR流程)
-- [的代码提交规范](代码提交规范)
+- [🚢本地环境部署](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.md)
+- [✍提交PR流程](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%8F%90%E4%BA%A4PR%E6%B5%81%E7%A8%8B.md)
+- [代码提交规范](代码提交规范)
 
 ## 🎉贡献名单
 
 <a href="https://github.com/Binx98/QuickChat/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Binx98/QuickChat"/>
+  <img src="https://contrib.rocks/image?repo=Binx98/QuickChat" />
 </a>
 
-| 姓名       | Github     | 公司              |
-|:-------------:|:-------------:|:-------------:|
-| 徐志斌 | https://github.com/Binx98  | PARAVERSE 平行云科技 |
+| 姓名  |              Github              |      公司       |
+|:---:|:--------------------------------:|:-------------:|
+| 徐志斌 |    https://github.com/Binx98     | PARAVERSE 平行云 |
+| 陈辰  |  https://github.com/GeforceLite  |   SBI BITS    |
+| 刘贤壮 | https://github.com/han-de-123456 |     中车数字      |
