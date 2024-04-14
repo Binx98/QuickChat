@@ -30,4 +30,9 @@ public class FileExtraDTO {
      * 文件类型
      */
     private String type;
+
+    /**
+     * 语音文件时长
+     */
+    private Long voiceTime;
 }

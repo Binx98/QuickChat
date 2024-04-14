@@ -40,7 +40,7 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
     @Override
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 校验语音时长、语音文件大小
-        Boolean checkVoiceTime = msgDTO.getVoiceTime() > voiceTimeLimit;
+        Boolean checkVoiceTime = msgDTO.getExtraInfo().getVoiceTime() > voiceTimeLimit;
         Boolean checkVoiceSize = (msgDTO.getExtraInfo().getSize() / 1024 / 1024) > voiceSize;
         if (checkVoiceTime || checkVoiceSize) {
             voiceHandler.deleteFile(msgDTO.getContent());
