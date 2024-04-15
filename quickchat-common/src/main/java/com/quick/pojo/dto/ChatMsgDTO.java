@@ -38,11 +38,6 @@ public class ChatMsgDTO {
     private Long msgId;
 
     /**
-     * 语音消息时长
-     */
-    private Long voiceTime;
-
-    /**
      * 文件消息
      */
     private FileExtraDTO extraInfo;
