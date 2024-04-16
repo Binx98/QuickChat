@@ -76,7 +76,7 @@ git stash
 # 从远程仓库获取代码
 git pull upstream 分支名
 # 恢复暂存代码
-git stash
+git stash pop
 ```
 
 ![在这里插入图片描述](./images/b0b1977cfab24fdcb2724a5b720c2b08.png)
@@ -155,13 +155,13 @@ commit完成
 
 
 
-创建MR成功
+创建PR成功
 
 ![在这里插入图片描述](./images/32383e2ca264426ca4e8e394c973d10d.png)
 
 
 
-如果想关闭MR，拖到下面有选项
+如果想关闭PR，拖到下面有选项
 
 
 
@@ -169,5 +169,5 @@ commit完成
 
 
 
-到这里就算是完成了，剩下的就是等review者review完毕后，merge代码，重新执行pull upstream的操作，获取最新远端代码，即可。
+到这里就算是完成了，剩下的就是等review者review完毕后，merge代码，重新执行pull upstream dev的操作，获取最新远端代码，即可。
 
