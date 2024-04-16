@@ -27,41 +27,5 @@ import java.util.List;
  */
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
-    @Autowired
-    private QuickChatMsgStore msgStore;
-    @Autowired
-    private QuickChatGroupStore groupStore;
-    @Autowired
-    private QuickChatGroupMemberStore memberStore;
 
-    @Override
-    public List<QuickChatGroup> getGroupList() {
-        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        return groupStore.getListByAccountId(accountId);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean dismiss(String groupId) {
-        // 查询群聊信息
-        QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
-        if (ObjectUtils.isEmpty(groupPO)) {
-            throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
-        }
-
-        // 判断是否是群主操作
-        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        if (accountId.equals(groupPO.getAccountId())) {
-            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
-        }
-
-        // 解散群聊
-        groupStore.dismissByGroupId(groupId);
-
-        // 删除群成员
-        memberStore.deleteByGroupId(groupId);
-
-        // 删除群聊天记录
-        return msgStore.deleteByToId(groupId);
-    }
 }

@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/collection")
 public class ChatCollectionController {
     /**
-     * 收藏聊天信息
+     * TODO 收藏聊天信息
      */
 
     /**
-     * 查询收藏记录详情
+     * TODO 查询收藏记录详情
      */
 
     /**
-     * 查询收藏记录列表
+     * TODO 查询收藏列表
      */
 
     /**
-     * 删除收藏记录
+     * TODO 删除收藏记录
      */
 }
