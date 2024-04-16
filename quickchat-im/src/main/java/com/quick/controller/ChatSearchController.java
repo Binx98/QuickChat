@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/search")
 public class ChatSearchController {
     /**
-     * 搜索框查询信息
+     * TODO 搜索框查询信息
      */
 }

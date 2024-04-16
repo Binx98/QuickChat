@@ -57,6 +57,10 @@ public class ChatMsgController {
     }
 
     /**
-     * 消息定时提示功能
+     * TODO 对方正在输入中...
+     */
+
+    /**
+     * TODO 消息定时提示功能
      */
 }
