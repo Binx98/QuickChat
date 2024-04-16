@@ -19,33 +19,4 @@ import java.util.List;
 @Service
 public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriend> implements QuickChatFriendService {
 
-    @Override
-    public List<QuickChatFriend> getFriendList() {
-        return null;
-    }
-
-    @Override
-    public Boolean addFriend(String accountId) {
-        return null;
-    }
-
-    @Override
-    public Boolean deleteFriend(String accountId) {
-        return null;
-    }
-
-    @Override
-    public Boolean blockFriend(String accountId) {
-        return null;
-    }
-
-    @Override
-    public Boolean agreeApply(String accountId) {
-        return null;
-    }
-
-    @Override
-    public QuickChatFriend getByFromIdAndToId(String fromId, String toId) {
-        return null;
-    }
 }

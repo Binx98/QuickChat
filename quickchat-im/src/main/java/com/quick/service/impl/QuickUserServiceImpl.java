@@ -145,7 +145,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
         // TODO 保证只有一个客户端登录账号
 
-        // 登录成功：解析当前登录地址，切换用户状态【已上线】
+        // TODO 登录成功：解析当前登录地址，切换用户状态【已上线】(登录状态搞成 Redis 维护)
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
