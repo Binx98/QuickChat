@@ -36,7 +36,7 @@ Fork操作的一些选项
 git clone -b dev 源仓库远程仓库代码
 ```
 
-![image-20240414191745575](C:\Users\Barry.chen\AppData\Roaming\Typora\typora-user-images\image-20240414191745575.png)
+![image-20240414191745575](./images/image-20240414191745575.png)
 
 ## 远程推送配置
 
