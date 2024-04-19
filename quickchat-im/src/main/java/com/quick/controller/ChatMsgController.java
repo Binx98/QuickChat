@@ -57,6 +57,10 @@ public class ChatMsgController {
     }
 
     /**
+     * TODO 查询双方聊天记录
+     */
+
+    /**
      * TODO 对方正在输入中...
      */
 

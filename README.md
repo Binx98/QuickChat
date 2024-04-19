@@ -18,22 +18,22 @@
 
 ## 🚀技术架构
 
-|      后端       |        前端         |   运维    |
-|:-------------:|:-----------------:|:-------:|
-|    JDK 17     |       HTML        |  Linux  |
-|  SpringBoot   |        CSS        |  Shell  |
-|   SpringMVC   |    JavaScript     | Docker  |
-|  MyBatisPlus  |      Node.js      |  Nginx  |
-|     MySQL     |       AJAX        | Jenkins |
-|     Redis     |       Axios       |   WAF   |
-|   Redisson    |        Vue        |   SSL   |
-|     Kafka     |       Vuex        |   CDN   |
-|     MinIO     |    Vue-Router     |         |
-| ElasticSearch |     ElementUI     |         |
-| ShardingJDBC  |     js-cookie     |         |
-|     Netty     | vue-emoji-picker  |         |
-|   WebSocket   | js-audio-recorder |         |
-|    WebRTC     |     iconfont      |         |
+|      后端       |        前端         |     运维     |
+|:-------------:|:-----------------:|:----------:|
+|    JDK 17     |       HTML        |   Linux    |
+|  SpringBoot   |        CSS        |   Shell    |
+|   SpringMVC   |    JavaScript     |   Docker   |
+|  MyBatisPlus  |      Node.js      |   Nginx    |
+|     MySQL     |       AJAX        |  Jenkins   |
+|     Redis     |       Axios       | Prometheus |
+|   Redisson    |        Vue        |  Grafana   |
+|     Kafka     |       Vuex        |    SSL     |
+|     MinIO     |    Vue-Router     |            |
+| ElasticSearch |     ElementUI     |            |
+| ShardingJDBC  |     js-cookie     |            |
+|     Netty     | vue-emoji-picker  |            |
+|   WebSocket   | js-audio-recorder |            |
+|    WebRTC     |     iconfont      |            |
 
 ![img.png](docs/image/架构图.png)
 
