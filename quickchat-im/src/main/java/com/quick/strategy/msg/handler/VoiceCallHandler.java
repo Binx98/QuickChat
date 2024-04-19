@@ -19,6 +19,7 @@ public class VoiceCallHandler extends AbstractChatMsgStrategy {
         return ChatMsgEnum.VOICE_CALL;
     }
 
+    // TODO
     @Override
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) {
         return null;
