@@ -7,7 +7,7 @@
     <a href="https://github.com/Binx98/QuickChat-Front"><img src="https://img.shields.io/badge/前端-项目地址-blueviolet.svg?style=plasticr"></a>
     <a href="" target="_blank">
     <br>
-    <h4>麻烦帮忙点个Star⭐</h4>
+    <h3>麻烦您帮忙点个Star⭐</h3>
 </div>
 
 ## ✨系统介绍
@@ -18,30 +18,30 @@
 
 ## 🚀技术架构
 
-|      后端       |        前端         |     运维     |
-|:-------------:|:-----------------:|:----------:|
-|    JDK 17     |       HTML        |   Linux    |
-|  SpringBoot   |        CSS        |   Shell    |
-|   SpringMVC   |    JavaScript     |   Docker   |
-|  MyBatisPlus  |      Node.js      |   Nginx    |
-|     MySQL     |       AJAX        |  Jenkins   |
-|     Redis     |       Axios       | Prometheus |
-|   Redisson    |        Vue        |  Grafana   |
-|     Kafka     |       Vuex        |    SSL     |
-|     MinIO     |    Vue-Router     |            |
-| ElasticSearch |     ElementUI     |            |
-| ShardingJDBC  |     js-cookie     |            |
-|     Netty     | vue-emoji-picker  |            |
-|   WebSocket   | js-audio-recorder |            |
-|    WebRTC     |     iconfont      |            |
+|      后端       |        前端         |   运维    |
+|:-------------:|:-----------------:|:-------:|
+|    JDK 17     |       HTML        |  Linux  |
+|  SpringBoot   |        CSS        |  Shell  |
+|   SpringMVC   |    JavaScript     | Docker  |
+|  MyBatisPlus  |      Node.js      |  Nginx  |
+|     MySQL     |       AJAX        | Jenkins |
+|     Redis     |       Axios       |   WAF   |
+|   Redisson    |        Vue        |   SSL   |
+|     Kafka     |       Vuex        |         |
+|     MinIO     |    Vue-Router     |         |
+| ElasticSearch |     ElementUI     |         |
+| ShardingJDBC  |     js-cookie     |         |
+|     Netty     | vue-emoji-picker  |         |
+|   WebSocket   | js-audio-recorder |         |
+|    WebRTC     |     iconfont      |         |
 
 ![img.png](docs/image/架构图.png)
 
 ## ✋加入我们
 
-- [🚢本地环境部署](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.md)
+- [🚢本地启动流程](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2.md)
 - [✍提交PR流程](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%8F%90%E4%BA%A4PR%E6%B5%81%E7%A8%8B.md)
-- [代码提交规范](代码提交规范)
+- [✍提交Issues流程](https://github.com/Binx98/QuickChat/blob/master/docs/guide/%E6%8F%90%E4%BA%A4PR%E6%B5%81%E7%A8%8B.md)
 
 ## 🎉贡献名单
 
