@@ -12,13 +12,13 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ChatMsgEnum {
+    RECALL(0, "撤回"),
     FONT(1, "文字"),
     VOICE(2, "语音"),
     EMOJI(3, "表情包"),
     FILE(4, "文件（图片、视频）"),
     VOICE_CALL(5, "语音通话"),
     VIDEO_CALL(6, "视频通话"),
-    RECALL(7, "撤回"),
     AT(8, "艾特");
 
     private Integer code;
