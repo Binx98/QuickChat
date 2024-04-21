@@ -53,9 +53,10 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String url = msgDTO.getContent();
+        Integer timeFlag = msgDTO.getTimeFlag();
         FileExtraDTO extraInfo = msgDTO.getExtraInfo();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
-                url, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO
+                (fromId, toId, url, JSONUtil.toJsonStr(extraInfo), timeFlag, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

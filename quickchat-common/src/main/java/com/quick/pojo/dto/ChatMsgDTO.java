@@ -41,4 +41,9 @@ public class ChatMsgDTO {
      * 文件消息
      */
     private FileExtraDTO extraInfo;
+
+    /**
+     * 时间展示（非空即展示）
+     */
+    private Integer timeFlag;
 }

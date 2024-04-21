@@ -18,14 +18,16 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class ChatMsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content, String extraInfo, Integer type) {
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content,
+                                              String extraInfo, Integer timeFlag, Integer type) {
         return QuickChatMsg.builder()
                 .fromId(fromId)
                 .toId(toId)
                 .relationId(RelationUtil.generate(fromId, toId))
+                .msgType(type)
                 .content(content)
                 .extraInfo(extraInfo)
-                .msgType(type)
+                .timeFlag(timeFlag)
                 .build();
     }
 
@@ -49,9 +51,7 @@ public class ChatMsgAdapter {
             // 撤回消息：隐藏敏感数据
             if (ChatMsgEnum.RECALL.getCode().equals(chatMsg.getMsgType())) {
                 msgVO.setContent(null);
-                msgVO.setMsgType(null);
                 msgVO.setExtraInfo(null);
-                msgVO.setCreateTime(null);
             }
             resultList.add(msgVO);
         }

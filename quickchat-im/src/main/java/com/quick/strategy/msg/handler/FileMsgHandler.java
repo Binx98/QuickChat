@@ -51,8 +51,9 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
         String fileUrl = msgDTO.getContent();
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
-                fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+        Integer timeFlag = msgDTO.getTimeFlag();
+        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO
+                (fromId, toId, fileUrl, JSONUtil.toJsonStr(extraInfo), timeFlag, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
