@@ -56,18 +56,24 @@ public class QuickChatMsg implements Serializable {
     private String content;
 
     /**
-     * 消息内容
-     */
-    @TableField("extra_info")
-    private String extraInfo;
-
-    /**
      * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum
      */
     @TableField("msg_type")
     private Integer msgType;
+
+    /**
+     * 文件信息
+     */
+    @TableField("extra_info")
+    private String extraInfo;
+
+    /**
+     * 时间展示（非空即展示）
+     */
+    @TableField("time_flag")
+    private Integer timeFlag;
 
     /**
      * 创建时间
