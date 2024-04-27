@@ -54,3 +54,4 @@
 | 徐志斌 |    https://github.com/Binx98     | PARAVERSE 平行云 |
 | 陈辰  |  https://github.com/GeforceLite  |   SBI BITS    |
 | 刘贤壮 | https://github.com/han-de-123456 |     中车数字      |
+| 唐志鑫 | [https://github.com/han-de-123456 |     大连信维      |
