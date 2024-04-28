@@ -58,7 +58,3 @@ services:
       - elasticsearch
     restart: always
 
-  # Prometheus
-
-  # Grafana
-
