@@ -1,5 +1,6 @@
 package com.quick.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description: 搜索框：联系人、群组、消息、收藏等
  * @Version: 1.0
  */
+@Api(tags = "搜索框")
 @RestController
 @RequestMapping("/search")
 public class ChatSearchController {

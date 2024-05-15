@@ -7,6 +7,7 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.concurrent.ExecutionException;
  *
  * TODO 消息加密传输？
  */
+@Api(tags = "聊天信息")
 @RestController
 @RequestMapping("/chat/msg")
 public class ChatMsgController {

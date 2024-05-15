@@ -3,6 +3,7 @@ package com.quick.controller;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.service.QuickChatFileService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @Version 1.0
  * @Description: 文件控制器
  */
+@Api(tags = "文件操作")
 @Controller
 @RequestMapping("/file")
 public class ChatFileController {

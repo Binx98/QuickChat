@@ -1,13 +1,8 @@
 package com.quick.controller;
 
-import com.quick.enums.ResponseEnum;
-import com.quick.pojo.po.QuickChatFriend;
-import com.quick.response.R;
-import com.quick.service.QuickChatFriendService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: 徐志斌
@@ -15,6 +10,7 @@ import java.util.List;
  * @Description: 聊天好友
  * @Version: 1.0
  */
+@Api(tags = "通讯录好友")
 @RestController
 @RequestMapping("/friend")
 public class ChatFriendController {
