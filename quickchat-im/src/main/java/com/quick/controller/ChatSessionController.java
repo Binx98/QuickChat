@@ -4,6 +4,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatSessionService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @Version 1.0
  * @Description: 聊天会话
  */
+@Api(tags = "会话相关")
 @RestController
 @RequestMapping("/chat/session")
 public class ChatSessionController {

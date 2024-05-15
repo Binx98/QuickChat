@@ -1,5 +1,6 @@
 package com.quick.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description: 群聊相关
  * @Version: 1.0
  */
+@Api(tags = "群聊相关")
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {

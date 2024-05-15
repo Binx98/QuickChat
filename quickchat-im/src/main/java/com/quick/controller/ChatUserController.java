@@ -12,6 +12,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ import java.io.IOException;
  * @author 徐志斌
  * @since 2023-11-13
  */
+@Api(tags = "用户相关")
 @RestController
 @RequestMapping("/user")
 public class ChatUserController {

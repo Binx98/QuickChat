@@ -4,6 +4,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.pojo.po.QuickChatEmoji;
 import com.quick.response.R;
 import com.quick.service.QuickChatEmojiService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import java.util.List;
  * @Description: 表情包功能
  * @Version: 1.0
  */
+@Api(tags = "表情包")
 @RestController
 @RequestMapping("/emoji")
 public class ChatEmojiController {

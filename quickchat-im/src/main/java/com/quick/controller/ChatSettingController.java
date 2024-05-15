@@ -1,5 +1,6 @@
 package com.quick.controller;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description: 通用系统设置
  * @Version: 1.0
  */
+@Api(tags = "系统设置")
 @RestController
 @RequestMapping("/system")
 public class ChatSettingController {
