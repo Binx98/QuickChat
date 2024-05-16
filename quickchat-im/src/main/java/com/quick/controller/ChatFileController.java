@@ -4,6 +4,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import com.quick.service.QuickChatFileService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,7 @@ public class ChatFileController {
     @Autowired
     private QuickChatFileService fileService;
 
-    /**
-     * 上传文件
-     *
-     * @param type Bucket类型
-     * @param file 文件实体信息
-     */
+    @ApiOperation("上传文件")
     @ResponseBody
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
@@ -37,23 +33,13 @@ public class ChatFileController {
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
-    /**
-     * 下载文件
-     *
-     * @param type Bucket类型
-     * @param url  文件url
-     */
+    @ApiOperation("下载文件")
     @GetMapping("/download/{type}")
     public void downloadFile(@PathVariable int type, String url) {
         fileService.downloadFile(type, url);
     }
 
-    /**
-     * 删除文件
-     *
-     * @param type Bucket类型
-     * @param url  文件url
-     */
+    @ApiOperation("删除文件")
     @DeleteMapping("/delete/{type}")
     public void deleteFile(@PathVariable int type, String url) throws Exception {
         fileService.deleteFile(type, url);

@@ -8,6 +8,7 @@ import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatMsgService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.concurrent.ExecutionException;
  * @Date: 2023/11/13 21:35
  * @Version 1.0
  * @Description: 聊天消息相关
- *
+ * <p>
  * TODO 消息加密传输？
  */
 @Api(tags = "聊天信息")
@@ -30,9 +31,7 @@ public class ChatMsgController {
     @Autowired
     private QuickChatMsgService msgService;
 
-    /**
-     * 发送聊天消息
-     */
+    @ApiOperation("发送聊天消息")
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitTypeEnum.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
@@ -40,9 +39,7 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * 批量查询聊天记录
-     */
+    @ApiOperation("根据 account_id 列表查询聊天记录")
     @PostMapping("/list")
     public R list(@RequestBody List<String> accountIds) throws ExecutionException, InterruptedException {
         Map<String, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
@@ -52,6 +49,7 @@ public class ChatMsgController {
     /**
      * 查询双方聊天记录
      */
+    @ApiOperation("查询双方聊天记录")
     @GetMapping("/getByRelationId/{relationId}/{current}/{size}")
     public R chatMsgList(@PathVariable String relationId,
                          @PathVariable Integer current,
