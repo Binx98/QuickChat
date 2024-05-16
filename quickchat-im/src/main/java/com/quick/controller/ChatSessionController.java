@@ -5,6 +5,7 @@ import com.quick.pojo.vo.ChatSessionVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatSessionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,36 +24,28 @@ public class ChatSessionController {
     @Autowired
     private QuickChatSessionService sessionService;
 
-    /**
-     * 查询会话列表（访问聊天页面）
-     */
+    @ApiOperation("查询会话列表")
     @GetMapping("/list")
     public R getSessionList() {
         List<ChatSessionVO> result = sessionService.getSessionList();
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    /**
-     * 查询双方会话信息
-     */
+    @ApiOperation("查询单个会话")
     @GetMapping("/getSessionInfo/{fromId}/{toId}")
     public R getSessionInfo(@PathVariable String fromId, @PathVariable String toId) {
         ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    /**
-     * 修改会话已读时间
-     */
+    @ApiOperation("修改会话已读时间")
     @PostMapping("/updateReadTime/{sessionId}")
     public R updateSession(@PathVariable Long sessionId) {
         sessionService.updateLastReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * 删除聊天会话
-     */
+    @ApiOperation("删除聊天会话")
     @DeleteMapping("/delete/{sessionId}")
     public R deleteSession(@PathVariable Long sessionId) {
         sessionService.deleteSession(sessionId);

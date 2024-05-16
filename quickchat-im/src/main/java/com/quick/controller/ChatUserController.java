@@ -13,6 +13,7 @@ import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickUserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,62 +34,48 @@ public class ChatUserController {
     @Autowired
     private QuickUserService userService;
 
-    /**
-     * 根据 account_id 查询用户信息
-     */
+    @ApiOperation("根据 account_id 查询用户信息")
     @GetMapping("/getByAccountId/{accountId}")
     public R getInfo(@PathVariable String accountId) throws Exception {
         ChatUserVO result = userService.getByAccountId(accountId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    /**
-     * 根据 token 查询用户信息
-     */
+    @ApiOperation("根据 token 查询用户信息")
     @GetMapping("/getByToken")
     public R getByToken() {
         QuickChatUser userInfo = userService.getByToken();
         return R.out(ResponseEnum.SUCCESS, userInfo);
     }
 
-    /**
-     * 生成验证码
-     */
+    @ApiOperation("图片验证码")
     @GetMapping("/captcha")
     public void captcha() throws IOException {
         userService.captcha();
     }
 
-    /**
-     * 注册账号
-     */
+    @ApiOperation("注册账号")
     @PostMapping("/register")
     public R register(@RequestBody RegisterDTO registerDTO) throws Exception {
         userService.register(registerDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * 登录账号
-     */
+    @ApiOperation("登录账号")
     @PostMapping("/login")
     public R login(@RequestBody LoginDTO loginDTO) throws Exception {
         String token = userService.login(loginDTO);
         return R.out(ResponseEnum.SUCCESS, token);
     }
 
-    /**
-     * 修改用户信息
-     */
+    @ApiOperation("修改用户信息")
     @PutMapping("/update")
     public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * 发送邮件
-     */
+    @ApiOperation("发送邮件")
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) throws Throwable {
         userService.sendEmail(emailDTO);
@@ -98,6 +85,7 @@ public class ChatUserController {
     /**
      * FIXME 测试接口
      */
+    @ApiOperation("测试")
     @GetMapping("/test")
     @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitTypeEnum.IP)
     public R test() {
