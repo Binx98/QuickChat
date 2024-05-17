@@ -30,10 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -129,6 +126,14 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         } else if (SessionTypeEnum.GROUP.getCode().equals(chatSession.getType())) {
             kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
         }
+    }
+
+    @Override
+    public void entering(String fromId, String toId) {
+        Map<String, String> param = new HashMap<>();
+        param.put("fromId", fromId);
+        param.put("toId", toId);
+        kafkaProducer.send(MQConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
     }
 
     /**
