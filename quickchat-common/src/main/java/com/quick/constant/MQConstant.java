@@ -12,6 +12,7 @@ public class MQConstant {
      */
     public static final String SEND_CHAT_SINGLE_MSG = "SEND_CHAT_SINGLE_MSG";
     public static final String SEND_CHAT_GROUP_MSG = "SEND_CHAT_GROUP_MSG";
+    public static final String SEND_CHAT_ENTERING = "SEND_CHAT_ENTERING";
 
     /**
      * 好友申请发送

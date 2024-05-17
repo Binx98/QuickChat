@@ -46,9 +46,6 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    /**
-     * 查询双方聊天记录
-     */
     @ApiOperation("查询双方聊天记录")
     @GetMapping("/getByRelationId/{relationId}/{current}/{size}")
     public R chatMsgList(@PathVariable String relationId,
@@ -58,14 +55,16 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
-    /**
-     * TODO 查询双方聊天记录
-     */
+    @ApiOperation("对方正在输入中...")
+    @GetMapping("/entering/{fromId}/{toId}")
+    public R entering(@PathVariable String fromId, @PathVariable String toId) {
+        msgService.entering(fromId, toId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
-     * TODO 对方正在输入中...
+     * TODO 查询聊天记录历史
      */
-
     /**
      * TODO 消息定时提示功能
      */

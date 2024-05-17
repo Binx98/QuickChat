@@ -44,4 +44,12 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param msgDTO 消息实体
      */
     void sendMsg(ChatMsgDTO msgDTO) throws Throwable;
+
+    /**
+     * 对方正在输入...
+     *
+     * @param fromId 发送方
+     * @param toId   接收方
+     */
+    void entering(String fromId, String toId);
 }

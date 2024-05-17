@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/collection")
 public class ChatCollectionController {
     /**
-     * TODO 收藏聊天信息 TEST
+     * TODO 收藏聊天信息
      */
 
     /**

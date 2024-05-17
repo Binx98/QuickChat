@@ -14,6 +14,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 徐志斌
@@ -25,6 +26,20 @@ import java.util.List;
 public class ChatMsgConsumer {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
+
+    /**
+     * 对方正在输入
+     */
+    @KafkaListener(topics = MQConstant.SEND_CHAT_ENTERING, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    public void entering(String message) {
+        Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
+        String fromId = param.get("fromId");
+        String toId = param.get("toId");
+        Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
+        if (ObjectUtils.isNotEmpty(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(fromId));
+        }
+    }
 
     /**
      * 单聊 Channel 推送
