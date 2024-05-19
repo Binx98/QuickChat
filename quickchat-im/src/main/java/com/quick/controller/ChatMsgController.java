@@ -63,9 +63,6 @@ public class ChatMsgController {
     }
 
     /**
-     * TODO 查询聊天记录历史
-     */
-    /**
      * TODO 消息定时提示功能
      */
 }

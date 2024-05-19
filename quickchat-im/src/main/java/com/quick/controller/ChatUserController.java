@@ -82,9 +82,6 @@ public class ChatUserController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * FIXME 测试接口
-     */
     @ApiOperation("测试")
     @GetMapping("/test")
     @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitTypeEnum.IP)
