@@ -39,14 +39,14 @@ public class RedisConfig {
     }
 
     /**
-     * Reids缓存配置：处理乱码、设置默认缓存时间等
+     * Redis缓存配置：处理乱码、设置默认缓存时间等
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofHours(24)); // 24小时
+                .entryTtl(Duration.ofHours(24));
         return RedisCacheManager.builder(factory)
                 .cacheDefaults(cacheConfiguration)
                 .build();

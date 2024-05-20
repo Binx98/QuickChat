@@ -33,23 +33,33 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private LoginTokenInterceptor tokenInterceptor;
+    private static final List<String> SWAGGER_EXCLUDE_PATH = Arrays.asList(
+            "/doc.html",
+            "/swagger**/**",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/v3/**"
+    );
+    final List<String> API_EXCLUDE_PATH = Arrays.asList(
+            "/user/test",
+            "/user/captcha",
+            "/user/register",
+            "/user/login",
+            "/user/sendEmail",
+            "/file/**"
+    );
+
 
     /**
      * 拦截器配置
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        final List<String> EXCLUDE_PATH = Arrays.asList(
-                "/user/test",
-                "/user/captcha",
-                "/user/register",
-                "/user/login",
-                "/user/sendEmail",
-                "/file/**"
-        );
+
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns(EXCLUDE_PATH);
+                .excludePathPatterns(SWAGGER_EXCLUDE_PATH)
+                .excludePathPatterns(API_EXCLUDE_PATH);
     }
 
 
