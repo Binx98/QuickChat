@@ -13,14 +13,9 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
-/**
- * 文档访问地址：http://ip:port/swagger-ui/index.html
- * 添加Knife4j可以导出导出离线文档，访问地址：http://ip:port/doc.html
- */
 
 /**
  * @Author 徐志斌
@@ -28,13 +23,15 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @Description: 处理：java.lang.NullPointerException: Cannot invoke “org.springframework.web
  * .servlet.mvc.condition.PatternsRequestCondition.getPatterns()” because “this.condition” is null
  * @Version 1.0
+ * -----------------------------------------------------------------
+ * 文档访问地址：http://ip:port/swagger-ui/index.html
+ * 添加Knife4j可以导出导出离线文档，访问地址：http://ip:port/doc.html
  */
 @Configuration
 @EnableKnife4j
 @EnableOpenApi
 @ConditionalOnProperty(value = "spring.profiles.active", havingValue = "dev")
 public class SwaggerConfiguration {
-
     @Bean
     public Docket createRestApis() {
         return new Docket(DocumentationType.OAS_30)
@@ -62,5 +59,4 @@ public class SwaggerConfiguration {
                 .version("0.0.1")
                 .build();
     }
-
 }
