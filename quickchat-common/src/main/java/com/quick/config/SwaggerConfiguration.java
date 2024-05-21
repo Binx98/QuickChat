@@ -20,12 +20,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 /**
  * @Author 徐志斌
  * @Date: 2024/04/28 09:21
- * @Description: 处理：java.lang.NullPointerException: Cannot invoke “org.springframework.web
- * .servlet.mvc.condition.PatternsRequestCondition.getPatterns()” because “this.condition” is null
+ * @Description: Swagger配置类
  * @Version 1.0
  * -----------------------------------------------------------------
- * 文档访问地址：http://ip:port/swagger-ui/index.html
- * 添加Knife4j可以导出导出离线文档，访问地址：http://ip:port/doc.html
+ * 文档访问地址：http://localhost:8888/swagger-ui/index.html
+ * 添加Knife4j可以导出导出离线文档，访问地址：http://localhost:8888/doc.html
  */
 @Configuration
 @EnableKnife4j

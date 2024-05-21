@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
  * @Description: Kafka工具类
  */
 public class KafkaAdminClient {
-    private static String url = "101.42.13.186:9092";
+    private static String url = "localhost:9092";
 
     public static void main(String[] args) throws Exception {
 //        createTopic(MQConstant.CHAT_SEND_TOPIC);

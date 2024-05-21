@@ -19,7 +19,7 @@ public class VoiceCallHandler extends AbstractChatMsgStrategy {
         return ChatMsgEnum.VOICE_CALL;
     }
 
-    // TODO
+    // TODO 语音电话
     @Override
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) {
         return null;

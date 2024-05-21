@@ -20,26 +20,12 @@ import java.util.Map;
  * @Author 徐志斌
  * @Date: 2023/11/25 16:10
  * @Version 1.0
- * @Description: 聊天消息相关消费者
+ * @Description: 聊天消息消费者
  */
 @Component
 public class ChatMsgConsumer {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
-
-    /**
-     * 对方正在输入
-     */
-    @KafkaListener(topics = MQConstant.SEND_CHAT_ENTERING, groupId = MQConstant.CHAT_SEND_GROUP_ID)
-    public void entering(String message) {
-        Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
-        String fromId = param.get("fromId");
-        String toId = param.get("toId");
-        Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
-        if (ObjectUtils.isNotEmpty(channel)) {
-            channel.writeAndFlush(new TextWebSocketFrame(fromId));
-        }
-    }
 
     /**
      * 单聊 Channel 推送
@@ -65,6 +51,20 @@ public class ChatMsgConsumer {
             if (ObjectUtils.isNotEmpty(channel)) {
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
             }
+        }
+    }
+
+    /**
+     * 对方正在输入
+     */
+    @KafkaListener(topics = MQConstant.SEND_CHAT_ENTERING, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    public void entering(String message) {
+        Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
+        String fromId = param.get("fromId");
+        String toId = param.get("toId");
+        Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
+        if (ObjectUtils.isNotEmpty(channel)) {
+            channel.writeAndFlush(new TextWebSocketFrame(fromId));
         }
     }
 }
