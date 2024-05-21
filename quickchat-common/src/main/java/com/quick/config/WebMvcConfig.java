@@ -51,11 +51,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     /**
-     * 拦截器配置
+     * HandlerInterceptor拦截器配置
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(SWAGGER_EXCLUDE_PATH)
@@ -64,7 +63,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     /**
-     * 前后端跨域问题
+     * 前后端跨域配置
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
