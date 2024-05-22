@@ -42,7 +42,7 @@ public class NettyWebSocketServer {
     private EventLoopGroup workGroup = new NioEventLoopGroup(NettyRuntime.availableProcessors());
 
     /**
-     * Netty WebSocket Server启动
+     * Netty WebSocket Server 启动
      */
     private void start() throws InterruptedException {
         ServerBootstrap server = new ServerBootstrap();
@@ -50,7 +50,6 @@ public class NettyWebSocketServer {
         server.channel(NioServerSocketChannel.class);
         server.option(ChannelOption.SO_BACKLOG, 128);
         server.option(ChannelOption.SO_KEEPALIVE, true);
-        // BossGroup日志
         server.handler(new LoggingHandler(LogLevel.INFO));
         server.childHandler(new ChannelInitializer<SocketChannel>() {
             @Override
@@ -87,7 +86,7 @@ public class NettyWebSocketServer {
     }
 
     /**
-     * WebSocket Server停止释放资源
+     * 停止 Netty WebSocket Server
      */
     @PreDestroy
     private void destroy() throws InterruptedException {

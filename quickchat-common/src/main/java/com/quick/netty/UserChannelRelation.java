@@ -16,16 +16,10 @@ public class UserChannelRelation {
     private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private static ConcurrentHashMap<String, Channel> userChannelMap = new ConcurrentHashMap<>();
 
-    /**
-     * 获取 Channel Group
-     */
     public static ChannelGroup getChannelGroup() {
         return channelGroup;
     }
 
-    /**
-     * 获取 Channel Map
-     */
     public static ConcurrentHashMap<String, Channel> getUserChannelMap() {
         return userChannelMap;
     }

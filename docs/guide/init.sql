@@ -3,15 +3,15 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80036 (8.0.36)
+ Source Server Version : 101102 (10.11.2-MariaDB)
  Source Host           : localhost:3306
  Source Schema         : quick_chat
 
  Target Server Type    : MySQL
- Target Server Version : 80036 (8.0.36)
+ Target Server Version : 101102 (10.11.2-MariaDB)
  File Encoding         : 65001
 
- Date: 18/04/2024 21:53:07
+ Date: 22/05/2024 10:41:31
 */
 
 SET NAMES utf8mb4;
@@ -29,6 +29,10 @@ CREATE TABLE `quick_chat_apply`
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '好友申请' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Records of quick_chat_apply
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for quick_chat_emoji
 -- ----------------------------
 DROP TABLE IF EXISTS `quick_chat_emoji`;
@@ -42,18 +46,26 @@ CREATE TABLE `quick_chat_emoji`
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '表情包' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for quick_chat_friend
+-- Records of quick_chat_emoji
 -- ----------------------------
-DROP TABLE IF EXISTS `quick_chat_friend`;
-CREATE TABLE `quick_chat_friend`
+
+-- ----------------------------
+-- Table structure for quick_chat_friend_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `quick_chat_friend_relation`;
+CREATE TABLE `quick_chat_friend_relation`
 (
     `id`          bigint NOT NULL COMMENT '主键id',
-    `send_id`     varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '账号id（发送方）',
-    `receive_id`  varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '账号id（接收方）',
-    `status`      char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '状态（0：未处理，1：已通过，2：未通过）',
+    `from_id`     varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '账号id（发送方）',
+    `to_id`       varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '账号id（接收方）',
+    `relation_id` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '关联id',
     `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '聊天好友' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '通讯录-聊天好友' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quick_chat_friend_relation
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for quick_chat_group
@@ -65,12 +77,15 @@ CREATE TABLE `quick_chat_group`
     `account_id`   varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '群主id',
     `group_name`   varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '群名',
     `group_avatar` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NULL DEFAULT NULL COMMENT '群头像',
-    `member_count` int NULL DEFAULT NULL COMMENT '群成员数量',
     `create_time`  datetime NULL DEFAULT NULL COMMENT '创建时间',
     `update_time`  datetime NULL DEFAULT NULL COMMENT '修改时间',
     `deleted`      tinyint(1) NULL DEFAULT NULL COMMENT '删除标识',
     PRIMARY KEY (`group_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '群聊' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '群聊信息' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quick_chat_group
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for quick_chat_group_member
@@ -86,6 +101,24 @@ CREATE TABLE `quick_chat_group_member`
     `deleted`     tinyint(1) NULL DEFAULT NULL COMMENT '删除标识',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '群成员' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quick_chat_group_member
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for quick_chat_group_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `quick_chat_group_relation`;
+CREATE TABLE `quick_chat_group_relation`
+(
+    `id` bigint NOT NULL COMMENT '主键',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '通讯录-群聊' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of quick_chat_group_relation
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for quick_chat_msg
@@ -106,6 +139,10 @@ CREATE TABLE `quick_chat_msg`
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '聊天信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Records of quick_chat_msg
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for quick_chat_session
 -- ----------------------------
 DROP TABLE IF EXISTS `quick_chat_session`;
@@ -122,6 +159,10 @@ CREATE TABLE `quick_chat_session`
     `deleted`        tinyint(1) NULL DEFAULT NULL COMMENT '删除标识',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '聊天会话（针对单聊）' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quick_chat_session
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for quick_chat_user
@@ -143,6 +184,10 @@ CREATE TABLE `quick_chat_user`
     `deleted`     tinyint(1) NULL DEFAULT NULL COMMENT '删除标识',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_unicode_ci COMMENT = '用户信息' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of quick_chat_user
+-- ----------------------------
 
 SET
 FOREIGN_KEY_CHECKS = 1;
