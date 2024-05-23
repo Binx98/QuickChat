@@ -35,8 +35,8 @@ public class ChatUserController {
     private QuickUserService userService;
 
     @ApiOperation("根据 account_id 查询用户信息")
-    @GetMapping("/getByAccountId/{accountId}")
-    public R getInfo(@PathVariable String accountId) throws Exception {
+    @GetMapping("/getByAccountId")
+    public R getInfo(String accountId) throws Exception {
         ChatUserVO result = userService.getByAccountId(accountId);
         return R.out(ResponseEnum.SUCCESS, result);
     }

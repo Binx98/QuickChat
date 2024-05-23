@@ -28,22 +28,22 @@ public class ChatEmojiController {
     private QuickChatEmojiService emojiService;
 
     @ApiOperation("查询表情包列表")
-    @GetMapping("/list/{accountId}")
-    public R getEmojiList(@PathVariable String accountId) {
+    @GetMapping("/list")
+    public R getEmojiList(String accountId) {
         List<QuickChatEmoji> emojiList = emojiService.getEmojiList(accountId);
         return R.out(ResponseEnum.SUCCESS, emojiList);
     }
 
     @ApiOperation("添加表情包")
-    @GetMapping("/add/{url}")
-    public R addEmoji(@PathVariable String url) {
+    @GetMapping("/add")
+    public R addEmoji(String url) {
         emojiService.addEmoji(url);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除表情包")
-    @GetMapping("/delete/{emojiId}")
-    public R deleteEmoji(@PathVariable Long emojiId) {
+    @GetMapping("/delete")
+    public R deleteEmoji(Long emojiId) {
         emojiService.deleteEmoji(emojiId);
         return R.out(ResponseEnum.SUCCESS);
     }
