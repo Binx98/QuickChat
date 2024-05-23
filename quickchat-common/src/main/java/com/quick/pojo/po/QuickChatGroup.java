@@ -48,12 +48,6 @@ public class QuickChatGroup implements Serializable {
     private String groupAvatar;
 
     /**
-     * 群成员数量
-     */
-    @TableField("member_count")
-    private Integer memberCount;
-
-    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

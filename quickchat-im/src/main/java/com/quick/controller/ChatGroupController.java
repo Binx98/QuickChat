@@ -1,6 +1,15 @@
 package com.quick.controller;
 
+import com.quick.enums.ResponseEnum;
+import com.quick.pojo.dto.GroupDTO;
+import com.quick.pojo.po.QuickChatGroup;
+import com.quick.response.R;
+import com.quick.service.QuickChatGroupService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {
+    @Autowired
+    private QuickChatGroupService groupService;
+
+    @ApiOperation("创建群聊")
+    @PostMapping("/create")
+    public R create(@RequestBody GroupDTO group) {
+        groupService.createGroup(group);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
     /**
      * TODO 查询群聊列表
      */
@@ -30,9 +49,6 @@ public class ChatGroupController {
      * TODO 移除成员
      */
 
-    /**
-     * TODO 创建群聊
-     */
 
     /**
      * TODO 解散群组
