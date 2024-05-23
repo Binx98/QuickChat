@@ -1,6 +1,7 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
 
 /**
@@ -12,5 +13,11 @@ import com.quick.pojo.po.QuickChatGroup;
  * @since 2024-01-08
  */
 public interface QuickChatGroupService extends IService<QuickChatGroup> {
-
+    /**
+     * 创建群聊
+     *
+     * @param group 群聊参数
+     * @return 执行结果
+     */
+    Boolean createGroup(GroupDTO group);
 }
