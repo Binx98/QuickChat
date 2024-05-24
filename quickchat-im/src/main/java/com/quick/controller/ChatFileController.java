@@ -28,20 +28,20 @@ public class ChatFileController {
     @ApiOperation("上传文件")
     @ResponseBody
     @PostMapping("/upload/{type}")
-    public R uploadFile(@PathVariable int type, MultipartFile file) throws Exception {
+    public R uploadFile(Integer type, MultipartFile file) throws Exception {
         Map<String, Object> resultMap = fileService.uploadFile(type, file);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     @ApiOperation("下载文件")
-    @GetMapping("/download/{type}")
-    public void downloadFile(@PathVariable int type, String url) {
+    @GetMapping("/download")
+    public void downloadFile(Integer type, String url) {
         fileService.downloadFile(type, url);
     }
 
     @ApiOperation("删除文件")
-    @DeleteMapping("/delete/{type}")
-    public void deleteFile(@PathVariable int type, String url) throws Exception {
+    @DeleteMapping("/delete")
+    public void deleteFile(Integer type, String url) throws Exception {
         fileService.deleteFile(type, url);
     }
 }

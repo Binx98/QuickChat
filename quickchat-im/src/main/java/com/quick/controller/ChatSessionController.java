@@ -32,22 +32,22 @@ public class ChatSessionController {
     }
 
     @ApiOperation("查询单个会话")
-    @GetMapping("/getSessionInfo/{fromId}/{toId}")
-    public R getSessionInfo(@PathVariable String fromId, @PathVariable String toId) {
+    @GetMapping("/getSessionInfo")
+    public R getSessionInfo(String fromId, String toId) {
         ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
     @ApiOperation("修改会话已读时间")
-    @PostMapping("/updateReadTime/{sessionId}")
-    public R updateSession(@PathVariable Long sessionId) {
+    @PostMapping("/updateReadTime")
+    public R updateSession(Long sessionId) {
         sessionService.updateLastReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除聊天会话")
-    @DeleteMapping("/delete/{sessionId}")
-    public R deleteSession(@PathVariable Long sessionId) {
+    @DeleteMapping("/delete")
+    public R deleteSession(Long sessionId) {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }

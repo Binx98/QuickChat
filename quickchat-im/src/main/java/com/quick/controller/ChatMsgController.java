@@ -47,17 +47,15 @@ public class ChatMsgController {
     }
 
     @ApiOperation("查询双方聊天记录")
-    @GetMapping("/getByRelationId/{relationId}/{current}/{size}")
-    public R chatMsgList(@PathVariable String relationId,
-                         @PathVariable Integer current,
-                         @PathVariable Integer size) {
+    @GetMapping("/getByRelationId")
+    public R chatMsgList(String relationId, Integer current, Integer size) {
         Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     @ApiOperation("对方正在输入中...")
-    @GetMapping("/entering/{fromId}/{toId}")
-    public R entering(@PathVariable String fromId, @PathVariable String toId) {
+    @GetMapping("/entering")
+    public R entering(String fromId, String toId) {
         msgService.entering(fromId, toId);
         return R.out(ResponseEnum.SUCCESS);
     }
