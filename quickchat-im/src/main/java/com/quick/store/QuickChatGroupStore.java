@@ -53,4 +53,12 @@ public interface QuickChatGroupStore extends IService<QuickChatGroup> {
      * @return 执行结果
      */
     Boolean dismissByGroupId(String groupId);
+
+    /**
+     * 创建群聊
+     *
+     * @param groupPO 群聊信息实体
+     * @return 执行结果
+     */
+    Boolean saveGroup(QuickChatGroup groupPO);
 }
