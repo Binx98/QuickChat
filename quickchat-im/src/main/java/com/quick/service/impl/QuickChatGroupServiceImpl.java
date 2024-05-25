@@ -2,6 +2,7 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.ChatGroupAdapter;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
@@ -32,13 +33,17 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     private QuickChatGroupMemberStore memberStore;
 
     @Override
-    public Boolean createGroup(GroupDTO group) {
+    public Boolean createGroup(GroupDTO groupDTO) {
         // 保存群聊信息
+        QuickChatGroup groupPO = ChatGroupAdapter.buildGroupPO(groupDTO);
+        groupStore.saveGroup(groupPO);
 
         // 批量添加群成员
-        List<String> accountIds = group.getAccountIdList();
+        List<String> accountIds = groupDTO.getAccountIdList();
         if (CollectionUtils.isNotEmpty(accountIds)) {
         }
+
+        // Channel 通知群内加入新成员
         return null;
     }
 }

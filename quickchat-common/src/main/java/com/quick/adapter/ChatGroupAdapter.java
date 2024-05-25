@@ -1,0 +1,19 @@
+package com.quick.adapter;
+
+import com.quick.pojo.dto.GroupDTO;
+import com.quick.pojo.po.QuickChatGroup;
+
+/**
+ * @Author 徐志斌
+ * @Date: 2024/5/25 8:29
+ * @Version 1.0
+ * @Description: ChatGroupAdapter
+ */
+public class ChatGroupAdapter {
+    public static QuickChatGroup buildGroupPO(GroupDTO groupDTO) {
+        QuickChatGroup group = new QuickChatGroup();
+        group.setAccountId(groupDTO.getAccountId());
+        group.setGroupName(groupDTO.getGroupName());
+        return group;
+    }
+}
