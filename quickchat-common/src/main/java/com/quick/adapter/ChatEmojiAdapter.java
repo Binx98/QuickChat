@@ -11,9 +11,9 @@ import com.quick.pojo.po.QuickChatEmoji;
 public class ChatEmojiAdapter {
 
     public static QuickChatEmoji buildEmojiPO(String url, String accountId) {
-        return QuickChatEmoji.builder()
-                .accountId(accountId)
-                .url(url)
-                .build();
+        QuickChatEmoji chatEmoji = new QuickChatEmoji();
+        chatEmoji.setAccountId(accountId);
+        chatEmoji.setUrl(url);
+        return chatEmoji;
     }
 }

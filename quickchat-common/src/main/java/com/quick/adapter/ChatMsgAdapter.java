@@ -20,15 +20,15 @@ import java.util.List;
 public class ChatMsgAdapter {
     public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content,
                                               String extraInfo, Integer timeFlag, Integer type) {
-        return QuickChatMsg.builder()
-                .fromId(fromId)
-                .toId(toId)
-                .relationId(RelationUtil.generate(fromId, toId))
-                .msgType(type)
-                .content(content)
-                .extraInfo(extraInfo)
-                .timeFlag(timeFlag)
-                .build();
+        QuickChatMsg chatMsg = new QuickChatMsg();
+        chatMsg.setFromId(fromId);
+        chatMsg.setToId(toId);
+        chatMsg.setRelationId(RelationUtil.generate(fromId, toId));
+        chatMsg.setContent(content);
+        chatMsg.setMsgType(type);
+        chatMsg.setExtraInfo(extraInfo);
+        chatMsg.setTimeFlag(timeFlag);
+        return chatMsg;
     }
 
     public static List<ChatMsgVO> buildChatMsgVOList(List<QuickChatMsg> msgList) {

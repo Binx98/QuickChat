@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
  * @since 2024-01-08
  */
 @Data
-@Builder
 @EqualsAndHashCode(callSuper = false)
 @TableName("quick_chat_group_member")
 public class QuickChatGroupMember implements Serializable {

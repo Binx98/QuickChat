@@ -41,6 +41,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         // 批量添加群成员
         List<String> accountIds = groupDTO.getAccountIdList();
         if (CollectionUtils.isNotEmpty(accountIds)) {
+
         }
 
         // Channel 通知群内加入新成员
