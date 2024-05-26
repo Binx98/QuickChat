@@ -15,7 +15,6 @@ import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
 import com.quick.pojo.dto.RegisterDTO;
 import com.quick.pojo.dto.UserUpdateDTO;
-import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
@@ -106,11 +105,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO
                 (registerDTO.getAccountId(), commonGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
-
-        // 修改群聊信息（群成员数量）
-        QuickChatGroup chatGroup = groupStore.getByGroupId(commonGroupId);
-        chatGroup.setMemberCount(chatGroup.getMemberCount() + 1);
-        groupStore.updateInfo(chatGroup);
 
         // 解析地址信息、密码对称加密
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());

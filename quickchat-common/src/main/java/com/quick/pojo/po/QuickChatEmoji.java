@@ -2,7 +2,8 @@ package com.quick.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,9 +17,6 @@ import java.time.LocalDateTime;
  * @since 2023-11-30
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @TableName("quick_chat_emoji")
 public class QuickChatEmoji implements Serializable {

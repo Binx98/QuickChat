@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
  * @Description: 文件信息
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class FileExtraDTO {
     /**
      * 文件名
