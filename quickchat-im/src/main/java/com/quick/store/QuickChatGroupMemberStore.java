@@ -15,8 +15,20 @@ import java.util.List;
  */
 public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember> {
 
-    List<QuickChatGroupMember> getByGroupId(String groupId);
+    /**
+     * 根据 group_id 查询群成员列表
+     *
+     * @param groupId 群聊id
+     * @return 群成员列表
+     */
+    List<QuickChatGroupMember> getListByGroupId(String groupId);
 
+    /**
+     * 进入群聊
+     *
+     * @param memberPO 群成员信息
+     * @return 执行结果
+     */
     Boolean enterGroup(QuickChatGroupMember memberPO);
 
     /**
@@ -35,4 +47,12 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @return 执行结果
      */
     Boolean deleteByGroupId(String groupId);
+
+    /**
+     * 批量保存群成员
+     *
+     * @param memberList 群成员列表
+     * @return 执行结果
+     */
+    Boolean saveMemberList(List<QuickChatGroupMember> memberList);
 }
