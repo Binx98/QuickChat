@@ -157,7 +157,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         // 群聊：群成员没有会话，新增
         else {
             // 查询群成员列表
-            List<QuickChatGroupMember> memberList = memberStore.getByGroupId(toId);
+            List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(toId);
             List<String> memberAccountIds = memberList.stream()
                     .map(QuickChatGroupMember::getAccountId)
                     .collect(Collectors.toList());

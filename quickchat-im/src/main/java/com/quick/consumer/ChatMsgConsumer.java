@@ -45,7 +45,7 @@ public class ChatMsgConsumer {
     @KafkaListener(topics = MQConstant.SEND_CHAT_GROUP_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsgToGroup(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
-        List<QuickChatGroupMember> memberList = memberStore.getByGroupId(chatMsg.getToId());
+        List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(chatMsg.getToId());
         for (QuickChatGroupMember member : memberList) {
             Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
             if (ObjectUtils.isNotEmpty(channel)) {
