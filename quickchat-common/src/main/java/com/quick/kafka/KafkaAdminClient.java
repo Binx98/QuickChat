@@ -17,7 +17,7 @@ public class KafkaAdminClient {
     private static String url = "localhost:9092";
 
     public static void main(String[] args) throws Exception {
-//        createTopic(MQConstant.CHAT_SEND_TOPIC);
+//        createTopic(KafkaConstant.CHAT_SEND_TOPIC);
 //        deleteTopic("COMMUNITY-POST-TOPIC");
         getTopic();
     }
