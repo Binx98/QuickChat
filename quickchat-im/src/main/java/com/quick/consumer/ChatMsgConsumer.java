@@ -1,7 +1,7 @@
 package com.quick.consumer;
 
 import cn.hutool.json.JSONUtil;
-import com.quick.constant.MQConstant;
+import com.quick.constant.KafkaConstant;
 import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
@@ -30,7 +30,7 @@ public class ChatMsgConsumer {
     /**
      * 单聊 Channel 推送
      */
-    @KafkaListener(topics = MQConstant.SEND_CHAT_SINGLE_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = KafkaConstant.SEND_CHAT_SINGLE_MSG, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsg(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getToId());
@@ -42,7 +42,7 @@ public class ChatMsgConsumer {
     /**
      * 群聊 Channel 推送
      */
-    @KafkaListener(topics = MQConstant.SEND_CHAT_GROUP_MSG, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = KafkaConstant.SEND_CHAT_GROUP_MSG, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsgToGroup(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(chatMsg.getToId());
@@ -57,7 +57,7 @@ public class ChatMsgConsumer {
     /**
      * 对方正在输入
      */
-    @KafkaListener(topics = MQConstant.SEND_CHAT_ENTERING, groupId = MQConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = KafkaConstant.SEND_CHAT_ENTERING, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void entering(String message) {
         Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
         String fromId = param.get("fromId");

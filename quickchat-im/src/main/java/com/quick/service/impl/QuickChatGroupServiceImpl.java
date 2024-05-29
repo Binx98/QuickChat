@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatGroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
+import com.quick.constant.KafkaConstant;
+import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
@@ -11,7 +13,6 @@ import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
-import com.quick.store.QuickChatUserStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ import java.util.List;
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
-    private QuickChatUserStore userStore;
+    private KafkaProducer kafkaProducer;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
@@ -54,7 +55,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
             memberStore.saveMemberList(memberList);
         }
 
-        // Channel 通知群内加入新成员
+        // Channel 通知邀请加入群聊
+        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, null);
         return null;
     }
 }

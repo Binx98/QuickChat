@@ -1,6 +1,5 @@
 package com.quick.consumer;
 
-import org.springframework.kafka.annotation.KafkaListeners;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +9,6 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class FriendApplyConsumer {
+public class ApplyNoticeConsumer {
+
 }

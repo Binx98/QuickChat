@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.adapter.ChatSessionAdapter;
-import com.quick.constant.MQConstant;
+import com.quick.constant.KafkaConstant;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
@@ -122,9 +122,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
         // 通过 Channel 推送给客户端（单聊、群聊）
         if (SessionTypeEnum.SINGLE.getCode().equals(chatSession.getType())) {
-            kafkaProducer.send(MQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
+            kafkaProducer.send(KafkaConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
         } else if (SessionTypeEnum.GROUP.getCode().equals(chatSession.getType())) {
-            kafkaProducer.send(MQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
+            kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
         }
     }
 
@@ -133,7 +133,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);
-        kafkaProducer.send(MQConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
+        kafkaProducer.send(KafkaConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
     }
 
     /**
