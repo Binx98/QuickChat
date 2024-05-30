@@ -21,7 +21,7 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @param groupId 群聊id
      * @return 群成员列表
      */
-    List<QuickChatGroupMember> getListByGroupId(String groupId);
+    List<QuickChatGroupMember> getListByGroupId(Long groupId);
 
     /**
      * 进入群聊
@@ -38,7 +38,7 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @param accountId 账号id
      * @return 执行结果
      */
-    Boolean deleteByGroupIdAndAccountId(String groupId, String accountId);
+    Boolean deleteByGroupIdAndAccountId(Long groupId, String accountId);
 
     /**
      * 根据 group_id 删除群成员列表
@@ -46,7 +46,7 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @param groupId 群id
      * @return 执行结果
      */
-    Boolean deleteByGroupId(String groupId);
+    Boolean deleteByGroupId(Long groupId);
 
     /**
      * 批量保存群成员

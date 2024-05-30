@@ -23,26 +23,32 @@ public class ChatUserVO {
      * 账号
      */
     private String accountId;
+
     /**
      * 昵称
      */
     private String nickName;
+
     /**
      * 性别（1：男，0：女）
      */
     private Integer gender;
+
     /**
      * 位置
      */
     private String location;
+
     /**
      * 手机号
      */
     private String phone;
+
     /**
      * 邮箱
      */
     private String email;
+
     /**
      * 创建时间
      */

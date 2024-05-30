@@ -22,7 +22,7 @@ import java.util.List;
 public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberStore {
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP_MEMBER, key = "#p0", unless = "#result.isEmpty()")
-    public List<QuickChatGroupMember> getListByGroupId(String groupId) {
+    public List<QuickChatGroupMember> getListByGroupId(Long groupId) {
         return this.lambdaQuery()
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .list();
@@ -34,7 +34,7 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
     }
 
     @Override
-    public Boolean deleteByGroupIdAndAccountId(String groupId, String accountId) {
+    public Boolean deleteByGroupIdAndAccountId(Long groupId, String accountId) {
         return this.lambdaUpdate()
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .eq(QuickChatGroupMember::getAccountId, accountId)
@@ -42,7 +42,7 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
     }
 
     @Override
-    public Boolean deleteByGroupId(String groupId) {
+    public Boolean deleteByGroupId(Long groupId) {
         return this.lambdaUpdate()
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .remove();
