@@ -10,6 +10,7 @@ import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
@@ -57,6 +58,12 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
         // Channel 通知邀请加入群聊
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, null);
+        return null;
+    }
+
+    @Override
+    public List<ChatUserVO> getGroupMemberList(Long groupId) {
+        memberStore.getListByGroupId(groupId);
         return null;
     }
 }

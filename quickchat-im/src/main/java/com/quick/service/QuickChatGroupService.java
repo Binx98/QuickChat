@@ -3,6 +3,9 @@ package com.quick.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
+import com.quick.pojo.vo.ChatUserVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,12 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      * @return 执行结果
      */
     Boolean createGroup(GroupDTO group);
+
+    /**
+     * 查询群成员列表
+     *
+     * @param groupId 群id
+     * @return 群成员列表
+     */
+    List<ChatUserVO> getGroupMemberList(Long groupId);
 }
