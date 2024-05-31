@@ -27,7 +27,7 @@ public class ChatFileController {
 
     @ApiOperation("上传文件")
     @ResponseBody
-    @PostMapping("/upload/{type}")
+    @PostMapping("/upload")
     public R uploadFile(Integer type, MultipartFile file) throws Exception {
         Map<String, Object> resultMap = fileService.uploadFile(type, file);
         return R.out(ResponseEnum.SUCCESS, resultMap);
