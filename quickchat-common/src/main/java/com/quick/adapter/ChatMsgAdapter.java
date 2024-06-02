@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ChatMsgAdapter {
     public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content,
-                                              String extraInfo, Integer timeFlag, Integer type) {
+                                              String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();
         chatMsg.setFromId(fromId);
         chatMsg.setToId(toId);
@@ -27,7 +27,6 @@ public class ChatMsgAdapter {
         chatMsg.setContent(content);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
-        chatMsg.setTimeFlag(timeFlag);
         return chatMsg;
     }
 

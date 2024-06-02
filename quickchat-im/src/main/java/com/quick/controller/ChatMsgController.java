@@ -21,8 +21,6 @@ import java.util.concurrent.ExecutionException;
  * @Date: 2023/11/13 21:35
  * @Version 1.0
  * @Description: 聊天消息相关
- * <p>
- * TODO 消息加密传输？
  */
 @Api(tags = "聊天信息")
 @RestController
