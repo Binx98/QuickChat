@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @Author 徐志斌
@@ -24,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Api(tags = "聊天信息")
 @RestController
-@RequestMapping("/chat/msg")
+@RequestMapping("/msg")
 public class ChatMsgController {
     @Autowired
     private QuickChatMsgService msgService;
@@ -39,7 +38,7 @@ public class ChatMsgController {
 
     @ApiOperation("根据 account_id 列表查询聊天记录")
     @PostMapping("/list")
-    public R list(@RequestBody List<String> accountIds) throws ExecutionException, InterruptedException {
+    public R list(@RequestBody List<String> accountIds) {
         Map<String, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
         return R.out(ResponseEnum.SUCCESS, result);
     }
@@ -57,8 +56,4 @@ public class ChatMsgController {
         msgService.entering(fromId, toId);
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * TODO 消息定时提示功能
-     */
 }
