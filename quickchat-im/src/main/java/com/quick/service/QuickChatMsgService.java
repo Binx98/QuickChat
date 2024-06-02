@@ -7,7 +7,6 @@ import com.quick.pojo.vo.ChatMsgVO;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * <p>
@@ -33,10 +32,8 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      *
      * @param accountIds accountId列表
      * @return 聊天信息
-     * @throws ExecutionException
-     * @throws InterruptedException
      */
-    Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException;
+    Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds);
 
     /**
      * 发送聊天信息

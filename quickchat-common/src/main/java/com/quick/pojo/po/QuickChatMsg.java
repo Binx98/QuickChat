@@ -68,12 +68,6 @@ public class QuickChatMsg implements Serializable {
     private String extraInfo;
 
     /**
-     * 时间展示（非空即展示）
-     */
-    @TableField("time_flag")
-    private Integer timeFlag;
-
-    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

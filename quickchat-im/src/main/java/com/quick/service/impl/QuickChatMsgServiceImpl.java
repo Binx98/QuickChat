@@ -14,14 +14,15 @@ import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
+import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.strategy.msg.ChatMsgStrategyFactory;
-import com.quick.utils.ListUtil;
 import com.quick.utils.RedissonLockUtil;
 import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
@@ -31,8 +32,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -53,6 +52,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private KafkaProducer kafkaProducer;
     @Autowired
+    private QuickChatUserStore userStore;
+    @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
@@ -69,32 +70,25 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     @Override
-    public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds) throws ExecutionException, InterruptedException {
-        // 遍历生成 relation_id
+    public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> toIds) {
+        // 区分用户和群聊
         List<String> relationIds = new ArrayList<>();
+        List<QuickChatUser> userList = userStore.getListByAccountIds(toIds);
+        List<String> accountIds = userList.stream()
+                .map(QuickChatUser::getAccountId)
+                .collect(Collectors.toList());
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        for (String toAccountId : accountIds) {
-            relationIds.add(RelationUtil.generate(loginAccountId, toAccountId));
+        for (String toId : toIds) {
+            if (accountIds.contains(toId)) {
+                relationIds.add(RelationUtil.generate(loginAccountId, toId));
+            } else {
+                relationIds.add(toId);
+            }
         }
 
-        // 分组：10个/组，多线程异步查询聊天信息
-        List<List<String>> relationIdList = ListUtil.fixedAssign(relationIds, 10);
-        List<CompletableFuture<List<QuickChatMsg>>> futureList = new ArrayList<>();
-        for (List<String> idList : relationIdList) {
-            CompletableFuture<List<QuickChatMsg>> future = CompletableFuture.supplyAsync(
-                    () -> msgStore.getByRelationIdList(idList), taskExecutor
-            );
-            futureList.add(future);
-        }
-
-        // 同步等待线程任务完毕，拿到聊天记录结果
-        List<QuickChatMsg> msgResultList = new ArrayList<>();
-        for (CompletableFuture<List<QuickChatMsg>> future : futureList) {
-            msgResultList.addAll(future.get());
-        }
-
-        // 转换成VO、按照 relation_id 分组
-        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgResultList);
+        // 查询聊天信息
+        List<QuickChatMsg> msgList = msgStore.getByRelationIdList(relationIds);
+        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgList);
         Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
