@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
  * @Description: 用户信息VO
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ChatUserVO {
     /**
      * 账号

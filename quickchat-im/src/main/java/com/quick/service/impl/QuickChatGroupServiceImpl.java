@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatGroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
+import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
@@ -63,7 +64,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
-        memberStore.getListByGroupId(groupId);
+        List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
         return null;
     }
 }
