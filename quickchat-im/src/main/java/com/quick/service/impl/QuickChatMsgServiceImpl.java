@@ -28,7 +28,6 @@ import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -56,17 +55,19 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
-    @Autowired
     private QuickChatGroupMemberStore memberStore;
 
     @Override
     public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
+        if (CollectionUtils.isNotEmpty(msgPage.getRecords())) {
+            return new HashMap<>();
+        }
         List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgPage.getRecords());
-        return chatMsgVOList.stream()
+        Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
+        return resultMap;
     }
 
     @Override

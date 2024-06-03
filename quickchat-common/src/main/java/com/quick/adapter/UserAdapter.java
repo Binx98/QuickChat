@@ -12,36 +12,29 @@ import com.quick.pojo.vo.ChatUserVO;
  */
 public class UserAdapter {
     public static ChatUserVO buildUserVO(QuickChatUser userPO) {
-        return ChatUserVO.builder()
-                .accountId(userPO.getAccountId())
-                .nickName(userPO.getNickName())
-                .gender(userPO.getGender())
-                .location(userPO.getLocation())
-                .createTime(userPO.getCreateTime())
-                .build();
-    }
-
-    public static QuickChatUser buildUserPO(String accountId, String lineStatus) {
-        return QuickChatUser.builder()
-                .accountId(accountId)
-                .lineStatus(lineStatus)
-                .build();
+        ChatUserVO userVO = new ChatUserVO();
+        userVO.setAccountId(userPO.getAccountId());
+        userVO.setNickName(userPO.getNickName());
+        userVO.setGender(userPO.getGender());
+        userVO.setLocation(userPO.getLocation());
+        userVO.setCreateTime(userPO.getCreateTime());
+        return userVO;
     }
 
     public static QuickChatUser buildUserPO(String accountId, String avatar, String password,
                                             String email, String location, String lineStatus) {
-        return QuickChatUser.builder()
-                .accountId(accountId)
-                .password(password)
-                .avatar(avatar)
-                .email(email)
-                .location(location)
-                .lineStatus(lineStatus)
-                .build();
+        QuickChatUser user = new QuickChatUser();
+        user.setAccountId(accountId);
+        user.setPassword(password);
+        user.setAvatar(avatar);
+        user.setEmail(email);
+        user.setLocation(location);
+        user.setLineStatus(lineStatus);
+        return user;
     }
 
     public static QuickChatUser buildUserPO(UserUpdateDTO userDTO) {
-        return QuickChatUser.builder()
-                .build();
+        QuickChatUser user = new QuickChatUser();
+        return user;
     }
 }
