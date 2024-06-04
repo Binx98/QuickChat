@@ -6,7 +6,6 @@ import com.quick.enums.ChatMsgEnum;
 import com.quick.pojo.dto.FileExtraDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.vo.ChatMsgVO;
-import com.quick.utils.RelationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +17,12 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class ChatMsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String content,
-                                              String extraInfo, Integer type) {
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String relationId,
+                                              String content, String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();
         chatMsg.setFromId(fromId);
         chatMsg.setToId(toId);
-        chatMsg.setRelationId(RelationUtil.generate(fromId, toId));
+        chatMsg.setRelationId(relationId);
         chatMsg.setContent(content);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
