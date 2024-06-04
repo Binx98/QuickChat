@@ -105,15 +105,16 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 发送消息
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
-
         // 处理双方会话框
         String relationId = RelationUtil.generate(msgDTO.getFromId(), msgDTO.getToId());
         QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(msgDTO.getFromId(), msgDTO.getToId())
         );
+
+        // 发送消息
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
+        msgDTO.setSessionType(chatSession.getType());
+        QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
 
         // 通过 Channel 推送给客户端（单聊、群聊）
         if (SessionTypeEnum.SINGLE.getCode().equals(chatSession.getType())) {
