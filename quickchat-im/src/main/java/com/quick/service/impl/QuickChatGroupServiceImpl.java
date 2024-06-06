@@ -57,6 +57,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
             memberStore.saveMemberList(memberList);
         }
 
+        // TODO 批量创建群组通讯录
+
         // Channel 通知邀请加入群聊
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, null);
         return null;
