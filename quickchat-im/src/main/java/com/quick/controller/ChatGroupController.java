@@ -2,7 +2,6 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.GroupDTO;
-import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupService;
@@ -40,6 +39,13 @@ public class ChatGroupController {
         return R.out(ResponseEnum.SUCCESS, list);
     }
 
+    @ApiOperation("添加成员")
+    @GetMapping("/addMember")
+    public R addMember(Long groupId, @RequestBody List<String> accountIdList) {
+        groupService.addMember(groupId, accountIdList);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
     /**
      * TODO 查询群聊列表
      */
@@ -48,10 +54,6 @@ public class ChatGroupController {
     public R list(String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * TODO 添加成员
-     */
 
     /**
      * TODO 移除成员
