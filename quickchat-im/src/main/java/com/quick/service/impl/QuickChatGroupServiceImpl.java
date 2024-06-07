@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatGroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
-import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
@@ -51,7 +50,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         List<QuickChatGroupMember> memberList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(accountIds)) {
             for (String accountId : accountIds) {
-                QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupPO.getGroupId(), accountId);
+                QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupPO.getId().toString(), accountId);
                 memberList.add(member);
             }
             memberStore.saveMemberList(memberList);
@@ -67,6 +66,11 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
+        return null;
+    }
+
+    @Override
+    public Boolean addMember(Long groupId, List<String> accountIdList) {
         return null;
     }
 }
