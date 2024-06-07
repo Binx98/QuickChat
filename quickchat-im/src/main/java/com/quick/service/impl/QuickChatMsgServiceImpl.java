@@ -60,7 +60,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Override
     public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
-        if (CollectionUtils.isNotEmpty(msgPage.getRecords())) {
+        if (CollectionUtils.isEmpty(msgPage.getRecords())) {
             return new HashMap<>();
         }
         List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgPage.getRecords());

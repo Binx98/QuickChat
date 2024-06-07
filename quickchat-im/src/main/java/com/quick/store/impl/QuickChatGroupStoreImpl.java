@@ -31,7 +31,7 @@ public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, Q
     @Override
     public List<QuickChatGroup> getListByGroupIds(List<String> groupIds) {
         return this.lambdaQuery()
-                .in(QuickChatGroup::getGroupId, groupIds)
+                .in(QuickChatGroup::getId, groupIds)
                 .list();
     }
 
@@ -45,7 +45,7 @@ public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, Q
     @Override
     public Boolean dismissByGroupId(String groupId) {
         return this.lambdaUpdate()
-                .eq(QuickChatGroup::getGroupId, groupId)
+                .eq(QuickChatGroup::getId, groupId)
                 .remove();
     }
 

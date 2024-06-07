@@ -56,6 +56,10 @@ public class ChatSessionVO {
      */
     private Integer gender;
     /**
+     * 类型
+     */
+    private Integer type;
+    /**
      * 最后已读时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

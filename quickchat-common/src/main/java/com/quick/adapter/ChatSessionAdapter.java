@@ -30,6 +30,7 @@ public class ChatSessionAdapter {
             sessionVO.setSessionId(chatSession.getId());
             sessionVO.setToId(chatSession.getToId());
             sessionVO.setFromId(chatSession.getFromId());
+            sessionVO.setType(chatSession.getType());
             sessionVO.setRelationId(chatSession.getRelationId());
             sessionVO.setUpdateTime(chatSession.getUpdateTime());
             sessionVO.setLastReadTime(chatSession.getLastReadTime());
@@ -49,11 +50,13 @@ public class ChatSessionAdapter {
         }
 
         // 遍历群聊列表
+        // 注意：发送给群聊消息 relation_id 是 group_id，所以群聊会话 relation_id 返回给前端只给 group_id（否则群聊消息无法展示）
         for (QuickChatGroup group : groupList) {
-            if (map.containsKey(group.getGroupId())) {
-                ChatSessionVO sessionVO = map.get(group.getGroupId());
+            if (map.containsKey(group.getId().toString())) {
+                ChatSessionVO sessionVO = map.get(group.getId().toString());
                 sessionVO.setSessionAvatar(group.getGroupAvatar());
                 sessionVO.setSessionName(group.getGroupName());
+                sessionVO.setRelationId(group.getId().toString());
                 resultList.add(sessionVO);
             }
         }
