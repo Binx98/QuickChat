@@ -47,6 +47,9 @@ public class ChatMsgConsumer {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(Long.valueOf(chatMsg.getToId()));
         for (QuickChatGroupMember member : memberList) {
+            if (member.getAccountId().equals(chatMsg.getFromId())) {
+                continue;
+            }
             Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
             if (ObjectUtils.isNotEmpty(channel)) {
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
