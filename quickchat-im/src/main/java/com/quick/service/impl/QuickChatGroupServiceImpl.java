@@ -4,22 +4,26 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatGroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
+import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatUserStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,6 +37,8 @@ import java.util.List;
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
     private KafkaProducer kafkaProducer;
+    @Autowired
+    private QuickChatUserStore userStore;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
@@ -66,7 +72,11 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
-        return null;
+        List<String> accountIdList = members.stream()
+                .map(QuickChatGroupMember::getAccountId)
+                .collect(Collectors.toList());
+        List<QuickChatUser> userList = userStore.getListByAccountIds(accountIdList);
+        return UserAdapter.buildUserVOList(userList);
     }
 
     @Override
