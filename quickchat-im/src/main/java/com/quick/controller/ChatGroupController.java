@@ -46,6 +46,13 @@ public class ChatGroupController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
+    @ApiOperation("移除群成员")
+    @GetMapping("/removeMember")
+    public R removeMember(Long groupId, String accountId) {
+        groupService.removeMember(groupId, accountId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
     /**
      * TODO 查询群聊列表
      */
@@ -54,10 +61,6 @@ public class ChatGroupController {
     public R list(String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * TODO 移除成员
-     */
 
 
     /**

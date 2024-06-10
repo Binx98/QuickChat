@@ -1,25 +1,33 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatGroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
+import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
+import com.quick.enums.ResponseEnum;
+import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatUserStore;
+import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -34,6 +42,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Autowired
     private KafkaProducer kafkaProducer;
     @Autowired
+    private QuickChatUserStore userStore;
+    @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
@@ -42,7 +52,9 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Transactional(rollbackFor = Exception.class)
     public Boolean createGroup(GroupDTO groupDTO) {
         // 保存群聊信息
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = ChatGroupAdapter.buildGroupPO(groupDTO);
+        groupPO.setAccountId(loginAccountId);
         groupStore.saveGroup(groupPO);
 
         // 批量添加群成员
@@ -50,7 +62,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         List<QuickChatGroupMember> memberList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(accountIds)) {
             for (String accountId : accountIds) {
-                QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupPO.getId().toString(), accountId);
+                QuickChatGroupMember member = GroupMemberAdapter
+                        .buildMemberPO(groupPO.getId().toString(), accountId);
                 memberList.add(member);
             }
             memberStore.saveMemberList(memberList);
@@ -66,11 +79,32 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
-        return null;
+        List<String> accountIdList = members.stream()
+                .map(QuickChatGroupMember::getAccountId)
+                .collect(Collectors.toList());
+        List<QuickChatUser> userList = userStore.getListByAccountIds(accountIdList);
+        return UserAdapter.buildUserVOList(userList);
     }
 
     @Override
     public Boolean addMember(Long groupId, List<String> accountIdList) {
+        return null;
+    }
+
+    @Override
+    public Boolean removeMember(Long groupId, String accountId) {
+        // 判断当前操作是否是群主
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
+        if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
+            throw new QuickException(ResponseEnum.FAIL);
+        }
+
+        // 删除群成员
+        memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
+
+        // Channel 通知目标用户被移除群聊
+        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, null);
         return null;
     }
 }

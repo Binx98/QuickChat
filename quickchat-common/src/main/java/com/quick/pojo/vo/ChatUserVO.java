@@ -1,10 +1,7 @@
 package com.quick.pojo.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -35,11 +32,6 @@ public class ChatUserVO {
      * 位置
      */
     private String location;
-
-    /**
-     * 手机号
-     */
-    private String phone;
 
     /**
      * 邮箱
