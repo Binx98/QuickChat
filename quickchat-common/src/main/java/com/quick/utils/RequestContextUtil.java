@@ -12,23 +12,14 @@ public class RequestContextUtil {
     public static final String ACCOUNT_ID = "account_id";
     private static final ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<>();
 
-    /**
-     * 保存信息
-     */
     public static void setData(Map<String, Object> map) {
         threadLocal.set(map);
     }
 
-    /**
-     * 获取信息
-     */
     public static Map<String, Object> getData() {
         return threadLocal.get();
     }
 
-    /**
-     * 移除信息
-     */
     public static void removeData() {
         threadLocal.remove();
     }
