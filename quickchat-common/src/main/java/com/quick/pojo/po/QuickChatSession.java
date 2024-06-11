@@ -2,8 +2,6 @@ package com.quick.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.io.Serializable;
@@ -54,6 +52,7 @@ public class QuickChatSession implements Serializable {
     /**
      * 最后读取时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField("last_read_time")
     private LocalDateTime lastReadTime;
 
@@ -62,6 +61,12 @@ public class QuickChatSession implements Serializable {
      */
     @TableField("type")
     private Integer type;
+
+    /**
+     * 置顶标识（0：未置顶，1：置顶）
+     */
+    @TableField("top_flag")
+    private Boolean topFlag;
 
     /**
      * 创建时间

@@ -53,7 +53,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
 
     @Override
     @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
-    public Boolean updateInfo(QuickChatSession chatSession) {
+    public Boolean updateSessionById(QuickChatSession chatSession) {
         return this.updateById(chatSession);
     }
 
@@ -71,10 +71,8 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    public Boolean deleteByFromIdAndToId(String fromId, String toId) {
-        return this.lambdaUpdate()
-                .eq(QuickChatSession::getFromId, fromId)
-                .eq(QuickChatSession::getToId, toId)
-                .remove();
+    public QuickChatSession getBySessionId(Long sessionId) {
+        return this.getById(sessionId);
     }
+
 }

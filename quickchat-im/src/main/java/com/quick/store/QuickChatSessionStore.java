@@ -53,7 +53,7 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
      * @param chatSession 会话信息
      * @return 执行结果
      */
-    Boolean updateInfo(QuickChatSession chatSession);
+    Boolean updateSessionById(QuickChatSession chatSession);
 
     /**
      * 根据 account_id 集合查询会话列表
@@ -73,11 +73,10 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     Boolean saveList(List<QuickChatSession> sessionPOList);
 
     /**
-     * 根据 from_id to_id 删除会话信息
+     * 根据 session_id 查询会话信息
      *
-     * @param fromId 账户id
-     * @param toId   账户id
-     * @return 执行结果
+     * @param sessionId 会话id
+     * @return 会话信息
      */
-    Boolean deleteByFromIdAndToId(String fromId, String toId);
+    QuickChatSession getBySessionId(Long sessionId);
 }

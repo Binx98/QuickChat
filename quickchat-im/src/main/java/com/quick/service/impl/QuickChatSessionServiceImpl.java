@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ChatSessionAdapter;
+import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
@@ -109,7 +111,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public Boolean updateLastReadTime(Long sessionId) {
         QuickChatSession sessionPO = ChatSessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
-        return sessionStore.updateInfo(sessionPO);
+        return sessionStore.updateSessionById(sessionPO);
     }
 
     @Override
@@ -150,5 +152,15 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         Map<String, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
         sessionVO.setUnreadCount(unreadCountMap.get(sessionVO.getRelationId()));
         return sessionVO;
+    }
+
+    @Override
+    public Boolean topSession(Long sessionId) {
+        QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
+        if (ObjectUtils.isNotEmpty(sessionPO)) {
+            throw new QuickException(ResponseEnum.FAIL);
+        }
+        sessionPO.setTopFlag(true);
+        return sessionStore.updateSessionById(sessionPO);
     }
 }
