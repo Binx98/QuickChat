@@ -55,4 +55,12 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @return 会话信息
      */
     ChatSessionVO getSessionInfo(String fromId, String toId);
+
+    /**
+     * 置顶会话
+     *
+     * @param sessionId
+     * @return 执行结果
+     */
+    Boolean topSession(Long sessionId);
 }

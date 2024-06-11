@@ -45,14 +45,17 @@ public class ChatSessionController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("删除聊天会话")
+    @ApiOperation("删除会话")
     @DeleteMapping("/delete")
     public R deleteSession(Long sessionId) {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * TODO 置顶会话
-     */
+    @ApiOperation("置顶会话")
+    @DeleteMapping("/top")
+    public R topSession(Long sessionId) {
+        sessionService.topSession(sessionId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }
