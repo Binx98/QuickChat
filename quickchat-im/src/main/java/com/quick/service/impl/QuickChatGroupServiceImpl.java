@@ -104,7 +104,21 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
 
         // Channel 通知目标用户被移除群聊
-        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, null);
+        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
+        return null;
+    }
+
+    @Override
+    public Boolean removeGroup(Long groupId) {
+        // 判断当前操作是否是群主
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
+        if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
+            throw new QuickException(ResponseEnum.FAIL);
+        }
+
+        // Channel 通知群内所有用户被当前群聊解散
+        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
         return null;
     }
 }

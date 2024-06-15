@@ -37,7 +37,7 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      *
      * @param groupId       群组id
      * @param accountIdList 账户id列表
-     * @return
+     * @return 执行结果
      */
     Boolean addMember(Long groupId, List<String> accountIdList);
 
@@ -46,7 +46,15 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      *
      * @param groupId   群组id
      * @param accountId 账户id
-     * @return
+     * @return 执行结果
      */
     Boolean removeMember(Long groupId, String accountId);
+
+    /**
+     * 解散群聊
+     *
+     * @param groupId 群聊id
+     * @return 执行结果
+     */
+    Boolean removeGroup(Long groupId);
 }

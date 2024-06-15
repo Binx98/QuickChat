@@ -53,19 +53,20 @@ public class ChatGroupController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * TODO 查询群聊列表
-     */
+    @ApiOperation("解散群聊")
+    @GetMapping("/removeGroup")
+    public R removeGroup(Long groupId) {
+        groupService.removeGroup(groupId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+
     @ApiOperation("查询群聊列表")
     @GetMapping("/list")
     public R list(String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-
-    /**
-     * TODO 解散群组
-     */
 
     /**
      * TODO 修改群组信息
