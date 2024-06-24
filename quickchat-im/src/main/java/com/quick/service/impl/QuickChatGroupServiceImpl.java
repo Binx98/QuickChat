@@ -19,6 +19,7 @@ import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     private QuickChatUserStore userStore;
     @Autowired
     private QuickChatGroupStore groupStore;
+    @Autowired
+    private QuickChatSessionStore sessionStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
@@ -120,5 +123,15 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         // Channel 通知群内所有用户被当前群聊解散
         kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
         return null;
+    }
+
+    @Override
+    public Boolean exitGroup(Long groupId) {
+        // 删除群成员
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        memberStore.deleteByGroupIdAndAccountId(groupId, loginAccountId);
+
+        // 删除会话
+        return sessionStore.deleteByFromIdAndToId(loginAccountId, String.valueOf(groupId));
     }
 }

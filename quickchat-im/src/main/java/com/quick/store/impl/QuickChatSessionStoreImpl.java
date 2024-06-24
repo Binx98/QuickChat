@@ -1,12 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatSessionStore;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +19,6 @@ import java.util.List;
 @Service
 public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionStore {
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0", unless = "#result.size() == 0")
     public List<QuickChatSession> getListByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, accountId)
@@ -31,13 +27,11 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean deleteBySessionId(Long sessionId) {
         return this.removeById(sessionId);
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "#p0 + #p1")
     public QuickChatSession getByAccountId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, fromId)
@@ -46,13 +40,11 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean saveInfo(QuickChatSession chatSession) {
         return this.save(chatSession);
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, allEntries = true)
     public Boolean updateSessionById(QuickChatSession chatSession) {
         return this.updateById(chatSession);
     }
@@ -75,4 +67,11 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
         return this.getById(sessionId);
     }
 
+    @Override
+    public Boolean deleteByFromIdAndToId(String fromId, String toId) {
+        return this.lambdaUpdate()
+                .eq(QuickChatSession::getFromId, fromId)
+                .eq(QuickChatSession::getToId, toId)
+                .remove();
+    }
 }

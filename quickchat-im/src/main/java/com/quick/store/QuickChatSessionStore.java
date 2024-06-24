@@ -79,4 +79,13 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
      * @return 会话信息
      */
     QuickChatSession getBySessionId(Long sessionId);
+
+    /**
+     * 根据 from_id 和 to_id 删除会话
+     *
+     * @param fromId
+     * @param toId
+     * @return
+     */
+    Boolean deleteByFromIdAndToId(String fromId, String toId);
 }
