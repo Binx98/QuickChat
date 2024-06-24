@@ -60,10 +60,16 @@ public class ChatGroupController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-
     @ApiOperation("查询群聊列表")
     @GetMapping("/list")
     public R list(String accountId) {
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    @ApiOperation("退出群聊")
+    @GetMapping("/exitGroup")
+    public R exitGroup(Long groupId) {
+        groupService.exitGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -74,9 +80,5 @@ public class ChatGroupController {
 
     /**
      * TODO 修改群成员昵称
-     */
-
-    /**
-     * TODO 退出群聊
      */
 }

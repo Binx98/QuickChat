@@ -57,4 +57,12 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      * @return 执行结果
      */
     Boolean removeGroup(Long groupId);
+
+    /**
+     * 退出群聊
+     *
+     * @param groupId 群聊id
+     * @return 执行结果
+     */
+    Boolean exitGroup(Long groupId);
 }

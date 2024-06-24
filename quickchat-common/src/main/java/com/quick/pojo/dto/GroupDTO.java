@@ -13,6 +13,11 @@ import java.util.List;
 @Data
 public class GroupDTO {
     /**
+     * 群主账号
+     */
+    private String accountId;
+
+    /**
      * 群名
      */
     private String groupName;
