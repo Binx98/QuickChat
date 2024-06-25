@@ -1,12 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatUserMapper;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.store.QuickChatUserStore;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +19,6 @@ import java.util.List;
 @Service
 public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickChatUserStore {
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
     public QuickChatUser getByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getAccountId, accountId)
@@ -42,7 +38,6 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "#p0.accountId")
     public Boolean updateInfo(QuickChatUser userPO) {
         return this.updateById(userPO);
     }

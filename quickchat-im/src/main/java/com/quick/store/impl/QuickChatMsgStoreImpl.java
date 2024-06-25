@@ -24,13 +24,11 @@ import java.util.List;
 @Service
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0.relationId")
     public Boolean saveMsg(QuickChatMsg chatMsg) {
         return this.save(chatMsg);
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0 + '-' + #p1 + '-' + #p2", unless = "#result.total == 0")
     public Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)
@@ -48,7 +46,6 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0", unless = "#result == null")
     public QuickChatMsg getByMsgId(Long msgId) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getId, msgId)
@@ -56,7 +53,6 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_MSG, key = "#p0")
     public Boolean updateByMsgId(QuickChatMsg chatMsg) {
         return this.updateById(chatMsg);
     }
