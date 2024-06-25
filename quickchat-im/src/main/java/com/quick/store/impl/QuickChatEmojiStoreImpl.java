@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class QuickChatEmojiStoreImpl extends ServiceImpl<QuickChatEmojiMapper, QuickChatEmoji> implements QuickChatEmojiStore {
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_EMOJI, key = "#p0")
     public List<QuickChatEmoji> getEmojiList(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatEmoji::getAccountId, accountId)
@@ -30,13 +29,11 @@ public class QuickChatEmojiStoreImpl extends ServiceImpl<QuickChatEmojiMapper, Q
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_EMOJI, key = "#p0.accountId")
     public Boolean saveEmoji(QuickChatEmoji chatEmoji) {
         return this.save(chatEmoji);
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_EMOJI, key = "#p1")
     public Boolean deleteByEmojiId(Long emojiId, String accountId) {
         return this.removeById(emojiId);
     }

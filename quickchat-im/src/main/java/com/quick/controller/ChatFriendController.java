@@ -1,8 +1,18 @@
 package com.quick.controller;
 
+import com.quick.enums.ResponseEnum;
+import com.quick.pojo.po.QuickChatFriend;
+import com.quick.pojo.po.QuickChatUser;
+import com.quick.response.R;
+import com.quick.service.QuickChatFriendService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -14,9 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/friend")
 public class ChatFriendController {
-    /**
-     * TODO 查询好友列表
-     */
+    @Autowired
+    private QuickChatFriendService friendService;
+
+    @ApiOperation("查询好友列表")
+    @PostMapping("/list")
+    public R getFriendList() throws Throwable {
+        List<QuickChatUser> result = friendService.getFriendList();
+        return R.out(ResponseEnum.SUCCESS, result);
+    }
 
     /**
      * TODO 添加好友
