@@ -1,9 +1,11 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.UserAdapter;
 import com.quick.mapper.QuickChatFriendMapper;
 import com.quick.pojo.po.QuickChatFriend;
 import com.quick.pojo.po.QuickChatUser;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatFriendService;
 import com.quick.store.QuickChatFriendStore;
 import com.quick.store.QuickChatUserStore;
@@ -30,12 +32,13 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     private QuickChatUserStore userStore;
 
     @Override
-    public List<QuickChatUser> getFriendList() {
+    public List<ChatUserVO> getFriendList() {
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatFriend> friendList = friendStore.getListByFromId(loginAccountId);
         List<String> accountIds = friendList.stream()
                 .map(item -> item.getToId())
                 .collect(Collectors.toList());
-        return userStore.getListByAccountIds(accountIds);
+        List<QuickChatUser> userList = userStore.getListByAccountIds(accountIds);
+        return UserAdapter.buildUserVOList(userList);
     }
 }
