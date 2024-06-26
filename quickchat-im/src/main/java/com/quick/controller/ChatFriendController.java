@@ -1,8 +1,8 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.po.QuickChatFriend;
 import com.quick.pojo.po.QuickChatUser;
+import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatFriendService;
 import io.swagger.annotations.Api;
@@ -29,8 +29,8 @@ public class ChatFriendController {
 
     @ApiOperation("查询好友列表")
     @PostMapping("/list")
-    public R getFriendList() throws Throwable {
-        List<QuickChatUser> result = friendService.getFriendList();
+    public R getFriendList() {
+        List<ChatUserVO> result = friendService.getFriendList();
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
@@ -55,10 +55,6 @@ public class ChatFriendController {
      */
 
     /**
-     * TODO 拉黑
-     */
-
-    /**
-     * TODO 备注
+     * TODO 备注昵称
      */
 }

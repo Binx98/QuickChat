@@ -2,7 +2,7 @@ package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatFriend;
-import com.quick.pojo.po.QuickChatUser;
+import com.quick.pojo.vo.ChatUserVO;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface QuickChatFriendService extends IService<QuickChatFriend> {
      *
      * @return 通讯录好友列表
      */
-    List<QuickChatUser> getFriendList();
+    List<ChatUserVO> getFriendList();
 }
