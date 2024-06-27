@@ -134,4 +134,18 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         // 删除会话
         return sessionStore.deleteByFromIdAndToId(loginAccountId, String.valueOf(groupId));
     }
+
+    @Override
+    public Boolean updateInfo(GroupDTO group) {
+        // 判断当前操作是否是群主
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatGroup groupPO = groupStore.getByGroupId(group.getGroupId().toString());
+        if (!groupPO.getAccountId().equals(loginAccountId)) {
+            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
+        }
+
+        // 修改群组信息
+        groupPO.setGroupName(group.getGroupName());
+        return groupStore.updateInfo(groupPO);
+    }
 }
