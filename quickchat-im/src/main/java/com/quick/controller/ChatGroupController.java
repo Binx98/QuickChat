@@ -73,10 +73,12 @@ public class ChatGroupController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-
-    /**
-     * TODO 修改群组信息
-     */
+    @ApiOperation("修改群聊信息")
+    @GetMapping("/updateInfo")
+    public R updateInfo(@RequestBody GroupDTO group) {
+        groupService.updateInfo(group);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
      * TODO 修改群成员昵称
