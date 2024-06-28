@@ -32,13 +32,13 @@ public class QuickChatFriendApply implements Serializable {
     private Long id;
 
     /**
-     * 发起人账号
+     * 发起人
      */
     @TableField("from_id")
     private String fromId;
 
     /**
-     * 接收人账号
+     * 接收人
      */
     @TableField("to_id")
     private String toId;

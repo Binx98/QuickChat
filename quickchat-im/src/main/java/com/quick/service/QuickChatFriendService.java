@@ -22,4 +22,12 @@ public interface QuickChatFriendService extends IService<QuickChatFriend> {
      * @return 通讯录好友列表
      */
     List<ChatUserVO> getFriendList();
+
+    /**
+     * 添加好友
+     *
+     * @param toId 目标用户id
+     * @return 执行结果
+     */
+    Boolean addFriend(String toId);
 }

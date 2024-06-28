@@ -1,7 +1,6 @@
 package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatFriendService;
@@ -34,9 +33,12 @@ public class ChatFriendController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    /**
-     * TODO 添加好友
-     */
+    @ApiOperation("添加好友")
+    @PostMapping("/add")
+    public R addFriend(String toId) {
+        friendService.addFriend(toId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     /**
      * TODO 拉黑好友
