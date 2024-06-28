@@ -1,28 +1,15 @@
 version: '3'
 
 services:
-  # SpringBoot JAR 8888
-  quick-chat-8888:
-    image: quick-chat-8888
-    container_name: quick-chat-8888
+  # SpringBoot JAR
+  quick-chat:
+    image: quick-chat
+    container_name: quick-chat
     build:
       context: ./backend
-      dockerfile: Dockerfile-8888
+      dockerfile: Dockerfile
     ports:
       - "8888:8888"
-    volumes:
-      - /opt/project/backend/myLogs:/myLogs
-    restart: always
-
-  # SpringBoot JAR 8889
-  quick-chat-8889:
-    image: quick-chat-8889
-    container_name: quick-chat-8889
-    build:
-      context: ./backend
-      dockerfile: Dockerfile-8889
-    ports:
-      - "8889:8889"
     volumes:
       - /opt/project/backend/myLogs:/myLogs
     restart: always
@@ -44,17 +31,12 @@ services:
       MYSQL_PASSWORD: 用户密码
     restart: always
 
-  # Redis
-  redis:
-    image: redis:6.0.2
-    container_name: redis
+  # Zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
     ports:
-      - "6379:6379"
-    volumes:
-      - /opt/project/redis/redis.conf:/etc/redis/redis.conf
-      - /opt/project/redis/data:/data
-      - /opt/project/redis/logs:/logs
+      - "2181:2181"
     environment:
       TZ: Asia/Shanghai
-    command: [ redis-server, --requirepass, 密码 ]
     restart: always

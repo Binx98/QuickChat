@@ -34,8 +34,8 @@
         <ip2region.version>2.6.3</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <elastic.version>7.8.0</elastic.version>
         <sensitive.version>0.2.1</sensitive.version>
+        <springfox.version>3.0.0</springfox.version>
     </properties>
 
     <dependencyManagement>
@@ -147,17 +147,20 @@
                 <artifactId>spring-kafka</artifactId>
                 <version>${spring-kafka.version}</version>
             </dependency>
-            <!--ElasticSearch-->
-            <dependency>
-                <groupId>org.elasticsearch.client</groupId>
-                <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${elastic.version}</version>
-            </dependency>
             <!--Sensitive-->
             <dependency>
                 <groupId>com.github.houbb</groupId>
                 <artifactId>sensitive-word</artifactId>
                 <version>${sensitive.version}</version>
+            </dependency>
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>
