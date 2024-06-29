@@ -28,6 +28,7 @@ public class UserAdapter {
                                             String email, String location, String lineStatus) {
         QuickChatUser user = new QuickChatUser();
         user.setAccountId(accountId);
+        user.setNickName(accountId);
         user.setPassword(password);
         user.setAvatar(avatar);
         user.setEmail(email);

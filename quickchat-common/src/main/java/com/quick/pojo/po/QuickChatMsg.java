@@ -48,6 +48,12 @@ public class QuickChatMsg implements Serializable {
     private String relationId;
 
     /**
+     * 发送人昵称
+     */
+    @TableField("nick_name")
+    private String nickName;
+
+    /**
      * 消息内容
      */
     @TableField("content")

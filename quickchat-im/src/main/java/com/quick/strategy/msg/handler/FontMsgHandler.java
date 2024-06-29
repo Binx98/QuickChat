@@ -1,8 +1,11 @@
 package com.quick.strategy.msg.handler;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.quick.adapter.ChatMsgAdapter;
 import com.quick.enums.ChatMsgEnum;
+import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.exception.QuickException;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
@@ -31,16 +34,22 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
+        String nickName = msgDTO.getNickName();
         String content = msgDTO.getContent();
         Integer sessionType = msgDTO.getSessionType();
         String relationId = null;
+
+        if (StringUtils.isBlank(content)) {
+            throw new QuickException(ResponseEnum.FONT_MSG_IS_NULL);
+        }
+
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
             relationId = RelationUtil.generate(fromId, toId);
         } else {
             relationId = toId;
         }
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
-                relationId, content, null, this.getEnum().getCode());
+                relationId, nickName, content, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
