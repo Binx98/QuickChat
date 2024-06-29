@@ -52,6 +52,7 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
         // 保存消息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
+        String nickName = msgDTO.getNickName();
         String fileUrl = msgDTO.getContent();
         Integer sessionType = msgDTO.getSessionType();
         String relationId = null;
@@ -61,7 +62,7 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
             relationId = toId;
         }
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+                nickName, fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

@@ -29,6 +29,7 @@ import com.quick.utils.RequestContextUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -104,6 +105,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 处理双方会话框
         String relationId = RelationUtil.generate(msgDTO.getFromId(), msgDTO.getToId());

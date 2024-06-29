@@ -54,6 +54,7 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
         // 保存聊天信息
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
+        String nickName = msgDTO.getNickName();
         String url = msgDTO.getContent();
         FileExtraDTO extraInfo = msgDTO.getExtraInfo();
         Integer sessionType = msgDTO.getSessionType();
@@ -64,7 +65,7 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
             relationId = toId;
         }
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                url, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+                nickName, url, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

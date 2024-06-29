@@ -18,11 +18,12 @@ import java.util.List;
  */
 public class ChatMsgAdapter {
     public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String relationId,
-                                              String content, String extraInfo, Integer type) {
+                                              String nickName, String content, String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();
         chatMsg.setFromId(fromId);
         chatMsg.setToId(toId);
         chatMsg.setRelationId(relationId);
+        chatMsg.setNickName(nickName);
         chatMsg.setContent(content);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
@@ -37,6 +38,7 @@ public class ChatMsgAdapter {
                     .accountId(chatMsg.getFromId())
                     .content(chatMsg.getContent())
                     .relationId(chatMsg.getRelationId())
+                    .nickName(chatMsg.getNickName())
                     .msgType(chatMsg.getMsgType())
                     .createTime(chatMsg.getCreateTime())
                     .build();

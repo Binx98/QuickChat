@@ -21,9 +21,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ChatMsgVO {
     /**
-     * 发送账户id
+     * 账户id
      */
     private String accountId;
+
+    /**
+     * 昵称
+     */
+    private String nickName;
 
     /**
      * 内容

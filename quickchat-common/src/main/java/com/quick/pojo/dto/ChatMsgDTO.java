@@ -21,6 +21,11 @@ public class ChatMsgDTO {
     private String toId;
 
     /**
+     * 发送人昵称
+     */
+    private String nickName;
+
+    /**
      * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum

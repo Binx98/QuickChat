@@ -31,6 +31,7 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
     public QuickChatMsg sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         String fromId = msgDTO.getFromId();
         String toId = msgDTO.getToId();
+        String nickName = msgDTO.getNickName();
         String content = msgDTO.getContent();
         Integer sessionType = msgDTO.getSessionType();
         String relationId = null;
@@ -40,7 +41,7 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
             relationId = toId;
         }
         QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId,
-                relationId, content, null, this.getEnum().getCode());
+                relationId, nickName, content, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
