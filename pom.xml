@@ -21,7 +21,7 @@
     </modules>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <springboot.version>2.7.17</springboot.version>
         <mysql.version>8.0.16</mysql.version>
         <lombok.version>1.18.30</lombok.version>
@@ -166,19 +166,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <finalName>QuickChat</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <image>
-                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
-                    </image>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
