@@ -157,15 +157,18 @@
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <finalName>QuickChat</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
