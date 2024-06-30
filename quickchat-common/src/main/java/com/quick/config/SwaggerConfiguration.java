@@ -1,6 +1,5 @@
 package com.quick.config;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -27,7 +26,6 @@ import springfox.documentation.spring.web.plugins.Docket;
  * 添加Knife4j可以导出导出离线文档，访问地址：http://localhost:8888/doc.html
  */
 @Configuration
-@EnableKnife4j
 @EnableOpenApi
 @ConditionalOnProperty(value = "spring.profiles.active", havingValue = "dev")
 public class SwaggerConfiguration {
