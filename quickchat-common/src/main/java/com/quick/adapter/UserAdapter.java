@@ -24,13 +24,14 @@ public class UserAdapter {
         return userVO;
     }
 
-    public static QuickChatUser buildUserPO(String accountId, String avatar, String password,
+    public static QuickChatUser buildUserPO(String accountId, String avatar, String password, Integer gender,
                                             String email, String location, String lineStatus) {
         QuickChatUser user = new QuickChatUser();
         user.setAccountId(accountId);
         user.setNickName(accountId);
         user.setPassword(password);
         user.setAvatar(avatar);
+        user.setGender(gender);
         user.setEmail(email);
         user.setLocation(location);
         user.setLineStatus(lineStatus);

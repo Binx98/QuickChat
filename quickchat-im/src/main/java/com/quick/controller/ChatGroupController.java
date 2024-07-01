@@ -79,8 +79,4 @@ public class ChatGroupController {
         groupService.updateInfo(group);
         return R.out(ResponseEnum.SUCCESS);
     }
-
-    /**
-     * TODO 修改群成员昵称
-     */
 }

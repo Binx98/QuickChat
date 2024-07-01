@@ -8,6 +8,10 @@ package com.quick.job;
  */
 public class ChatMsgJob {
     /**
-     * 聊天消息提示
+     * TODO 聊天消息提示
+     */
+
+    /**
+     * TODO 保留七日聊天记录
      */
 }
