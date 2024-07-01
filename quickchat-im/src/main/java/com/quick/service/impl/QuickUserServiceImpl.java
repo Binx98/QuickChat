@@ -6,6 +6,7 @@ import com.quick.adapter.ChatSessionAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
+import com.quick.enums.GenderEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
@@ -21,7 +22,6 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickUserService;
 import com.quick.store.QuickChatGroupMemberStore;
-import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
@@ -55,20 +55,22 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickUserService {
     @Autowired
-    private DefaultKaptcha defaultKaptcha;
+    private RedisUtil redisUtil;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
-    private QuickChatGroupStore groupStore;
+    private DefaultKaptcha defaultKaptcha;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Value("${quick-chat.common-group-id}")
     private String commonGroupId;
+    @Value("${quick-chat.avatar.boy}")
+    private String boyAvatar;
+    @Value("${quick-chat.avatar.girl}")
+    private String girlAvatar;
 
     @Override
     public ChatUserVO getByAccountId(String accountId) {
@@ -111,8 +113,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         String password = AESUtil.encrypt(registerDTO.getPassword1());
 
         // 保存账号信息
-        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), "",
-                password, registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
+        String avatar = "";
+        if (GenderEnum.BOY.getType().equals(registerDTO.getGender())) {
+            avatar = boyAvatar;
+        } else {
+            avatar = girlAvatar;
+        }
+        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
+                registerDTO.getGender(), registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
         return userStore.saveUser(userPO);
     }
 

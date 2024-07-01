@@ -67,3 +67,6 @@ quick-chat:
     avatar: 2
     voice: 5
     file: 50
+  avatar:
+    boy: www.boy.com
+    girl: www.girl.com
