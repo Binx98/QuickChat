@@ -148,4 +148,17 @@
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- Common模块一定要添加skip配置：跳过该模块，否则打包失败！ -->
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>10</source><target>10</target></configuration></plugin>
+        </plugins>
+    </build>
 </project>
