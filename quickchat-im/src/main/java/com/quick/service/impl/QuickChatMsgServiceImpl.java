@@ -4,8 +4,8 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.adapter.ChatMsgAdapter;
-import com.quick.adapter.ChatSessionAdapter;
+import com.quick.adapter.MsgAdapter;
+import com.quick.adapter.SessionAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.kafka.KafkaProducer;
@@ -64,7 +64,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         if (CollectionUtils.isEmpty(msgPage.getRecords())) {
             return new HashMap<>();
         }
-        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgPage.getRecords());
+        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgPage.getRecords());
         Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
@@ -90,7 +90,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
         // 查询聊天信息
         List<QuickChatMsg> msgList = msgStore.getByRelationIdList(relationIds);
-        List<ChatMsgVO> chatMsgVOList = ChatMsgAdapter.buildChatMsgVOList(msgList);
+        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
         Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
@@ -147,7 +147,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         if (SessionTypeEnum.SINGLE.getCode().equals(toSession.getType())) {
             QuickChatSession sessionPO = sessionStore.getByAccountId(toId, fromId);
             if (ObjectUtils.isEmpty(sessionPO)) {
-                sessionPO = ChatSessionAdapter.buildSessionPO(toId, fromId, toSession.getType());
+                sessionPO = SessionAdapter.buildSessionPO(toId, fromId, toSession.getType());
                 sessionStore.saveInfo(sessionPO);
             }
         }
@@ -172,7 +172,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                     .filter(item -> !memberAccountIds.contains(item))
                     .collect(Collectors.toList());
             for (String accountId : memberIds) {
-                sessionPOList.add(ChatSessionAdapter.buildSessionPO(accountId, toId, toSession.getType()));
+                sessionPOList.add(SessionAdapter.buildSessionPO(accountId, toId, toSession.getType()));
             }
 
             // 批量保存会话

@@ -28,7 +28,7 @@ public class ChatMsgController {
     @Autowired
     private QuickChatMsgService msgService;
 
-    @ApiOperation("发送聊天消息")
+    @ApiOperation("发送消息")
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitTypeEnum.IP)
     public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {

@@ -2,7 +2,7 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.quick.adapter.ChatSessionAdapter;
+import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
@@ -104,7 +104,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         // 加入全员群聊、保存会话
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
         memberStore.enterGroup(memberPO);
-        QuickChatSession chatSession = ChatSessionAdapter.buildSessionPO
+        QuickChatSession chatSession = SessionAdapter.buildSessionPO
                 (registerDTO.getAccountId(), commonGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
 

@@ -3,7 +3,7 @@ package com.quick.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.adapter.ChatGroupAdapter;
+import com.quick.adapter.GroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
@@ -56,7 +56,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     public Boolean createGroup(GroupDTO groupDTO) {
         // 保存群聊信息
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = ChatGroupAdapter.buildGroupPO(groupDTO);
+        QuickChatGroup groupPO = GroupAdapter.buildGroupPO(groupDTO);
         groupPO.setAccountId(loginAccountId);
         groupStore.saveGroup(groupPO);
 
