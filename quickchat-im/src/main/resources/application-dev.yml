@@ -68,5 +68,5 @@ quick-chat:
     voice: 5
     file: 50
   avatar:
-    boy: www.boy.com
-    girl: www.girl.com
+    boy: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/boy.png
+    girl: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/girl.png
