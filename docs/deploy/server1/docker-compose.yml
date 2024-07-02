@@ -14,23 +14,6 @@ services:
       - /opt/project/backend/myLogs:/myLogs
     restart: always
 
-  # MySQL
-  mysql:
-    image: mysql:8.0.16
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    volumes:
-      - /opt/project/mysql/data:/var/lib/mysql
-      - /opt/project/mysql/conf:/etc/mysql/conf.d
-    environment:
-      TZ: Asia/Shanghai
-      MYSQL_DATABASE: 数据库DB名称
-      MYSQL_ROOT_PASSWORD: root密码
-      MYSQL_USER: 用户账号
-      MYSQL_PASSWORD: 用户密码
-    restart: always
-
   # Zookeeper
   zookeeper:
     image: wurstmeister/zookeeper
@@ -39,4 +22,28 @@ services:
       - "2181:2181"
     environment:
       TZ: Asia/Shanghai
+    restart: always
+
+  # Kafka
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9092:9092"
+    environment:
+      TZ: Asia/Shanghai
+      KAFKA_ADVERTISED_HOST_NAME: 公网ip
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_LOG_RETENTION_HOURS: 120
+      KAFKA_MESSAGE_MAX_BYTES: 10000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 10000000
+      KAFKA_GROUP_MAX_SESSION_TIMEOUT_MS: 60000
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_DELETE_RETENTION_MS: 1000
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://公网ip:9092
+      KAFKA_BROKER_ID: 1
     restart: always

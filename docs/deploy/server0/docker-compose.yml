@@ -11,13 +11,26 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /opt/project/nginx/html:/usr/share/nginx/html
-      - /opt/project/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /opt/project/nginx/conf.d:/etc/nginx/conf.d
-      - /opt/project/nginx/log:/var/log/nginx
-      - /opt/project/nginx/ssl/ssl.conf:/etc/nginx/ssl/ssl.conf
-      - /opt/project/nginx/ssl/dhparam.pem:/etc/nginx/ssl/dhparam.pem
-      - /opt/project/nginx/letsencrypt:/etc/nginx/letsencrypt
+      - /opt/nginx/html/pc:/usr/share/nginx/html
+      - /opt/nginx/html/mobile:/usr/share/nginx/html
+      - /opt/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /opt/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/nginx/log:/var/log/nginx
+    restart: always
+
+  # Redis
+  redis:
+    image: redis:6.0.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /opt/project/redis/redis.conf:/etc/redis/redis.conf
+      - /opt/project/redis/data:/data
+      - /opt/project/redis/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+    command: [ redis-server, --requirepass, 密码 ]
     restart: always
 
   # MinIO
