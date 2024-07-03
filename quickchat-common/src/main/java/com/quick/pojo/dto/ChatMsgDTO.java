@@ -1,5 +1,6 @@
 package com.quick.pojo.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -43,6 +44,11 @@ public class ChatMsgDTO {
      * 消息内容
      */
     private String content;
+
+    /**
+     * 引用（艾特）标识：消息 id
+     */
+    private String quoteId;
 
     /**
      * 消息id：撤回消息、回复消息

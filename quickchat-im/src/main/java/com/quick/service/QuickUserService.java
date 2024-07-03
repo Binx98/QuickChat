@@ -9,6 +9,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>
@@ -41,10 +42,10 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * 登录功能
      *
      * @param loginDTO 登录表单DTO
-     * @return Token信息
+     * @return Token和账户信息
      * @throws Exception
      */
-    String login(LoginDTO loginDTO) throws Exception;
+    Map<String, Object> login(LoginDTO loginDTO) throws Exception;
 
     /**
      * 图片验证码

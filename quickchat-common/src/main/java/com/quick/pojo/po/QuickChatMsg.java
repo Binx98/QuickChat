@@ -74,6 +74,12 @@ public class QuickChatMsg implements Serializable {
     private String extraInfo;
 
     /**
+     * 引用（艾特）标识：消息 id
+     */
+    @TableField("quote_id")
+    private String quoteId;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
