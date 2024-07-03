@@ -48,8 +48,8 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
         } else {
             relationId = toId;
         }
-        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId,
-                relationId, nickName, content, null, this.getEnum().getCode());
+        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
+                nickName, content, null, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

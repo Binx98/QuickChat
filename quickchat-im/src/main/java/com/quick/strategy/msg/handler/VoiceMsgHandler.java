@@ -64,8 +64,8 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
         } else {
             relationId = toId;
         }
-        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                nickName, url, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId, nickName,
+                url, null, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

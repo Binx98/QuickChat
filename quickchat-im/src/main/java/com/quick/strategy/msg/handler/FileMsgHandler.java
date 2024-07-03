@@ -61,8 +61,8 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
         } else {
             relationId = toId;
         }
-        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                nickName, fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
+        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId, nickName,
+                fileUrl, null, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
