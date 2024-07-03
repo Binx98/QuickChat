@@ -44,8 +44,9 @@
   <img src="https://contrib.rocks/image?repo=Binx98/QuickChat" />
 </a>
 
-| 姓名  |              Github              |      公司       |
-|:---:|:--------------------------------:|:-------------:|
-| 徐志斌 |    https://github.com/Binx98     | PARAVERSE 平行云 |
-| 陈辰  |  https://github.com/GeforceLite  |   SBI BITS    |
+| 姓名  |               Github               |      公司       |
+|:---:|:----------------------------------:|:-------------:|
+| 徐志斌 |     https://github.com/Binx98      | PARAVERSE 平行云 |
+| 陈辰  |   https://github.com/GeforceLite   |   SBI BITS    |
+| 刘东辉 |  https://github.com/gentlemanJiu   |    中科院信工所     |
 | 唐志鑫 | https://github.com/TangXiaoWang123 |     大连信维      |
