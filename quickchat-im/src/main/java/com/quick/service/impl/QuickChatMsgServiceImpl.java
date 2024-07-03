@@ -127,7 +127,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     @Override
-    public void entering(String fromId, String toId) {
+    public void writing(String fromId, String toId) {
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);

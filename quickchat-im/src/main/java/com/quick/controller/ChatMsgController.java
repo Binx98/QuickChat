@@ -50,10 +50,10 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
-    @ApiOperation("对方正在输入中...")
-    @GetMapping("/entering")
-    public R entering(String fromId, String toId) {
-        msgService.entering(fromId, toId);
+    @ApiOperation("对方正在输入")
+    @GetMapping("/writing")
+    public R writing(String fromId, String toId) {
+        msgService.writing(fromId, toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 }

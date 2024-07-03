@@ -20,7 +20,8 @@ public enum ChatMsgEnum {
     VOICE_CALL(5, "语音通话"),
     VIDEO_CALL(6, "视频通话"),
     AT(8, "艾特"),
-    GROUP_NOTICE(10, "群通知，例如：加入群成员");
+    REPLY(9, "回复/引用"),
+    ;
 
     private Integer code;
     private String msg;

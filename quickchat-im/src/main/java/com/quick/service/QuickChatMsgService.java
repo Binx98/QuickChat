@@ -48,5 +48,5 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param fromId 发送方
      * @param toId   接收方
      */
-    void entering(String fromId, String toId);
+    void writing(String fromId, String toId);
 }
