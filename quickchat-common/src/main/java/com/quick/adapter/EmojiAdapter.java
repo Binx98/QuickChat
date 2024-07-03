@@ -8,7 +8,7 @@ import com.quick.pojo.po.QuickChatEmoji;
  * @Description: 表情包适配器
  * @Version: 1.0
  */
-public class ChatEmojiAdapter {
+public class EmojiAdapter {
 
     public static QuickChatEmoji buildEmojiPO(String url, String accountId) {
         QuickChatEmoji chatEmoji = new QuickChatEmoji();

@@ -6,7 +6,7 @@ import com.quick.pojo.dto.FileExtraDTO;
  * @Author 徐志斌
  * @Date: 2024/4/4 15:42
  * @Version 1.0
- * @Description: 文件额外信息
+ * @Description: 文件信息适配器
  */
 public class FileExtraAdapter {
 

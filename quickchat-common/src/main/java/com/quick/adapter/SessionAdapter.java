@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  * @Author 徐志斌
  * @Date: 2023/11/25 13:35
  * @Version 1.0
- * @Description: 用户会话适配器
+ * @Description: 聊天会话适配器
  */
-public class ChatSessionAdapter {
+public class SessionAdapter {
     public static List<ChatSessionVO> buildSessionVOList(List<QuickChatSession> sessionList,
                                                          List<QuickChatUser> userList,
                                                          List<QuickChatGroup> groupList) {

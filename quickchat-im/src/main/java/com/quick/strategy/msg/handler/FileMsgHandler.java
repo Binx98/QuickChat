@@ -1,7 +1,7 @@
 package com.quick.strategy.msg.handler;
 
 import cn.hutool.json.JSONUtil;
-import com.quick.adapter.ChatMsgAdapter;
+import com.quick.adapter.MsgAdapter;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
@@ -61,7 +61,7 @@ public class FileMsgHandler extends AbstractChatMsgStrategy {
         } else {
             relationId = toId;
         }
-        QuickChatMsg chatMsg = ChatMsgAdapter.buildChatMsgPO(fromId, toId, relationId,
+        QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
                 nickName, fileUrl, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;

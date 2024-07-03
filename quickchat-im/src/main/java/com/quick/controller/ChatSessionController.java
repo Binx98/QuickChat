@@ -17,28 +17,28 @@ import java.util.List;
  * @Version 1.0
  * @Description: 聊天会话
  */
-@Api(tags = "会话相关")
+@Api(tags = "聊天会话")
 @RestController
 @RequestMapping("/chat/session")
 public class ChatSessionController {
     @Autowired
     private QuickChatSessionService sessionService;
 
-    @ApiOperation("查询会话列表")
+    @ApiOperation("查询列表")
     @GetMapping("/list")
     public R getSessionList() {
         List<ChatSessionVO> result = sessionService.getSessionList();
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("查询单个会话")
+    @ApiOperation("查询会话详情")
     @GetMapping("/getSessionInfo")
     public R getSessionInfo(String fromId, String toId) {
         ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("修改会话已读时间")
+    @ApiOperation("修改已读时间")
     @PostMapping("/updateReadTime")
     public R updateSession(Long sessionId) {
         sessionService.updateLastReadTime(sessionId);

@@ -1,7 +1,7 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.adapter.ChatEmojiAdapter;
+import com.quick.adapter.EmojiAdapter;
 import com.quick.mapper.QuickChatEmojiMapper;
 import com.quick.pojo.po.QuickChatEmoji;
 import com.quick.service.QuickChatEmojiService;
@@ -33,7 +33,7 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
     @Override
     public Boolean addEmoji(String url) {
         String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatEmoji chatEmoji = ChatEmojiAdapter.buildEmojiPO(url, accountId);
+        QuickChatEmoji chatEmoji = EmojiAdapter.buildEmojiPO(url, accountId);
         return emojiStore.saveEmoji(chatEmoji);
     }
 
