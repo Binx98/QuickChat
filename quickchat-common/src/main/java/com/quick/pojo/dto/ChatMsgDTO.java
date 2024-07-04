@@ -1,6 +1,5 @@
 package com.quick.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -22,6 +21,11 @@ public class ChatMsgDTO {
     private String toId;
 
     /**
+     * 关联id
+     */
+    private Long relationId;
+
+    /**
      * 发送人昵称
      */
     private String nickName;
@@ -32,13 +36,6 @@ public class ChatMsgDTO {
      * @see com.quick.enums.ChatMsgEnum
      */
     private Integer msgType;
-
-    /**
-     * 会话类型
-     *
-     * @see com.quick.enums.SessionTypeEnum
-     */
-    private Integer sessionType;
 
     /**
      * 消息内容

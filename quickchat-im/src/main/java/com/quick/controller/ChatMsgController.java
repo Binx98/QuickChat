@@ -39,14 +39,14 @@ public class ChatMsgController {
     @ApiOperation("根据 account_id 列表查询聊天记录")
     @PostMapping("/list")
     public R list(@RequestBody List<String> accountIds) {
-        Map<String, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
+        Map<Long, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
     @ApiOperation("查询双方聊天记录")
     @GetMapping("/getByRelationId")
-    public R chatMsgList(String relationId, Integer current, Integer size) {
-        Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
+    public R chatMsgList(Long relationId, Integer current, Integer size) {
+        Map<Long, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 

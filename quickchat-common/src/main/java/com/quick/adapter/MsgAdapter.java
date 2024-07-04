@@ -17,7 +17,7 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class MsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String relationId,
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, Long relationId,
                                               String nickName, String content, String quoteId,
                                               String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();

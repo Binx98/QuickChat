@@ -4,7 +4,6 @@ import cn.hutool.json.JSONUtil;
 import com.quick.adapter.MsgAdapter;
 import com.quick.enums.ChatMsgEnum;
 import com.quick.enums.ResponseEnum;
-import com.quick.enums.SessionTypeEnum;
 import com.quick.exception.QuickException;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.dto.FileExtraDTO;
@@ -12,7 +11,6 @@ import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.strategy.file.handler.VoiceHandler;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
-import com.quick.utils.RelationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -56,14 +54,9 @@ public class VoiceMsgHandler extends AbstractChatMsgStrategy {
         String toId = msgDTO.getToId();
         String nickName = msgDTO.getNickName();
         String url = msgDTO.getContent();
+        Long relationId = msgDTO.getRelationId();
         FileExtraDTO extraInfo = msgDTO.getExtraInfo();
-        Integer sessionType = msgDTO.getSessionType();
-        String relationId = null;
-        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-            relationId = RelationUtil.generate(fromId, toId);
-        } else {
-            relationId = toId;
-        }
+
         QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId, nickName,
                 url, null, JSONUtil.toJsonStr(extraInfo), this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);

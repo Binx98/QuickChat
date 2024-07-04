@@ -24,7 +24,6 @@ import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import com.quick.utils.RedissonLockUtil;
-import com.quick.utils.RelationUtil;
 import com.quick.utils.RequestContextUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,44 +58,37 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     private QuickChatGroupMemberStore memberStore;
 
     @Override
-    public Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size) {
+    public Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
         if (CollectionUtils.isEmpty(msgPage.getRecords())) {
             return new HashMap<>();
         }
         List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgPage.getRecords());
-        Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+        Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
         return resultMap;
     }
 
     @Override
-    public Map<String, List<ChatMsgVO>> getByAccountIds(List<String> toIds) {
+    public Map<Long, List<ChatMsgVO>> getByAccountIds(List<String> toIds) {
         // 区分用户和群聊
-        List<String> relationIds = new ArrayList<>();
+        List<Long> relationIds = new ArrayList<>();
         List<QuickChatUser> userList = userStore.getListByAccountIds(toIds);
         List<String> accountIds = userList.stream()
                 .map(QuickChatUser::getAccountId)
                 .collect(Collectors.toList());
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        for (String toId : toIds) {
-            if (accountIds.contains(toId)) {
-                relationIds.add(RelationUtil.generate(loginAccountId, toId));
-            } else {
-                relationIds.add(toId);
-            }
-        }
 
         // 查询聊天信息
         List<QuickChatMsg> msgList = msgStore.getByRelationIdList(relationIds);
         List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
-        Map<String, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+        Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
 
         // 没有 relation_id，空列表占位（首次发送消息需要占位）
-        for (String relationId : relationIds) {
+        for (Long relationId : relationIds) {
             if (!resultMap.containsKey(relationId)) {
                 resultMap.put(relationId, new ArrayList<>());
             }
@@ -108,14 +100,13 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Transactional(rollbackFor = Exception.class)
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 处理双方会话框
-        String relationId = RelationUtil.generate(msgDTO.getFromId(), msgDTO.getToId());
+        String relationId = msgDTO.getRelationId().toString();
         QuickChatSession chatSession = lockUtil.executeWithLock(relationId, 15, TimeUnit.SECONDS,
                 () -> this.handleSession(msgDTO.getFromId(), msgDTO.getToId())
         );
 
         // 发送消息
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
-        msgDTO.setSessionType(chatSession.getType());
         QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
 
         // 通过 Channel 推送给客户端（单聊、群聊）

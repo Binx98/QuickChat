@@ -45,7 +45,7 @@ public class QuickChatMsg implements Serializable {
      * 关联id
      */
     @TableField("relation_id")
-    private String relationId;
+    private Long relationId;
 
     /**
      * 发送人昵称

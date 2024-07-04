@@ -4,7 +4,6 @@ import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
-import com.quick.utils.RelationUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -56,7 +55,7 @@ public class SessionAdapter {
                 ChatSessionVO sessionVO = map.get(group.getId().toString());
                 sessionVO.setSessionAvatar(group.getGroupAvatar());
                 sessionVO.setSessionName(group.getGroupName());
-                sessionVO.setRelationId(group.getId().toString());
+                sessionVO.setRelationId(group.getId());
                 resultList.add(sessionVO);
             }
         }
@@ -72,7 +71,6 @@ public class SessionAdapter {
         return QuickChatSession.builder()
                 .fromId(fromId)
                 .toId(toId)
-                .relationId(RelationUtil.generate(fromId, toId))
                 .type(type)
                 .lastReadTime(LocalDateTime.now())
                 .build();

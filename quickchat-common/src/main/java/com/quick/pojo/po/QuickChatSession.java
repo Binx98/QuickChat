@@ -44,17 +44,10 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
-     * 账户id（接收者）
+     * 会话关联id
      */
     @TableField("relation_id")
-    private String relationId;
-
-    /**
-     * 最后读取时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField("last_read_time")
-    private LocalDateTime lastReadTime;
+    private Long relationId;
 
     /**
      * 会话类型（1：单聊，2：群聊）
@@ -67,6 +60,13 @@ public class QuickChatSession implements Serializable {
      */
     @TableField("top_flag")
     private Boolean topFlag;
+
+    /**
+     * 最后读取时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField("last_read_time")
+    private LocalDateTime lastReadTime;
 
     /**
      * 创建时间

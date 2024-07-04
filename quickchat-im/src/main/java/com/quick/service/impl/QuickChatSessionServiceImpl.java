@@ -92,9 +92,9 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         List<ChatSessionVO> sessionVOList = SessionAdapter.buildSessionVOList(sessionList, users, groups);
 
         // 查询会话未读数量
-        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
+        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
         for (ChatSessionVO sessionVO : sessionVOList) {
-            String relationId = sessionVO.getRelationId();
+            Long relationId = sessionVO.getRelationId();
             if (unreadCountMap.containsKey(relationId)) {
                 Integer unreadCount = unreadCountMap.get(relationId);
                 sessionVO.setUnreadCount(unreadCount == 0 ? null : unreadCount);
@@ -115,19 +115,19 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
-        Map<String, Integer> resultMap = new HashMap<>();
+    public Map<Long, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
+        Map<Long, Integer> resultMap = new HashMap<>();
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         for (ChatSessionVO session : sessionList) {
-            String relationId = session.getRelationId();
+            Long relationId = session.getRelationId();
             LocalDateTime lastReadTime = session.getLastReadTime();
             Integer unreadCount = msgStore.getUnreadCount(loginAccountId, relationId, lastReadTime);
             resultMap.put(relationId, unreadCount);
         }
-        List<String> relationIds = sessionList.stream()
+        List<Long> relationIds = sessionList.stream()
                 .map(ChatSessionVO::getRelationId)
                 .collect(Collectors.toList());
-        for (String relationId : relationIds) {
+        for (Long relationId : relationIds) {
             if (!resultMap.containsKey(relationId)) {
                 resultMap.put(relationId, null);
             }
@@ -149,7 +149,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             QuickChatGroup groupPO = groupStore.getByGroupId(sessionPO.getToId());
             sessionVO = SessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
         }
-        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
+        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
         sessionVO.setUnreadCount(unreadCountMap.get(sessionVO.getRelationId()));
         return sessionVO;
     }
