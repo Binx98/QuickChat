@@ -38,9 +38,10 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * 根据 relation_id集合 查询聊天信息
      *
      * @param relationIds relation_id集合
+     * @param size        数据条数
      * @return 聊天信息列表
      */
-    List<QuickChatMsg> getByRelationIdList(List<Long> relationIds);
+    List<QuickChatMsg> getByRelationIds(List<Long> relationIds, Integer size);
 
     /**
      * 根据 msg_id 查询单条聊天信息

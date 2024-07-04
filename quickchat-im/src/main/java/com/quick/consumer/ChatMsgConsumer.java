@@ -50,7 +50,7 @@ public class ChatMsgConsumer {
     @KafkaListener(topics = KafkaConstant.SEND_CHAT_GROUP_MSG, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendChatMsgToGroup(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
-        List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(Long.valueOf(chatMsg.getToId()));
+        List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(chatMsg.getRelationId());
         for (QuickChatGroupMember member : memberList) {
             if (member.getAccountId().equals(chatMsg.getFromId())) {
                 continue;

@@ -34,11 +34,11 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    public List<QuickChatMsg> getByRelationIdList(List<Long> relationIds) {
+    public List<QuickChatMsg> getByRelationIds(List<Long> relationIds, Integer size) {
         return this.lambdaQuery()
                 .in(QuickChatMsg::getRelationId, relationIds)
                 .orderByDesc(QuickChatMsg::getCreateTime)
-                .last(" LIMIT 30 ")
+                .last(" LIMIT " + size)
                 .list();
     }
 

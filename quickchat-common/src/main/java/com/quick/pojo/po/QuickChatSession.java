@@ -44,7 +44,7 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
-     * 会话关联id
+     * 关联id（单聊：雪花算法随机生成，群聊：群组id）
      */
     @TableField("relation_id")
     private Long relationId;
@@ -59,7 +59,7 @@ public class QuickChatSession implements Serializable {
      * 置顶标识（0：未置顶，1：置顶）
      */
     @TableField("top_flag")
-    private Boolean topFlag;
+    private Integer topFlag;
 
     /**
      * 最后读取时间

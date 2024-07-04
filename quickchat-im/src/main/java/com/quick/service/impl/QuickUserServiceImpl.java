@@ -73,7 +73,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     private QuickChatGroupMemberStore memberStore;
 
     @Value("${quick-chat.common-group-id}")
-    private String commonGroupId;
+    private Long officialGroupId;
     @Value("${quick-chat.avatar.boy}")
     private String boyAvatar;
     @Value("${quick-chat.avatar.girl}")
@@ -109,10 +109,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 加入全员群聊、保存会话
-        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
+        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(officialGroupId, registerDTO.getAccountId());
         memberStore.enterGroup(memberPO);
-        QuickChatSession chatSession = SessionAdapter.buildSessionPO
-                (registerDTO.getAccountId(), commonGroupId, SessionTypeEnum.GROUP.getCode());
+        QuickChatSession chatSession = SessionAdapter.buildSessionPO(registerDTO.getAccountId(),
+                officialGroupId.toString(), officialGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
 
         // 解析地址信息、密码对称加密

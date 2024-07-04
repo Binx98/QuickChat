@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.SessionAdapter;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.enums.TopEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatGroup;
@@ -137,7 +138,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public ChatSessionVO getSessionInfo(String fromId, String toId) {
-        QuickChatSession sessionPO = sessionStore.getByAccountId(fromId, toId);
+        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             return null;
         }
@@ -158,9 +159,25 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean topSession(Long sessionId) {
         QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
         if (ObjectUtils.isNotEmpty(sessionPO)) {
-            throw new QuickException(ResponseEnum.FAIL);
+            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
-        sessionPO.setTopFlag(true);
+        sessionPO.setTopFlag(TopEnum.YES.getCode());
         return sessionStore.updateSessionById(sessionPO);
+    }
+
+    @Override
+    public Boolean activeSession(String toId) {
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(loginAccountId, toId);
+        if (ObjectUtils.isEmpty(sessionPO)) {
+            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
+        }
+        if (sessionPO.getDeleted()) {
+            sessionPO.setDeleted(false);
+            sessionPO.setTopFlag(TopEnum.NO.getCode());
+            sessionPO.setUpdateTime(LocalDateTime.now());
+            sessionStore.updateSessionById(sessionPO);
+        }
+        return true;
     }
 }

@@ -31,6 +31,13 @@ public class ChatSessionController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
+    @ApiOperation("恢复会话（激活状态）")
+    @PostMapping("/active")
+    public R active(String toId) {
+        sessionService.activeSession(toId);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
     @ApiOperation("查询会话详情")
     @GetMapping("/getSessionInfo")
     public R getSessionInfo(String fromId, String toId) {

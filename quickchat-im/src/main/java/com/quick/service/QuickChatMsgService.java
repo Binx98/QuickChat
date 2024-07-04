@@ -28,12 +28,12 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
     Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size);
 
     /**
-     * 根据 account_id 列表查询聊天记录
+     * 根据 account_id 集合批量查询聊天记录
      *
-     * @param accountIds accountId列表
+     * @param relationIds 会话列表
      * @return 聊天信息
      */
-    Map<Long, List<ChatMsgVO>> getByAccountIds(List<String> accountIds);
+    Map<Long, List<ChatMsgVO>> getByRelationIds(List<Long> relationIds, Integer size);
 
     /**
      * 发送聊天信息

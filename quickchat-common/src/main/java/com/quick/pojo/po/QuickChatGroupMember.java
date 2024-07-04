@@ -2,7 +2,6 @@ package com.quick.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,7 +33,7 @@ public class QuickChatGroupMember implements Serializable {
      * 群组id
      */
     @TableField("group_id")
-    private String groupId;
+    private Long groupId;
 
     /**
      * 账户id

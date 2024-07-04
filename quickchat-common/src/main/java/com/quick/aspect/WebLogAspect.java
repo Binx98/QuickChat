@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-09-13  16:22
- * @Description: 统计Controller接口总耗时
+ * @Description: 统计接口调用日志
  * @Version: 1.0
  */
 @Slf4j
@@ -29,7 +29,8 @@ import java.util.stream.Stream;
 public class WebLogAspect {
     @Around("execution(* com.quick.controller..*.*(..))")
     public Object saveLog(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes)
+                Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String method = request.getMethod();
         String uri = request.getRequestURI();
 
@@ -38,7 +39,7 @@ public class WebLogAspect {
                 .filter(args -> !(args instanceof ServletRequest))
                 .filter(args -> !(args instanceof ServletResponse))
                 .collect(Collectors.toList());
-        log.info("------------------------接口方法：[{}]，接口路径：[{}]，接口参数：[{}]------------------------", method, uri, paramList);
+        log.info("-------------method：[{}]，url：[{}]，params：[{}]-------------", method, uri, paramList);
 
         // 计算接口耗时
         StopWatch stopWatch = new StopWatch();
@@ -46,7 +47,7 @@ public class WebLogAspect {
         Object result = joinPoint.proceed();
         stopWatch.stop();
         long cost = stopWatch.getTotalTimeMillis();
-        log.info("------------------------接口路径：[{}]，接口返回值：[response:{}]，接口总耗时：[{}ms]------------------------", uri, result, cost);
+        log.info("-------------url：[{}]，response：[{}]，time：[{}ms]-------------", uri, result, cost);
         return result;
     }
 }

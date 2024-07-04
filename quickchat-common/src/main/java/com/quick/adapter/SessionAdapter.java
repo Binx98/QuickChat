@@ -67,10 +67,11 @@ public class SessionAdapter {
         return resultList;
     }
 
-    public static QuickChatSession buildSessionPO(String fromId, String toId, Integer type) {
+    public static QuickChatSession buildSessionPO(String fromId, String toId, Long relationId, Integer type) {
         return QuickChatSession.builder()
                 .fromId(fromId)
                 .toId(toId)
+                .relationId(relationId)
                 .type(type)
                 .lastReadTime(LocalDateTime.now())
                 .build();

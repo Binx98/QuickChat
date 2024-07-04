@@ -38,6 +38,13 @@ public class ChatMsgDTO {
     private Integer msgType;
 
     /**
+     * 会话类型
+     *
+     * @see com.quick.enums.SessionTypeEnum
+     */
+    private Integer sessionType;
+
+    /**
      * 消息内容
      */
     private String content;
