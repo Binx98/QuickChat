@@ -1,7 +1,6 @@
 package com.quick.store;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.po.QuickChatFriend;
 import com.quick.pojo.po.QuickChatUser;
 
 import java.util.List;

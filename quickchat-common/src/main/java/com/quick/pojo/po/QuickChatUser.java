@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *
+ * 用户
  * </p>
  *
  * @author 徐志斌
@@ -72,7 +72,7 @@ public class QuickChatUser implements Serializable {
     private String email;
 
     /**
-     * 登陆状态
+     * 登录状态
      */
     @TableField("line_status")
     private String lineStatus;
@@ -97,6 +97,5 @@ public class QuickChatUser implements Serializable {
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
-
 
 }

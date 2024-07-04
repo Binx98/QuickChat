@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 群信息
+ * 通讯录-群组
  * </p>
  *
  * @author 徐志斌
@@ -18,34 +18,28 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_chat_group")
-public class QuickChatGroup implements Serializable {
+@TableName("quick_chat_contact_group")
+public class QuickChatContactGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 群id
+     * 主键id
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
-     * 群主id
+     * 用户id
      */
-    @TableField("account_id")
-    private String accountId;
+    @TableField("from_id")
+    private String fromId;
 
     /**
-     * 群名
+     * 群id
      */
-    @TableField("group_name")
-    private String groupName;
-
-    /**
-     * 群头像
-     */
-    @TableField("group_avatar")
-    private String groupAvatar;
+    @TableField("group_id")
+    private Long groupId;
 
     /**
      * 创建时间
@@ -55,18 +49,10 @@ public class QuickChatGroup implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(value = "update_time", fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
      * 删除标识
      */
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
-
 
 }

@@ -41,7 +41,7 @@ public class SessionAdapter {
             if (map.containsKey(user.getAccountId())) {
                 ChatSessionVO sessionVO = map.get(user.getAccountId());
                 sessionVO.setSessionName(user.getNickName());
-                sessionVO.setSessionAvatar(user.getAvatar());
+                sessionVO.setAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
                 sessionVO.setLineStatus(user.getLineStatus());
                 resultList.add(sessionVO);
@@ -53,8 +53,8 @@ public class SessionAdapter {
         for (QuickChatGroup group : groupList) {
             if (map.containsKey(group.getId().toString())) {
                 ChatSessionVO sessionVO = map.get(group.getId().toString());
-                sessionVO.setSessionAvatar(group.getGroupAvatar());
                 sessionVO.setSessionName(group.getGroupName());
+                sessionVO.setAvatar(group.getGroupAvatar());
                 sessionVO.setRelationId(group.getId());
                 resultList.add(sessionVO);
             }
@@ -93,7 +93,7 @@ public class SessionAdapter {
                 .updateTime(sessionPO.getUpdateTime())
                 .lastReadTime(sessionPO.getLastReadTime())
                 .sessionName(userPO.getNickName())
-                .sessionAvatar(userPO.getAvatar())
+                .avatar(userPO.getAvatar())
                 .gender(userPO.getGender())
                 .lineStatus(userPO.getLineStatus())
                 .build();
@@ -108,7 +108,7 @@ public class SessionAdapter {
                 .updateTime(sessionPO.getUpdateTime())
                 .lastReadTime(sessionPO.getLastReadTime())
                 .sessionName(groupPO.getGroupName())
-                .sessionAvatar(groupPO.getGroupAvatar())
+                .avatar(groupPO.getGroupAvatar())
                 .build();
     }
 }

@@ -15,18 +15,18 @@ import java.util.List;
 
 /**
  * @Author: 徐志斌
- * @CreateTime: 2023-11-21  10:08
- * @Description: 聊天好友
+ * @CreateTime: 2024-07-04  15:45
+ * @Description: 好友相关
  * @Version: 1.0
  */
-@Api(tags = "通讯录好友")
+@Api(tags = "好友相关")
 @RestController
 @RequestMapping("/friend")
 public class ChatFriendController {
     @Autowired
     private QuickChatFriendService friendService;
 
-    @ApiOperation("查询好友列表")
+    @ApiOperation("查询好友列表（通讯录）")
     @PostMapping("/list")
     public R getFriendList() {
         List<ChatUserVO> result = friendService.getFriendList();
@@ -40,23 +40,21 @@ public class ChatFriendController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * TODO 拉黑好友
-     */
+    @ApiOperation("删除好友")
+    @PostMapping("/delete")
+    public R deleteFriend() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
-    /**
-     * TODO 同意好友申请
-     */
+    @ApiOperation("拉黑好友")
+    @PostMapping("/black")
+    public R blackFriend() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
-    /**
-     * TODO 删除好友
-     */
-
-    /**
-     * TODO 消息免打扰
-     */
-
-    /**
-     * TODO 备注昵称
-     */
+    @ApiOperation("备注昵称")
+    @PostMapping("/note")
+    public R noteFriend() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }

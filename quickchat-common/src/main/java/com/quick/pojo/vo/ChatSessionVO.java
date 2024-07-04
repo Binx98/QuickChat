@@ -47,7 +47,7 @@ public class ChatSessionVO {
     /**
      * 头像
      */
-    private String sessionAvatar;
+    private String avatar;
 
     /**
      * 未读数量
@@ -66,6 +66,8 @@ public class ChatSessionVO {
 
     /**
      * 类型
+     *
+     * @see com.quick.enums.SessionTypeEnum
      */
     private Integer type;
 

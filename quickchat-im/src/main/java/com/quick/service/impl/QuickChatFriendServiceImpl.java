@@ -6,7 +6,7 @@ import com.quick.adapter.UserAdapter;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatFriendMapper;
-import com.quick.pojo.po.QuickChatFriend;
+import com.quick.pojo.po.QuickChatContactFriend;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatFriendService;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriend> implements QuickChatFriendService {
+public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatContactFriend> implements QuickChatFriendService {
     @Autowired
     private QuickChatFriendApplyStore applyStore;
     @Autowired
@@ -40,7 +40,7 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     @Override
     public List<ChatUserVO> getFriendList() {
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        List<QuickChatFriend> friendList = friendStore.getListByFromId(loginAccountId);
+        List<QuickChatContactFriend> friendList = friendStore.getListByFromId(loginAccountId);
         List<String> accountIds = friendList.stream()
                 .map(item -> item.getToId())
                 .collect(Collectors.toList());
@@ -52,7 +52,7 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     public Boolean addFriend(String toId) {
         // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatFriend friendPO = friendStore.getByFromIdAndToId(loginAccountId, toId);
+        QuickChatContactFriend friendPO = friendStore.getByFromIdAndToId(loginAccountId, toId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.IS_YOUR_FRIEND);
         }

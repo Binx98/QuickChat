@@ -65,4 +65,9 @@ public class ChatSessionController {
         sessionService.topSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
+
+
+    /**
+     * TODO 消息免打扰
+     */
 }

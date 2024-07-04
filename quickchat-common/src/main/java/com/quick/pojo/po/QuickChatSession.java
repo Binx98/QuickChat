@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 聊天会话（针对单聊）
+ * 聊天会话
  * </p>
  *
  * @author 徐志斌
@@ -44,7 +44,9 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
-     * 关联id（单聊：雪花算法随机生成，群聊：群组id）
+     * 关联id
+     * 单聊：雪花算法
+     * 群聊：群id
      */
     @TableField("relation_id")
     private Long relationId;

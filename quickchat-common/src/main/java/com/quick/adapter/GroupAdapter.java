@@ -1,6 +1,7 @@
 package com.quick.adapter;
 
 import com.quick.pojo.dto.GroupDTO;
+import com.quick.pojo.po.QuickChatContactGroup;
 import com.quick.pojo.po.QuickChatGroup;
 
 /**
