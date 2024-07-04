@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 好友申请
+ * 好友/群申请
  * </p>
  *
  * @author 徐志斌
@@ -16,8 +16,8 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_chat_friend_apply")
-public class QuickChatFriendApply implements Serializable {
+@TableName("quick_chat_apply")
+public class QuickChatApply implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,10 +46,16 @@ public class QuickChatFriendApply implements Serializable {
     private String applyInfo;
 
     /**
+     * 类型（1：好友，2：群聊）
+     */
+    @TableField("type")
+    private Integer type;
+
+    /**
      * 状态（0：未处理，1：已通过）
      */
     @TableField("status")
-    private Boolean status;
+    private Integer status;
 
     /**
      * 删除标识
@@ -57,6 +63,5 @@ public class QuickChatFriendApply implements Serializable {
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
-
 
 }

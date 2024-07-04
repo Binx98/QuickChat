@@ -18,7 +18,7 @@ import java.util.List;
  * @Description: 通讯录-群聊
  * @Version: 1.0
  */
-@Api(tags = "群聊相关")
+@Api(tags = "群相关")
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {

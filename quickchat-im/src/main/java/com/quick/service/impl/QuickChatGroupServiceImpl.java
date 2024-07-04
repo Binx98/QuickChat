@@ -12,7 +12,6 @@ import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
-import com.quick.pojo.po.QuickChatContactGroup;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatUser;

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 群信息
+ * 群组信息
  * </p>
  *
  * @author 徐志斌

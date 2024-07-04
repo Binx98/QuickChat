@@ -2,7 +2,7 @@ package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.mapper.QuickChatFriendMapper;
-import com.quick.pojo.po.QuickChatContactFriend;
+import com.quick.pojo.po.QuickChatFriendContact;
 import com.quick.store.QuickChatFriendStore;
 import org.springframework.stereotype.Service;
 
@@ -17,27 +17,27 @@ import java.util.List;
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatContactFriend> implements QuickChatFriendStore {
+public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriendContact> implements QuickChatFriendStore {
     @Override
-    public List<QuickChatContactFriend> getListByFromId(String fromId) {
+    public List<QuickChatFriendContact> getListByFromId(String fromId) {
         return this.lambdaQuery()
-                .eq(QuickChatContactFriend::getFromId, fromId)
+                .eq(QuickChatFriendContact::getFromId, fromId)
                 .list();
     }
 
     @Override
-    public QuickChatContactFriend getByFromIdAndToId(String fromId, String toId) {
+    public QuickChatFriendContact getByFromIdAndToId(String fromId, String toId) {
         return this.lambdaQuery()
-                .eq(QuickChatContactFriend::getFromId, fromId)
-                .eq(QuickChatContactFriend::getToId, toId)
+                .eq(QuickChatFriendContact::getFromId, fromId)
+                .eq(QuickChatFriendContact::getToId, toId)
                 .one();
     }
 
     @Override
     public Boolean deleteByFromIdAndToId(String fromId, String toId) {
         return lambdaUpdate()
-                .eq(QuickChatContactFriend::getFromId, fromId)
-                .eq(QuickChatContactFriend::getToId, toId)
+                .eq(QuickChatFriendContact::getFromId, fromId)
+                .eq(QuickChatFriendContact::getToId, toId)
                 .remove();
     }
 }
