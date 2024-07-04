@@ -48,7 +48,7 @@ public class QuickChatMsg implements Serializable {
     private Long relationId;
 
     /**
-     * 发送人昵称
+     * 昵称
      */
     @TableField("nick_name")
     private String nickName;
@@ -72,12 +72,6 @@ public class QuickChatMsg implements Serializable {
      */
     @TableField("extra_info")
     private String extraInfo;
-
-    /**
-     * 引用（艾特）标识：消息 id
-     */
-    @TableField("quote_id")
-    private String quoteId;
 
     /**
      * 创建时间

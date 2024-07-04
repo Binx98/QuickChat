@@ -133,7 +133,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         }
 
         // 针对群聊会话：确保会话数量 = 群成员总数
-        if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
+        else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
             List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(relationId);
             if (sessionList.size() != memberList.size()) {
                 throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
@@ -141,6 +141,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         }
 
         // 批量恢复会话状态
+        sessionList = sessionList.stream()
+                .filter(item -> item.getDeleted().equals(true))
+                .collect(Collectors.toList());
         List<QuickChatSession> needHandleList = new ArrayList<>();
         for (QuickChatSession session : sessionList) {
             if (session.getDeleted()) {
