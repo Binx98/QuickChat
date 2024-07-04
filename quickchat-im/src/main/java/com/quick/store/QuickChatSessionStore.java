@@ -37,7 +37,7 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
      * @param toId   接收方
      * @return 会话信息
      */
-    QuickChatSession getByAccountId(String fromId, String toId);
+    QuickChatSession getByFromIdAndToId(String fromId, String toId);
 
     /**
      * 创建会话
@@ -83,9 +83,25 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     /**
      * 根据 from_id 和 to_id 删除会话
      *
-     * @param fromId
-     * @param toId
-     * @return
+     * @param fromId 发送方id
+     * @param toId   接收方id
+     * @return 执行结果
      */
     Boolean deleteByFromIdAndToId(String fromId, String toId);
+
+    /**
+     * 查询双方会话列表（包括已删除会话）
+     *
+     * @param relationId 关联id
+     * @return 双方会话列表
+     */
+    List<QuickChatSession> getAllBySessionId(Long relationId);
+
+    /**
+     * 批量更新会话列表
+     *
+     * @param sessionList 会话列表
+     * @return 执行结果
+     */
+    Boolean updateList(List<QuickChatSession> sessionList);
 }

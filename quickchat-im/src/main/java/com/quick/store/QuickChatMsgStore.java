@@ -32,15 +32,16 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @param size       每页条数
      * @return 聊天信息结果
      */
-    Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size);
+    Page<QuickChatMsg> getByRelationId(Long relationId, Integer current, Integer size);
 
     /**
      * 根据 relation_id集合 查询聊天信息
      *
      * @param relationIds relation_id集合
+     * @param size        数据条数
      * @return 聊天信息列表
      */
-    List<QuickChatMsg> getByRelationIdList(List<String> relationIds);
+    List<QuickChatMsg> getByRelationIds(List<Long> relationIds, Integer size);
 
     /**
      * 根据 msg_id 查询单条聊天信息
@@ -59,14 +60,6 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
     Boolean updateByMsgId(QuickChatMsg chatMsg);
 
     /**
-     * 根据 to_id 批量删除聊天记录
-     *
-     * @param toId 群聊id
-     * @return 执行结果
-     */
-    Boolean deleteByToId(String toId);
-
-    /**
      * 获取消息未读数量
      *
      * @param loginAccountId 登录账号id
@@ -74,5 +67,5 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @param lastReadTime   上次已读时间
      * @return 未读数量
      */
-    Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime);
+    Integer getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime);
 }

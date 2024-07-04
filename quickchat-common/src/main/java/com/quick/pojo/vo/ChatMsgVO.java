@@ -36,9 +36,9 @@ public class ChatMsgVO {
     private String content;
 
     /**
-     * 关系id
+     * 关联id
      */
-    private String relationId;
+    private Long relationId;
 
     /**
      * 消息类型

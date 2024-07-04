@@ -23,17 +23,17 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param relationId 关联id
      * @param current    当前页
      * @param size       每页条数
-     * @return
+     * @return 聊天信息集合
      */
-    Map<String, List<ChatMsgVO>> getByRelationId(String relationId, Integer current, Integer size);
+    Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size);
 
     /**
-     * 根据 account_id 列表查询聊天记录
+     * 根据 account_id 集合批量查询聊天记录
      *
-     * @param accountIds accountId列表
+     * @param relationIds 会话列表
      * @return 聊天信息
      */
-    Map<String, List<ChatMsgVO>> getByAccountIds(List<String> accountIds);
+    Map<Long, List<ChatMsgVO>> getByRelationIds(List<Long> relationIds, Integer size);
 
     /**
      * 发送聊天信息
@@ -48,5 +48,5 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param fromId 发送方
      * @param toId   接收方
      */
-    void entering(String fromId, String toId);
+    void writing(String fromId, String toId);
 }

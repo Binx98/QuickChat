@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 群聊
+ * 群组信息
  * </p>
  *
  * @author 徐志斌
@@ -24,7 +24,7 @@ public class QuickChatGroup implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 群组id
+     * 群id
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;

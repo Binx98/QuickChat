@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * <p>
@@ -64,11 +65,11 @@ public class ChatUserController {
     @ApiOperation("登录账号")
     @PostMapping("/login")
     public R login(@RequestBody LoginDTO loginDTO) throws Exception {
-        String token = userService.login(loginDTO);
-        return R.out(ResponseEnum.SUCCESS, token);
+        Map<String, Object> result = userService.login(loginDTO);
+        return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("修改用户信息")
+    @ApiOperation("修改用户个人信息")
     @PutMapping("/update")
     public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);

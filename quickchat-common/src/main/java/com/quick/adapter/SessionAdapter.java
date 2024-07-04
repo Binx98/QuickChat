@@ -4,7 +4,6 @@ import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatSessionVO;
-import com.quick.utils.RelationUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -42,7 +41,7 @@ public class SessionAdapter {
             if (map.containsKey(user.getAccountId())) {
                 ChatSessionVO sessionVO = map.get(user.getAccountId());
                 sessionVO.setSessionName(user.getNickName());
-                sessionVO.setSessionAvatar(user.getAvatar());
+                sessionVO.setAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
                 sessionVO.setLineStatus(user.getLineStatus());
                 resultList.add(sessionVO);
@@ -54,9 +53,9 @@ public class SessionAdapter {
         for (QuickChatGroup group : groupList) {
             if (map.containsKey(group.getId().toString())) {
                 ChatSessionVO sessionVO = map.get(group.getId().toString());
-                sessionVO.setSessionAvatar(group.getGroupAvatar());
                 sessionVO.setSessionName(group.getGroupName());
-                sessionVO.setRelationId(group.getId().toString());
+                sessionVO.setAvatar(group.getGroupAvatar());
+                sessionVO.setRelationId(group.getId());
                 resultList.add(sessionVO);
             }
         }
@@ -68,11 +67,11 @@ public class SessionAdapter {
         return resultList;
     }
 
-    public static QuickChatSession buildSessionPO(String fromId, String toId, Integer type) {
+    public static QuickChatSession buildSessionPO(String fromId, String toId, Long relationId, Integer type) {
         return QuickChatSession.builder()
                 .fromId(fromId)
                 .toId(toId)
-                .relationId(RelationUtil.generate(fromId, toId))
+                .relationId(relationId)
                 .type(type)
                 .lastReadTime(LocalDateTime.now())
                 .build();
@@ -94,7 +93,7 @@ public class SessionAdapter {
                 .updateTime(sessionPO.getUpdateTime())
                 .lastReadTime(sessionPO.getLastReadTime())
                 .sessionName(userPO.getNickName())
-                .sessionAvatar(userPO.getAvatar())
+                .avatar(userPO.getAvatar())
                 .gender(userPO.getGender())
                 .lineStatus(userPO.getLineStatus())
                 .build();
@@ -109,7 +108,7 @@ public class SessionAdapter {
                 .updateTime(sessionPO.getUpdateTime())
                 .lastReadTime(sessionPO.getLastReadTime())
                 .sessionName(groupPO.getGroupName())
-                .sessionAvatar(groupPO.getGroupAvatar())
+                .avatar(groupPO.getGroupAvatar())
                 .build();
     }
 }

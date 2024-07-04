@@ -2,12 +2,9 @@ package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,7 +26,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    public Page<QuickChatMsg> getByRelationId(String relationId, Integer current, Integer size) {
+    public Page<QuickChatMsg> getByRelationId(Long relationId, Integer current, Integer size) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)
                 .orderByDesc(QuickChatMsg::getCreateTime)
@@ -37,11 +34,11 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    public List<QuickChatMsg> getByRelationIdList(List<String> relationIds) {
+    public List<QuickChatMsg> getByRelationIds(List<Long> relationIds, Integer size) {
         return this.lambdaQuery()
                 .in(QuickChatMsg::getRelationId, relationIds)
                 .orderByDesc(QuickChatMsg::getCreateTime)
-                .last(" LIMIT 30 ")
+                .last(" LIMIT " + size)
                 .list();
     }
 
@@ -57,15 +54,9 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
         return this.updateById(chatMsg);
     }
 
-    @Override
-    public Boolean deleteByToId(String toId) {
-        return this.lambdaUpdate()
-                .eq(QuickChatMsg::getToId, toId)
-                .remove();
-    }
 
     @Override
-    public Integer getUnreadCount(String loginAccountId, String relationId, LocalDateTime lastReadTime) {
+    public Integer getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)
                 .ne(QuickChatMsg::getFromId, loginAccountId)

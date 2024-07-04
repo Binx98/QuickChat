@@ -15,15 +15,21 @@ import java.util.List;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-21  10:05
- * @Description: 群聊相关
+ * @Description: 通讯录-群聊
  * @Version: 1.0
  */
-@Api(tags = "群聊相关")
+@Api(tags = "群相关")
 @RestController
 @RequestMapping("/group")
 public class ChatGroupController {
     @Autowired
     private QuickChatGroupService groupService;
+
+    @ApiOperation("查询群聊列表（通讯录）")
+    @GetMapping("/list")
+    public R list() {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 
     @ApiOperation("创建群聊")
     @PostMapping("/create")
@@ -57,12 +63,6 @@ public class ChatGroupController {
     @GetMapping("/removeGroup")
     public R removeGroup(Long groupId) {
         groupService.removeGroup(groupId);
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    @ApiOperation("查询群聊列表")
-    @GetMapping("/list")
-    public R list(String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 

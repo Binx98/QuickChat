@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 群成员
+ * 通讯录-好友
  * </p>
  *
  * @author 徐志斌
- * @since 2024-01-08
+ * @since 2023-11-30
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_chat_group_member")
-public class QuickChatGroupMember implements Serializable {
+@TableName("quick_chat_friend_contact")
+public class QuickChatFriendContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,30 +30,29 @@ public class QuickChatGroupMember implements Serializable {
     private Long id;
 
     /**
-     * 群组id
+     * 账号id
      */
-    @TableField("group_id")
-    private Long groupId;
+    @TableField("from_id")
+    private String fromId;
 
     /**
-     * 账户id
+     * 账号id
      */
-    @TableField("account_id")
-    private String accountId;
+    @TableField("to_id")
+    private String toId;
 
     /**
-     * 创建时间（入群时间）
+     * 备注名称
+     */
+    @TableField("note_name")
+    private String noteName;
+
+    /**
+     * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
 
     /**
      * 删除标识
@@ -61,5 +60,4 @@ public class QuickChatGroupMember implements Serializable {
     @TableField(value = "deleted", fill = FieldFill.INSERT)
     @TableLogic
     private Boolean deleted;
-
 }

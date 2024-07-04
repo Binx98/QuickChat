@@ -2,8 +2,7 @@ package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.mapper.QuickChatFriendApplyMapper;
-import com.quick.pojo.po.QuickChatFriendApply;
-import com.quick.service.QuickChatFriendApplyService;
+import com.quick.pojo.po.QuickChatApply;
 import com.quick.store.QuickChatFriendApplyStore;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-03-12
  */
 @Service
-public class QuickChatFriendApplyStoreImpl extends ServiceImpl<QuickChatFriendApplyMapper, QuickChatFriendApply> implements QuickChatFriendApplyStore {
+public class QuickChatFriendApplyStoreImpl extends ServiceImpl<QuickChatFriendApplyMapper, QuickChatApply> implements QuickChatFriendApplyStore {
 
 }

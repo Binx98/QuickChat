@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.SessionAdapter;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.enums.TopEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatGroup;
@@ -92,9 +93,9 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         List<ChatSessionVO> sessionVOList = SessionAdapter.buildSessionVOList(sessionList, users, groups);
 
         // 查询会话未读数量
-        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
+        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
         for (ChatSessionVO sessionVO : sessionVOList) {
-            String relationId = sessionVO.getRelationId();
+            Long relationId = sessionVO.getRelationId();
             if (unreadCountMap.containsKey(relationId)) {
                 Integer unreadCount = unreadCountMap.get(relationId);
                 sessionVO.setUnreadCount(unreadCount == 0 ? null : unreadCount);
@@ -115,19 +116,19 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
-        Map<String, Integer> resultMap = new HashMap<>();
+    public Map<Long, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
+        Map<Long, Integer> resultMap = new HashMap<>();
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         for (ChatSessionVO session : sessionList) {
-            String relationId = session.getRelationId();
+            Long relationId = session.getRelationId();
             LocalDateTime lastReadTime = session.getLastReadTime();
             Integer unreadCount = msgStore.getUnreadCount(loginAccountId, relationId, lastReadTime);
             resultMap.put(relationId, unreadCount);
         }
-        List<String> relationIds = sessionList.stream()
+        List<Long> relationIds = sessionList.stream()
                 .map(ChatSessionVO::getRelationId)
                 .collect(Collectors.toList());
-        for (String relationId : relationIds) {
+        for (Long relationId : relationIds) {
             if (!resultMap.containsKey(relationId)) {
                 resultMap.put(relationId, null);
             }
@@ -137,7 +138,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public ChatSessionVO getSessionInfo(String fromId, String toId) {
-        QuickChatSession sessionPO = sessionStore.getByAccountId(fromId, toId);
+        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             return null;
         }
@@ -149,7 +150,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             QuickChatGroup groupPO = groupStore.getByGroupId(sessionPO.getToId());
             sessionVO = SessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
         }
-        Map<String, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
+        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
         sessionVO.setUnreadCount(unreadCountMap.get(sessionVO.getRelationId()));
         return sessionVO;
     }
@@ -158,9 +159,25 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean topSession(Long sessionId) {
         QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
         if (ObjectUtils.isNotEmpty(sessionPO)) {
-            throw new QuickException(ResponseEnum.FAIL);
+            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
-        sessionPO.setTopFlag(true);
+        sessionPO.setTopFlag(TopEnum.YES.getCode());
         return sessionStore.updateSessionById(sessionPO);
+    }
+
+    @Override
+    public Boolean activeSession(String toId) {
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(loginAccountId, toId);
+        if (ObjectUtils.isEmpty(sessionPO)) {
+            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
+        }
+        if (sessionPO.getDeleted()) {
+            sessionPO.setDeleted(false);
+            sessionPO.setTopFlag(TopEnum.NO.getCode());
+            sessionPO.setUpdateTime(LocalDateTime.now());
+            sessionStore.updateSessionById(sessionPO);
+        }
+        return true;
     }
 }

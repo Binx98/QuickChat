@@ -32,7 +32,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    public QuickChatSession getByAccountId(String fromId, String toId) {
+    public QuickChatSession getByFromIdAndToId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, fromId)
                 .eq(QuickChatSession::getToId, toId)
@@ -73,5 +73,18 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
                 .eq(QuickChatSession::getFromId, fromId)
                 .eq(QuickChatSession::getToId, toId)
                 .remove();
+    }
+
+    @Override
+    public List<QuickChatSession> getAllBySessionId(Long relationId) {
+        return this.lambdaQuery()
+                .eq(QuickChatSession::getRelationId, relationId)
+                .in(QuickChatSession::getDeleted, true, false)
+                .list();
+    }
+
+    @Override
+    public Boolean updateList(List<QuickChatSession> sessionList) {
+        return this.updateBatchById(sessionList);
     }
 }

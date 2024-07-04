@@ -36,24 +36,24 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("根据 account_id 列表查询聊天记录")
-    @PostMapping("/list")
-    public R list(@RequestBody List<String> accountIds) {
-        Map<String, List<ChatMsgVO>> result = msgService.getByAccountIds(accountIds);
+    @ApiOperation("根据 relation_ids 批量查询聊天记录")
+    @PostMapping("/getByRelationIds")
+    public R getByRelationIdList(@RequestBody List<Long> relationIds, Integer size) {
+        Map<Long, List<ChatMsgVO>> result = msgService.getByRelationIds(relationIds, size);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("查询双方聊天记录")
+    @ApiOperation("根据 relation_id 查询聊天记录")
     @GetMapping("/getByRelationId")
-    public R chatMsgList(String relationId, Integer current, Integer size) {
-        Map<String, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
+    public R getByRelationId(Long relationId, Integer current, Integer size) {
+        Map<Long, List<ChatMsgVO>> resultMap = msgService.getByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
-    @ApiOperation("对方正在输入中...")
-    @GetMapping("/entering")
-    public R entering(String fromId, String toId) {
-        msgService.entering(fromId, toId);
+    @ApiOperation("对方正在输入")
+    @GetMapping("/writing")
+    public R writing(String fromId, String toId) {
+        msgService.writing(fromId, toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 }

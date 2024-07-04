@@ -1,16 +1,19 @@
 package com.quick.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.GroupMemberAdapter;
+import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.UserAdapter;
+import com.quick.constant.KafkaConstant;
 import com.quick.constant.RedisConstant;
 import com.quick.enums.GenderEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
+import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatUserMapper;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
@@ -40,6 +43,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +62,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
+    private KafkaProducer kafkaProducer;
+    @Autowired
     private QuickChatUserStore userStore;
     @Autowired
     private DefaultKaptcha defaultKaptcha;
@@ -66,7 +73,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     private QuickChatGroupMemberStore memberStore;
 
     @Value("${quick-chat.common-group-id}")
-    private String commonGroupId;
+    private Long officialGroupId;
     @Value("${quick-chat.avatar.boy}")
     private String boyAvatar;
     @Value("${quick-chat.avatar.girl}")
@@ -102,10 +109,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 加入全员群聊、保存会话
-        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(commonGroupId, registerDTO.getAccountId());
+        QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(officialGroupId, registerDTO.getAccountId());
         memberStore.enterGroup(memberPO);
-        QuickChatSession chatSession = SessionAdapter.buildSessionPO
-                (registerDTO.getAccountId(), commonGroupId, SessionTypeEnum.GROUP.getCode());
+        QuickChatSession chatSession = SessionAdapter.buildSessionPO(registerDTO.getAccountId(),
+                officialGroupId.toString(), officialGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
 
         // 解析地址信息、密码对称加密
@@ -125,7 +132,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public String login(LoginDTO loginDTO) throws Exception {
+    public Map<String, Object> login(LoginDTO loginDTO) throws Exception {
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -145,16 +152,28 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
-        // TODO 保证只有一个客户端登录账号
+        // 登录成功，登录状态保存到 Redis（保证某一时刻只有一个客户端登录）
+        redisUtil.setCacheObject(loginDTO.getAccountId(), "登录状态占位");
 
-        // TODO 登录成功：解析当前登录地址，切换用户状态【已上线】(登录状态搞成 Redis 维护)
+        // 解析当前登录地址，切换用户状态【已上线】
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
         userPO.setLineStatus(YesNoEnum.YES.getStatus());
         userStore.updateInfo(userPO);
 
-        // 封装结果，返回
-        return JwtUtil.generate(loginDTO.getAccountId());
+        // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作
+        Map<String, Object> param = new HashMap<>();
+        param.put("account_id", loginDTO.getAccountId());
+        param.put("location", location);
+        param.put("time", LocalDateTime.now());
+        kafkaProducer.send(KafkaConstant.SYSTEM_NOTICE_TOPIC, JSONUtil.toJsonStr(param));
+
+        // 登录成功，返回 Token 和 账户信息
+        Map<String, Object> result = new HashMap<>();
+        String token = JwtUtil.generate(loginDTO.getAccountId());
+        result.put("token", token);
+        result.put("user_info", userPO);
+        return result;
     }
 
     @Override

@@ -8,20 +8,17 @@ package com.quick.constant;
  */
 public class KafkaConstant {
     /**
-     * 单聊、群聊发送
+     * Kafka Topic 主题
      */
     public static final String SEND_CHAT_SINGLE_MSG = "SEND_CHAT_SINGLE_MSG";
     public static final String SEND_CHAT_GROUP_MSG = "SEND_CHAT_GROUP_MSG";
     public static final String SEND_CHAT_ENTERING = "SEND_CHAT_ENTERING";
-
-    /**
-     * 申请通知发送
-     */
     public static final String FRIEND_APPLY_TOPIC = "FRIEND_APPLY_TOPIC";
     public static final String GROUP_APPLY_TOPIC = "GROUP_APPLY_TOPIC";
+    public static final String SYSTEM_NOTICE_TOPIC = "SYSTEM_NOTICE_TOPIC";
 
     /**
-     * 消费组
+     * Kakfa 消费组
      */
     public static final String CHAT_SEND_GROUP_ID = "CHAT_SEND_GROUP_ID";
     public static final String APPLY_GROUP_ID = "CHAT_SEND_GROUP_ID";

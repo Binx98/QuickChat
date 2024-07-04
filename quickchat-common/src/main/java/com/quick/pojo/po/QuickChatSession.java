@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 聊天会话（针对单聊）
+ * 聊天会话
  * </p>
  *
  * @author 徐志斌
@@ -44,17 +44,12 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
-     * 账户id（接收者）
+     * 关联id
+     * 单聊：雪花算法
+     * 群聊：群id
      */
     @TableField("relation_id")
-    private String relationId;
-
-    /**
-     * 最后读取时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField("last_read_time")
-    private LocalDateTime lastReadTime;
+    private Long relationId;
 
     /**
      * 会话类型（1：单聊，2：群聊）
@@ -66,7 +61,14 @@ public class QuickChatSession implements Serializable {
      * 置顶标识（0：未置顶，1：置顶）
      */
     @TableField("top_flag")
-    private Boolean topFlag;
+    private Integer topFlag;
+
+    /**
+     * 最后读取时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField("last_read_time")
+    private LocalDateTime lastReadTime;
 
     /**
      * 创建时间

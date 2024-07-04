@@ -21,6 +21,11 @@ public class ChatMsgDTO {
     private String toId;
 
     /**
+     * 关联id
+     */
+    private Long relationId;
+
+    /**
      * 发送人昵称
      */
     private String nickName;
@@ -43,6 +48,11 @@ public class ChatMsgDTO {
      * 消息内容
      */
     private String content;
+
+    /**
+     * 引用（艾特）标识：消息 id
+     */
+    private String quoteId;
 
     /**
      * 消息id：撤回消息、回复消息

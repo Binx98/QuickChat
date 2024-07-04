@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-public class ApplyNoticeConsumer {
+public class FriendApplyConsumer {
 
 }

@@ -65,12 +65,14 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         List<QuickChatGroupMember> memberList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(accountIds)) {
             for (String accountId : accountIds) {
-                QuickChatGroupMember member = GroupMemberAdapter
-                        .buildMemberPO(groupPO.getId().toString(), accountId);
+                QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupPO.getId(), accountId);
                 memberList.add(member);
             }
             memberStore.saveMemberList(memberList);
         }
+
+        // TODO 批量生成会话信息
+//        sessionStore.saveList();
 
         // TODO 批量创建群组通讯录
 

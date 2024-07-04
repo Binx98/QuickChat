@@ -10,16 +10,16 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 聊天好友
+ * 通讯录-群组
  * </p>
  *
  * @author 徐志斌
- * @since 2023-11-30
+ * @since 2024-01-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_chat_friend")
-public class QuickChatFriend implements Serializable {
+@TableName("quick_chat_group_contact")
+public class QuickChatGroupContact implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,28 +30,16 @@ public class QuickChatFriend implements Serializable {
     private Long id;
 
     /**
-     * 账号id（发送方）
+     * 用户id
      */
     @TableField("from_id")
     private String fromId;
 
     /**
-     * 账号id（接收方）
+     * 群id
      */
-    @TableField("to_id")
-    private String toId;
-
-    /**
-     * 关联id
-     */
-    @TableField("relation_id")
-    private String relationId;
-
-    /**
-     * 状态（0：未处理，1：已通过，2：未通过）
-     */
-    @TableField("status")
-    private String status;
+    @TableField("group_id")
+    private Long groupId;
 
     /**
      * 创建时间
@@ -59,5 +47,12 @@ public class QuickChatFriend implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+
+    /**
+     * 删除标识
+     */
+    @TableField(value = "deleted", fill = FieldFill.INSERT)
+    @TableLogic
+    private Boolean deleted;
 
 }

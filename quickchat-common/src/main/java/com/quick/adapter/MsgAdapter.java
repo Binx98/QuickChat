@@ -17,14 +17,16 @@ import java.util.List;
  * @Description: 聊天信息适配器
  */
 public class MsgAdapter {
-    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, String relationId,
-                                              String nickName, String content, String extraInfo, Integer type) {
+    public static QuickChatMsg buildChatMsgPO(String fromId, String toId, Long relationId,
+                                              String nickName, String content, String quoteId,
+                                              String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();
         chatMsg.setFromId(fromId);
         chatMsg.setToId(toId);
         chatMsg.setRelationId(relationId);
         chatMsg.setNickName(nickName);
         chatMsg.setContent(content);
+        chatMsg.setQuoteId(quoteId);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
         return chatMsg;

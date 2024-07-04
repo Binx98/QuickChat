@@ -45,7 +45,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param sessionList 会话列表
      * @return 未读数结果Map
      */
-    Map<String, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList);
+    Map<Long, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList);
 
     /**
      * 查询会话信息
@@ -63,4 +63,12 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @return 执行结果
      */
     Boolean topSession(Long sessionId);
+
+    /**
+     * 恢复会话信息
+     *
+     * @param toId 用户id
+     * @return 执行结果
+     */
+    Boolean activeSession(String toId);
 }
