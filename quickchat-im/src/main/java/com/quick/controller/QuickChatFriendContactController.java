@@ -26,7 +26,7 @@ public class QuickChatFriendContactController {
     @Autowired
     private QuickChatFriendContactService friendService;
 
-    @ApiOperation("查询好友列表")
+    @ApiOperation("查询列表")
     @PostMapping("/list")
     public R getFriendList() {
         List<ChatUserVO> result = friendService.getFriendList();

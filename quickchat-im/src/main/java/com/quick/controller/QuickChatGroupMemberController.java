@@ -21,7 +21,7 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("查询群成员")
     @PostMapping("/list")
-    public R members(Long groupId) {
+    public R getMemberList(Long groupId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -33,7 +33,7 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("移除群成员")
     @GetMapping("/delete")
-    public R removeMember(Long groupId, String accountId) {
+    public R deleteMember(Long groupId, String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

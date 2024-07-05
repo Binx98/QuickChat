@@ -31,24 +31,24 @@ public class QuickChatSessionController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
+    @ApiOperation("查询详情")
+    @GetMapping("/detail")
+    public R getSessionDetail(String fromId, String toId) {
+        ChatSessionVO result = sessionService.getByFromIdAndToId(fromId, toId);
+        return R.out(ResponseEnum.SUCCESS, result);
+    }
+
     @ApiOperation("恢复会话")
     @PostMapping("/active")
-    public R active(String toId) {
+    public R activeSession(String toId) {
         sessionService.activeSession(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("查询详情")
-    @GetMapping("/getSessionInfo")
-    public R getSessionInfo(String fromId, String toId) {
-        ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);
-        return R.out(ResponseEnum.SUCCESS, result);
-    }
-
     @ApiOperation("更新已读时间")
     @PostMapping("/updateReadTime")
-    public R updateSession(Long sessionId) {
-        sessionService.updateLastReadTime(sessionId);
+    public R updateReadTime(Long sessionId) {
+        sessionService.updateReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -65,7 +65,6 @@ public class QuickChatSessionController {
         sessionService.topSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
-
 
     /**
      * TODO 消息免打扰

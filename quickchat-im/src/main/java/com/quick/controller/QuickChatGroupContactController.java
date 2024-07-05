@@ -26,10 +26,10 @@ public class QuickChatGroupContactController {
     @Autowired
     private QuickChatGroupContactService groupService;
 
-    @ApiOperation("查询群聊列表")
+    @ApiOperation("查询列表")
     @GetMapping("/list")
     public R list() {
-        List<QuickChatGroupContact> groupContacts = groupService.getGroupContactList();
+        List<QuickChatGroupContact> groupContacts = groupService.getGroupList();
         return R.out(ResponseEnum.SUCCESS, groupContacts);
     }
 }

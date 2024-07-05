@@ -2,15 +2,12 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.GroupDTO;
-import com.quick.pojo.po.QuickChatGroupContact;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -40,9 +37,9 @@ public class QuickChatGroupController {
     }
 
     @ApiOperation("解散群聊")
-    @DeleteMapping("/delete")
-    public R removeGroup(Long groupId) {
-        groupService.removeGroup(groupId);
+    @DeleteMapping("/release")
+    public R releaseGroup(Long groupId) {
+        groupService.releaseGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

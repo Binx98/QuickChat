@@ -79,7 +79,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     }
 
     @Override
-    public Boolean removeGroup(Long groupId) {
+    public Boolean releaseGroup(Long groupId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());

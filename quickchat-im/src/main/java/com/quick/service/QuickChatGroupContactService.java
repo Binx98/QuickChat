@@ -20,5 +20,5 @@ public interface QuickChatGroupContactService extends IService<QuickChatGroupCon
      *
      * @return 通讯录-群聊列表
      */
-    List<QuickChatGroupContact> getGroupContactList();
+    List<QuickChatGroupContact> getGroupList();
 }

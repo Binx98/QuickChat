@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class QuickChatGroupContactServiceImpl extends ServiceImpl<QuickChatGroupContactMapper, QuickChatGroupContact> implements QuickChatGroupContactService {
     @Override
-    public List<QuickChatGroupContact> getGroupContactList() {
+    public List<QuickChatGroupContact> getGroupList() {
         return null;
     }
 }

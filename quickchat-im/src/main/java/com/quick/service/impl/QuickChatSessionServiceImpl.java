@@ -110,7 +110,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Boolean updateLastReadTime(Long sessionId) {
+    public Boolean updateReadTime(Long sessionId) {
         QuickChatSession sessionPO = SessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
         return sessionStore.updateSessionById(sessionPO);
     }
@@ -137,7 +137,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public ChatSessionVO getSessionInfo(String fromId, String toId) {
+    public ChatSessionVO getByFromIdAndToId(String fromId, String toId) {
         QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             return null;

@@ -37,7 +37,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param sessionId 会话id
      * @return 执行结果
      */
-    Boolean updateLastReadTime(Long sessionId);
+    Boolean updateReadTime(Long sessionId);
 
     /**
      * 获取会话未读数
@@ -54,7 +54,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param toId   接收方
      * @return 会话信息
      */
-    ChatSessionVO getSessionInfo(String fromId, String toId);
+    ChatSessionVO getByFromIdAndToId(String fromId, String toId);
 
     /**
      * 置顶会话
