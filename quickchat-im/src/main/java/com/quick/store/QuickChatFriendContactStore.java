@@ -13,7 +13,7 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-30
  */
-public interface QuickChatFriendStore extends IService<QuickChatFriendContact> {
+public interface QuickChatFriendContactStore extends IService<QuickChatFriendContact> {
     /**
      * 根据 from_id 查询好友列表
      *

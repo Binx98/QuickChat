@@ -34,7 +34,6 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
         String toId = msgDTO.getToId();
         String nickName = msgDTO.getNickName();
         String content = msgDTO.getContent();
-        String quoteId = msgDTO.getQuoteId();
         Long relationId = msgDTO.getRelationId();
 
         if (StringUtils.isBlank(content)) {
@@ -42,7 +41,7 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
         }
 
         QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                nickName, content, quoteId, null, this.getEnum().getCode());
+                nickName, content, null, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }

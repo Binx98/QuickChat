@@ -1,9 +1,9 @@
 package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.mapper.QuickChatFriendApplyMapper;
+import com.quick.mapper.QuickChatApplyMapper;
 import com.quick.pojo.po.QuickChatApply;
-import com.quick.service.QuickChatFriendApplyService;
+import com.quick.service.QuickChatApplyService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2024-03-12
  */
 @Service
-public class QuickChatFriendApplyServiceImpl extends ServiceImpl<QuickChatFriendApplyMapper, QuickChatApply> implements QuickChatFriendApplyService {
+public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyService {
 
 }

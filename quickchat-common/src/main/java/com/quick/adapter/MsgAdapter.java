@@ -26,7 +26,6 @@ public class MsgAdapter {
         chatMsg.setRelationId(relationId);
         chatMsg.setNickName(nickName);
         chatMsg.setContent(content);
-        chatMsg.setQuoteId(quoteId);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
         return chatMsg;

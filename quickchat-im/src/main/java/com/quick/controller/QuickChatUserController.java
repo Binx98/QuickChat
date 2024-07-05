@@ -1,8 +1,6 @@
 package com.quick.controller;
 
 
-import com.quick.annotation.RateLimiter;
-import com.quick.enums.LimitTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.EmailDTO;
 import com.quick.pojo.dto.LoginDTO;
@@ -31,7 +29,7 @@ import java.util.Map;
 @Api(tags = "用户相关")
 @RestController
 @RequestMapping("/user")
-public class ChatUserController {
+public class QuickChatUserController {
     @Autowired
     private QuickUserService userService;
 
@@ -69,7 +67,7 @@ public class ChatUserController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("修改用户个人信息")
+    @ApiOperation("修改用户信息")
     @PutMapping("/update")
     public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);
@@ -80,13 +78,6 @@ public class ChatUserController {
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) throws Throwable {
         userService.sendEmail(emailDTO);
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
-    @ApiOperation("测试")
-    @GetMapping("/test")
-    @RateLimiter(key = "test", time = 30, count = 3, limitType = LimitTypeEnum.IP)
-    public R test() {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

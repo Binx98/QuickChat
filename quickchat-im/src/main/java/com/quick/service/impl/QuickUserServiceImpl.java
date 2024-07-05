@@ -127,7 +127,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             avatar = girlAvatar;
         }
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
-                registerDTO.getGender(), registerDTO.getToEmail(), location, YesNoEnum.NO.getStatus());
+                registerDTO.getGender(), registerDTO.getToEmail(), location, YesNoEnum.NO.getCode());
         return userStore.saveUser(userPO);
     }
 
@@ -158,7 +158,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         // 解析当前登录地址，切换用户状态【已上线】
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
-        userPO.setLineStatus(YesNoEnum.YES.getStatus());
+        userPO.setLoginStatus(YesNoEnum.YES.getCode());
         userStore.updateInfo(userPO);
 
         // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作

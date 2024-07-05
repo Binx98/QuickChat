@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum YesNoEnum {
-    YES("Y", "是"),
-    NO("N", "否");
+    YES(0, "是"),
+    NO(1, "否");
 
-    private String status;
-    private String desc;
+    private Integer code;
+    private String msg;
 }

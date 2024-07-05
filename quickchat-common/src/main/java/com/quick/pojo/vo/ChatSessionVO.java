@@ -57,7 +57,7 @@ public class ChatSessionVO {
     /**
      * 在线状态（针对用户）
      */
-    private String lineStatus;
+    private Integer loginStatus;
 
     /**
      * 性别（针对用户）

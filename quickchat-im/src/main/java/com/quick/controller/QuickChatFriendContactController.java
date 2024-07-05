@@ -3,7 +3,7 @@ package com.quick.controller;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
-import com.quick.service.QuickChatFriendService;
+import com.quick.service.QuickChatFriendContactService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,17 @@ import java.util.List;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2024-07-04  15:45
- * @Description: 好友相关
+ * @Description: 通讯录-好友
  * @Version: 1.0
  */
-@Api(tags = "好友相关")
+@Api(tags = "通讯录-好友")
 @RestController
-@RequestMapping("/friend")
-public class ChatFriendController {
+@RequestMapping("/friend/contact")
+public class QuickChatFriendContactController {
     @Autowired
-    private QuickChatFriendService friendService;
+    private QuickChatFriendContactService friendService;
 
-    @ApiOperation("查询好友列表（通讯录）")
+    @ApiOperation("查询列表")
     @PostMapping("/list")
     public R getFriendList() {
         List<ChatUserVO> result = friendService.getFriendList();
@@ -35,14 +35,15 @@ public class ChatFriendController {
 
     @ApiOperation("添加好友")
     @PostMapping("/add")
-    public R addFriend(String toId) {
-        friendService.addFriend(toId);
+    public R addFriend(String toId, String applyInfo) {
+        friendService.addFriend(toId, applyInfo);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除好友")
     @PostMapping("/delete")
-    public R deleteFriend() {
+    public R deleteFriend(String toId) {
+        friendService.deleteFriend(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

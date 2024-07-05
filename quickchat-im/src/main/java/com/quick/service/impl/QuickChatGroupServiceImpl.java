@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.GroupAdapter;
 import com.quick.adapter.GroupMemberAdapter;
-import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
@@ -13,9 +12,8 @@ import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
+import com.quick.pojo.po.QuickChatGroupContact;
 import com.quick.pojo.po.QuickChatGroupMember;
-import com.quick.pojo.po.QuickChatUser;
-import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
@@ -28,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -82,39 +79,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     }
 
     @Override
-    public List<ChatUserVO> getGroupMemberList(Long groupId) {
-        List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
-        List<String> accountIdList = members.stream()
-                .map(QuickChatGroupMember::getAccountId)
-                .collect(Collectors.toList());
-        List<QuickChatUser> userList = userStore.getListByAccountIds(accountIdList);
-        return UserAdapter.buildUserVOList(userList);
-    }
-
-    @Override
-    public Boolean addMember(Long groupId, List<String> accountIdList) {
-        return null;
-    }
-
-    @Override
-    public Boolean removeMember(Long groupId, String accountId) {
-        // 判断当前操作是否是群主
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
-        if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
-            throw new QuickException(ResponseEnum.FAIL);
-        }
-
-        // 删除群成员
-        memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-
-        // Channel 通知目标用户被移除群聊
-        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
-        return null;
-    }
-
-    @Override
-    public Boolean removeGroup(Long groupId) {
+    public Boolean releaseGroup(Long groupId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
