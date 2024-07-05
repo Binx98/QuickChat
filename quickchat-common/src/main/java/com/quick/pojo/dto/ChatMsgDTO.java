@@ -50,11 +50,6 @@ public class ChatMsgDTO {
     private String content;
 
     /**
-     * 引用（艾特）标识：消息 id
-     */
-    private String quoteId;
-
-    /**
      * 消息id：撤回消息、回复消息
      */
     private Long msgId;
