@@ -24,7 +24,7 @@ import java.util.Map;
 @Api(tags = "聊天信息")
 @RestController
 @RequestMapping("/msg")
-public class ChatMsgController {
+public class QuickChatMsgController {
     @Autowired
     private QuickChatMsgService msgService;
 
@@ -36,7 +36,7 @@ public class ChatMsgController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("根据 relation_ids 批量查询聊天记录")
+    @ApiOperation("根据 relation_ids 查询聊天记录")
     @PostMapping("/getByRelationIds")
     public R getByRelationIdList(@RequestBody List<Long> relationIds, Integer size) {
         Map<Long, List<ChatMsgVO>> result = msgService.getByRelationIds(relationIds, size);

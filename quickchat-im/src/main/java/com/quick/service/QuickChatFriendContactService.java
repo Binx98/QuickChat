@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * <p>
- * 聊天好友 服务类
+ * 通讯录-好友 服务类
  * </p>
  *
  * @author 徐志斌
@@ -26,7 +26,7 @@ public interface QuickChatFriendContactService extends IService<QuickChatFriendC
     /**
      * 添加好友
      *
-     * @param toId      目标用户id
+     * @param toId      用户id
      * @param applyInfo 申请信息
      * @return 执行结果
      */
@@ -35,7 +35,7 @@ public interface QuickChatFriendContactService extends IService<QuickChatFriendC
     /**
      * 删除好友
      *
-     * @param toId 目标用户id
+     * @param toId 用户id
      * @return 执行结果
      */
     Boolean deleteFriend(String toId);

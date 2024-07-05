@@ -20,7 +20,7 @@ import java.util.List;
 @Api(tags = "聊天会话")
 @RestController
 @RequestMapping("/session")
-public class SessionController {
+public class QuickChatSessionController {
     @Autowired
     private QuickChatSessionService sessionService;
 
@@ -38,7 +38,7 @@ public class SessionController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("查询会话详情")
+    @ApiOperation("查询详情")
     @GetMapping("/getSessionInfo")
     public R getSessionInfo(String fromId, String toId) {
         ChatSessionVO result = sessionService.getSessionInfo(fromId, toId);

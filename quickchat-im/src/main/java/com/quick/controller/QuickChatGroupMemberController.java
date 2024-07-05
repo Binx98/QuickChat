@@ -17,22 +17,22 @@ import java.util.List;
 @Api(tags = "群成员")
 @RestController
 @RequestMapping("/member")
-public class GroupMemberController {
+public class QuickChatGroupMemberController {
 
     @ApiOperation("查询群成员")
-    @PostMapping("/members")
+    @PostMapping("/list")
     public R members(Long groupId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("添加成员")
-    @GetMapping("/addMember")
+    @GetMapping("/add")
     public R addMember(Long groupId, @RequestBody List<String> accountIdList) {
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("移除群成员")
-    @GetMapping("/removeMember")
+    @GetMapping("/delete")
     public R removeMember(Long groupId, String accountId) {
         return R.out(ResponseEnum.SUCCESS);
     }

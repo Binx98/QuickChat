@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 聊天好友 服务实现类
+ * 通讯录-好友 服务实现类
  * </p>
  *
  * @author 徐志斌
