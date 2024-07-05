@@ -14,7 +14,7 @@ import lombok.Getter;
 public enum WsPushEnum {
     SYSTEM_NOTICE(0, "系统通知：账号重复登录"),
     CHAT_MSG(1, "聊天消息"),
-    FRIEND_APPLY(2, "好友申请通知"),
+    APPLY_NOTICE(2, "好友/群申请"),
     GROUP_NOTICE(3, "群内通知"),
     ONLINE_STATUS(10, "登陆状态"),
     WRITING(11, "对方正在输入"),

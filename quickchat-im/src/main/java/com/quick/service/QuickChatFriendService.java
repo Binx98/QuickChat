@@ -26,8 +26,9 @@ public interface QuickChatFriendService extends IService<QuickChatFriendContact>
     /**
      * 添加好友
      *
-     * @param toId 目标用户id
+     * @param toId      目标用户id
+     * @param applyInfo 申请信息
      * @return 执行结果
      */
-    Boolean addFriend(String toId);
+    Boolean addFriend(String toId, String applyInfo);
 }

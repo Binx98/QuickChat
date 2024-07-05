@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuickChatFriendApplyStoreImpl extends ServiceImpl<QuickChatFriendApplyMapper, QuickChatApply> implements QuickChatFriendApplyStore {
 
+    @Override
+    public Boolean saveInfo(QuickChatApply apply) {
+        return this.save(apply);
+    }
 }

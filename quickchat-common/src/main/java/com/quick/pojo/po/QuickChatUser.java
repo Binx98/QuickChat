@@ -74,8 +74,8 @@ public class QuickChatUser implements Serializable {
     /**
      * 登录状态
      */
-    @TableField("line_status")
-    private String lineStatus;
+    @TableField("login_status")
+    private Integer loginStatus;
 
     /**
      * 创建时间

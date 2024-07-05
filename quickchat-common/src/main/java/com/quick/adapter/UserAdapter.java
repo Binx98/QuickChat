@@ -25,7 +25,7 @@ public class UserAdapter {
     }
 
     public static QuickChatUser buildUserPO(String accountId, String avatar, String password, Integer gender,
-                                            String email, String location, String lineStatus) {
+                                            String email, String location, Integer lineStatus) {
         QuickChatUser user = new QuickChatUser();
         user.setAccountId(accountId);
         user.setNickName(accountId);
@@ -34,7 +34,7 @@ public class UserAdapter {
         user.setGender(gender);
         user.setEmail(email);
         user.setLocation(location);
-        user.setLineStatus(lineStatus);
+        user.setLoginStatus(lineStatus);
         return user;
     }
 

@@ -35,8 +35,8 @@ public class ChatFriendController {
 
     @ApiOperation("添加好友")
     @PostMapping("/add")
-    public R addFriend(String toId) {
-        friendService.addFriend(toId);
+    public R addFriend(String toId, String applyInfo) {
+        friendService.addFriend(toId, applyInfo);
         return R.out(ResponseEnum.SUCCESS);
     }
 

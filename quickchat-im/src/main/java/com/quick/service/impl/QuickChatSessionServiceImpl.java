@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.SessionAdapter;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
-import com.quick.enums.TopEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatGroup;
@@ -161,7 +161,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         if (ObjectUtils.isNotEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
-        sessionPO.setTopFlag(TopEnum.YES.getCode());
+        sessionPO.setTopFlag(YesNoEnum.YES.getCode());
         return sessionStore.updateSessionById(sessionPO);
     }
 
@@ -174,7 +174,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         }
         if (sessionPO.getDeleted()) {
             sessionPO.setDeleted(false);
-            sessionPO.setTopFlag(TopEnum.NO.getCode());
+            sessionPO.setTopFlag(YesNoEnum.NO.getCode());
             sessionPO.setUpdateTime(LocalDateTime.now());
             sessionStore.updateSessionById(sessionPO);
         }

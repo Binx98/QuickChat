@@ -43,7 +43,7 @@ public class SessionAdapter {
                 sessionVO.setSessionName(user.getNickName());
                 sessionVO.setAvatar(user.getAvatar());
                 sessionVO.setGender(user.getGender());
-                sessionVO.setLineStatus(user.getLineStatus());
+                sessionVO.setLoginStatus(user.getLoginStatus());
                 resultList.add(sessionVO);
             }
         }
@@ -95,7 +95,7 @@ public class SessionAdapter {
                 .sessionName(userPO.getNickName())
                 .avatar(userPO.getAvatar())
                 .gender(userPO.getGender())
-                .lineStatus(userPO.getLineStatus())
+                .loginStatus(userPO.getLoginStatus())
                 .build();
     }
 

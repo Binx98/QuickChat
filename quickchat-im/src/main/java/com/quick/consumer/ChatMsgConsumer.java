@@ -40,7 +40,7 @@ public class ChatMsgConsumer {
             WsPushEntity<QuickChatMsg> pushEntity = new WsPushEntity<>();
             pushEntity.setPushType(WsPushEnum.CHAT_MSG.getCode());
             pushEntity.setMessage(chatMsg);
-            channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(chatMsg)));
+            channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
         }
     }
 

@@ -1,11 +1,18 @@
 package com.quick.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.ApplyAdapter;
 import com.quick.adapter.UserAdapter;
+import com.quick.constant.KafkaConstant;
+import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
+import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatFriendMapper;
+import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatFriendContact;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
@@ -36,6 +43,8 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     private QuickChatFriendStore friendStore;
     @Autowired
     private QuickChatUserStore userStore;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @Override
     public List<ChatUserVO> getFriendList() {
@@ -49,7 +58,7 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
     }
 
     @Override
-    public Boolean addFriend(String toId) {
+    public Boolean addFriend(String toId, String applyInfo) {
         // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatFriendContact friendPO = friendStore.getByFromIdAndToId(loginAccountId, toId);
@@ -58,8 +67,12 @@ public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendMappe
         }
 
         // 保存好友申请记录
+        QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId,
+                toId, applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
+        applyStore.saveInfo(apply);
 
         // 推送给目标用户
-        return null;
+        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+        return true;
     }
 }
