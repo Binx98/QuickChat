@@ -21,7 +21,7 @@ import java.util.Map;
 @Api(tags = "文件操作")
 @Controller
 @RequestMapping("/file")
-public class ChatFileController {
+public class FileController {
     @Autowired
     private QuickChatFileService fileService;
 

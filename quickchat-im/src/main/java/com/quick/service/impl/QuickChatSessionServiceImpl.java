@@ -167,8 +167,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public Boolean activeSession(String toId) {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(loginAccountId, toId);
+        String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }

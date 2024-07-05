@@ -22,28 +22,28 @@ import java.util.List;
 @Api(tags = "好友相关")
 @RestController
 @RequestMapping("/friend")
-public class ChatFriendController {
+public class FriendContactController {
     @Autowired
-    private QuickChatFriendContactService friendService;
+    private QuickChatFriendContactService friendContactService;
 
     @ApiOperation("查询好友列表（通讯录）")
     @PostMapping("/list")
     public R getFriendList() {
-        List<ChatUserVO> result = friendService.getFriendList();
+        List<ChatUserVO> result = friendContactService.getFriendList();
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
     @ApiOperation("添加好友")
     @PostMapping("/add")
     public R addFriend(String toId, String applyInfo) {
-        friendService.addFriend(toId, applyInfo);
+        friendContactService.addFriend(toId, applyInfo);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除好友")
     @PostMapping("/delete")
     public R deleteFriend(String toId) {
-        friendService.deleteFriend(toId);
+        friendContactService.deleteFriend(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

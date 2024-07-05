@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "好友/群聊申请")
 @RestController
 @RequestMapping("/apply")
-public class ChatApplyController {
+public class ApplyController {
     /**
      * TODO 查询列表
      */

@@ -13,6 +13,7 @@ import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
+import com.quick.pojo.po.QuickChatGroupContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
@@ -149,5 +150,11 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         // 修改群组信息
         groupPO.setGroupName(group.getGroupName());
         return groupStore.updateInfo(groupPO);
+    }
+
+    @Override
+    public List<QuickChatGroupContact> getGroupContactList() {
+
+        return null;
     }
 }

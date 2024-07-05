@@ -2,6 +2,7 @@ package com.quick.controller;
 
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.dto.GroupDTO;
+import com.quick.pojo.po.QuickChatGroupContact;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
 import com.quick.service.QuickChatGroupService;
@@ -15,20 +16,21 @@ import java.util.List;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-21  10:05
- * @Description: 通讯录-群聊
+ * @Description: 群聊
  * @Version: 1.0
  */
-@Api(tags = "群相关")
+@Api(tags = "群聊相关")
 @RestController
 @RequestMapping("/group")
-public class ChatGroupController {
+public class GroupController {
     @Autowired
     private QuickChatGroupService groupService;
 
     @ApiOperation("查询群聊列表（通讯录）")
     @GetMapping("/list")
     public R list() {
-        return R.out(ResponseEnum.SUCCESS);
+        List<QuickChatGroupContact> groupContacts = groupService.getGroupContactList();
+        return R.out(ResponseEnum.SUCCESS, groupContacts);
     }
 
     @ApiOperation("创建群聊")

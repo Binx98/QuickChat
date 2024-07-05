@@ -31,7 +31,7 @@ import java.util.Map;
 @Api(tags = "用户相关")
 @RestController
 @RequestMapping("/user")
-public class ChatUserController {
+public class UserController {
     @Autowired
     private QuickUserService userService;
 

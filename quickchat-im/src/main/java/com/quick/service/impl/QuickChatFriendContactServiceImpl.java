@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendServiceImpl extends ServiceImpl<QuickChatFriendContactMapper, QuickChatFriendContact> implements QuickChatFriendContactService {
+public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFriendContactMapper, QuickChatFriendContact> implements QuickChatFriendContactService {
     @Autowired
     private QuickChatFriendContactStore friendContactStore;
     @Autowired

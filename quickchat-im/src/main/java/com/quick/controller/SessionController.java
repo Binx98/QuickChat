@@ -19,8 +19,8 @@ import java.util.List;
  */
 @Api(tags = "聊天会话")
 @RestController
-@RequestMapping("/chat/session")
-public class ChatSessionController {
+@RequestMapping("/session")
+public class SessionController {
     @Autowired
     private QuickChatSessionService sessionService;
 
@@ -31,7 +31,7 @@ public class ChatSessionController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("恢复会话（激活状态）")
+    @ApiOperation("恢复会话")
     @PostMapping("/active")
     public R active(String toId) {
         sessionService.activeSession(toId);
@@ -45,7 +45,7 @@ public class ChatSessionController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("修改已读时间")
+    @ApiOperation("更新已读时间")
     @PostMapping("/updateReadTime")
     public R updateSession(Long sessionId) {
         sessionService.updateLastReadTime(sessionId);
