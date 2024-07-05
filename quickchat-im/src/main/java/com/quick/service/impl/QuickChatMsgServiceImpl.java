@@ -2,6 +2,7 @@ package com.quick.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.MsgAdapter;
@@ -12,11 +13,13 @@ import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.po.QuickChatFriendContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
+import com.quick.store.QuickChatFriendContactStore;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
@@ -51,6 +54,8 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     private QuickChatSessionStore sessionStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
+    @Autowired
+    private QuickChatFriendContactStore friendContactStore;
 
     @Override
     public Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size) {
@@ -87,8 +92,16 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 处理通讯双方会话信息（用于展示）
+        // 查询对方是否是你的好友
         Integer sessionType = msgDTO.getSessionType();
+        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
+            QuickChatFriendContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+            if (ObjectUtils.isEmpty(friend)) {
+                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
+            }
+        }
+
+        // 处理通讯双方会话信息
         this.handleSession(sessionType, msgDTO.getRelationId());
 
         // 根据不同消息类型，发送消息

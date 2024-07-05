@@ -30,6 +30,7 @@ public enum ResponseEnum {
     SEND_MSG_FAST(500, "慢点发消息嘛，别急..."),
     CAN_NOT_RECALL(500, "信息发送已超过2分钟，不可撤回"),
     IS_YOUR_FRIEND(500, "对方已经是您的好友，不可重复添加"),
+    IS_NOT_YOUR_FRIEND(500, "对方已不是您的好友，不可进行当前操作！"),
     GROUP_NOT_EXIST(500, "群组信息不存在！"),
     NOT_GROUP_OWNER(500, "您不是群主，不可进行当前操作！"),
     FILE_OVER_SIZE(500, "文件大小不可超过：%s"),

@@ -11,6 +11,6 @@ import com.quick.pojo.po.QuickChatApply;
  * @author 徐志斌
  * @since 2024-03-12
  */
-public interface QuickChatFriendApplyMapper extends BaseMapper<QuickChatApply> {
+public interface QuickChatApplyMapper extends BaseMapper<QuickChatApply> {
 
 }

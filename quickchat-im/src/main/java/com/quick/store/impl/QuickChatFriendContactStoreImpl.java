@@ -1,9 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.mapper.QuickChatFriendMapper;
+import com.quick.mapper.QuickChatFriendContactMapper;
 import com.quick.pojo.po.QuickChatFriendContact;
-import com.quick.store.QuickChatFriendStore;
+import com.quick.store.QuickChatFriendContactStore;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendStoreImpl extends ServiceImpl<QuickChatFriendMapper, QuickChatFriendContact> implements QuickChatFriendStore {
+public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatFriendContactMapper, QuickChatFriendContact> implements QuickChatFriendContactStore {
     @Override
     public List<QuickChatFriendContact> getListByFromId(String fromId) {
         return this.lambdaQuery()

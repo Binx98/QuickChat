@@ -69,7 +69,7 @@ public class ChatUserController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("修改用户个人信息")
+    @ApiOperation("修改用户信息")
     @PutMapping("/update")
     public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);

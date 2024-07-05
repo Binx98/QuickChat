@@ -14,7 +14,7 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-30
  */
-public interface QuickChatFriendService extends IService<QuickChatFriendContact> {
+public interface QuickChatFriendContactService extends IService<QuickChatFriendContact> {
 
     /**
      * 查询通讯录好友
@@ -31,4 +31,12 @@ public interface QuickChatFriendService extends IService<QuickChatFriendContact>
      * @return 执行结果
      */
     Boolean addFriend(String toId, String applyInfo);
+
+    /**
+     * 删除好友
+     *
+     * @param toId 目标用户id
+     * @return 执行结果
+     */
+    Boolean deleteFriend(String toId);
 }

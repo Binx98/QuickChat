@@ -3,7 +3,7 @@ package com.quick.controller;
 import com.quick.enums.ResponseEnum;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
-import com.quick.service.QuickChatFriendService;
+import com.quick.service.QuickChatFriendContactService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/friend")
 public class ChatFriendController {
     @Autowired
-    private QuickChatFriendService friendService;
+    private QuickChatFriendContactService friendService;
 
     @ApiOperation("查询好友列表（通讯录）")
     @PostMapping("/list")
@@ -42,7 +42,8 @@ public class ChatFriendController {
 
     @ApiOperation("删除好友")
     @PostMapping("/delete")
-    public R deleteFriend() {
+    public R deleteFriend(String toId) {
+        friendService.deleteFriend(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

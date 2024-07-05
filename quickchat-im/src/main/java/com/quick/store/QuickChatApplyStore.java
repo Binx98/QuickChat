@@ -11,7 +11,7 @@ import com.quick.pojo.po.QuickChatApply;
  * @author 徐志斌
  * @since 2024-03-12
  */
-public interface QuickChatFriendApplyStore extends IService<QuickChatApply> {
+public interface QuickChatApplyStore extends IService<QuickChatApply> {
     /**
      * 保存申请信息
      *

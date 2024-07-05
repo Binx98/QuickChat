@@ -11,6 +11,6 @@ import com.quick.pojo.po.QuickChatFriendContact;
  * @author 徐志斌
  * @since 2023-11-30
  */
-public interface QuickChatFriendMapper extends BaseMapper<QuickChatFriendContact> {
+public interface QuickChatFriendContactMapper extends BaseMapper<QuickChatFriendContact> {
 
 }

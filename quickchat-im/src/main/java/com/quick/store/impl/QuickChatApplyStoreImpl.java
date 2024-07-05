@@ -1,9 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.mapper.QuickChatFriendApplyMapper;
+import com.quick.mapper.QuickChatApplyMapper;
 import com.quick.pojo.po.QuickChatApply;
-import com.quick.store.QuickChatFriendApplyStore;
+import com.quick.store.QuickChatApplyStore;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @since 2024-03-12
  */
 @Service
-public class QuickChatFriendApplyStoreImpl extends ServiceImpl<QuickChatFriendApplyMapper, QuickChatApply> implements QuickChatFriendApplyStore {
+public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyStore {
 
     @Override
     public Boolean saveInfo(QuickChatApply apply) {
