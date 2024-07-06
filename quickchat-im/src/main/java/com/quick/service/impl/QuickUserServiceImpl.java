@@ -1,12 +1,10 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.UserAdapter;
-import com.quick.constant.KafkaConstant;
 import com.quick.constant.RedisConstant;
 import com.quick.enums.GenderEnum;
 import com.quick.enums.ResponseEnum;
@@ -43,7 +41,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -161,18 +158,18 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         userPO.setLoginStatus(YesNoEnum.YES.getCode());
         userStore.updateInfo(userPO);
 
-        // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作
-        Map<String, Object> param = new HashMap<>();
-        param.put("account_id", loginDTO.getAccountId());
-        param.put("location", location);
-        param.put("time", LocalDateTime.now());
-        kafkaProducer.send(KafkaConstant.SYSTEM_NOTICE_TOPIC, JSONUtil.toJsonStr(param));
+//        // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作
+//        Map<String, Object> param = new HashMap<>();
+//        param.put("account_id", loginDTO.getAccountId());
+//        param.put("location", location);
+//        param.put("time", LocalDateTime.now());
+//        kafkaProducer.send(KafkaConstant.SYSTEM_NOTICE_TOPIC, JSONUtil.toJsonStr(param));
 
         // 登录成功，返回 Token 和 账户信息
         Map<String, Object> result = new HashMap<>();
         String token = JwtUtil.generate(loginDTO.getAccountId());
         result.put("token", token);
-        result.put("user_info", userPO);
+        result.put("user", UserAdapter.buildUserVO(userPO));
         return result;
     }
 

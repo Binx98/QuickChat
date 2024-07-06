@@ -13,7 +13,7 @@ import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatFriendContact;
+import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
@@ -95,7 +95,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         // 查询对方是否是你的好友
         Integer sessionType = msgDTO.getSessionType();
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-            QuickChatFriendContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+            QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
             if (ObjectUtils.isEmpty(friend)) {
                 throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
             }

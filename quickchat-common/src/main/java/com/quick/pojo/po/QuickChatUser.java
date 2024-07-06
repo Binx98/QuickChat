@@ -73,6 +73,8 @@ public class QuickChatUser implements Serializable {
 
     /**
      * 登录状态
+     *
+     * @see com.quick.enums.YesNoEnum
      */
     @TableField("login_status")
     private Integer loginStatus;

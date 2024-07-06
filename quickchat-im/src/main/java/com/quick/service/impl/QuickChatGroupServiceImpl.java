@@ -12,7 +12,6 @@ import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatGroup;
-import com.quick.pojo.po.QuickChatGroupContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatGroupMemberStore;

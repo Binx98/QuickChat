@@ -16,13 +16,13 @@ import java.util.List;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2024-07-04  15:45
- * @Description: 通讯录-好友
+ * @Description: 通讯录（好友 + 群组）
  * @Version: 1.0
  */
-@Api(tags = "通讯录-好友")
+@Api(tags = "通讯录")
 @RestController
 @RequestMapping("/friend/contact")
-public class QuickChatFriendContactController {
+public class QuickChatContactController {
     @Autowired
     private QuickChatFriendContactService friendService;
 
