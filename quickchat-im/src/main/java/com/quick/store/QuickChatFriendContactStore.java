@@ -1,7 +1,7 @@
 package com.quick.store;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.po.QuickChatFriendContact;
+import com.quick.pojo.po.QuickChatContact;
 
 import java.util.List;
 
@@ -13,14 +13,14 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-30
  */
-public interface QuickChatFriendContactStore extends IService<QuickChatFriendContact> {
+public interface QuickChatFriendContactStore extends IService<QuickChatContact> {
     /**
      * 根据 from_id 查询好友列表
      *
      * @param fromId 用户id
      * @return 好友列表
      */
-    List<QuickChatFriendContact> getListByFromId(String fromId);
+    List<QuickChatContact> getListByFromId(String fromId);
 
     /**
      * 根据 from_id to_id 查询好友信息
@@ -29,7 +29,7 @@ public interface QuickChatFriendContactStore extends IService<QuickChatFriendCon
      * @param toId   账号id
      * @return 好友信息
      */
-    QuickChatFriendContact getByFromIdAndToId(String fromId, String toId);
+    QuickChatContact getByFromIdAndToId(String fromId, String toId);
 
     /**
      * 根据 from_id to_id 删除好友信息

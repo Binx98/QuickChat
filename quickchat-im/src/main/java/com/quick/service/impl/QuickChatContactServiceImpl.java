@@ -11,12 +11,12 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
-import com.quick.mapper.QuickChatFriendContactMapper;
+import com.quick.mapper.QuickChatContactMapper;
 import com.quick.pojo.po.QuickChatApply;
-import com.quick.pojo.po.QuickChatFriendContact;
+import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
-import com.quick.service.QuickChatFriendContactService;
+import com.quick.service.QuickChatContactService;
 import com.quick.store.QuickChatApplyStore;
 import com.quick.store.QuickChatFriendContactStore;
 import com.quick.store.QuickChatSessionStore;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 通讯录-好友 服务实现类
+ * 通讯录 服务实现类
  * </p>
  *
  * @author 徐志斌
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFriendContactMapper, QuickChatFriendContact> implements QuickChatFriendContactService {
+public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactService {
     @Autowired
     private QuickChatFriendContactStore friendContactStore;
     @Autowired
@@ -51,9 +51,9 @@ public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFrie
     private KafkaProducer kafkaProducer;
 
     @Override
-    public List<ChatUserVO> getFriendList() {
+    public List<ChatUserVO> getContactList() {
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        List<QuickChatFriendContact> friendList = friendContactStore.getListByFromId(loginAccountId);
+        List<QuickChatContact> friendList = friendContactStore.getListByFromId(loginAccountId);
         List<String> accountIds = friendList.stream()
                 .map(item -> item.getToId())
                 .collect(Collectors.toList());
@@ -65,7 +65,7 @@ public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFrie
     public Boolean addFriend(String toId, String applyInfo) {
         // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatFriendContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, toId);
+        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, toId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.IS_YOUR_FRIEND);
         }
@@ -85,7 +85,7 @@ public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFrie
     public Boolean deleteFriend(String toId) {
         // 查询当前用户是否是好友
         String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatFriendContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
+        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
             return true;
         }

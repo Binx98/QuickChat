@@ -30,3 +30,19 @@ services:
       MYSQL_USER: 用户账号
       MYSQL_PASSWORD: 用户密码
     restart: always
+
+  # MinIO
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /opt/minio/data:/data
+      - /opt/minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: 登陆账号
+      MINIO_SECRET_KEY: 登录密码
+    command: server /data --console-address ":9001"
+    restart: always

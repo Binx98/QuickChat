@@ -1,7 +1,7 @@
 package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.quick.pojo.po.QuickChatFriendContact;
+import com.quick.pojo.po.QuickChatContact;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.quick.pojo.po.QuickChatFriendContact;
  * @author 徐志斌
  * @since 2023-11-30
  */
-public interface QuickChatFriendContactMapper extends BaseMapper<QuickChatFriendContact> {
+public interface QuickChatContactMapper extends BaseMapper<QuickChatContact> {
 
 }

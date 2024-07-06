@@ -2,7 +2,6 @@ package com.quick.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.MsgAdapter;
@@ -13,7 +12,6 @@ import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.po.QuickChatFriendContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
@@ -30,10 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,6 +60,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         }
         List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgPage.getRecords());
         Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
         return resultMap;
     }
@@ -78,6 +74,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         }
         List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
         Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
 
         // 没有消息的 relation_id 需要空集合占位（首次发送消息需要占位）
@@ -94,12 +91,12 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 查询对方是否是你的好友
         Integer sessionType = msgDTO.getSessionType();
-        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-            QuickChatFriendContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
-            if (ObjectUtils.isEmpty(friend)) {
-                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
-            }
-        }
+//        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
+//            QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+//            if (ObjectUtils.isEmpty(friend)) {
+//                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
+//            }
+//        }
 
         // 处理通讯双方会话信息
         this.handleSession(sessionType, msgDTO.getRelationId());
