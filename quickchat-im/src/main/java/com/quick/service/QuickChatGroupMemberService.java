@@ -39,5 +39,5 @@ public interface QuickChatGroupMemberService extends IService<QuickChatGroupMemb
      * @param accountId 账户id
      * @return 执行结果
      */
-    Boolean removeMember(Long groupId, String accountId);
+    Boolean deleteMember(Long groupId, String accountId);
 }

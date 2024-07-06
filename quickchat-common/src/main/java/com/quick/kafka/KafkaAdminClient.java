@@ -1,5 +1,6 @@
 package com.quick.kafka;
 
+import com.quick.constant.KafkaConstant;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.KafkaFuture;
 
@@ -14,12 +15,13 @@ import java.util.concurrent.ExecutionException;
  * @Description: Kafka工具类
  */
 public class KafkaAdminClient {
-    private static String url = "localhost:9092";
+    private static String url = "101.200.129.113:9092";
 
     public static void main(String[] args) throws Exception {
-//        createTopic(KafkaConstant.CHAT_SEND_TOPIC);
+        createTopic(KafkaConstant.SEND_CHAT_SINGLE_MSG);
+//        createTopic(KafkaConstant.SEND_CHAT_GROUP_MSG);
 //        deleteTopic("COMMUNITY-POST-TOPIC");
-        getTopic();
+//        getTopic();
     }
 
     /**
@@ -43,7 +45,8 @@ public class KafkaAdminClient {
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, url);
         AdminClient adminClient = AdminClient.create(props);
         ListTopicsResult topicsResult = adminClient.listTopics();
-        System.out.println("==================" + topicsResult.names().get() + "==================");
+        System.out.println("==================" + topicsResult.listings() + "==================");
+//        System.out.println("==================" + topicsResult.names().get() + "==================");
     }
 
     /**

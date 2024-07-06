@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 通讯录-好友
+ * 通讯录
  * </p>
  *
  * @author 徐志斌
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("quick_chat_friend_contact")
+@TableName("quick_chat_contact")
 public class QuickChatContact implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -11,12 +11,12 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
-import com.quick.mapper.QuickChatFriendContactMapper;
+import com.quick.mapper.QuickChatContactMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
-import com.quick.service.QuickChatFriendContactService;
+import com.quick.service.QuickChatContactService;
 import com.quick.store.QuickChatApplyStore;
 import com.quick.store.QuickChatFriendContactStore;
 import com.quick.store.QuickChatSessionStore;
@@ -31,14 +31,14 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 通讯录-好友 服务实现类
+ * 通讯录 服务实现类
  * </p>
  *
  * @author 徐志斌
  * @since 2023-11-30
  */
 @Service
-public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFriendContactMapper, QuickChatContact> implements QuickChatFriendContactService {
+public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactService {
     @Autowired
     private QuickChatFriendContactStore friendContactStore;
     @Autowired
@@ -51,7 +51,7 @@ public class QuickChatFriendContactServiceImpl extends ServiceImpl<QuickChatFrie
     private KafkaProducer kafkaProducer;
 
     @Override
-    public List<ChatUserVO> getFriendList() {
+    public List<ChatUserVO> getContactList() {
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatContact> friendList = friendContactStore.getListByFromId(loginAccountId);
         List<String> accountIds = friendList.stream()

@@ -58,12 +58,12 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     }
 
     @Override
-    public Boolean removeMember(Long groupId, String accountId) {
+    public Boolean deleteMember(Long groupId, String accountId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
-            throw new QuickException(ResponseEnum.FAIL);
+            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
 
         // 删除群成员 + 通知目标用户被移除群聊
