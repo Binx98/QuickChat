@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class MsgAdapter {
     public static QuickChatMsg buildChatMsgPO(String fromId, String toId, Long relationId,
-                                              String nickName, String content, String quoteId,
+                                              String nickName, String content, Long quoteId,
                                               String extraInfo, Integer type) {
         QuickChatMsg chatMsg = new QuickChatMsg();
         chatMsg.setFromId(fromId);
@@ -28,6 +28,7 @@ public class MsgAdapter {
         chatMsg.setContent(content);
         chatMsg.setMsgType(type);
         chatMsg.setExtraInfo(extraInfo);
+        chatMsg.setQuoteId(quoteId);
         return chatMsg;
     }
 
