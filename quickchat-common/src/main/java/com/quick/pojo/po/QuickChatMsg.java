@@ -60,6 +60,12 @@ public class QuickChatMsg implements Serializable {
     private String content;
 
     /**
+     * 引用id
+     */
+    @TableField("quote_id")
+    private Long quoteId;
+
+    /**
      * 消息类型
      *
      * @see com.quick.enums.ChatMsgEnum

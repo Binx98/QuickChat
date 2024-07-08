@@ -35,13 +35,14 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
         String nickName = msgDTO.getNickName();
         String content = msgDTO.getContent();
         Long relationId = msgDTO.getRelationId();
+        Long quoteId = msgDTO.getQuoteId();
 
         if (StringUtils.isBlank(content)) {
             throw new QuickException(ResponseEnum.FONT_MSG_IS_NULL);
         }
 
         QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
-                nickName, content, null, null, this.getEnum().getCode());
+                nickName, content, quoteId, null, this.getEnum().getCode());
         msgStore.saveMsg(chatMsg);
         return chatMsg;
     }
