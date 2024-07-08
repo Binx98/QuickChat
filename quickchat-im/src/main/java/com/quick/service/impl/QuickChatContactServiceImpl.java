@@ -18,7 +18,7 @@ import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatContactService;
 import com.quick.store.QuickChatApplyStore;
-import com.quick.store.QuickChatFriendContactStore;
+import com.quick.store.QuickChatContactStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactService {
     @Autowired
-    private QuickChatFriendContactStore friendContactStore;
+    private QuickChatContactStore friendContactStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired

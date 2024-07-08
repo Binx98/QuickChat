@@ -2,8 +2,6 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * @Author: 徐志斌
  * @CreateTime: 2024-05-23  10:49
@@ -18,7 +16,7 @@ public class GroupDTO {
     private Long groupId;
 
     /**
-     * 群主账号
+     * 群主账户id
      */
     private String accountId;
 
@@ -32,8 +30,4 @@ public class GroupDTO {
      */
     private String groupAvatar;
 
-    /**
-     * 群成员
-     */
-    private List<String> accountIdList;
 }

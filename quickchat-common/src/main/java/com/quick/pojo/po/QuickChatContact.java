@@ -42,18 +42,18 @@ public class QuickChatContact implements Serializable {
     private String toId;
 
     /**
-     * 备注名称
-     */
-    @TableField("note_name")
-    private String noteName;
-
-    /**
      * 类型
      *
      * @see com.quick.enums.SessionTypeEnum
      */
     @TableField("type")
     private Integer type;
+
+    /**
+     * 备注名称
+     */
+    @TableField("note_name")
+    private String noteName;
 
     /**
      * 创建时间

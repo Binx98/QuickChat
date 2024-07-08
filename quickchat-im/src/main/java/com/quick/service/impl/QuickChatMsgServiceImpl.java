@@ -17,7 +17,7 @@ import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
-import com.quick.store.QuickChatFriendContactStore;
+import com.quick.store.QuickChatContactStore;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
@@ -50,7 +50,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatGroupMemberStore memberStore;
     @Autowired
-    private QuickChatFriendContactStore friendContactStore;
+    private QuickChatContactStore friendContactStore;
 
     @Override
     public Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size) {
