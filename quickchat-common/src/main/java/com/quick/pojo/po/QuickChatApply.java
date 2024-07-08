@@ -55,6 +55,8 @@ public class QuickChatApply implements Serializable {
 
     /**
      * 状态（0：未处理，1：已通过）
+     *
+     * @see com.quick.enums.YesNoEnum
      */
     @TableField("status")
     private Integer status;

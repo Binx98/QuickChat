@@ -59,4 +59,9 @@ public class ChatMsgDTO {
      */
     private FileExtraDTO extraInfo;
 
+    /**
+     * 引用id
+     */
+    private Long quoteId;
+
 }

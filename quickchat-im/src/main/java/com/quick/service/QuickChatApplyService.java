@@ -3,9 +3,11 @@ package com.quick.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatApply;
 
+import java.util.List;
+
 /**
  * <p>
- * 系统通知 服务类
+ * 申请通知 服务类
  * </p>
  *
  * @author 徐志斌
@@ -13,4 +15,26 @@ import com.quick.pojo.po.QuickChatApply;
  */
 public interface QuickChatApplyService extends IService<QuickChatApply> {
 
+    /**
+     * 查询申请通知列表
+     *
+     * @return 通知列表
+     */
+    List<QuickChatApply> getApplyList();
+
+    /**
+     * 同意申请
+     *
+     * @param applyId 申请id
+     * @return 执行结果
+     */
+    Boolean agreeApply(Long applyId);
+
+    /**
+     * 删除申请
+     *
+     * @param applyId 申请id
+     * @return 执行结果
+     */
+    Boolean deleteApply(Long applyId);
 }

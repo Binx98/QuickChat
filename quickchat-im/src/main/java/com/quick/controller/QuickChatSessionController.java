@@ -66,7 +66,9 @@ public class QuickChatSessionController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    /**
-     * TODO 消息免打扰
-     */
+    @ApiOperation("消息免打扰")
+    @DeleteMapping("/noDisturb")
+    public R noDisturb(Long sessionId) {
+        return R.out(ResponseEnum.SUCCESS);
+    }
 }

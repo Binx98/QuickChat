@@ -13,19 +13,16 @@ public class RedisConstant {
     public static final String CAPTCHA_KEY = "captcha_key";
 
     /**
-     * 分布式锁KEY
-     */
-    public static final String UNREAD_LOCK_KEY = "UNREAD_LOCK_KEY:";
-
-    /**
      * 缓存分区
      */
     public static final String QUICK_CHAT_USER = "quick_chat_user";
+    public static final String QUICK_CHAT_CONTACT = "quick_chat_contact";
     public static final String QUICK_CHAT_MSG = "quick_chat_msg";
     public static final String QUICK_CHAT_EMOJI = "quick_chat_emoji";
     public static final String QUICK_CHAT_SESSION = "quick_chat_session";
     public static final String QUICK_CHAT_GROUP = "quick_chat_group";
     public static final String QUICK_CHAT_GROUP_MEMBER = "quick_chat_group_member";
+    public static final String QUICK_CHAT_APPLY = "quick_chat_apply";
 
     /**
      * 其他
