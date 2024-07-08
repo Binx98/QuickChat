@@ -19,7 +19,7 @@ import java.util.List;
  * @Description: 申请通知
  * @Version: 1.0
  */
-@Api(tags = "好友/群聊申请")
+@Api(tags = "申请通知")
 @RestController
 @RequestMapping("/apply")
 public class QuickChatApplyController {

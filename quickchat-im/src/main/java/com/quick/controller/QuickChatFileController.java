@@ -18,7 +18,7 @@ import java.util.Map;
  * @Version 1.0
  * @Description: 文件控制器
  */
-@Api(tags = "文件操作")
+@Api(tags = "文件相关")
 @Controller
 @RequestMapping("/file")
 public class QuickChatFileController {

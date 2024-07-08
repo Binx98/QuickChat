@@ -59,4 +59,9 @@ public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatContac
     public Boolean saveContact(QuickChatContact contact) {
         return this.save(contact);
     }
+
+    @Override
+    public Boolean saveContactList(List<QuickChatContact> contacts) {
+        return null;
+    }
 }
