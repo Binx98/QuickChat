@@ -73,7 +73,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         // 保存好友申请记录
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId,
                 toId, applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
-        applyStore.saveInfo(apply);
+        applyStore.saveApply(apply);
 
         // 推送给目标用户
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
