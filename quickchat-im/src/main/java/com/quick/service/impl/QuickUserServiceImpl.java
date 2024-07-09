@@ -6,17 +6,11 @@ import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.GenderEnum;
-import com.quick.enums.ResponseEnum;
-import com.quick.enums.SessionTypeEnum;
-import com.quick.enums.YesNoEnum;
+import com.quick.enums.*;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatUserMapper;
-import com.quick.pojo.dto.EmailDTO;
-import com.quick.pojo.dto.LoginDTO;
-import com.quick.pojo.dto.RegisterDTO;
-import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.po.QuickChatUser;
@@ -88,6 +82,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean register(RegisterDTO registerDTO) throws Exception {
+
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
@@ -103,6 +98,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         QuickChatUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
         if (ObjectUtils.isNotEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
+        }
+
+        // 判断邮箱是否注册过
+        if(registerDTO.getToEmail().equals(userPO.getEmail())){
+            throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
         }
 
         // 加入全员群聊、保存会话
@@ -231,5 +231,43 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
         userPO.setPassword(null);
         return userPO;
+    }
+
+    @Override
+    public Boolean checkEmail(String email) throws MessagingException, IOException {
+        QuickChatUser userPO = userStore.getByEmail(email);
+        if (ObjectUtils.isEmpty(userPO)) {
+            throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
+        }
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setType(EmailEnum.FIND_BACK.getType());
+        emailDTO.setToEmail(email);
+        return sendEmail(emailDTO);
+    }
+
+    @Override
+    public Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception {
+        // 判断账号是否存在
+        QuickChatUser userPO = userStore.getByEmail(userFindBackDTO.getToEmail());
+        if (ObjectUtils.isEmpty(userPO)) {
+            throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
+        }
+
+        // 判断邮箱验证码
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + userFindBackDTO.getToEmail());
+        if (StringUtils.isEmpty(cacheEmailCode) || !userFindBackDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
+            throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
+        }
+
+        // 两次密码输入是否一致
+        if (!userFindBackDTO.getPassword1().equals(userFindBackDTO.getPassword2())) {
+            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
+        }
+
+        // 更新密码
+        String password = AESUtil.encrypt(userFindBackDTO.getPassword1());
+        userPO.setPassword(password);
+
+        return userStore.updateInfo(userPO);
     }
 }

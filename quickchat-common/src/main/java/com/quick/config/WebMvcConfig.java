@@ -46,6 +46,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
             "/user/register",
             "/user/login",
             "/user/sendEmail",
+            "/user/checkEmail",
+            "/user/findBack",
             "/file/**"
     );
 

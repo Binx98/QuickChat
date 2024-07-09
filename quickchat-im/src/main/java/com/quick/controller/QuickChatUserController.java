@@ -2,10 +2,7 @@ package com.quick.controller;
 
 
 import com.quick.enums.ResponseEnum;
-import com.quick.pojo.dto.EmailDTO;
-import com.quick.pojo.dto.LoginDTO;
-import com.quick.pojo.dto.RegisterDTO;
-import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.response.R;
@@ -78,6 +75,20 @@ public class QuickChatUserController {
     @PostMapping("/sendEmail")
     public R sendEmail(@RequestBody EmailDTO emailDTO) throws Throwable {
         userService.sendEmail(emailDTO);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    @ApiOperation("输入邮箱账号")
+    @GetMapping("/checkEmail")
+    public R checkEmail(String email) throws Exception {
+        userService.checkEmail(email);
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
+    @ApiOperation("找回密码")
+    @PutMapping("/findBack")
+    public R findBack(@RequestBody UserFindBackDTO userDTO) throws Exception {
+        userService.findBack(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 }
