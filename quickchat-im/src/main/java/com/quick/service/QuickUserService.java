@@ -1,13 +1,11 @@
 package com.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.quick.pojo.dto.EmailDTO;
-import com.quick.pojo.dto.LoginDTO;
-import com.quick.pojo.dto.RegisterDTO;
-import com.quick.pojo.dto.UserUpdateDTO;
+import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -77,4 +75,21 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 用户信息PO
      */
     QuickChatUser getByToken();
+
+    /**
+     * 用户找回密码
+     *
+     * @param userFindBackDTO 找回密码DTO
+     * @return 执行结果
+     */
+    Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception;
+
+    /**
+     * 检查邮箱是否被注册过
+     * @param email
+     * @return
+     * @throws MessagingException
+     * @throws IOException
+     */
+    Boolean checkEmail(String email) throws MessagingException, IOException;
 }
