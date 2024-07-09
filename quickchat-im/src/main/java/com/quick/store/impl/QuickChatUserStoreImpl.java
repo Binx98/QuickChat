@@ -52,4 +52,11 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
     public Boolean updateInfo(QuickChatUser userPO) {
         return this.updateById(userPO);
     }
+
+    @Override
+    public QuickChatUser getByEmail(String email) {
+        return this.lambdaQuery()
+                .eq(QuickChatUser::getEmail, email)
+                .one();
+    }
 }

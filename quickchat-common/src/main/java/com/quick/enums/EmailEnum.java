@@ -13,6 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EmailEnum {
     VERIFY_CODE(1, "验证码"),
+    FIND_BACK(2, "找回密码"),
     ;
 
     private Integer type;
