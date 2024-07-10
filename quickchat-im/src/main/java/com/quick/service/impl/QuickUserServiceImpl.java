@@ -233,17 +233,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         return userPO;
     }
 
-    @Override
-    public Boolean checkEmail(String email) throws MessagingException, IOException {
-        QuickChatUser userPO = userStore.getByEmail(email);
-        if (ObjectUtils.isEmpty(userPO)) {
-            throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
-        }
-        EmailDTO emailDTO = new EmailDTO();
-        emailDTO.setType(EmailEnum.FIND_BACK.getType());
-        emailDTO.setToEmail(email);
-        return sendEmail(emailDTO);
-    }
 
     @Override
     public Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception {
