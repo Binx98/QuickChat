@@ -84,12 +84,4 @@ public interface QuickUserService extends IService<QuickChatUser> {
      */
     Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception;
 
-    /**
-     * 检查邮箱是否被注册过
-     * @param email
-     * @return
-     * @throws MessagingException
-     * @throws IOException
-     */
-    Boolean checkEmail(String email) throws MessagingException, IOException;
 }

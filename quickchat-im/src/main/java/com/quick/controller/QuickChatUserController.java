@@ -78,13 +78,6 @@ public class QuickChatUserController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("输入邮箱账号")
-    @GetMapping("/checkEmail")
-    public R checkEmail(String email) throws Exception {
-        userService.checkEmail(email);
-        return R.out(ResponseEnum.SUCCESS);
-    }
-
     @ApiOperation("找回密码")
     @PutMapping("/findBack")
     public R findBack(@RequestBody UserFindBackDTO userDTO) throws Exception {

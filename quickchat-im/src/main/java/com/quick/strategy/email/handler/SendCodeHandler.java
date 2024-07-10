@@ -2,12 +2,17 @@ package com.quick.strategy.email.handler;
 
 import com.quick.constant.RedisConstant;
 import com.quick.enums.EmailEnum;
+import com.quick.enums.ResponseEnum;
+import com.quick.exception.QuickException;
 import com.quick.pojo.dto.EmailDTO;
+import com.quick.pojo.po.QuickChatUser;
+import com.quick.store.QuickChatUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.threadpool.MyThreadPoolExecutor;
 import com.quick.utils.EmailUtil;
 import com.quick.utils.RandomUtil;
 import com.quick.utils.RedisUtil;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -28,6 +33,8 @@ public class SendCodeHandler extends AbstractEmailStrategy {
     private RedisUtil redisUtil;
     @Autowired
     private EmailUtil emailUtil;
+    @Autowired
+    private QuickChatUserStore userStore;
 
     @Override
     protected EmailEnum getEnum() {
@@ -37,6 +44,10 @@ public class SendCodeHandler extends AbstractEmailStrategy {
     @Override
     @Async(MyThreadPoolExecutor.EMAIL_POOL_NAME)
     public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
+        QuickChatUser userPO = userStore.getByEmail(emailDTO.getToEmail());
+        if (ObjectUtils.isNotEmpty(userPO)) {
+            throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
+        }
         // 生成验证码，有效期 3min
         String code = RandomUtil.generate(4, 1);
         String emailKey = RedisConstant.EMAIL_KEY + emailDTO.getToEmail();
