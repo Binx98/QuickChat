@@ -3,6 +3,7 @@ package com.quick.exception;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,6 +23,26 @@ public class GlobalExceptionHandler {
     public R quickException(QuickException e) {
         log.error("========================QuickException：{}========================", e);
         return R.out(e.getResponseEnum());
+    }
+
+    /**
+     * 注解校验异常 BindException
+     */
+    @ExceptionHandler(BindException.class)
+    public R validationException(BindException b) {
+        log.error("========================BindException：{}========================", b);
+        final StringBuilder sb = new StringBuilder();
+        b.getBindingResult().getAllErrors().forEach(e -> sb.append(e.getDefaultMessage()).append("\r\n"));
+        return R.out(ResponseEnum.FAIL, sb);
+    }
+
+    /**
+     * 自定义注解校验异常 QuickValidationException
+     */
+    @ExceptionHandler({QuickValidationException.class})
+    public R quickValidationException(QuickValidationException e) {
+        log.error("========================QuickValidationException：{}========================", e);
+        return R.out(ResponseEnum.FAIL, e.getErrorMsg());
     }
 
     /**

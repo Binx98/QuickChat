@@ -10,6 +10,7 @@ import com.quick.service.QuickUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class QuickChatUserController {
 
     @ApiOperation("登录账号")
     @PostMapping("/login")
-    public R login(@RequestBody LoginDTO loginDTO) throws Exception {
+    public R login(@Validated @RequestBody LoginDTO loginDTO) throws Exception {
         Map<String, Object> result = userService.login(loginDTO);
         return R.out(ResponseEnum.SUCCESS, result);
     }
