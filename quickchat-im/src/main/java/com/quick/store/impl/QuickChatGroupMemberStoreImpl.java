@@ -51,4 +51,20 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
     public Boolean saveMemberList(List<QuickChatGroupMember> memberList) {
         return this.saveBatch(memberList);
     }
+
+    @Override
+    public QuickChatGroupMember getMemberByAccountId(Long groupId, String accountId) {
+        return this.lambdaQuery()
+                .eq(QuickChatGroupMember::getGroupId, groupId)
+                .eq(QuickChatGroupMember::getAccountId, accountId)
+                .one();
+    }
+
+    @Override
+    public List<QuickChatGroupMember> getGroupMemberByAccountId(Long groupId, List<String> accountIdList) {
+        return this.lambdaQuery()
+                .eq(QuickChatGroupMember::getGroupId, groupId)
+                .in(QuickChatGroupMember::getAccountId, accountIdList)
+                .list();
+    }
 }

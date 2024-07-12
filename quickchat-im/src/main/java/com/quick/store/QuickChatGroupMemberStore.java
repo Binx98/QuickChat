@@ -55,4 +55,20 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @return 执行结果
      */
     Boolean saveMemberList(List<QuickChatGroupMember> memberList);
+
+    /**
+     * 查询成员否在群中
+     * @param groupId
+     * @param accountId
+     * @return
+     */
+    QuickChatGroupMember getMemberByAccountId(Long groupId, String accountId);
+
+    /**
+     * 根据 groupId，accountIdList 查询成员
+     * @param groupId 群id
+     * @param accountIdList 成员id列表
+     * @return
+     */
+    List<QuickChatGroupMember> getGroupMemberByAccountId(Long groupId, List<String> accountIdList);
 }
