@@ -49,7 +49,7 @@ public class RateLimiterAspect {
         if (number == null || number.intValue() > count) {
             throw new QuickException(ResponseEnum.SEND_MSG_FAST);
         }
-        log.info("--------限制请求'{}',当前请求'{}',缓存key'{}'--------", count, number.intValue(), key);
+        log.info("--------count:'{}',request:'{}', key:'{}'--------", count, number.intValue(), key);
     }
 
     public String getCombineKey(RateLimiter rateLimiter, JoinPoint point) {
