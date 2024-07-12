@@ -2,6 +2,7 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
@@ -20,6 +21,7 @@ import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +56,27 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public Boolean addMember(Long groupId, List<String> accountIdList) {
-        return null;
+
+        // 查看当前登录人是否在群中
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        QuickChatGroupMember loginMember = memberStore.getMemberByAccountId(groupId, loginAccountId);
+        if (ObjectUtils.isEmpty(loginMember)) {
+            throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
+        }
+
+        // 去除已经在群的id
+        List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
+        List<String> savedAccountIdList = groupMemberByAccountId.stream().map(QuickChatGroupMember::getAccountId).collect(Collectors.toList());
+        accountIdList.removeAll(savedAccountIdList);
+
+        // 保存未在群的成员信息
+        List<QuickChatGroupMember> memberList = new ArrayList<>();
+        for (String accountId : accountIdList) {
+            QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupId, accountId);
+            memberList.add(member);
+        }
+
+        return memberStore.saveMemberList(memberList);
     }
 
     @Override
