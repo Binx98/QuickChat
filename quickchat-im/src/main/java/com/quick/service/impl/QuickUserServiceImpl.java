@@ -146,7 +146,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         // 判断密码是否正确
         String encryptPwd = AESUtil.encrypt(loginDTO.getPassWord());
         if (!encryptPwd.equals(userPO.getPassword())) {
-            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
+            throw new QuickException(ResponseEnum.PASSWORD_ERROR);
         }
 
         // 登录成功，登录状态保存到 Redis（保证某一时刻只有一个客户端登录）
