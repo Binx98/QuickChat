@@ -3,6 +3,7 @@ package com.quick.exception;
 import com.quick.enums.ResponseEnum;
 import com.quick.response.R;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({QuickValidationException.class})
     public R quickValidationException(QuickValidationException e) {
         log.error("========================QuickValidationException：{}========================", e);
-        return R.out(ResponseEnum.FAIL, e.getErrorMsg());
+        return R.out(ResponseEnum.FAIL, ExceptionUtils.getMessage(e));
     }
 
     /**
