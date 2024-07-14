@@ -2,6 +2,7 @@ package com.quick.controller;
 
 
 import com.quick.enums.ResponseEnum;
+import com.quick.exception.QuickValidationException;
 import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
@@ -9,6 +10,7 @@ import com.quick.response.R;
 import com.quick.service.QuickUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -85,5 +87,18 @@ public class QuickChatUserController {
         userService.findBack(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
+
+    @ApiOperation("自定义业务异常校验Demo")
+    @PostMapping("/validationDemo")
+    public R validationDemo(LoginDTO loginDTO) throws Exception {
+        if (StringUtils.isEmpty(loginDTO.getAccountId())) {
+            throw new QuickValidationException("账户ID不可为空");
+        }
+        if (StringUtils.isEmpty(loginDTO.getPassWord())) {
+            throw new QuickValidationException("密码不可为空");
+        }
+        return R.out(ResponseEnum.SUCCESS);
+    }
+
 }
 
