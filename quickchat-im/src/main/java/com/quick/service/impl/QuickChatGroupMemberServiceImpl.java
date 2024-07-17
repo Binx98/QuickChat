@@ -2,18 +2,22 @@ package com.quick.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.adapter.GroupMemberAdapter;
+import com.quick.adapter.ApplyAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
+import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMemberMapper;
+import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 import com.quick.service.QuickChatGroupMemberService;
+import com.quick.store.QuickChatApplyStore;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatUserStore;
@@ -43,6 +47,9 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     private QuickChatGroupStore groupStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
+    @Autowired
+    private QuickChatApplyStore applyStore;
+
 
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
@@ -63,20 +70,31 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         if (ObjectUtils.isEmpty(loginMember)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
+        QuickChatGroup chatGroup = groupStore.getByGroupId(groupId.toString());
+        if (ObjectUtils.isEmpty(chatGroup)) {
+            throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
+        }
 
         // 去除已经在群的id
         List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
         List<String> savedAccountIdList = groupMemberByAccountId.stream().map(QuickChatGroupMember::getAccountId).collect(Collectors.toList());
         accountIdList.removeAll(savedAccountIdList);
 
-        // 保存未在群的成员信息
-        List<QuickChatGroupMember> memberList = new ArrayList<>();
+
+        // 保存申请记录
+        List<QuickChatApply> applyList = new ArrayList<>();
         for (String accountId : accountIdList) {
-            QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(groupId, accountId);
-            memberList.add(member);
+
+            QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId, "邀请您加入群聊: " + chatGroup.getGroupName(),
+                    ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
+            applyList.add(apply);
+            // 推送给被邀请人
+
+
         }
 
-        return memberStore.saveMemberList(memberList);
+
+        return applyStore.saveAll(applyList);
     }
 
     @Override
