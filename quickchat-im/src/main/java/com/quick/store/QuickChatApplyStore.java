@@ -54,4 +54,11 @@ public interface QuickChatApplyStore extends IService<QuickChatApply> {
      * @return 申请记录
      */
     QuickChatApply getByApplyId(Long applyId);
+
+    /**
+     * 批量保存申请记录
+     * @param applyList 申请列表
+     * @return
+     */
+    Boolean saveAll(List<QuickChatApply> applyList);
 }
