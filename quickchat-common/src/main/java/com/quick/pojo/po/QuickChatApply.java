@@ -54,6 +54,12 @@ public class QuickChatApply implements Serializable {
     private Integer type;
 
     /**
+     * 群聊id
+     */
+    @TableField(value = "group_id")
+    private Long groupId;
+
+    /**
      * 状态（0：未处理，1：已通过）
      *
      * @see com.quick.enums.YesNoEnum

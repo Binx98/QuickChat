@@ -54,4 +54,9 @@ public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, Q
     public Boolean deleteByApplyId(Long applyId) {
         return this.removeById(applyId);
     }
+
+    @Override
+    public Boolean saveAll(List<QuickChatApply> applyList) {
+        return this.saveBatch(applyList);
+    }
 }
