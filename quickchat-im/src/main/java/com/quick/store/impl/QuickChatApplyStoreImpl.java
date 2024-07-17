@@ -46,7 +46,7 @@ public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, Q
     public Boolean updateApplyStatus(Long applyId, Integer status) {
         return this.lambdaUpdate()
                 .eq(QuickChatApply::getId, applyId)
-                .eq(QuickChatApply::getStatus, status)
+                .set(QuickChatApply::getStatus, status)
                 .update();
     }
 
