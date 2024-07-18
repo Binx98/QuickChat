@@ -48,6 +48,14 @@ public class QuickChatGroup implements Serializable {
     private String groupAvatar;
 
     /**
+     * 群员邀请权限（0不可以，1可以）
+     *
+     * @see com.quick.enums.YesNoEnum
+     */
+    @TableField("invite_permission")
+    private Integer invitePermission;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

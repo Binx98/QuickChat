@@ -74,6 +74,10 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         if (ObjectUtils.isEmpty(chatGroup)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
+        // 不允许成员邀请 且 当前登录人不是群主
+        if(chatGroup.getInvitePermission() == YesNoEnum.NO.getCode() && !chatGroup.getAccountId().equals(loginAccountId)){
+            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
+        }
 
         // 去除已经在群的id
         List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
