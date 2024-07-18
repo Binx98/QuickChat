@@ -91,6 +91,8 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
         // 修改群组信息
         groupPO.setGroupName(group.getGroupName());
+        groupPO.setGroupAvatar(group.getGroupAvatar());
+        groupPO.setInvitePermission(group.getInvitePermission());
         return groupStore.updateInfo(groupPO);
     }
 }

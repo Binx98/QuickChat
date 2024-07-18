@@ -29,5 +29,9 @@ public class GroupDTO {
      * 群头像
      */
     private String groupAvatar;
+    /**
+     * 群员邀请权限（0不可以，1可以）
+     */
+    private Integer invitePermission;
 
 }
