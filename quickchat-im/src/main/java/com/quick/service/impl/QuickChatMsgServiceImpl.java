@@ -2,16 +2,20 @@ package com.quick.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.MsgAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.enums.WsPushEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
+import com.quick.pojo.entity.WsPushEntity;
+import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
@@ -91,12 +95,12 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
         // 查询对方是否是你的好友
         Integer sessionType = msgDTO.getSessionType();
-//        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-//            QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
-//            if (ObjectUtils.isEmpty(friend)) {
-//                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
-//            }
-//        }
+        if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
+            QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
+            if (ObjectUtils.isEmpty(friend)) {
+                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
+            }
+        }
 
         // 处理通讯双方会话信息
         this.handleSession(sessionType, msgDTO.getRelationId());
@@ -119,6 +123,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);
+        WsPushEntity<Map<String, String>> pushEntity = new WsPushEntity();
+        pushEntity.setPushType(WsPushEnum.WRITING.getCode());
+        pushEntity.setMessage(param);
         kafkaProducer.send(KafkaConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
     }
 
