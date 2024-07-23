@@ -71,7 +71,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
 
         // 查询群组信息
-        QuickChatGroup chatGroup = groupStore.getByGroupId(groupId.toString());
+        QuickChatGroup chatGroup = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(chatGroup)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
@@ -105,7 +105,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     public Boolean deleteMember(Long groupId, String accountId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
+        QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
