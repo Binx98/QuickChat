@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupStore {
     @Override
-    public QuickChatGroup getByGroupId(String groupId) {
+    public QuickChatGroup getByGroupId(Long groupId) {
         return this.getById(groupId);
     }
 

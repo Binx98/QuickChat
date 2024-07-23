@@ -147,7 +147,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             QuickChatUser userPO = userStore.getByAccountId(sessionPO.getToId());
             sessionVO = SessionAdapter.buildUserSessionPO(userPO, sessionPO);
         } else {
-            QuickChatGroup groupPO = groupStore.getByGroupId(sessionPO.getToId());
+            QuickChatGroup groupPO = groupStore.getByGroupId(Long.valueOf(sessionPO.getToId()));
             sessionVO = SessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
         }
         Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));

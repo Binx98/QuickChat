@@ -7,6 +7,7 @@ import com.quick.adapter.ContactAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatApplyMapper;
@@ -67,26 +68,27 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
 
         // 入群申请
-        if (apply.getType() == 2) {
+        if (SessionTypeEnum.GROUP.getCode().equals(apply.getType())) {
             // 保存群成员
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
             memberStore.enterGroup(member);
 
             // 为新成员添加会话
-            QuickChatSession session = SessionAdapter.buildSessionPO(apply.getToId(), apply.getGroupId() + "", apply.getGroupId(), apply.getType());
+            QuickChatSession session = SessionAdapter.buildSessionPO(apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
         }
 
-        if (apply.getType() == 1) {
-            // 保存双方通讯录
+        // 好友申请
+        else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
+            // 保存通讯录
             String fromId = apply.getFromId();
             String toId = apply.getToId();
             QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType(), null);
-            QuickChatContact contact2 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType(), null);
+            QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType(), null);
             contactStore.saveContact(contact1);
             contactStore.saveContact(contact2);
 
-            // 保存双方会话
+            // 保存会话
             Long relationId = IdWorker.getId();
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());

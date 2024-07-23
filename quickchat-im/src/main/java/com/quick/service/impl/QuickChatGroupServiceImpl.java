@@ -14,7 +14,10 @@ import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.service.QuickChatGroupService;
-import com.quick.store.*;
+import com.quick.store.QuickChatContactStore;
+import com.quick.store.QuickChatGroupMemberStore;
+import com.quick.store.QuickChatGroupStore;
+import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
     private KafkaProducer kafkaProducer;
-    @Autowired
-    private QuickChatUserStore userStore;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
@@ -60,7 +61,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     public Boolean releaseGroup(Long groupId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
+        QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.FAIL);
         }
@@ -72,6 +73,9 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
     @Override
     public Boolean exitGroup(Long groupId) {
+        // 查询群组信息
+        groupStore.getByGroupId(groupId);
+
         // 删除群成员
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         memberStore.deleteByGroupIdAndAccountId(groupId, loginAccountId);
@@ -84,7 +88,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     public Boolean updateInfo(GroupDTO group) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = groupStore.getByGroupId(group.getGroupId().toString());
+        QuickChatGroup groupPO = groupStore.getByGroupId(group.getGroupId());
         if (!groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }

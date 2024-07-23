@@ -54,6 +54,7 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
     public QuickChatUser getByEmail(String email) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getEmail, email)

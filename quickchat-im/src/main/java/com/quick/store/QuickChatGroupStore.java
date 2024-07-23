@@ -20,7 +20,7 @@ public interface QuickChatGroupStore extends IService<QuickChatGroup> {
      * @param groupId 群组id
      * @return 群组信息
      */
-    QuickChatGroup getByGroupId(String groupId);
+    QuickChatGroup getByGroupId(Long groupId);
 
     /**
      * 修改群组信息

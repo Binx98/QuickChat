@@ -63,40 +63,40 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public Boolean addMember(Long groupId, List<String> accountIdList) {
-
         // 查看当前登录人是否在群中
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroupMember loginMember = memberStore.getMemberByAccountId(groupId, loginAccountId);
         if (ObjectUtils.isEmpty(loginMember)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
-        QuickChatGroup chatGroup = groupStore.getByGroupId(groupId.toString());
+
+        // 查询群组信息
+        QuickChatGroup chatGroup = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(chatGroup)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
-        // 不允许成员邀请 且 当前登录人不是群主
-        if(chatGroup.getInvitePermission() == YesNoEnum.NO.getCode() && !chatGroup.getAccountId().equals(loginAccountId)){
+
+        // 不允许成员邀请 && 当前登录人不是群主
+        if (YesNoEnum.NO.getCode().equals(chatGroup.getInvitePermission())
+                && !chatGroup.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
 
         // 去除已经在群的id
         List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
-        List<String> savedAccountIdList = groupMemberByAccountId.stream().map(QuickChatGroupMember::getAccountId).collect(Collectors.toList());
+        List<String> savedAccountIdList = groupMemberByAccountId.stream()
+                .map(QuickChatGroupMember::getAccountId)
+                .collect(Collectors.toList());
         accountIdList.removeAll(savedAccountIdList);
-
 
         // 保存申请记录
         List<QuickChatApply> applyList = new ArrayList<>();
         for (String accountId : accountIdList) {
-
-            QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId, "邀请您加入群聊: " + chatGroup.getGroupName(),
-                    ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
+            QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
+                    "邀请您加入群聊: " + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
-            // 推送给被邀请人
-
-
+            // TODO 推送给被邀请人
         }
-
 
         return applyStore.saveAll(applyList);
     }
@@ -105,7 +105,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     public Boolean deleteMember(Long groupId, String accountId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroup groupPO = groupStore.getByGroupId(groupId.toString());
+        QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
