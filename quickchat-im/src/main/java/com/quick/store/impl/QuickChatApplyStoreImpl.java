@@ -32,6 +32,7 @@ public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, Q
     public List<QuickChatApply> getListByToId(String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatApply::getToId, toId)
+                .orderByDesc(QuickChatApply::getCreateTime)
                 .list();
     }
 
@@ -42,7 +43,6 @@ public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, Q
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_APPLY, key = "#p0.toId")
     public Boolean updateApplyStatus(Long applyId, Integer status) {
         return this.lambdaUpdate()
                 .eq(QuickChatApply::getId, applyId)
