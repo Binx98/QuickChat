@@ -6,7 +6,10 @@ import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.*;
+import com.quick.enums.GenderEnum;
+import com.quick.enums.ResponseEnum;
+import com.quick.enums.SessionTypeEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatUserMapper;
@@ -82,7 +85,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean register(RegisterDTO registerDTO) throws Exception {
-
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
@@ -101,7 +103,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 判断邮箱是否注册过
-        if(registerDTO.getToEmail().equals(userPO.getEmail())){
+        if (registerDTO.getToEmail().equals(userPO.getEmail())) {
             throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
         }
 
@@ -117,12 +119,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         String password = AESUtil.encrypt(registerDTO.getPassword1());
 
         // 保存账号信息
-        String avatar = "";
-        if (GenderEnum.BOY.getType().equals(registerDTO.getGender())) {
-            avatar = boyAvatar;
-        } else {
-            avatar = girlAvatar;
-        }
+        String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
                 registerDTO.getGender(), registerDTO.getToEmail(), location, YesNoEnum.NO.getCode());
         return userStore.saveUser(userPO);
@@ -189,7 +186,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
         // 验证码缓存到Redis（3min）
         String verifyCode = defaultKaptcha.createText();
-        redisUtil.setCacheObject(captcha, verifyCode, 2, TimeUnit.MINUTES);
+        redisUtil.setCacheObject(captcha, verifyCode, 3, TimeUnit.MINUTES);
 
         // 将图片输出到页面
         ServletOutputStream outputStream = null;
@@ -236,6 +233,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
     @Override
     public Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception {
+        // 两次密码输入是否一致
+        if (!userFindBackDTO.getPassword1().equals(userFindBackDTO.getPassword2())) {
+            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
+        }
+
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByEmail(userFindBackDTO.getToEmail());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -248,15 +250,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
 
-        // 两次密码输入是否一致
-        if (!userFindBackDTO.getPassword1().equals(userFindBackDTO.getPassword2())) {
-            throw new QuickException(ResponseEnum.PASSWORD_DIFF);
-        }
-
         // 更新密码
         String password = AESUtil.encrypt(userFindBackDTO.getPassword1());
         userPO.setPassword(password);
-
         return userStore.updateInfo(userPO);
     }
 }
