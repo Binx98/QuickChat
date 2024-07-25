@@ -67,10 +67,10 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     /**
      * 批量保存会话列表
      *
-     * @param sessionPOList 会话列表
+     * @param sessionList 会话列表
      * @return 执行结果
      */
-    Boolean saveList(List<QuickChatSession> sessionPOList);
+    Boolean saveSessionList(List<QuickChatSession> sessionList);
 
     /**
      * 根据 session_id 查询会话信息
