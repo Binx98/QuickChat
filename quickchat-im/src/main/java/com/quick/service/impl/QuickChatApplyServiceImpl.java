@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -85,15 +86,13 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             String toId = apply.getToId();
             QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType(), null);
             QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType(), null);
-            contactStore.saveContact(contact1);
-            contactStore.saveContact(contact2);
+            contactStore.saveContactList(Arrays.asList(contact1, contact2));
 
             // 保存会话
             Long relationId = IdWorker.getId();
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
-            sessionStore.saveInfo(session1);
-            sessionStore.saveInfo(session2);
+            sessionStore.saveSessionList(Arrays.asList(session1, session2));
         }
 
         return true;

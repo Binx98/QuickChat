@@ -58,7 +58,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    public Boolean saveList(List<QuickChatSession> sessionPOList) {
+    public Boolean saveSessionList(List<QuickChatSession> sessionPOList) {
         return this.saveBatch(sessionPOList);
     }
 
