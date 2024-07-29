@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface RateLimiter {
     /**
-     * 限流key
+     * 限流 KEY
      */
     String key() default "rate_limit:";
 
@@ -25,7 +25,7 @@ public @interface RateLimiter {
     int time() default 60;
 
     /**
-     * 限流次数
+     * 请求次数
      */
     int count() default 100;
 

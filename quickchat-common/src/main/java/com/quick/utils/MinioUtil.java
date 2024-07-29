@@ -100,7 +100,7 @@ public class MinioUtil {
     }
 
     /**
-     * 删除文件对象
+     * 删除文件
      *
      * @param bucketName Bucket桶名
      * @param fileName   文件名
@@ -151,7 +151,7 @@ public class MinioUtil {
     }
 
     /**
-     * 判断bucket是否存在（不存在则创建）
+     * 判断 bucket 是否存在（不存在则创建）
      */
     public void existBucket(String name) throws Exception {
         boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(name).build());
@@ -161,7 +161,7 @@ public class MinioUtil {
     }
 
     /**
-     * 查看文件对象
+     * 查看文件列表
      */
     public List<Item> getFileList(String bucketName) throws Exception {
         Iterable<Result<Item>> results =

@@ -15,12 +15,9 @@ import java.nio.charset.StandardCharsets;
  */
 @Slf4j
 public class AESUtil {
-    // AES加密Key为16位
+    // 加密 Key 长度确保 16 位
     private static final String KEY = "QuickChat_XZB!!!";
 
-    /**
-     * 加密
-     */
     public static String encrypt(String content) throws Exception {
         byte[] raw = KEY.getBytes(StandardCharsets.UTF_8);
         SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
@@ -30,18 +27,14 @@ public class AESUtil {
         return new Base64().encodeToString(encrypted);
     }
 
-    /**
-     * 解密
-     */
     public static String decrypt(String content) throws Exception {
         byte[] raw = KEY.getBytes(StandardCharsets.UTF_8);
-        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+        SecretKeySpec keySpec = new SecretKeySpec(raw, "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        cipher.init(Cipher.DECRYPT_MODE, keySpec);
         byte[] encrypted1 = new Base64().decode(content);
         byte[] original = cipher.doFinal(encrypted1);
-        String originalString = new String(original, StandardCharsets.UTF_8);
-        return originalString;
+        return new String(original, StandardCharsets.UTF_8);
     }
 
     public static void main(String[] args) throws Exception {

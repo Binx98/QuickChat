@@ -16,12 +16,9 @@ public class MyUncaughtExceptionHandler implements Thread.UncaughtExceptionHandl
     public static MyUncaughtExceptionHandler getInstance() {
         return instance;
     }
-
-    /**
-     * 作用：捕捉异常（线程池），打印日志
-     */
+    
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        log.error("==============线程池：[{}]，出现异常：[{}]==============", t.getName(), e);
+        log.error("==============thread pool:[{}]，error:[{}]==============", t.getName(), e);
     }
 }

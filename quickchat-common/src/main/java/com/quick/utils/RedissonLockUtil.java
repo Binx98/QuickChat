@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @Author 徐志斌
  * @Date: 2023/11/9 22:15
  * @Version 1.0
- * @Description: Redisson分布式锁工具类
+ * @Description: Redisson 分布式锁工具类
  */
 @Slf4j
 @Component
@@ -22,9 +22,6 @@ public class RedissonLockUtil {
     @Autowired
     private RedissonClient redissonClient;
 
-    /**
-     * 临界区代码原子性保护
-     */
     public <T> T executeWithLock(String key, int waitTime, TimeUnit unit, SupplierThrow<T> supplier) throws Throwable {
         RLock lock = redissonClient.getLock(key);
         boolean lockSuccess = lock.tryLock(waitTime, unit);
@@ -32,7 +29,6 @@ public class RedissonLockUtil {
             throw new QuickException(ResponseEnum.FAIL);
         }
         try {
-            // 临界区代码
             return supplier.get();
         } finally {
             if (lock.isLocked() && lock.isHeldByCurrentThread()) {

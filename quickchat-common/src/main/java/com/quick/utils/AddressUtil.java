@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2024-01-04  09:59
- * @Description: ip2region 地址解析 Util
+ * @Description: ip2region 地址解析工具类
  * @Version: 1.0
  */
 public class AddressUtil {
