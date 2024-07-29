@@ -16,7 +16,9 @@ public class CookieUtil {
      */
     public static String getValue(HttpServletRequest request, String key) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) return null;
+        if (cookies == null) {
+            return null;
+        }
         String v = null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equalsIgnoreCase(key)) {
@@ -32,7 +34,9 @@ public class CookieUtil {
      */
     public static void setValue(HttpServletRequest request, HttpServletResponse response, String key, String value) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) return;
+        if (cookies == null) {
+            return;
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equalsIgnoreCase(key)) {
                 cookie.setValue(value);
@@ -47,7 +51,9 @@ public class CookieUtil {
      */
     public static boolean hasCookie(HttpServletRequest request, String key) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) return false;
+        if (cookies == null) {
+            return false;
+        }
         boolean has = false;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equalsIgnoreCase(key)) {
@@ -75,7 +81,9 @@ public class CookieUtil {
      */
     public static void clearCookie(HttpServletRequest request, HttpServletResponse response, String key) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null) return;
+        if (cookies == null) {
+            return;
+        }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equalsIgnoreCase(key)) {
                 cookie.setMaxAge(0);

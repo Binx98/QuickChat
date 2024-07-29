@@ -12,11 +12,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Author: 徐志斌
  * @CreateTime: 2023-08-29  13:43
  * @Description: 自定义线程池
- * -------------------------------------------------------------------------------
- * 为什么通过该方式使用线程池：
- * 0.阿里巴巴开发手册不建议直接用内置API创建线程池
- * 1.线程池交给Spring容器统一管理，不需要频繁的创建
- * 2.不需要手动释放线程池资源，当项目关闭的时候，需要通过JVM的shutdownHook回调线程池，等队列里任务执行完再停机，保证任务不丢失。
+ * @Version: 1.0
  */
 @Slf4j
 @Configuration

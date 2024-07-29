@@ -24,6 +24,7 @@ import java.io.*;
  * @author 徐志斌
  * @description: 发送邮件工具类
  * @date 2023/12/26 16:52
+ * @Version: 1.0
  */
 
 @Component
@@ -34,7 +35,7 @@ public class EmailUtil {
     private String fromEmail;
 
     /**
-     * 简单文本邮件
+     * 文本邮件
      *
      * @param to      收件人
      * @param subject 主题
@@ -50,7 +51,7 @@ public class EmailUtil {
     }
 
     /**
-     * HTML 邮件
+     * HTML邮件
      *
      * @param toEmail 收件人，多个时参数形式 ："xxx@xxx.com,xxx@xxx.com,xxx@xxx.com"
      * @param subject 主题

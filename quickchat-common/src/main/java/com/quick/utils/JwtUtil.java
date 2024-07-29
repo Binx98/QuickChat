@@ -20,9 +20,6 @@ public class JwtUtil {
     public static final long EXPIRE = 86400000;
     public static final String JWT_SECRET = "Quick_Chat_XZB1998";
 
-    /**
-     * 根据 uid 生成 Token
-     */
     public static String generate(String accountId) {
         String JwtToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
@@ -36,9 +33,6 @@ public class JwtUtil {
         return JwtToken;
     }
 
-    /**
-     * 解析 Token
-     */
     public static Map<String, Object> resolve(String token) {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
         Claims claims = claimsJws.getBody();
@@ -48,9 +42,6 @@ public class JwtUtil {
         return resultMap;
     }
 
-    /**
-     * 校验 Token 是否可用
-     */
     public static boolean check(String jwtToken) {
         if (StringUtils.isEmpty(jwtToken)) {
             return false;
@@ -62,8 +53,5 @@ public class JwtUtil {
             return false;
         }
         return true;
-    }
-
-    public static void main(String[] args) {
     }
 }

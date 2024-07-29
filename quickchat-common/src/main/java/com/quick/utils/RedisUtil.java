@@ -22,7 +22,6 @@ public class RedisUtil {
     @Autowired
     private RedisTemplate redisTemplate;
 
-
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *
@@ -82,7 +81,7 @@ public class RedisUtil {
     /**
      * 删除单个对象
      *
-     * @param key
+     * @param key 缓存键值
      */
     public boolean deleteObject(final String key) {
         return redisTemplate.delete(key);
@@ -92,18 +91,18 @@ public class RedisUtil {
      * 删除集合对象
      *
      * @param collection 多个对象
-     * @return
+     * @return 删除数量
      */
     public long deleteObject(final Collection collection) {
         return redisTemplate.delete(collection);
     }
 
     /**
-     * 缓存List数据
+     * 缓存 List 数据
      *
      * @param key      缓存的键值
      * @param dataList 待缓存的List数据
-     * @return 缓存的对象
+     * @return 缓存对象数量
      */
     public <T> long setCacheList(final String key, final List<T> dataList) {
         Long count = redisTemplate.opsForList().rightPushAll(key, dataList);

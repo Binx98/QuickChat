@@ -43,7 +43,7 @@ public class RateLimiterAspect {
         String key = rateLimiter.key();
         int time = rateLimiter.time();
         int count = rateLimiter.count();
-        String combineKey = getCombineKey(rateLimiter, point);
+        String combineKey = this.getCombineKey(rateLimiter, point);
         List<Object> keys = Collections.singletonList(combineKey);
         Long number = redisUtil.executeScript(limitScript, keys, count, time);
         if (number == null || number.intValue() > count) {
