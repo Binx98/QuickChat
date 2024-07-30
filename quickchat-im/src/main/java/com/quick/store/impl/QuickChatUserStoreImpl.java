@@ -49,7 +49,7 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
             @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "#p0"),
             @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "'getListByAccountIds'", allEntries = true),
     })
-    public Boolean updateInfo(QuickChatUser userPO) {
+    public Boolean updateUserById(QuickChatUser userPO) {
         return this.updateById(userPO);
     }
 

@@ -44,7 +44,7 @@ public interface QuickChatUserStore extends IService<QuickChatUser> {
      * @param userPO 用户信息
      * @return 执行结果
      */
-    Boolean updateInfo(QuickChatUser userPO);
+    Boolean updateUserById(QuickChatUser userPO);
 
     /**
      * 根据 email 查询用户信息

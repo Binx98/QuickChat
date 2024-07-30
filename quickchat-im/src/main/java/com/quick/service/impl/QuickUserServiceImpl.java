@@ -153,7 +153,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
         userPO.setLoginStatus(YesNoEnum.YES.getCode());
-        userStore.updateInfo(userPO);
+        userStore.updateUserById(userPO);
 
 //        // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作
 //        Map<String, Object> param = new HashMap<>();
@@ -211,7 +211,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Override
     public Boolean updateUser(UserUpdateDTO userDTO) {
         QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
-        return userStore.updateInfo(userPO);
+        return userStore.updateUserById(userPO);
     }
 
     @Override
@@ -232,27 +232,27 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
 
     @Override
-    public Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception {
+    public Boolean findBack(UserFindBackDTO findBackDTO) throws Exception {
         // 两次密码输入是否一致
-        if (!userFindBackDTO.getPassword1().equals(userFindBackDTO.getPassword2())) {
+        if (!findBackDTO.getPassword1().equals(findBackDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
 
         // 判断账号是否存在
-        QuickChatUser userPO = userStore.getByEmail(userFindBackDTO.getToEmail());
+        QuickChatUser userPO = userStore.getByEmail(findBackDTO.getToEmail());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
         }
 
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + userFindBackDTO.getToEmail());
-        if (StringUtils.isEmpty(cacheEmailCode) || !userFindBackDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + findBackDTO.getToEmail());
+        if (StringUtils.isEmpty(cacheEmailCode) || !cacheEmailCode.equals(findBackDTO.getEmailCode())) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
 
         // 更新密码
-        String password = AESUtil.encrypt(userFindBackDTO.getPassword1());
+        String password = AESUtil.encrypt(findBackDTO.getPassword1());
         userPO.setPassword(password);
-        return userStore.updateInfo(userPO);
+        return userStore.updateUserById(userPO);
     }
 }

@@ -5,7 +5,6 @@ import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -79,9 +78,10 @@ public interface QuickUserService extends IService<QuickChatUser> {
     /**
      * 用户找回密码
      *
-     * @param userFindBackDTO 找回密码DTO
+     * @param findBackDTO 找回密码DTO
      * @return 执行结果
+     * @throws Exception
      */
-    Boolean findBack(UserFindBackDTO userFindBackDTO) throws Exception;
+    Boolean findBack(UserFindBackDTO findBackDTO) throws Exception;
 
 }
