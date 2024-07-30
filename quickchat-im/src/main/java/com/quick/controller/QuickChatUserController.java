@@ -83,8 +83,8 @@ public class QuickChatUserController {
 
     @ApiOperation("找回密码")
     @PutMapping("/findBack")
-    public R findBack(@RequestBody UserFindBackDTO userDTO) throws Exception {
-        userService.findBack(userDTO);
+    public R findBack(@RequestBody UserFindBackDTO findBackDTO) throws Exception {
+        userService.findBack(findBackDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
@@ -99,6 +99,5 @@ public class QuickChatUserController {
         }
         return R.out(ResponseEnum.SUCCESS);
     }
-
 }
 
