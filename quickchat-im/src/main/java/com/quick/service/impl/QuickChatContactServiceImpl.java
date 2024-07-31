@@ -8,10 +8,12 @@ import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.WsPushEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatContactMapper;
+import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatUser;
@@ -76,7 +78,10 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         applyStore.saveApply(apply);
 
         // 推送给目标用户
-        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+        WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
+        pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
+        pushEntity.setMessage(apply);
+        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
         return true;
     }
 

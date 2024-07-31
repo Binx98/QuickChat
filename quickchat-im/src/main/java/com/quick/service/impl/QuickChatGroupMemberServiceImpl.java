@@ -1,5 +1,6 @@
 package com.quick.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ApplyAdapter;
@@ -7,10 +8,12 @@ import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
+import com.quick.enums.WsPushEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMemberMapper;
+import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -95,7 +98,12 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
             QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
                     "邀请您加入群聊: " + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
-            // TODO 推送给被邀请人
+
+            // 推送给被邀请人
+            WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
+            pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
+            pushEntity.setMessage(apply);
+            kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
         }
 
         return applyStore.saveAll(applyList);
@@ -110,9 +118,15 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
 
-        // 删除群成员 + 通知目标用户被移除群聊
+        // 删除群成员
+        QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
-        return null;
+
+        // 推送给被邀请人
+        WsPushEntity<QuickChatGroupMember> pushEntity = new WsPushEntity<>();
+        pushEntity.setPushType(WsPushEnum.GROUP_NOTICE.getCode());
+        pushEntity.setMessage(member);
+        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(pushEntity));
+        return true;
     }
 }
