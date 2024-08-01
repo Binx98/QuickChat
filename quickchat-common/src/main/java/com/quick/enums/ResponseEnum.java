@@ -35,6 +35,7 @@ public enum ResponseEnum {
     IS_NOT_YOUR_FRIEND(500, "对方不是您的好友，不可进行当前操作！"),
     GROUP_NOT_EXIST(500, "群组信息不存在！"),
     NOT_GROUP_OWNER(500, "您不是群主，不可进行当前操作！"),
+    NOT_GROUP_MEMBER(500, "您不在该群组中，不可进行当前操作！"),
     FILE_OVER_SIZE(500, "文件大小不可超过：%s"),
     VOICE_TIME_NOT_ALLOW(500, "语音消息时长不可超过%s秒！"),
     FONT_MSG_IS_NULL(500, "输入框内容为空，不可进行发送"),
