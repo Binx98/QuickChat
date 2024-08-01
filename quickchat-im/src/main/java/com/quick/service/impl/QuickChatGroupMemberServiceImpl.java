@@ -1,6 +1,7 @@
 package com.quick.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ApplyAdapter;
@@ -56,21 +57,27 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
+        // 根据 group_id 查询所有群成员 account_id 列表
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
         List<String> accountIdList = members.stream()
                 .map(QuickChatGroupMember::getAccountId)
                 .collect(Collectors.toList());
-        List<QuickChatUser> userList = userStore.getListByAccountIds(accountIdList);
+
+        // 根据群成员 account_id 列表查询群成员用户列表信息
+        List<QuickChatUser> userList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(accountIdList)) {
+            userList = userStore.getListByAccountIds(accountIdList);
+        }
         return UserAdapter.buildUserVOList(userList);
     }
 
     @Override
     public Boolean addMember(Long groupId, List<String> accountIdList) {
-        // 查看当前登录人是否在群中
+        // 判断当前操作者是否在群组中
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroupMember loginMember = memberStore.getMemberByAccountId(groupId, loginAccountId);
         if (ObjectUtils.isEmpty(loginMember)) {
-            throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
+            throw new QuickException(ResponseEnum.NOT_GROUP_MEMBER);
         }
 
         // 查询群组信息
@@ -95,18 +102,20 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         // 保存申请记录
         List<QuickChatApply> applyList = new ArrayList<>();
         for (String accountId : accountIdList) {
-            QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
-                    "邀请您加入群聊: " + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
+            QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId, "邀请您加入群聊: "
+                    + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
-
-            // 推送给被邀请人
-            WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
-            pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
-            pushEntity.setMessage(apply);
-            kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
         }
 
-        return applyStore.saveAll(applyList);
+        // 批量保存申请记录列表
+        applyStore.saveAll(applyList);
+
+        // 推送给被邀请人
+        WsPushEntity<List<QuickChatApply>> pushEntity = new WsPushEntity<>();
+        pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
+        pushEntity.setMessage(applyList);
+        kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
+        return true;
     }
 
     @Override

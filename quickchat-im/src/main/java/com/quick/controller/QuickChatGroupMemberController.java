@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("查询群成员")
     @PostMapping("/list")
-    public R getMemberList(Long groupId) {
+    public R getMemberList(@NotNull(message = "群id参数不能为空") Long groupId) {
         List<ChatUserVO> members = memberService.getGroupMemberList(groupId);
         return R.out(ResponseEnum.SUCCESS, members);
     }
