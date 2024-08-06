@@ -20,13 +20,31 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ApplyNoticeConsumer {
+    /**
+     * 发送好友申请通知
+     */
     @KafkaListener(topics = KafkaConstant.FRIEND_APPLY_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
-    public void sendApplyNotice(String message) {
+    public void sendFriendApply(String message) {
         QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
         Channel channel = UserChannelRelation.getUserChannelMap().get(apply.getToId());
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
-            pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
+            pushEntity.setPushType(WsPushEnum.FRIEND_APPLY_NOTICE.getCode());
+            pushEntity.setMessage(apply);
+            channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
+        }
+    }
+
+    /**
+     * 发送群聊申请通知
+     */
+    @KafkaListener(topics = KafkaConstant.GROUP_NOTICE_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+    public void sendGroupNotice(String message) {
+        QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
+        Channel channel = UserChannelRelation.getUserChannelMap().get(apply.getToId());
+        if (ObjectUtils.isNotEmpty(channel)) {
+            WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
+            pushEntity.setPushType(WsPushEnum.FRIEND_APPLY_NOTICE.getCode());
             pushEntity.setMessage(apply);
             channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
         }

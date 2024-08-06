@@ -1,5 +1,6 @@
 package com.quick.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ContactAdapter;
@@ -67,7 +68,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         }
 
         // Channel 通知群内所有用户被当前群聊解散
-        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, null);
+        kafkaProducer.send(KafkaConstant.GROUP_NOTICE_TOPIC, JSONUtil.toJsonStr(groupId));
         return null;
     }
 
