@@ -79,7 +79,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
         // 推送给目标用户
         WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
-        pushEntity.setPushType(WsPushEnum.APPLY_NOTICE.getCode());
+        pushEntity.setPushType(WsPushEnum.FRIEND_APPLY_NOTICE.getCode());
         pushEntity.setMessage(apply);
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
         return true;
