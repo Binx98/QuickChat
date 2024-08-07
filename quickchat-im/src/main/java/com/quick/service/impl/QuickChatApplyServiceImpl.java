@@ -1,15 +1,18 @@
 package com.quick.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ContactAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
+import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
+import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatApplyMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
@@ -39,11 +42,13 @@ import java.util.List;
 @Service
 public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyService {
     @Autowired
+    private KafkaProducer kafkaProducer;
+    @Autowired
     private QuickChatApplyStore applyStore;
     @Autowired
-    private QuickChatContactStore contactStore;
-    @Autowired
     private QuickChatSessionStore sessionStore;
+    @Autowired
+    private QuickChatContactStore contactStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
@@ -77,6 +82,9 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             // 为新成员添加会话
             QuickChatSession session = SessionAdapter.buildSessionPO(apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
+
+            // 推送给目标用户
+            kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
 
         // 好友申请
@@ -93,6 +101,9 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
+
+            // 推送给目标用户
+            kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
 
         return true;
