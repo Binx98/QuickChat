@@ -46,7 +46,7 @@ public class ApplyConsumer {
     /**
      * 发送群聊申请通知
      */
-    @KafkaListener(topics = KafkaConstant.GROUP_NOTICE_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+    @KafkaListener(topics = KafkaConstant.GROUP_APPLY_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendGroupNotice(String message) {
         QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());

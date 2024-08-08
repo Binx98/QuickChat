@@ -75,7 +75,7 @@ public class ChatMsgConsumer {
         String toId = param.get("toId");
         Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
         if (ObjectUtils.isNotEmpty(channel)) {
-            WsPushEntity<Map> pushEntity = new WsPushEntity<>();
+            WsPushEntity<Map<String, String>> pushEntity = new WsPushEntity();
             pushEntity.setPushType(WsPushEnum.WRITING.getCode());
             pushEntity.setMessage(param);
             channel.writeAndFlush(new TextWebSocketFrame(fromId));
