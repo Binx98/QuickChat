@@ -111,10 +111,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         applyStore.saveAll(applyList);
 
         // 推送给被邀请人
-        WsPushEntity<List<QuickChatApply>> pushEntity = new WsPushEntity<>();
-        pushEntity.setPushType(WsPushEnum.FRIEND_APPLY_NOTICE.getCode());
-        pushEntity.setMessage(applyList);
-        kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(pushEntity));
+        kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
         return true;
     }
 
@@ -132,10 +129,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
 
         // 推送给被邀请人
-        WsPushEntity<QuickChatGroupMember> pushEntity = new WsPushEntity<>();
-        pushEntity.setPushType(WsPushEnum.GROUP_RELEASE_NOTICE.getCode());
-        pushEntity.setMessage(member);
-        kafkaProducer.send(KafkaConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(pushEntity));
+        kafkaProducer.send(KafkaConstant.GROUP_NOTICE_TOPIC, JSONUtil.toJsonStr(member));
         return true;
     }
 }

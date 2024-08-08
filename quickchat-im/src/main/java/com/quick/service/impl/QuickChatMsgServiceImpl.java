@@ -123,9 +123,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);
-        WsPushEntity<Map<String, String>> pushEntity = new WsPushEntity();
-        pushEntity.setPushType(WsPushEnum.WRITING.getCode());
-        pushEntity.setMessage(param);
         kafkaProducer.send(KafkaConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
     }
 
