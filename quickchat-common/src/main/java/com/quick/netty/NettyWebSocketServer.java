@@ -62,7 +62,7 @@ public class NettyWebSocketServer {
                 // 块方式写数据
                 pipeline.addLast(new ChunkedWriteHandler());
                 pipeline.addLast(new HttpObjectAggregator(8192));
-                pipeline.addLast(new WebSocketServerProtocolHandler("/")); // HTTP升级为WebSocket
+                pipeline.addLast(new WebSocketServerProtocolHandler("/ws")); // HTTP升级为WebSocket
                 // 自定义Channel处理器
                 pipeline.addLast(channelHandler);
             }
