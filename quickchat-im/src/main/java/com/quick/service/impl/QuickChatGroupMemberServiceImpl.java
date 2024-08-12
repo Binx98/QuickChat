@@ -9,12 +9,10 @@ import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
-import com.quick.enums.WsPushEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatGroupMemberMapper;
-import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -129,7 +127,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
 
         // 推送给被邀请人
-        kafkaProducer.send(KafkaConstant.GROUP_NOTICE_TOPIC, JSONUtil.toJsonStr(member));
+        kafkaProducer.send(KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
         return true;
     }
 }

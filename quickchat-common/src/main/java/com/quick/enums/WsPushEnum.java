@@ -31,6 +31,7 @@ public enum WsPushEnum {
      */
     GROUP_RELEASE_NOTICE(30, "群内通知：解散群聊"),
     GROUP_ENTER_MEMBER_NOTICE(31, "群内通知：加入新成员"),
+    GROUP_DELETE_MEMBER_NOTICE(32, "群内通知：删除成员"),
     ;
 
     private Integer code;
