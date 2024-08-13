@@ -5,12 +5,17 @@ import com.quick.constant.KafkaConstant;
 import com.quick.enums.WsPushEnum;
 import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.entity.WsPushEntity;
+import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroupMember;
+import com.quick.store.QuickChatGroupMemberStore;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @Author: 徐志斌
@@ -20,12 +25,32 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class GroupNoticeConsumer {
+    @Autowired
+    private QuickChatGroupMemberStore memberStore;
+
+    /**
+     * 群内通知：添加群成员
+     */
+    @KafkaListener(topics = KafkaConstant.GROUP_ADD_MEMBER_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+    public void addGroupMember(String message) {
+        QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
+        List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
+        for (QuickChatGroupMember member : members) {
+            Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
+            if (ObjectUtils.isNotEmpty(channel)) {
+                WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
+                pushEntity.setPushType(WsPushEnum.GROUP_ADD_MEMBER_NOTICE.getCode());
+                pushEntity.setMessage(apply);
+                channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
+            }
+        }
+    }
 
     /**
      * 群内通知：删除群成员
      */
     @KafkaListener(topics = KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
-    public void sendFriendApply(String message) {
+    public void deleteGroupMember(String message) {
         QuickChatGroupMember member = JSONUtil.parse(message).toBean(QuickChatGroupMember.class);
         Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
         if (ObjectUtils.isNotEmpty(channel)) {

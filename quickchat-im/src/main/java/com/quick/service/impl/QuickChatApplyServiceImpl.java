@@ -84,7 +84,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             sessionStore.saveInfo(session);
 
             // 推送给目标用户
-            kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+            kafkaProducer.send(KafkaConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
         }
 
         // 好友申请
@@ -103,7 +103,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
 
             // 推送给目标用户
-            kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+            kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
 
         return true;
