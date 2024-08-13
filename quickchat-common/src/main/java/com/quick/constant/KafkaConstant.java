@@ -22,7 +22,7 @@ public class KafkaConstant {
     /**
      * 群内通知 Topic
      */
-    public static final String GROUP_ENTER_MEMBER_NOTICE = "GROUP_ENTER_MEMBER_NOTICE";
+    public static final String GROUP_ADD_MEMBER_NOTICE = "GROUP_ADD_MEMBER_NOTICE";
     public static final String GROUP_DELETE_MEMBER_NOTICE = "GROUP_DELETE_MEMBER_NOTICE";
 
     /**
