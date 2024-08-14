@@ -29,7 +29,7 @@ public class ApplyConsumer {
     private QuickChatGroupMemberStore memberStore;
 
     /**
-     * 发送好友申请通知
+     * 好友申请通知
      */
     @KafkaListener(topics = KafkaConstant.FRIEND_APPLY_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendFriendApply(String message) {
@@ -44,7 +44,7 @@ public class ApplyConsumer {
     }
 
     /**
-     * 发送群聊申请通知
+     * 群聊申请通知
      */
     @KafkaListener(topics = KafkaConstant.GROUP_APPLY_TOPIC, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void sendGroupNotice(String message) {
