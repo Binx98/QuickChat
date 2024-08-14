@@ -67,6 +67,9 @@ quick-chat:
     avatar: 2
     voice: 5
     file: 50
+  group:
+    size: 100
+    invite-count: 20
   avatar:
     boy: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/boy.png
     girl: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/girl.png

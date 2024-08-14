@@ -25,6 +25,7 @@ import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -48,9 +49,11 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
-    private QuickChatGroupMemberStore memberStore;
-    @Autowired
     private QuickChatApplyStore applyStore;
+    @Autowired
+    private QuickChatGroupMemberStore memberStore;
+    @Value("${quick-chat.group.invite-count}")
+    private Integer inviteCountLimit;
 
 
     @Override
@@ -71,6 +74,11 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public Boolean addMember(Long groupId, List<String> accountIdList) {
+        // 添加群成员人数限制
+        if (CollectionUtils.isNotEmpty(accountIdList) && accountIdList.size() > inviteCountLimit) {
+            throw new QuickException(ResponseEnum.GROUP_MEMBER_ADD_COUNT_NOT_ALLOW);
+        }
+
         // 判断当前操作者是否在群组中
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroupMember loginMember = memberStore.getMemberByAccountId(groupId, loginAccountId);

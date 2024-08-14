@@ -25,6 +25,7 @@ import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +52,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
     private QuickChatContactStore contactStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
+    @Value("${quick-chat.group.size}")
+    private Integer groupSizeLimit;
 
     @Override
     public List<QuickChatApply> getApplyList() {
@@ -75,6 +78,12 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
 
         // 入群申请
         if (SessionTypeEnum.GROUP.getCode().equals(apply.getType())) {
+            // 查询群成员数量，判断是否超过限制
+            List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
+            if (groupSizeLimit < members.size() + 1) {
+                throw new QuickException(ResponseEnum.GROUP_SIZE_OVER);
+            }
+
             // 保存群成员
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
             memberStore.enterGroup(member);
