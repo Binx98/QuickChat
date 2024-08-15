@@ -41,6 +41,8 @@ public enum ResponseEnum {
     FILE_OVER_SIZE(500, "文件大小不可超过：%s"),
     VOICE_TIME_NOT_ALLOW(500, "语音消息时长不可超过%s秒！"),
     FONT_MSG_IS_NULL(500, "输入框内容为空，不可进行发送"),
+    APPLY_NOT_EXIST(500, "该申请信息不存在"),
+    APPLY_IS_FINISH(500, "该申请信息已处理，请勿继续操作"),
     ;
 
     @Setter

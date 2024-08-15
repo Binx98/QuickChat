@@ -1,11 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatGroupMemberMapper;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.store.QuickChatGroupMemberStore;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +26,7 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
     }
 
     @Override
-    public Boolean enterGroup(QuickChatGroupMember memberPO) {
+    public Boolean saveMember(QuickChatGroupMember memberPO) {
         return this.save(memberPO);
     }
 
@@ -37,13 +35,6 @@ public class QuickChatGroupMemberStoreImpl extends ServiceImpl<QuickChatGroupMem
         return this.lambdaUpdate()
                 .eq(QuickChatGroupMember::getGroupId, groupId)
                 .eq(QuickChatGroupMember::getAccountId, accountId)
-                .remove();
-    }
-
-    @Override
-    public Boolean deleteByGroupId(Long groupId) {
-        return this.lambdaUpdate()
-                .eq(QuickChatGroupMember::getGroupId, groupId)
                 .remove();
     }
 

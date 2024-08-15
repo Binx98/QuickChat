@@ -67,10 +67,11 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
         // 查询申请记录
         QuickChatApply apply = applyStore.getByApplyId(applyId);
         if (ObjectUtils.isEmpty(apply)) {
-            throw new QuickException(ResponseEnum.FAIL);
+            throw new QuickException(ResponseEnum.APPLY_NOT_EXIST);
         }
-        if (YesNoEnum.YES.getCode().equals(apply.getStatus())) {
-            throw new QuickException(ResponseEnum.FAIL);
+        if (YesNoEnum.YES.getCode().equals(apply.getStatus())
+                || YesNoEnum.NO.getCode().equals(apply.getStatus())) {
+            throw new QuickException(ResponseEnum.APPLY_IS_FINISH);
         }
 
         // 同意申请
@@ -86,7 +87,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
 
             // 保存群成员
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
-            memberStore.enterGroup(member);
+            memberStore.saveMember(member);
 
             // 为新成员添加会话
             QuickChatSession session = SessionAdapter.buildSessionPO(apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());

@@ -29,7 +29,7 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @param memberPO 群成员信息
      * @return 执行结果
      */
-    Boolean enterGroup(QuickChatGroupMember memberPO);
+    Boolean saveMember(QuickChatGroupMember memberPO);
 
     /**
      * 根据 group_id account_id 移出群聊
@@ -41,14 +41,6 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
     Boolean deleteByGroupIdAndAccountId(Long groupId, String accountId);
 
     /**
-     * 根据 group_id 删除群成员列表
-     *
-     * @param groupId 群id
-     * @return 执行结果
-     */
-    Boolean deleteByGroupId(Long groupId);
-
-    /**
      * 批量保存群成员
      *
      * @param memberList 群成员列表
@@ -58,6 +50,7 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
 
     /**
      * 查询成员否在群中
+     *
      * @param groupId
      * @param accountId
      * @return
@@ -66,7 +59,8 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
 
     /**
      * 根据 groupId，accountIdList 查询成员
-     * @param groupId 群id
+     *
+     * @param groupId       群id
      * @param accountIdList 成员id列表
      * @return
      */
