@@ -24,6 +24,7 @@ public class KafkaConstant {
      */
     public static final String GROUP_ADD_MEMBER_NOTICE = "GROUP_ADD_MEMBER_NOTICE";
     public static final String GROUP_DELETE_MEMBER_NOTICE = "GROUP_DELETE_MEMBER_NOTICE";
+    public static final String GROUP_RELEASE_NOTICE = "GROUP_RELEASE_NOTICE";
 
     /**
      * 对方正在输入 Topic
