@@ -60,4 +60,21 @@ public class GroupNoticeConsumer {
             channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
         }
     }
+
+    /**
+     * 群内通知：解散群聊
+     */
+    @KafkaListener(topics = KafkaConstant.GROUP_RELEASE_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+    public void releaseGroup(String message) {
+        List<QuickChatGroupMember> members = JSONUtil.parse(message).toBean(List.class);
+        for (QuickChatGroupMember member : members) {
+            Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
+            if (ObjectUtils.isNotEmpty(channel)) {
+                WsPushEntity<Long> pushEntity = new WsPushEntity<>();
+                pushEntity.setPushType(WsPushEnum.GROUP_RELEASE_NOTICE.getCode());
+                pushEntity.setMessage(member.getGroupId());
+                channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
+            }
+        }
+    }
 }

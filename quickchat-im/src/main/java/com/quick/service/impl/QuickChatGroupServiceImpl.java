@@ -14,6 +14,7 @@ import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroup;
+import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.service.QuickChatGroupService;
 import com.quick.store.QuickChatContactStore;
 import com.quick.store.QuickChatGroupMemberStore;
@@ -23,6 +24,8 @@ import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * <p>
@@ -67,9 +70,13 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
             throw new QuickException(ResponseEnum.FAIL);
         }
 
+        // 删除群聊
+        groupStore.dismissByGroupId(groupId);
+
         // Channel 通知群内所有用户被当前群聊解散
-        kafkaProducer.send(KafkaConstant.GROUP_NOTICE_TOPIC, JSONUtil.toJsonStr(groupId));
-        return null;
+        List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
+        kafkaProducer.send(KafkaConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(members));
+        return true;
     }
 
     @Override
