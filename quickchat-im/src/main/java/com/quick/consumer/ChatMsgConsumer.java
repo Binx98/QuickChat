@@ -71,14 +71,12 @@ public class ChatMsgConsumer {
     @KafkaListener(topics = KafkaConstant.SEND_CHAT_ENTERING, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void entering(String message) {
         Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
-        String fromId = param.get("fromId");
-        String toId = param.get("toId");
-        Channel channel = UserChannelRelation.getUserChannelMap().get(toId);
+        Channel channel = UserChannelRelation.getUserChannelMap().get(param.get("toId"));
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<Map<String, String>> pushEntity = new WsPushEntity();
             pushEntity.setPushType(WsPushEnum.WRITING.getCode());
             pushEntity.setMessage(param);
-            channel.writeAndFlush(new TextWebSocketFrame(fromId));
+            channel.writeAndFlush(pushEntity);
         }
     }
 }

@@ -62,7 +62,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     }
 
     @Override
-    public Boolean releaseGroup(Long groupId) {
+    public void releaseGroup(Long groupId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
@@ -76,7 +76,6 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         // Channel 通知群内所有用户被当前群聊解散
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
         kafkaProducer.send(KafkaConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(members));
-        return true;
     }
 
     @Override
