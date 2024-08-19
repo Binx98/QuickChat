@@ -73,7 +73,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     }
 
     @Override
-    public Boolean addMember(Long groupId, List<String> accountIdList) {
+    public void addMember(Long groupId, List<String> accountIdList) {
         // 添加群成员人数限制
         if (CollectionUtils.isNotEmpty(accountIdList) && accountIdList.size() > inviteCountLimit) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_ADD_COUNT_NOT_ALLOW);
@@ -118,11 +118,10 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
         // 推送给被邀请人
         kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
-        return true;
     }
 
     @Override
-    public Boolean deleteMember(Long groupId, String accountId) {
+    public void deleteMember(Long groupId, String accountId) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
@@ -136,6 +135,5 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
         // 推送给被邀请人
         kafkaProducer.send(KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
-        return true;
     }
 }
