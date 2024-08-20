@@ -25,7 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -75,13 +78,22 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
         // Channel 通知群内所有用户被当前群聊解散
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
-        kafkaProducer.send(KafkaConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(members));
+        List<String> accountIds = members.stream()
+                .map(QuickChatGroupMember::getAccountId)
+                .collect(Collectors.toList());
+        Map<String, Object> param = new HashMap<>();
+        param.put("accountIds", accountIds);
+        param.put("groupId", groupId);
+        kafkaProducer.send(KafkaConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
     }
 
     @Override
     public Boolean exitGroup(Long groupId) {
         // 查询群组信息
-        groupStore.getByGroupId(groupId);
+        QuickChatGroup group = groupStore.getByGroupId(groupId);
+        if (ObjectUtils.isEmpty(group)) {
+            throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
+        }
 
         // 删除群成员
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);

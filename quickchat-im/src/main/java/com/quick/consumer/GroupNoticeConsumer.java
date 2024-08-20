@@ -16,6 +16,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 徐志斌
@@ -66,13 +67,15 @@ public class GroupNoticeConsumer {
      */
     @KafkaListener(topics = KafkaConstant.GROUP_RELEASE_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
     public void releaseGroup(String message) {
-        List<QuickChatGroupMember> members = JSONUtil.parse(message).toBean(List.class);
-        for (QuickChatGroupMember member : members) {
-            Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
+        Map<String, Object> params = JSONUtil.parse(message).toBean(Map.class);
+        List<String> accountIds = (List<String>) params.get("accountIds");
+        Long groupId = (Long) params.get("groupId");
+        for (String accountId : accountIds) {
+            Channel channel = UserChannelRelation.getUserChannelMap().get(accountId);
             if (ObjectUtils.isNotEmpty(channel)) {
                 WsPushEntity<Long> pushEntity = new WsPushEntity<>();
                 pushEntity.setPushType(WsPushEnum.GROUP_RELEASE_NOTICE.getCode());
-                pushEntity.setMessage(member.getGroupId());
+                pushEntity.setMessage(groupId);
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
             }
         }
