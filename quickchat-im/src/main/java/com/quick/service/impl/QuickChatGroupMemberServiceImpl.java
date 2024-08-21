@@ -79,23 +79,17 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
             throw new QuickException(ResponseEnum.GROUP_MEMBER_ADD_COUNT_NOT_ALLOW);
         }
 
-        // 判断当前操作者是否在群组中
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatGroupMember loginMember = memberStore.getMemberByAccountId(groupId, loginAccountId);
-        if (ObjectUtils.isEmpty(loginMember)) {
-            throw new QuickException(ResponseEnum.NOT_GROUP_MEMBER);
-        }
-
         // 查询群组信息
         QuickChatGroup chatGroup = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(chatGroup)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
 
-        // 不允许成员邀请 && 当前登录人不是群主
+        // 不允许群成员邀请 && 操作者是群成员
+        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         if (YesNoEnum.NO.getCode().equals(chatGroup.getInvitePermission())
-                && !chatGroup.getAccountId().equals(loginAccountId)) {
-            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
+                && !loginAccountId.equals(chatGroup.getAccountId())) {
+            throw new QuickException(ResponseEnum.GROUP_MEMBER_NOT_ALLOW);
         }
 
         // 去除已经在群的id
@@ -112,6 +106,8 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
                     + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
         }
+
+        // 判断3日内是否邀请过
 
         // 批量保存申请记录列表
         applyStore.saveAll(applyList);
