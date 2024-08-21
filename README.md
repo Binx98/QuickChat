@@ -19,20 +19,6 @@
 
 ## 🚀技术架构
 
-|      后端      |     前端     |   运维   |
-|:------------:|:----------:|:------:|
-|    JDK 17    |    HTML    | Linux  |
-|  SpringBoot  |    CSS     | Shell  |
-|  SpringMVC   | JavaScript | Nginx  |
-| MyBatisPlus  |  Node.js   | MinIO  |
-|    MySQL     |    AJAX    | Docker |
-|    Redis     |   Axios    |        |
-|   Redisson   |    Vue     |        |
-|    Kafka     |    Vuex    |        |
-| ShardingJDBC | Vue-Router |        |
-|    Netty     | ElementUI  |        |
-|  WebSocket   |            |        |
-|  Validation  |            |        |
 
 ## ✋加入我们
 
@@ -50,4 +36,3 @@
 | 徐志斌 |     https://github.com/Binx98      | PARAVERSE 平行云 |
 | 陈辰  |   https://github.com/GeforceLite   |   SBI BITS    |
 | 刘东辉 |  https://github.com/gentlemanJiu   |    中科院信工所     |
-| 唐志鑫 | https://github.com/TangXiaoWang123 |     大连信维      |
