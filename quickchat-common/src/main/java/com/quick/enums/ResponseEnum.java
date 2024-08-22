@@ -18,6 +18,7 @@ public enum ResponseEnum {
 
     USER_NOT_EXIST(500, "该用户信息不存在"),
     SESSION_INFO_ERROR(500, "聊天会话信息异常，请联系废物作者"),
+    SESSION_NOT_EXIST(500, "聊天会话信息不存在，请误操作"),
     ACCOUNT_ID_EXIST(500, "该账号信息已存在，请勿重复注册！"),
     PASSWORD_DIFF(500, "两次密码输入不一致，请重试！"),
     PASSWORD_ERROR(500, "密码输入错误，请重试！"),

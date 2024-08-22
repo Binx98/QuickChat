@@ -23,14 +23,6 @@ public interface QuickChatSessionStore extends IService<QuickChatSession> {
     List<QuickChatSession> getListByAccountId(String accountId);
 
     /**
-     * 根据 session_id 删除会话
-     *
-     * @param sessionId 会话id
-     * @return 执行结果
-     */
-    Boolean deleteBySessionId(Long sessionId);
-
-    /**
      * 根据 from_id to_id 查询会话
      *
      * @param fromId 发送方
