@@ -106,7 +106,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public Boolean deleteSession(Long sessionId) {
-        return sessionStore.deleteBySessionId(sessionId);
+        QuickChatSession session = sessionStore.getBySessionId(sessionId);
+        if (ObjectUtils.isEmpty(session)) {
+            throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
+        }
+        session.setStatus(YesNoEnum.NO.getCode());
+        return sessionStore.updateSessionById(session);
     }
 
     @Override
@@ -154,6 +159,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         if (ObjectUtils.isNotEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
+        sessionPO.setStatus(YesNoEnum.YES.getCode());
         sessionPO.setTopFlag(YesNoEnum.YES.getCode());
         return sessionStore.updateSessionById(sessionPO);
     }
@@ -165,12 +171,9 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         if (ObjectUtils.isEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
-        if (sessionPO.getDeleted()) {
-            sessionPO.setDeleted(false);
-            sessionPO.setTopFlag(YesNoEnum.NO.getCode());
-            sessionPO.setUpdateTime(LocalDateTime.now());
-            sessionStore.updateSessionById(sessionPO);
-        }
-        return true;
+        sessionPO.setStatus(YesNoEnum.YES.getCode());
+        sessionPO.setTopFlag(YesNoEnum.NO.getCode());
+        sessionPO.setUpdateTime(LocalDateTime.now());
+        return sessionStore.updateSessionById(sessionPO);
     }
 }

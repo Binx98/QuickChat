@@ -26,6 +26,7 @@ import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private KafkaProducer kafkaProducer;
     @Autowired
@@ -106,8 +109,6 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
                     + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
         }
-
-        // 判断3日内是否邀请过
 
         // 批量保存申请记录列表
         applyStore.saveAll(applyList);

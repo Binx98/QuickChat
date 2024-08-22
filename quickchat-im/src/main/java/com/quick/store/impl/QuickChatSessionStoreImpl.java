@@ -27,11 +27,6 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
-    public Boolean deleteBySessionId(Long sessionId) {
-        return this.removeById(sessionId);
-    }
-
-    @Override
     public QuickChatSession getByFromIdAndToId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, fromId)

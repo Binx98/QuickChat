@@ -58,7 +58,17 @@ public class QuickChatSession implements Serializable {
     private Integer type;
 
     /**
+     * 会话状态（0：未删除，1：已删除）
+     *
+     * @see com.quick.enums.YesNoEnum
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
      * 置顶标识（0：未置顶，1：置顶）
+     *
+     * @see com.quick.enums.YesNoEnum
      */
     @TableField("top_flag")
     private Integer topFlag;
