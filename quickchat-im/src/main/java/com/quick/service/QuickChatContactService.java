@@ -30,7 +30,7 @@ public interface QuickChatContactService extends IService<QuickChatContact> {
      * @param applyInfo 申请信息
      * @return 执行结果
      */
-    Boolean addFriend(String toId, String applyInfo);
+    void addFriend(String toId, String applyInfo);
 
     /**
      * 删除好友

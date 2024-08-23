@@ -110,6 +110,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         if (ObjectUtils.isEmpty(session)) {
             throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
+        session.setTopFlag(YesNoEnum.NO.getCode());
         session.setStatus(YesNoEnum.NO.getCode());
         return sessionStore.updateSessionById(session);
     }
