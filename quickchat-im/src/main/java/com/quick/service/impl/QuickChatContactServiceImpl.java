@@ -64,7 +64,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     }
 
     @Override
-    public Boolean addFriend(String toId, String applyInfo) {
+    public void addFriend(String toId, String applyInfo) {
         // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, toId);
@@ -79,7 +79,6 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
         // 推送给目标用户
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
-        return true;
     }
 
     @Override

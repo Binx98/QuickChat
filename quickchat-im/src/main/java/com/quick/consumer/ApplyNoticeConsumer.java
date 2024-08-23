@@ -24,7 +24,7 @@ import java.util.List;
  * @Version: 1.0
  */
 @Component
-public class ApplyConsumer {
+public class ApplyNoticeConsumer {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
