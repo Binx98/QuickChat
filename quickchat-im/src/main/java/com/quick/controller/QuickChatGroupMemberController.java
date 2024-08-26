@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -34,14 +35,16 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("添加成员")
     @GetMapping("/add")
-    public R addMember(Long groupId, @RequestBody List<String> accountIdList) {
+    public R addMember(@NotNull(message = "群id参数不能为空") Long groupId,
+                       @RequestBody List<String> accountIdList) {
         memberService.addMember(groupId, accountIdList);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("移除群成员")
     @GetMapping("/delete")
-    public R deleteMember(Long groupId, String accountId) {
+    public R deleteMember(@NotNull(message = "群id参数不能为空") Long groupId,
+                          @NotBlank(message = "账号参数不能为空") String accountId) {
         memberService.deleteMember(groupId, accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
