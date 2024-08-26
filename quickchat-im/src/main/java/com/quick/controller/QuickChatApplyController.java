@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -35,14 +36,14 @@ public class QuickChatApplyController {
 
     @ApiOperation("同意申请")
     @PostMapping("/agree")
-    public R agreeApply(Long applyId) {
+    public R agreeApply(@NotNull(message = "申请id参数不能为空") Long applyId) {
         applyService.agreeApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除申请")
     @PostMapping("/delete")
-    public R deleteApply(Long applyId) {
+    public R deleteApply(@NotNull(message = "申请id参数不能为空") Long applyId) {
         applyService.deleteApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }
