@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -40,35 +42,35 @@ public class QuickChatSessionController {
 
     @ApiOperation("恢复会话")
     @PostMapping("/active")
-    public R activeSession(String toId) {
+    public R activeSession(@NotBlank(message = "目标账号id参数不能为空") String toId) {
         sessionService.activeSession(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("更新已读时间")
     @PostMapping("/updateReadTime")
-    public R updateReadTime(Long sessionId) {
+    public R updateReadTime(@NotNull(message = "会话id参数不能为空") Long sessionId) {
         sessionService.updateReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除会话")
     @DeleteMapping("/delete")
-    public R deleteSession(Long sessionId) {
+    public R deleteSession(@NotNull(message = "会话id参数不能为空") Long sessionId) {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("置顶会话")
     @DeleteMapping("/top")
-    public R topSession(Long sessionId) {
+    public R topSession(@NotNull(message = "会话id参数不能为空") Long sessionId) {
         sessionService.topSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("消息免打扰")
     @DeleteMapping("/noDisturb")
-    public R noDisturb(Long sessionId) {
+    public R noDisturb(@NotBlank(message = "会话id参数不能为空") Long sessionId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

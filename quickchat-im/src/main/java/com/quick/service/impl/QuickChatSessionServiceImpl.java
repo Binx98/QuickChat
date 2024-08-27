@@ -158,7 +158,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     public Boolean topSession(Long sessionId) {
         QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
         if (ObjectUtils.isNotEmpty(sessionPO)) {
-            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
+            throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
         sessionPO.setStatus(YesNoEnum.YES.getCode());
         sessionPO.setTopFlag(YesNoEnum.YES.getCode());
@@ -170,7 +170,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
-            throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
+            throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
         sessionPO.setStatus(YesNoEnum.YES.getCode());
         sessionPO.setTopFlag(YesNoEnum.NO.getCode());
