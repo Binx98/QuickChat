@@ -28,14 +28,14 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("查询群成员")
     @PostMapping("/list")
-    public R getMemberList(@NotNull(message = "群id参数不能为空") Long groupId) {
+    public R getMemberList(@NotNull(message = "群聊id参数不能为空") Long groupId) {
         List<ChatUserVO> members = memberService.getGroupMemberList(groupId);
         return R.out(ResponseEnum.SUCCESS, members);
     }
 
     @ApiOperation("添加成员")
     @GetMapping("/add")
-    public R addMember(@NotNull(message = "群id参数不能为空") Long groupId,
+    public R addMember(@NotNull(message = "群聊id参数不能为空") Long groupId,
                        @RequestBody List<String> accountIdList) {
         memberService.addMember(groupId, accountIdList);
         return R.out(ResponseEnum.SUCCESS);
@@ -43,7 +43,7 @@ public class QuickChatGroupMemberController {
 
     @ApiOperation("移除群成员")
     @GetMapping("/delete")
-    public R deleteMember(@NotNull(message = "群id参数不能为空") Long groupId,
+    public R deleteMember(@NotNull(message = "群聊id参数不能为空") Long groupId,
                           @NotBlank(message = "账号参数不能为空") String accountId) {
         memberService.deleteMember(groupId, accountId);
         return R.out(ResponseEnum.SUCCESS);

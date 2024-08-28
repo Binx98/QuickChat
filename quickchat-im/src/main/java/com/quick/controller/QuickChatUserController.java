@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.io.IOException;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class QuickChatUserController {
 
     @ApiOperation("根据 account_id 查询用户信息")
     @GetMapping("/getByAccountId")
-    public R getInfo(String accountId) throws Exception {
+    public R getUserInfo(@NotBlank(message = "账号id参数不能为空") String accountId) throws Exception {
         ChatUserVO result = userService.getByAccountId(accountId);
         return R.out(ResponseEnum.SUCCESS, result);
     }

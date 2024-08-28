@@ -36,14 +36,14 @@ public class QuickChatContactController {
 
     @ApiOperation("添加好友")
     @PostMapping("/add")
-    public R addFriend(@NotBlank(message = "添加好友账号参数不能为空") String toId, String applyInfo) {
+    public R addFriend(@NotBlank(message = "账号id参数不能为空") String toId, String applyInfo) {
         contactService.addFriend(toId, applyInfo);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除好友")
     @PostMapping("/delete")
-    public R deleteFriend(@NotBlank(message = "删除账号参数不能为空") String toId) {
+    public R deleteFriend(@NotBlank(message = "账号id参数不能为空") String toId) {
         contactService.deleteFriend(toId);
         return R.out(ResponseEnum.SUCCESS);
     }
