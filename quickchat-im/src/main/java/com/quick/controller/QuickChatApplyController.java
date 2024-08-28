@@ -36,14 +36,14 @@ public class QuickChatApplyController {
 
     @ApiOperation("同意申请")
     @PostMapping("/agree")
-    public R agreeApply(@NotNull(message = "申请id参数不能为空") Long applyId) {
+    public R agreeApply(@NotNull(message = "申请记录id参数不存在") Long applyId) {
         applyService.agreeApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除申请")
     @PostMapping("/delete")
-    public R deleteApply(@NotNull(message = "申请id参数不能为空") Long applyId) {
+    public R deleteApply(@NotNull(message = "申请记录id参数不存在") Long applyId) {
         applyService.deleteApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }

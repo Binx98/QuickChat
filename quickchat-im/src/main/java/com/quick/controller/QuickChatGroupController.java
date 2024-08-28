@@ -40,14 +40,14 @@ public class QuickChatGroupController {
 
     @ApiOperation("解散群聊")
     @DeleteMapping("/release")
-    public R releaseGroup(@NotBlank(message = "群组id参数不能为空") Long groupId) {
+    public R releaseGroup(@NotBlank(message = "群聊id参数不能为空") Long groupId) {
         groupService.releaseGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("退出群聊")
     @GetMapping("/exit")
-    public R exitGroup(@NotBlank(message = "群组id参数不能为空") Long groupId) {
+    public R exitGroup(@NotBlank(message = "群聊id参数不能为空") Long groupId) {
         groupService.exitGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }
