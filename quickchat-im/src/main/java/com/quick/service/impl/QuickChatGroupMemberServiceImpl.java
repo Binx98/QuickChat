@@ -78,6 +78,9 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
     @Override
     public void addMember(Long groupId, List<String> accountIdList) {
         // 添加群成员人数限制
+        if (CollectionUtils.isEmpty(accountIdList)) {
+            throw new QuickException(ResponseEnum.GROUP_MEMEBER_COUNT_NOT_EXIST);
+        }
         if (CollectionUtils.isNotEmpty(accountIdList) && accountIdList.size() > inviteCountLimit) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_ADD_COUNT_NOT_ALLOW);
         }

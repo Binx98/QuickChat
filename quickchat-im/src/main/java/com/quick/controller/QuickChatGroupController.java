@@ -7,6 +7,7 @@ import com.quick.service.QuickChatGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
@@ -26,14 +27,14 @@ public class QuickChatGroupController {
 
     @ApiOperation("创建群聊")
     @PostMapping("/create")
-    public R create(@RequestBody GroupDTO group) {
+    public R create(@Validated @RequestBody GroupDTO group) {
         groupService.createGroup(group);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("修改群信息")
     @GetMapping("/update")
-    public R updateInfo(@RequestBody GroupDTO group) {
+    public R updateInfo(@Validated @RequestBody GroupDTO group) {
         groupService.updateInfo(group);
         return R.out(ResponseEnum.SUCCESS);
     }
