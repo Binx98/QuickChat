@@ -38,6 +38,7 @@ public enum ResponseEnum {
     NOT_GROUP_OWNER(500, "您不是群主，不可进行当前操作！"),
     NOT_GROUP_MEMBER(500, "您不在该群组中，不可进行当前操作！"),
     GROUP_MEMBER_ADD_COUNT_NOT_ALLOW(500, "单次添加群成员数量不可超过20"),
+    GROUP_MEMEBER_COUNT_NOT_EXIST(500, "添加群成员参数不能为空！"),
     GROUP_MEMBER_NOT_ALLOW(500, "群成员不可进行当前操作"),
     GROUP_SIZE_OVER(500, "群成员数量已满，不可以进入群聊"),
     FILE_OVER_SIZE(500, "文件大小不可超过：%s"),

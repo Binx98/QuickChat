@@ -56,7 +56,7 @@ public class QuickChatUserController {
 
     @ApiOperation("注册账号")
     @PostMapping("/register")
-    public R register(@RequestBody RegisterDTO registerDTO) throws Exception {
+    public R register(@Validated @RequestBody RegisterDTO registerDTO) throws Exception {
         userService.register(registerDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
@@ -70,21 +70,21 @@ public class QuickChatUserController {
 
     @ApiOperation("修改用户信息")
     @PutMapping("/update")
-    public R updateInfo(@RequestBody UserUpdateDTO userDTO) {
+    public R updateInfo(@Validated @RequestBody UserUpdateDTO userDTO) {
         userService.updateUser(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("发送邮件")
     @PostMapping("/sendEmail")
-    public R sendEmail(@RequestBody EmailDTO emailDTO) throws Throwable {
+    public R sendEmail(@Validated @RequestBody EmailDTO emailDTO) throws Throwable {
         userService.sendEmail(emailDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("找回密码")
     @PutMapping("/findBack")
-    public R findBack(@RequestBody UserFindBackDTO findBackDTO) throws Exception {
+    public R findBack(@Validated @RequestBody UserFindBackDTO findBackDTO) throws Exception {
         userService.findBack(findBackDTO);
         return R.out(ResponseEnum.SUCCESS);
     }

@@ -31,7 +31,7 @@ public class QuickChatMsgController {
     @ApiOperation("发送消息")
     @PostMapping("/send")
     @RateLimiter(time = 3, count = 5, limitType = LimitTypeEnum.IP)
-    public R sendMsg(@RequestBody ChatMsgDTO msgDTO) throws Throwable {
+    public R sendMsg(@Validated @RequestBody ChatMsgDTO msgDTO) throws Throwable {
         msgService.sendMsg(msgDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
