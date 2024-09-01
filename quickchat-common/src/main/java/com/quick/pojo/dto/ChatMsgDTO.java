@@ -2,6 +2,9 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-17  15:15
@@ -13,21 +16,25 @@ public class ChatMsgDTO {
     /**
      * 发送方
      */
+    @NotNull(message = "发送方不能为空")
     private String fromId;
 
     /**
      * 接收方
      */
+    @NotNull(message = "接收方不能为空")
     private String toId;
 
     /**
      * 关联id
      */
+    @NotNull(message = "关联id不能为空")
     private Long relationId;
 
     /**
      * 发送人昵称
      */
+    @Size(max = 100, message = "发送人昵称长度不能超过100字符")
     private String nickName;
 
     /**
@@ -35,6 +42,7 @@ public class ChatMsgDTO {
      *
      * @see com.quick.enums.ChatMsgEnum
      */
+    @NotNull(message = "消息类型不能为空")
     private Integer msgType;
 
     /**
@@ -42,11 +50,13 @@ public class ChatMsgDTO {
      *
      * @see com.quick.enums.SessionTypeEnum
      */
+    @NotNull(message = "会话类型不能为空")
     private Integer sessionType;
 
     /**
      * 消息内容
      */
+    @NotNull(message = "消息内容不能为空")
     private String content;
 
     /**
