@@ -2,6 +2,8 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @Author 徐志斌
  * @Date: 2023/11/25 15:05
@@ -15,10 +17,12 @@ public class EmailDTO {
      *
      * @see com.quick.enums.EmailEnum
      */
+    @NotNull(message = "邮件类型不能为空")
     private Integer type;
 
     /**
      * 接收方邮箱
      */
+    @NotNull(message = "接收方邮箱不能为空")
     private String toEmail;
 }
