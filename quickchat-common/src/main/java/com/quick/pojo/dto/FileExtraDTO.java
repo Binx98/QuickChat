@@ -1,12 +1,9 @@
 package com.quick.pojo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @Author 徐志斌
@@ -19,7 +16,7 @@ public class FileExtraDTO {
     /**
      * 文件名
      */
-    @NotNull(message = "文件名不能为空")
+    @NotBlank(message = "文件名不能为空")
     private String name;
 
     /**
@@ -31,6 +28,7 @@ public class FileExtraDTO {
     /**
      * 文件类型
      */
+    @NotBlank(message = "文件类型参数不能为空")
     private String type;
 
     /**

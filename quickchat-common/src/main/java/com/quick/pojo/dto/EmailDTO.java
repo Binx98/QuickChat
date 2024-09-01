@@ -2,6 +2,7 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -23,6 +24,6 @@ public class EmailDTO {
     /**
      * 接收方邮箱
      */
-    @NotNull(message = "接收方邮箱不能为空")
+    @NotBlank(message = "接收方邮箱不能为空")
     private String toEmail;
 }

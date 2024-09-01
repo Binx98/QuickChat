@@ -2,7 +2,8 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-17  15:15
@@ -14,18 +15,19 @@ public class LoginDTO {
     /**
      * 账号
      */
-    @NotEmpty(message = "账户不可为空")
+    @NotBlank(message = "账户不能为空")
     private String accountId;
 
     /**
      * 密码
      */
-    @NotEmpty(message = "密码不可为空")
+    @NotBlank(message = "密码不能为空")
     private String passWord;
 
     /**
      * 图片验证码
      */
+    @NotBlank(message = "图片验证码不能为空")
     private String verifyCode;
 
     /**

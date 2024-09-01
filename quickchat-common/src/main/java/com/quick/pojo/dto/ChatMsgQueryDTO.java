@@ -2,6 +2,7 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,11 +16,12 @@ public class ChatMsgQueryDTO {
     /**
      * 发送方
      */
-    @NotNull(message = "发送方不能为空")
+    @NotBlank(message = "发送方账号不能为空")
     private String accountId;
+
     /**
      * 接收方
      */
-    @NotNull(message = "接收方不能为空")
+    @NotBlank(message = "接收方账号不能为空")
     private String receiveId;
 }

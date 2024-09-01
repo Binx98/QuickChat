@@ -2,6 +2,7 @@ package com.quick.pojo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,13 +17,13 @@ public class ChatMsgDTO {
     /**
      * 发送方
      */
-    @NotNull(message = "发送方不能为空")
+    @NotBlank(message = "发送方不能为空")
     private String fromId;
 
     /**
      * 接收方
      */
-    @NotNull(message = "接收方不能为空")
+    @NotBlank(message = "接收方不能为空")
     private String toId;
 
     /**
@@ -34,7 +35,8 @@ public class ChatMsgDTO {
     /**
      * 发送人昵称
      */
-    @Size(max = 100, message = "发送人昵称长度不能超过100字符")
+    @NotBlank(message = "发送账号昵称不能为空")
+    @Size(max = 20, message = "发送人昵称长度不能超过20字符")
     private String nickName;
 
     /**
@@ -56,7 +58,7 @@ public class ChatMsgDTO {
     /**
      * 消息内容
      */
-    @NotNull(message = "消息内容不能为空")
+    @NotBlank(message = "消息内容不能为空")
     private String content;
 
     /**
