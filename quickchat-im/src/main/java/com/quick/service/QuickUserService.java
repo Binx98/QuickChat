@@ -33,7 +33,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 执行结果
      * @throws Exception
      */
-    Boolean register(RegisterDTO registerDTO) throws Exception;
+    Boolean register(RegisterFormDTO registerDTO) throws Exception;
 
     /**
      * 登录功能
@@ -42,7 +42,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return Token和账户信息
      * @throws Exception
      */
-    Map<String, Object> login(LoginDTO loginDTO) throws Exception;
+    Map<String, Object> login(LoginFormDTO loginDTO) throws Exception;
 
     /**
      * 图片验证码
@@ -82,6 +82,6 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 执行结果
      * @throws Exception
      */
-    Boolean findBack(UserFindBackDTO findBackDTO) throws Exception;
+    Boolean findBack(FindBackFormDTO findBackDTO) throws Exception;
 
 }
