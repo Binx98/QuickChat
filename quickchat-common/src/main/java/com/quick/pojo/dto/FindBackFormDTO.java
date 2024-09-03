@@ -9,7 +9,7 @@ import lombok.Data;
  * @Version: 1.0
  */
 @Data
-public class UserFindBackDTO {
+public class FindBackFormDTO {
 
     /**
      * 邮件

@@ -56,14 +56,14 @@ public class QuickChatUserController {
 
     @ApiOperation("注册账号")
     @PostMapping("/register")
-    public R register(@Validated @RequestBody RegisterDTO registerDTO) throws Exception {
+    public R register(@Validated @RequestBody RegisterFormDTO registerDTO) throws Exception {
         userService.register(registerDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("登录账号")
     @PostMapping("/login")
-    public R login(@Validated @RequestBody LoginDTO loginDTO) throws Exception {
+    public R login(@Validated @RequestBody LoginFormDTO loginDTO) throws Exception {
         Map<String, Object> result = userService.login(loginDTO);
         return R.out(ResponseEnum.SUCCESS, result);
     }
@@ -84,14 +84,14 @@ public class QuickChatUserController {
 
     @ApiOperation("找回密码")
     @PutMapping("/findBack")
-    public R findBack(@Validated @RequestBody UserFindBackDTO findBackDTO) throws Exception {
+    public R findBack(@Validated @RequestBody FindBackFormDTO findBackDTO) throws Exception {
         userService.findBack(findBackDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("自定义业务异常校验Demo")
     @PostMapping("/validationDemo")
-    public R validationDemo(LoginDTO loginDTO) throws Exception {
+    public R validationDemo(LoginFormDTO loginDTO) throws Exception {
         if (StringUtils.isEmpty(loginDTO.getAccountId())) {
             throw new QuickValidationException("账户ID不可为空");
         }

@@ -84,7 +84,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean register(RegisterDTO registerDTO) throws Exception {
+    public Boolean register(RegisterFormDTO registerDTO) throws Exception {
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
@@ -126,7 +126,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public Map<String, Object> login(LoginDTO loginDTO) throws Exception {
+    public Map<String, Object> login(LoginFormDTO loginDTO) throws Exception {
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
@@ -232,7 +232,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
 
     @Override
-    public Boolean findBack(UserFindBackDTO findBackDTO) throws Exception {
+    public Boolean findBack(FindBackFormDTO findBackDTO) throws Exception {
         // 两次密码输入是否一致
         if (!findBackDTO.getPassword1().equals(findBackDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);

@@ -1,6 +1,7 @@
 package com.quick.pojo.dto;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
@@ -11,17 +12,17 @@ import javax.validation.constraints.NotBlank;
  * @Version: 1.0
  */
 @Data
-public class LoginDTO {
+public class LoginFormDTO {
     /**
      * 账号
      */
-    @NotBlank(message = "账户不能为空")
+    @Length(min = 6, max = 15, message = "账号长度是6-15位")
     private String accountId;
 
     /**
      * 密码
      */
-    @NotBlank(message = "密码不能为空")
+    @Length(min = 8, max = 20, message = "密码长度是8-20位")
     private String passWord;
 
     /**
