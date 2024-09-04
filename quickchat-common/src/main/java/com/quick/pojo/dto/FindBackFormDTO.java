@@ -14,7 +14,7 @@ public class FindBackFormDTO {
     /**
      * 邮件
      */
-    private String toEmail;
+    private String email;
 
     /**
      * 邮箱验证码

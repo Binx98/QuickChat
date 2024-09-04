@@ -16,13 +16,13 @@ public class LoginFormDTO {
     /**
      * 账号
      */
-    @Length(min = 6, max = 15, message = "账号长度是6-15位")
+    @NotBlank(message = "账号不能为空")
     private String accountId;
 
     /**
      * 密码
      */
-    @Length(min = 8, max = 20, message = "密码长度是8-20位")
+    @NotBlank(message = "密码不能为空")
     private String passWord;
 
     /**
