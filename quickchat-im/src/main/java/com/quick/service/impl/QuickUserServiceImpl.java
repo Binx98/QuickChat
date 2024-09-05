@@ -91,7 +91,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + registerDTO.getToEmail());
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + registerDTO.getEmail());
         if (StringUtils.isEmpty(cacheEmailCode) || !registerDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
@@ -103,7 +103,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 判断邮箱是否注册过
-        if (registerDTO.getToEmail().equals(userPO.getEmail())) {
+        if (registerDTO.getEmail().equals(userPO.getEmail())) {
             throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
         }
 
@@ -121,7 +121,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         // 保存账号信息
         String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
-                registerDTO.getGender(), registerDTO.getToEmail(), location, YesNoEnum.NO.getCode());
+                registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getCode());
         return userStore.saveUser(userPO);
     }
 
@@ -239,13 +239,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
 
         // 判断账号是否存在
-        QuickChatUser userPO = userStore.getByEmail(findBackDTO.getToEmail());
+        QuickChatUser userPO = userStore.getByEmail(findBackDTO.getEmail());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
         }
 
         // 判断邮箱验证码
-        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + findBackDTO.getToEmail());
+        String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + findBackDTO.getEmail());
         if (StringUtils.isEmpty(cacheEmailCode) || !cacheEmailCode.equals(findBackDTO.getEmailCode())) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
