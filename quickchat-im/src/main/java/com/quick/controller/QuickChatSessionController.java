@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -34,43 +32,44 @@ public class QuickChatSessionController {
     }
 
     @ApiOperation("查询详情")
-    @GetMapping("/detail")
-    public R getSessionDetail(String fromId, String toId) {
+    @GetMapping("/detail/{fromId}/{toId}")
+    public R getSessionDetail(@PathVariable String fromId,
+                              @PathVariable String toId) {
         ChatSessionVO result = sessionService.getByFromIdAndToId(fromId, toId);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
     @ApiOperation("恢复会话")
-    @PostMapping("/active")
-    public R activeSession(@NotBlank(message = "目标账号id参数不能为空") String toId) {
-        sessionService.activeSession(toId);
+    @PostMapping("/active/{accountId}")
+    public R activeSession(@PathVariable String accountId) {
+        sessionService.activeSession(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("更新已读时间")
-    @PostMapping("/updateReadTime")
-    public R updateReadTime(@NotNull(message = "会话id参数不能为空") Long sessionId) {
+    @PostMapping("/updateReadTime/{sessionId}")
+    public R updateReadTime(@PathVariable Long sessionId) {
         sessionService.updateReadTime(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除会话")
-    @DeleteMapping("/delete")
-    public R deleteSession(@NotNull(message = "会话id参数不能为空") Long sessionId) {
+    @DeleteMapping("/delete/{sessionId}")
+    public R deleteSession(@PathVariable Long sessionId) {
         sessionService.deleteSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("置顶会话")
-    @DeleteMapping("/top")
-    public R topSession(@NotNull(message = "会话id参数不能为空") Long sessionId) {
+    @DeleteMapping("/top/{sessionId}")
+    public R topSession(@PathVariable Long sessionId) {
         sessionService.topSession(sessionId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("消息免打扰")
-    @DeleteMapping("/noDisturb")
-    public R noDisturb(@NotBlank(message = "会话id参数不能为空") Long sessionId) {
+    @DeleteMapping("/noDisturb/{sessionId}")
+    public R noDisturb(@PathVariable Long sessionId) {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

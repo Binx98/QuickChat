@@ -8,12 +8,10 @@ import com.quick.adapter.UserAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
-import com.quick.enums.WsPushEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatContactMapper;
-import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatUser;
@@ -64,17 +62,17 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     }
 
     @Override
-    public void addFriend(String toId, String applyInfo) {
+    public void addFriend(String accountId, String applyInfo) {
         // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
-        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, toId);
+        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, accountId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.IS_YOUR_FRIEND);
         }
 
         // 保存好友申请记录
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId,
-                toId, applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
+                accountId, applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
 
         // 推送给目标用户

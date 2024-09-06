@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -27,24 +25,24 @@ public class QuickChatGroupMemberController {
     private QuickChatGroupMemberService memberService;
 
     @ApiOperation("查询群成员")
-    @PostMapping("/list")
-    public R getMemberList(@NotNull(message = "群聊id参数不能为空") Long groupId) {
+    @PostMapping("/list/{groupId}")
+    public R getMemberList(@PathVariable Long groupId) {
         List<ChatUserVO> members = memberService.getGroupMemberList(groupId);
         return R.out(ResponseEnum.SUCCESS, members);
     }
 
     @ApiOperation("添加成员")
-    @GetMapping("/add")
-    public R addMember(@NotNull(message = "群聊id参数不能为空") Long groupId,
+    @GetMapping("/add/{groupId}")
+    public R addMember(@PathVariable Long groupId,
                        @RequestBody List<String> accountIdList) {
         memberService.addMember(groupId, accountIdList);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("移除群成员")
-    @GetMapping("/delete")
-    public R deleteMember(@NotNull(message = "群聊id参数不能为空") Long groupId,
-                          @NotBlank(message = "账号参数不能为空") String accountId) {
+    @GetMapping("/delete/{groupId}/{accountId}")
+    public R deleteMember(@PathVariable Long groupId,
+                          @PathVariable String accountId) {
         memberService.deleteMember(groupId, accountId);
         return R.out(ResponseEnum.SUCCESS);
     }

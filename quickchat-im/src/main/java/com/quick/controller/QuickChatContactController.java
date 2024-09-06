@@ -7,6 +7,7 @@ import com.quick.service.QuickChatContactService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,16 +36,16 @@ public class QuickChatContactController {
     }
 
     @ApiOperation("添加好友")
-    @PostMapping("/add")
-    public R addFriend(@NotBlank(message = "账号id参数不能为空") String toId, String applyInfo) {
-        contactService.addFriend(toId, applyInfo);
+    @PostMapping("/add/{accountId}")
+    public R addFriend(@PathVariable String accountId, String applyInfo) {
+        contactService.addFriend(accountId, applyInfo);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除好友")
-    @PostMapping("/delete")
-    public R deleteFriend(@NotBlank(message = "账号id参数不能为空") String toId) {
-        contactService.deleteFriend(toId);
+    @PostMapping("/delete/{accountId}")
+    public R deleteFriend(@PathVariable String accountId) {
+        contactService.deleteFriend(accountId);
         return R.out(ResponseEnum.SUCCESS);
     }
 

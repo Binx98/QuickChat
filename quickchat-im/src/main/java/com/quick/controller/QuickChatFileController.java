@@ -27,21 +27,21 @@ public class QuickChatFileController {
 
     @ApiOperation("上传文件")
     @ResponseBody
-    @PostMapping("/upload")
-    public R uploadFile(Integer type, MultipartFile file) throws Exception {
+    @PostMapping("/upload/{type}")
+    public R uploadFile(@PathVariable Integer type, MultipartFile file) throws Exception {
         Map<String, Object> resultMap = fileService.uploadFile(type, file);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
     @ApiOperation("下载文件")
-    @GetMapping("/download")
-    public void downloadFile(Integer type, String url) {
+    @GetMapping("/download/{type}")
+    public void downloadFile(@PathVariable Integer type, String url) {
         fileService.downloadFile(type, url);
     }
 
     @ApiOperation("删除文件")
-    @DeleteMapping("/delete")
-    public void deleteFile(Integer type, String url) throws Exception {
+    @DeleteMapping("/delete/{type}")
+    public void deleteFile(@PathVariable Integer type, String url) throws Exception {
         fileService.deleteFile(type, url);
     }
 }

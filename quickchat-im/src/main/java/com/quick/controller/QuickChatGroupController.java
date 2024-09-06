@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-21  10:05
@@ -40,15 +38,15 @@ public class QuickChatGroupController {
     }
 
     @ApiOperation("解散群聊")
-    @DeleteMapping("/release")
-    public R releaseGroup(@NotBlank(message = "群聊id参数不能为空") Long groupId) {
+    @DeleteMapping("/release/{groupId}")
+    public R releaseGroup(@PathVariable Long groupId) {
         groupService.releaseGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("退出群聊")
-    @GetMapping("/exit")
-    public R exitGroup(@NotBlank(message = "群聊id参数不能为空") Long groupId) {
+    @GetMapping("/exit/{groupId}")
+    public R exitGroup(@PathVariable Long groupId) {
         groupService.exitGroup(groupId);
         return R.out(ResponseEnum.SUCCESS);
     }

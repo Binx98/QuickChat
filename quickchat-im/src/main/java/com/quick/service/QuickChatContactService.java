@@ -26,17 +26,17 @@ public interface QuickChatContactService extends IService<QuickChatContact> {
     /**
      * 添加好友
      *
-     * @param toId      用户id
+     * @param accountId 用户id
      * @param applyInfo 申请信息
      * @return 执行结果
      */
-    void addFriend(String toId, String applyInfo);
+    void addFriend(String accountId, String applyInfo);
 
     /**
      * 删除好友
      *
-     * @param toId 用户id
+     * @param accountId 用户id
      * @return 执行结果
      */
-    Boolean deleteFriend(String toId);
+    Boolean deleteFriend(String accountId);
 }
