@@ -7,11 +7,11 @@ import com.quick.service.QuickChatApplyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -35,15 +35,15 @@ public class QuickChatApplyController {
     }
 
     @ApiOperation("同意申请")
-    @PostMapping("/agree")
-    public R agreeApply(@NotNull(message = "申请记录id参数不存在") Long applyId) {
+    @PostMapping("/agree/{applyId}")
+    public R agreeApply(@PathVariable Long applyId) {
         applyService.agreeApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }
 
     @ApiOperation("删除申请")
-    @PostMapping("/delete")
-    public R deleteApply(@NotNull(message = "申请记录id参数不存在") Long applyId) {
+    @PostMapping("/delete/{applyId}")
+    public R deleteApply(@PathVariable Long applyId) {
         applyService.deleteApply(applyId);
         return R.out(ResponseEnum.SUCCESS);
     }
