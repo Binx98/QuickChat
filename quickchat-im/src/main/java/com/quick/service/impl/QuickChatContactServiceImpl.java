@@ -71,8 +71,8 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         }
 
         // 保存好友申请记录
-        QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId,
-                accountId, applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
+        QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
+                applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
 
         // 推送给目标用户

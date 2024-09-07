@@ -70,7 +70,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
-            throw new QuickException(ResponseEnum.FAIL);
+            throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
 
         // 删除群聊

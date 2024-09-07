@@ -69,6 +69,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
         if (ObjectUtils.isEmpty(apply)) {
             throw new QuickException(ResponseEnum.APPLY_NOT_EXIST);
         }
+
+        // 如果处理过，就不可继续操作
         if (YesNoEnum.YES.getCode().equals(apply.getStatus())
                 || YesNoEnum.NO.getCode().equals(apply.getStatus())) {
             throw new QuickException(ResponseEnum.APPLY_IS_FINISH);
