@@ -157,7 +157,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public Boolean topSession(Long sessionId) {
         QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
-        if (ObjectUtils.isNotEmpty(sessionPO)) {
+        if (ObjectUtils.isEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
         sessionPO.setStatus(YesNoEnum.YES.getCode());
