@@ -38,7 +38,7 @@ public class FontMsgHandler extends AbstractChatMsgStrategy {
         Long quoteId = msgDTO.getQuoteId();
 
         if (StringUtils.isBlank(content)) {
-            throw new QuickException(ResponseEnum.FONT_MSG_IS_NULL);
+            throw new QuickException(ResponseEnum.FONT_MSG_NOT_EXIST);
         }
 
         QuickChatMsg chatMsg = MsgAdapter.buildChatMsgPO(fromId, toId, relationId,
