@@ -77,7 +77,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     public ChatUserVO getByAccountId(String accountId) {
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
-            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+            throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
         return UserAdapter.buildUserVO(userPO);
     }
@@ -130,7 +130,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
-            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+            throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
 
         // 校验图片验证码
@@ -218,13 +218,13 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     public QuickChatUser getByToken() {
         String token = HttpServletUtil.getRequest().getHeader("token");
         if (StringUtils.isEmpty(token)) {
-            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+            throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
         QuickChatUser userPO = userStore.getByAccountId(accountId);
         if (ObjectUtils.isEmpty(userPO)) {
-            throw new QuickException(ResponseEnum.USER_NOT_EXIST);
+            throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
         userPO.setPassword(null);
         return userPO;
