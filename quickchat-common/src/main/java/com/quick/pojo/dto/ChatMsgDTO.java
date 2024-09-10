@@ -1,10 +1,10 @@
 package com.quick.pojo.dto;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * @Author: 徐志斌
@@ -36,7 +36,6 @@ public class ChatMsgDTO {
      * 发送人昵称
      */
     @NotBlank(message = "发送账号昵称不能为空")
-    @Size(max = 20, message = "发送人昵称长度不能超过20字符")
     private String nickName;
 
     /**
@@ -59,6 +58,7 @@ public class ChatMsgDTO {
      * 消息内容
      */
     @NotBlank(message = "消息内容不能为空")
+    @Length(max = 20, message = "输入框内容长度不能超过300字符")
     private String content;
 
     /**
