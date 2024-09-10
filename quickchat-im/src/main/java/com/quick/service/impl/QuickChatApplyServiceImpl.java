@@ -64,22 +64,20 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean agreeApply(Long applyId) {
-        // 查询申请记录
+        // 判断申请记录是否被处理过
         QuickChatApply apply = applyStore.getByApplyId(applyId);
         if (ObjectUtils.isEmpty(apply)) {
             throw new QuickException(ResponseEnum.APPLY_NOT_EXIST);
         }
-
-        // 如果处理过，就不可继续操作
-        if (YesNoEnum.YES.getCode().equals(apply.getStatus())
-                || YesNoEnum.NO.getCode().equals(apply.getStatus())) {
+        if (YesNoEnum.YES.getCode().equals(apply.getStatus()) ||
+                YesNoEnum.NO.getCode().equals(apply.getStatus())) {
             throw new QuickException(ResponseEnum.APPLY_IS_FINISH);
         }
 
         // 同意申请
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
 
-        // 入群申请
+        // 1.入群申请
         if (SessionTypeEnum.GROUP.getCode().equals(apply.getType())) {
             // 查询群成员数量，判断是否超过限制
             List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
@@ -87,19 +85,18 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
                 throw new QuickException(ResponseEnum.GROUP_SIZE_OVER);
             }
 
-            // 保存群成员
+            // 保存群成员、添加会话
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
             memberStore.saveMember(member);
-
-            // 为新成员添加会话
-            QuickChatSession session = SessionAdapter.buildSessionPO(apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
+            QuickChatSession session = SessionAdapter.buildSessionPO
+                    (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
 
             // 推送给目标用户
             kafkaProducer.send(KafkaConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
         }
 
-        // 好友申请
+        // 2.好友申请
         else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             // 保存通讯录
             String fromId = apply.getFromId();

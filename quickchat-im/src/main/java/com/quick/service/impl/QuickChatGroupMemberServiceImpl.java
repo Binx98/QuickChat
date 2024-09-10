@@ -61,13 +61,10 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
-        // 根据 group_id 查询所有群成员 account_id 列表
         List<QuickChatGroupMember> members = memberStore.getListByGroupId(groupId);
         List<String> accountIdList = members.stream()
                 .map(QuickChatGroupMember::getAccountId)
                 .collect(Collectors.toList());
-
-        // 根据群成员 account_id 列表查询群成员用户列表信息
         List<QuickChatUser> userList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(accountIdList)) {
             userList = userStore.getListByAccountIds(accountIdList);
@@ -122,18 +119,13 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public void deleteMember(Long groupId, String accountId) {
-        // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
         }
-
-        // 删除群成员
         QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-
-        // 推送给被邀请人
         kafkaProducer.send(KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
     }
 }

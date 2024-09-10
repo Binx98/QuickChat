@@ -63,33 +63,25 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
     @Override
     public void addFriend(String accountId, String applyInfo) {
-        // 查询当前用户是否是好友
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, accountId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.IS_YOUR_FRIEND);
         }
-
-        // 保存好友申请记录
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
-
-        // 推送给目标用户
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteFriend(String toId) {
-        // 查询当前用户是否是好友
         String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
             return true;
         }
-
-        // 删除会话 + 通讯录好友
         friendContactStore.deleteByFromIdAndToId(fromId, toId);
         friendContactStore.deleteByFromIdAndToId(toId, fromId);
         return sessionStore.deleteByFromIdAndToId(fromId, toId);
