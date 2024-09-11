@@ -9,12 +9,10 @@ import com.quick.adapter.MsgAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
-import com.quick.enums.WsPushEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
-import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
@@ -57,7 +55,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     private QuickChatContactStore friendContactStore;
 
     @Override
-    public Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size) {
+    public Map<Long, List<ChatMsgVO>> getMsgByRelationId(Long relationId, Integer current, Integer size) {
         Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
         if (CollectionUtils.isEmpty(msgPage.getRecords())) {
             return new HashMap<>(0);
@@ -70,7 +68,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     @Override
-    public Map<Long, List<ChatMsgVO>> getByRelationIds(List<Long> relationIds, Integer size) {
+    public Map<Long, List<ChatMsgVO>> getMsgByRelationIds(List<Long> relationIds, Integer size) {
         // 根据 relationIds 查询聊天信息
         List<QuickChatMsg> msgList = msgStore.getByRelationIds(relationIds, size);
         if (CollectionUtils.isEmpty(msgList)) {
@@ -98,7 +96,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
             QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
             if (ObjectUtils.isEmpty(friend)) {
-                throw new QuickException(ResponseEnum.IS_NOT_YOUR_FRIEND);
+                throw new QuickException(ResponseEnum.NOT_YOUR_FRIEND);
             }
         }
 
@@ -106,8 +104,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         this.handleSession(sessionType, msgDTO.getRelationId());
 
         // 根据不同消息类型，发送消息
-        Integer msgType = msgDTO.getMsgType();
-        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgType);
+        AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
 
         // 通过 Channel 推送给客户端（单聊、群聊）
@@ -126,12 +123,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         kafkaProducer.send(KafkaConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
     }
 
-    /**
-     * 处理双方会话
-     *
-     * @param relationId 关联id
-     * @return 接收方会话信息
-     */
     private void handleSession(Integer sessionType, Long relationId) {
         // 根据 relation_id 查询所有会话列表（包括已删除的）
         List<QuickChatSession> sessionList = sessionStore.getAllBySessionId(relationId);
