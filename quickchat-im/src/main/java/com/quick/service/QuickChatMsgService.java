@@ -25,7 +25,7 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param size       每页条数
      * @return 聊天信息集合
      */
-    Map<Long, List<ChatMsgVO>> getByRelationId(Long relationId, Integer current, Integer size);
+    Map<Long, List<ChatMsgVO>> getMsgByRelationId(Long relationId, Integer current, Integer size);
 
     /**
      * 根据 account_id 集合批量查询聊天记录
@@ -33,7 +33,7 @@ public interface QuickChatMsgService extends IService<QuickChatMsg> {
      * @param relationIds 会话列表
      * @return 聊天信息
      */
-    Map<Long, List<ChatMsgVO>> getByRelationIds(List<Long> relationIds, Integer size);
+    Map<Long, List<ChatMsgVO>> getMsgByRelationIds(List<Long> relationIds, Integer size);
 
     /**
      * 发送聊天信息

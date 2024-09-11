@@ -66,7 +66,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, accountId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
-            throw new QuickException(ResponseEnum.IS_YOUR_FRIEND);
+            throw new QuickException(ResponseEnum.YOUR_FRIEND);
         }
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
