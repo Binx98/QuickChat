@@ -26,7 +26,6 @@ import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -43,8 +42,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
     @Autowired
     private KafkaProducer kafkaProducer;
     @Autowired
@@ -89,7 +86,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
 
         // 不允许群成员邀请 && 操作者是群成员
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         if (YesNoEnum.NO.getCode().equals(chatGroup.getInvitePermission())
                 && !loginAccountId.equals(chatGroup.getAccountId())) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_NOT_ALLOW);
@@ -119,7 +116,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public void deleteMember(Long groupId, String accountId) {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);

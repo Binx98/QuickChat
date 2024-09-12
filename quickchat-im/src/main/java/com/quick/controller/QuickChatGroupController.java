@@ -23,14 +23,14 @@ public class QuickChatGroupController {
     @Autowired
     private QuickChatGroupService groupService;
 
-    @ApiOperation("创建群聊")
+    @ApiOperation("创建群组")
     @PostMapping("/create")
     public R create(@Validated @RequestBody GroupDTO group) {
         groupService.createGroup(group);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("修改群信息")
+    @ApiOperation("修改群组信息")
     @GetMapping("/update")
     public R updateInfo(@Validated @RequestBody GroupDTO group) {
         groupService.updateInfo(group);

@@ -24,20 +24,17 @@ import java.util.Map;
 public class LoginTokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // OPTIONS 预请求直接通过
         String httpMethod = "OPTIONS";
         if (httpMethod.equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
 
-        // 校验 Token
         String token = request.getHeader("token");
         if (!JwtUtil.check(token)) {
             throw new QuickException(ResponseEnum.TOKEN_EXPIRE);
         }
 
-        // 解析Token信息，封装 RequestContextUtil
         Map<String, Object> tokenMap = JwtUtil.resolve(token);
         RequestContextUtil.setData(tokenMap);
         return true;

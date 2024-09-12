@@ -67,7 +67,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Override
     public void releaseGroup(Long groupId) {
         // 判断当前操作是否是群主
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(groupPO) || groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);
@@ -96,7 +96,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         }
 
         // 删除群成员
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         memberStore.deleteByGroupIdAndAccountId(groupId, loginAccountId);
 
         // 删除会话
@@ -106,7 +106,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     @Override
     public Boolean updateInfo(GroupDTO group) {
         // 判断当前操作是否是群主
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(group.getGroupId());
         if (!groupPO.getAccountId().equals(loginAccountId)) {
             throw new QuickException(ResponseEnum.NOT_GROUP_OWNER);

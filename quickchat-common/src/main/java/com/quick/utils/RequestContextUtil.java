@@ -16,8 +16,8 @@ public class RequestContextUtil {
         threadLocal.set(map);
     }
 
-    public static Map<String, Object> getData() {
-        return threadLocal.get();
+    public static Object getData(String key) {
+        return threadLocal.get().get(key);
     }
 
     public static void removeData() {
