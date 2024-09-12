@@ -57,7 +57,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
 
     @Override
     public List<QuickChatApply> getApplyList() {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         return applyStore.getListByToId(loginAccountId);
     }
 

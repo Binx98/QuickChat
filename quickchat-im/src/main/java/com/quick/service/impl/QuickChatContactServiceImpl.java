@@ -52,7 +52,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
     @Override
     public List<ChatUserVO> getContactList() {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatContact> friendList = friendContactStore.getListByFromId(loginAccountId);
         List<String> accountIds = friendList.stream()
                 .map(item -> item.getToId())
@@ -63,7 +63,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
     @Override
     public void addFriend(String accountId, String applyInfo) {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, accountId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.YOUR_FRIEND);
@@ -77,7 +77,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteFriend(String toId) {
-        String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
             return true;

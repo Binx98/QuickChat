@@ -52,7 +52,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     @Override
     public List<ChatSessionVO> getSessionList() {
         // 查询会话列表
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
         if (CollectionUtils.isEmpty(sessionList)) {
             return new ArrayList<>();
@@ -123,7 +123,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public Map<Long, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
-        String loginAccountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         Map<Long, Integer> resultMap = new HashMap<>();
         for (ChatSessionVO session : sessionList) {
             Long relationId = session.getRelationId();
@@ -169,7 +169,7 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public Boolean activeSession(String toId) {
-        String fromId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);

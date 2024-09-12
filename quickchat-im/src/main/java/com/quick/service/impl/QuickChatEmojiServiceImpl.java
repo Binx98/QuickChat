@@ -32,14 +32,14 @@ public class QuickChatEmojiServiceImpl extends ServiceImpl<QuickChatEmojiMapper,
 
     @Override
     public Boolean addEmoji(String url) {
-        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String accountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatEmoji chatEmoji = EmojiAdapter.buildEmojiPO(url, accountId);
         return emojiStore.saveEmoji(chatEmoji);
     }
 
     @Override
     public Boolean deleteEmoji(Long id) {
-        String accountId = (String) RequestContextUtil.getData().get(RequestContextUtil.ACCOUNT_ID);
+        String accountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         return emojiStore.deleteByEmojiId(id, accountId);
     }
 }
