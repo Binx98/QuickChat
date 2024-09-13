@@ -34,7 +34,7 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      * @param groupId 群聊id
      * @return 执行结果
      */
-    Boolean exitGroup(Long groupId);
+    void exitGroup(Long groupId);
 
     /**
      * 修改群组信息
@@ -42,5 +42,5 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      * @param group 群组信息
      * @return 执行结果
      */
-    Boolean updateInfo(GroupDTO group);
+    void updateInfo(GroupDTO group);
 }

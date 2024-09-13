@@ -28,7 +28,7 @@ public interface QuickChatApplyService extends IService<QuickChatApply> {
      * @param applyId 申请id
      * @return 执行结果
      */
-    Boolean agreeApply(Long applyId);
+    void agreeApply(Long applyId);
 
     /**
      * 删除申请
@@ -36,5 +36,5 @@ public interface QuickChatApplyService extends IService<QuickChatApply> {
      * @param applyId 申请id
      * @return 执行结果
      */
-    Boolean deleteApply(Long applyId);
+    void deleteApply(Long applyId);
 }

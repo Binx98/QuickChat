@@ -38,5 +38,5 @@ public interface QuickChatContactService extends IService<QuickChatContact> {
      * @param accountId 用户id
      * @return 执行结果
      */
-    Boolean deleteFriend(String accountId);
+    void deleteFriend(String accountId);
 }

@@ -63,7 +63,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean agreeApply(Long applyId) {
+    public void agreeApply(Long applyId) {
         // 判断申请记录是否被处理过
         QuickChatApply apply = applyStore.getByApplyId(applyId);
         if (ObjectUtils.isEmpty(apply)) {
@@ -101,11 +101,11 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             // 保存通讯录
             String fromId = apply.getFromId();
             String toId = apply.getToId();
-            QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType(), null);
-            QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType(), null);
+            QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType());
+            QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType());
             contactStore.saveContactList(Arrays.asList(contact1, contact2));
 
-            // 保存会话
+            // 保存聊天会话
             Long relationId = IdWorker.getId();
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
@@ -114,12 +114,10 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             // 推送给目标用户
             kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
-
-        return true;
     }
 
     @Override
-    public Boolean deleteApply(Long applyId) {
-        return applyStore.deleteByApplyId(applyId);
+    public void deleteApply(Long applyId) {
+        applyStore.deleteByApplyId(applyId);
     }
 }

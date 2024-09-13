@@ -76,14 +76,14 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean deleteFriend(String toId) {
+    public void deleteFriend(String toId) {
         String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
-            return true;
+            return;
         }
         friendContactStore.deleteByFromIdAndToId(fromId, toId);
         friendContactStore.deleteByFromIdAndToId(toId, fromId);
-        return sessionStore.deleteByFromIdAndToId(fromId, toId);
+        sessionStore.deleteByFromIdAndToId(fromId, toId);
     }
 }
