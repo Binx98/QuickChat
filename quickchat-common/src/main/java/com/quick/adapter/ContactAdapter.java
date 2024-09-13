@@ -18,4 +18,12 @@ public class ContactAdapter {
         contact.setNoteName(noteName);
         return contact;
     }
+
+    public static QuickChatContact buildContactPO(String accountId, Long groupId, Integer type) {
+        QuickChatContact contact = new QuickChatContact();
+        contact.setFromId(accountId);
+        contact.setToId(groupId.toString());
+        contact.setType(type);
+        return contact;
+    }
 }

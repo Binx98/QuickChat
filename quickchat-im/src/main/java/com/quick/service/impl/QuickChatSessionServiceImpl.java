@@ -105,20 +105,20 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Boolean deleteSession(Long sessionId) {
+    public void deleteSession(Long sessionId) {
         QuickChatSession session = sessionStore.getBySessionId(sessionId);
         if (ObjectUtils.isEmpty(session)) {
             throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
         session.setTopFlag(YesNoEnum.NO.getCode());
         session.setStatus(YesNoEnum.NO.getCode());
-        return sessionStore.updateSessionById(session);
+        sessionStore.updateSessionById(session);
     }
 
     @Override
-    public Boolean updateReadTime(Long sessionId) {
+    public void updateReadTime(Long sessionId) {
         QuickChatSession sessionPO = SessionAdapter.buildSessionPO(sessionId, LocalDateTime.now());
-        return sessionStore.updateSessionById(sessionPO);
+        sessionStore.updateSessionById(sessionPO);
     }
 
     @Override
@@ -157,18 +157,18 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Boolean topSession(Long sessionId) {
+    public void topSession(Long sessionId) {
         QuickChatSession sessionPO = sessionStore.getBySessionId(sessionId);
         if (ObjectUtils.isEmpty(sessionPO)) {
             throw new QuickException(ResponseEnum.SESSION_NOT_EXIST);
         }
         sessionPO.setStatus(YesNoEnum.YES.getCode());
         sessionPO.setTopFlag(YesNoEnum.YES.getCode());
-        return sessionStore.updateSessionById(sessionPO);
+        sessionStore.updateSessionById(sessionPO);
     }
 
     @Override
-    public Boolean activeSession(String toId) {
+    public void activeSession(String toId) {
         String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatSession sessionPO = sessionStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(sessionPO)) {
@@ -177,6 +177,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         sessionPO.setStatus(YesNoEnum.YES.getCode());
         sessionPO.setTopFlag(YesNoEnum.NO.getCode());
         sessionPO.setUpdateTime(LocalDateTime.now());
-        return sessionStore.updateSessionById(sessionPO);
+        sessionStore.updateSessionById(sessionPO);
     }
 }

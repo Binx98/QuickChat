@@ -88,7 +88,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
     }
 
     @Override
-    public Boolean exitGroup(Long groupId) {
+    public void exitGroup(Long groupId) {
         // 查询群组信息
         QuickChatGroup group = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(group)) {
@@ -100,11 +100,11 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         memberStore.deleteByGroupIdAndAccountId(groupId, loginAccountId);
 
         // 删除会话
-        return sessionStore.deleteByFromIdAndToId(loginAccountId, String.valueOf(groupId));
+        sessionStore.deleteByFromIdAndToId(loginAccountId, String.valueOf(groupId));
     }
 
     @Override
-    public Boolean updateInfo(GroupDTO group) {
+    public void updateInfo(GroupDTO group) {
         // 判断当前操作是否是群主
         String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatGroup groupPO = groupStore.getByGroupId(group.getGroupId());
@@ -116,6 +116,6 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         groupPO.setGroupName(group.getGroupName());
         groupPO.setGroupAvatar(group.getGroupAvatar());
         groupPO.setInvitePermission(group.getInvitePermission());
-        return groupStore.updateInfo(groupPO);
+        groupStore.updateInfo(groupPO);
     }
 }

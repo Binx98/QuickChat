@@ -29,7 +29,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param sessionId 会话主键id
      * @return 执行结果
      */
-    Boolean deleteSession(Long sessionId);
+    void deleteSession(Long sessionId);
 
     /**
      * 更新最后会话读取时间
@@ -37,7 +37,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param sessionId 会话id
      * @return 执行结果
      */
-    Boolean updateReadTime(Long sessionId);
+    void updateReadTime(Long sessionId);
 
     /**
      * 获取会话未读数
@@ -62,7 +62,7 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param sessionId
      * @return 执行结果
      */
-    Boolean topSession(Long sessionId);
+    void topSession(Long sessionId);
 
     /**
      * 恢复会话信息
@@ -70,5 +70,5 @@ public interface QuickChatSessionService extends IService<QuickChatSession> {
      * @param toId 用户id
      * @return 执行结果
      */
-    Boolean activeSession(String toId);
+    void activeSession(String toId);
 }
