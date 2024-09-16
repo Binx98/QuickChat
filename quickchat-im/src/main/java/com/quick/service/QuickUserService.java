@@ -33,7 +33,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 执行结果
      * @throws Exception
      */
-    Boolean register(RegisterFormDTO registerDTO) throws Exception;
+    void register(RegisterFormDTO registerDTO) throws Exception;
 
     /**
      * 登录功能
@@ -58,7 +58,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 执行结果
      * @throws Throwable
      */
-    Boolean sendEmail(EmailDTO emailDTO) throws Throwable;
+    void sendEmail(EmailDTO emailDTO) throws Throwable;
 
     /**
      * 修改用户信息
@@ -66,7 +66,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @param userDTO 修改表单DTO
      * @return 执行结果
      */
-    Boolean updateUser(UserUpdateDTO userDTO);
+    void updateUser(UserUpdateDTO userDTO);
 
     /**
      * 根据请求头Token解析用户信息
@@ -82,6 +82,6 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @return 执行结果
      * @throws Exception
      */
-    Boolean findBack(FindBackFormDTO findBackDTO) throws Exception;
+    void findBack(FindBackFormDTO findBackDTO) throws Exception;
 
 }

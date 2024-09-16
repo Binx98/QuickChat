@@ -19,7 +19,7 @@ public interface QuickChatGroupService extends IService<QuickChatGroup> {
      * @param group 群聊参数
      * @return 执行结果
      */
-    Boolean createGroup(GroupDTO group);
+    void createGroup(GroupDTO group);
 
     /**
      * 解散群聊
