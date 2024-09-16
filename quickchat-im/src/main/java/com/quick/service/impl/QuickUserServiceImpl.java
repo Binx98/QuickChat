@@ -84,7 +84,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean register(RegisterFormDTO registerDTO) throws Exception {
+    public void register(RegisterFormDTO registerDTO) throws Exception {
         // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
@@ -122,7 +122,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
                 registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getCode());
-        return userStore.saveUser(userPO);
+        userStore.saveUser(userPO);
     }
 
     @Override
@@ -198,15 +198,15 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
+    public void sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
         AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
-        return emailStrategy.sendEmail(emailDTO);
+        emailStrategy.sendEmail(emailDTO);
     }
 
     @Override
-    public Boolean updateUser(UserUpdateDTO userDTO) {
+    public void updateUser(UserUpdateDTO userDTO) {
         QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
-        return userStore.updateUserById(userPO);
+        userStore.updateUserById(userPO);
     }
 
     @Override
@@ -228,7 +228,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
 
     @Override
-    public Boolean findBack(FindBackFormDTO findBackDTO) throws Exception {
+    public void findBack(FindBackFormDTO findBackDTO) throws Exception {
         if (!findBackDTO.getPassword1().equals(findBackDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
@@ -245,6 +245,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
         String password = AESUtil.encrypt(findBackDTO.getPassword1());
         userPO.setPassword(password);
-        return userStore.updateUserById(userPO);
+        userStore.updateUserById(userPO);
     }
 }
