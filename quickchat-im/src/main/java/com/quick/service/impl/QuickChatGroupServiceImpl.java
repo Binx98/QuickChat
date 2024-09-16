@@ -53,12 +53,12 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean createGroup(GroupDTO groupDTO) {
+    public void createGroup(GroupDTO groupDTO) {
         QuickChatGroup groupPO = GroupAdapter.buildGroupPO(groupDTO);
         groupStore.saveGroup(groupPO);
         QuickChatContact contact = ContactAdapter.buildContactPO
-                (groupDTO.getAccountId(), groupDTO.getGroupId(), SessionTypeEnum.GROUP.getCode(), null);
-        return contactStore.saveContact(contact);
+                (groupDTO.getAccountId(), groupDTO.getGroupId(), SessionTypeEnum.GROUP.getCode());
+        contactStore.saveContact(contact);
     }
 
     @Override
