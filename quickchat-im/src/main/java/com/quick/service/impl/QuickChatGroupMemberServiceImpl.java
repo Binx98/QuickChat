@@ -71,46 +71,33 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
 
     @Override
     public void addMember(Long groupId, List<String> accountIdList) {
-        // 添加群成员人数限制
         if (CollectionUtils.isEmpty(accountIdList)) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_COUNT_NOT_EXIST);
         }
         if (CollectionUtils.isNotEmpty(accountIdList) && accountIdList.size() > inviteCountLimit) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_ADD_COUNT_NOT_ALLOW);
         }
-
-        // 查询群组信息
         QuickChatGroup chatGroup = groupStore.getByGroupId(groupId);
         if (ObjectUtils.isEmpty(chatGroup)) {
             throw new QuickException(ResponseEnum.GROUP_NOT_EXIST);
         }
-
-        // 不允许群成员邀请 && 操作者是群成员
         String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         if (YesNoEnum.NO.getCode().equals(chatGroup.getInvitePermission())
                 && !loginAccountId.equals(chatGroup.getAccountId())) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_NOT_ALLOW);
         }
-
-        // 去除已经在群的id
         List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
         List<String> savedAccountIdList = groupMemberByAccountId.stream()
                 .map(QuickChatGroupMember::getAccountId)
                 .collect(Collectors.toList());
         accountIdList.removeAll(savedAccountIdList);
-
-        // 保存申请记录
         List<QuickChatApply> applyList = new ArrayList<>();
         for (String accountId : accountIdList) {
             QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId, "邀请您加入群聊: "
                     + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
         }
-
-        // 批量保存申请记录列表
         applyStore.saveAll(applyList);
-
-        // 推送给被邀请人
         kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
     }
 

@@ -140,7 +140,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
         if (ObjectUtils.isEmpty(sessionPO)) {
             return null;
         }
-
         ChatSessionVO sessionVO = null;
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionPO.getType())) {
             QuickChatUser userPO = userStore.getByAccountId(sessionPO.getToId());
@@ -149,7 +148,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             QuickChatGroup groupPO = groupStore.getByGroupId(Long.valueOf(sessionPO.getToId()));
             sessionVO = SessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
         }
-
         Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
         Integer unreadCount = unreadCountMap.get(sessionVO.getRelationId());
         sessionVO.setUnreadCount(unreadCount);

@@ -85,40 +85,29 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void register(RegisterFormDTO registerDTO) throws Exception {
-        // 两次密码输入是否一致
         if (!registerDTO.getPassword1().equals(registerDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
-
-        // 判断邮箱验证码
         String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + registerDTO.getEmail());
         if (StringUtils.isEmpty(cacheEmailCode) || !registerDTO.getEmailCode().equalsIgnoreCase(cacheEmailCode)) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
-
-        // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(registerDTO.getAccountId());
         if (ObjectUtils.isNotEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_EXIST);
         }
-
-        // 判断邮箱是否注册过
         if (registerDTO.getEmail().equals(userPO.getEmail())) {
             throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
         }
 
-        // 加入全员群聊、保存会话
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(officialGroupId, registerDTO.getAccountId());
         memberStore.saveMember(memberPO);
         QuickChatSession chatSession = SessionAdapter.buildSessionPO(registerDTO.getAccountId(),
                 officialGroupId.toString(), officialGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
 
-        // 解析地址信息、密码对称加密
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         String password = AESUtil.encrypt(registerDTO.getPassword1());
-
-        // 保存账号信息
         String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
         userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
                 registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getCode());
@@ -127,42 +116,26 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
     @Override
     public Map<String, Object> login(LoginFormDTO loginDTO) throws Exception {
-        // 判断账号是否存在
         QuickChatUser userPO = userStore.getByAccountId(loginDTO.getAccountId());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
-
-        // 校验图片验证码
         String captchaKey = HttpServletUtil.getRequest().getHeader(RedisConstant.CAPTCHA_KEY);
         String cacheImgCode = redisUtil.getCacheObject(captchaKey);
         if (StringUtils.isEmpty(cacheImgCode) || !cacheImgCode.equalsIgnoreCase(loginDTO.getVerifyCode())) {
             throw new QuickException(ResponseEnum.IMG_CODE_ERROR);
         }
-
-        // 判断密码是否正确
         String encryptPwd = AESUtil.encrypt(loginDTO.getPassWord());
         if (!encryptPwd.equals(userPO.getPassword())) {
             throw new QuickException(ResponseEnum.PASSWORD_ERROR);
         }
 
-        // 登录成功，登录状态保存到 Redis（保证某一时刻只有一个客户端登录）
         redisUtil.setCacheObject(loginDTO.getAccountId(), "登录状态占位");
-
-        // 解析当前登录地址，切换用户状态【已上线】
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
         userPO.setLoginStatus(YesNoEnum.YES.getCode());
         userStore.updateUserById(userPO);
 
-//        // 通知已登录账号的客户端：您的账号在别处登录，是否是本人操作
-//        Map<String, Object> param = new HashMap<>();
-//        param.put("account_id", loginDTO.getAccountId());
-//        param.put("location", location);
-//        param.put("time", LocalDateTime.now());
-//        kafkaProducer.send(KafkaConstant.SYSTEM_NOTICE_TOPIC, JSONUtil.toJsonStr(param));
-
-        // 登录成功，返回 Token 和 账户信息
         Map<String, Object> result = new HashMap<>();
         String token = JwtUtil.generate(loginDTO.getAccountId());
         result.put("token", token);
@@ -215,7 +188,6 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         if (StringUtils.isEmpty(token)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
-
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
         QuickChatUser userPO = userStore.getByAccountId(accountId);
@@ -232,17 +204,14 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         if (!findBackDTO.getPassword1().equals(findBackDTO.getPassword2())) {
             throw new QuickException(ResponseEnum.PASSWORD_DIFF);
         }
-
         QuickChatUser userPO = userStore.getByEmail(findBackDTO.getEmail());
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.EMAIL_NOT_REGISTERED);
         }
-
         String cacheEmailCode = redisUtil.getCacheObject(RedisConstant.EMAIL_KEY + findBackDTO.getEmail());
         if (StringUtils.isEmpty(cacheEmailCode) || !cacheEmailCode.equals(findBackDTO.getEmailCode())) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
-
         String password = AESUtil.encrypt(findBackDTO.getPassword1());
         userPO.setPassword(password);
         userStore.updateUserById(userPO);
