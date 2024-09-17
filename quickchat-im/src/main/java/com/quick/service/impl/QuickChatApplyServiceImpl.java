@@ -64,7 +64,6 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void agreeApply(Long applyId) {
-        // 判断申请记录是否被处理过
         QuickChatApply apply = applyStore.getByApplyId(applyId);
         if (ObjectUtils.isEmpty(apply)) {
             throw new QuickException(ResponseEnum.APPLY_NOT_EXIST);
@@ -73,45 +72,28 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
                 YesNoEnum.NO.getCode().equals(apply.getStatus())) {
             throw new QuickException(ResponseEnum.APPLY_IS_FINISH);
         }
-
-        // 同意申请
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
-
-        // 1.入群申请
         if (SessionTypeEnum.GROUP.getCode().equals(apply.getType())) {
-            // 查询群成员数量，判断是否超过限制
             List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
             if (groupSizeLimit < members.size() + 1) {
                 throw new QuickException(ResponseEnum.GROUP_SIZE_OVER);
             }
-
-            // 保存群成员、添加会话
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
             memberStore.saveMember(member);
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
-
-            // 推送给目标用户
             kafkaProducer.send(KafkaConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
-        }
-
-        // 2.好友申请
-        else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
-            // 保存通讯录
+        } else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             String fromId = apply.getFromId();
             String toId = apply.getToId();
             QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType());
             QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType());
             contactStore.saveContactList(Arrays.asList(contact1, contact2));
-
-            // 保存聊天会话
             Long relationId = IdWorker.getId();
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
-
-            // 推送给目标用户
             kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
     }

@@ -69,7 +69,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public Map<Long, List<ChatMsgVO>> getMsgByRelationIds(List<Long> relationIds, Integer size) {
-        // 根据 relationIds 查询聊天信息
         List<QuickChatMsg> msgList = msgStore.getByRelationIds(relationIds, size);
         if (CollectionUtils.isEmpty(msgList)) {
             return new HashMap<>(0);
@@ -78,8 +77,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
-
-        // 没有消息的 relation_id 需要空集合占位（首次发送消息需要占位）
         for (Long relationId : relationIds) {
             if (!resultMap.containsKey(relationId)) {
                 resultMap.put(relationId, new ArrayList<>());
@@ -91,7 +88,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void sendMsg(ChatMsgDTO msgDTO) throws Throwable {
-        // 查询对方是否是你的好友
         Integer sessionType = msgDTO.getSessionType();
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
             QuickChatContact friend = friendContactStore.getByFromIdAndToId(msgDTO.getFromId(), msgDTO.getToId());
@@ -99,15 +95,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 throw new QuickException(ResponseEnum.NOT_YOUR_FRIEND);
             }
         }
-
-        // 处理通讯双方会话信息
         this.handleSession(sessionType, msgDTO.getRelationId());
-
-        // 根据不同消息类型，发送消息
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
-
-        // 通过 Channel 推送给客户端（单聊、群聊）
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
             kafkaProducer.send(KafkaConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
         } else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
@@ -124,28 +114,20 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     }
 
     private void handleSession(Integer sessionType, Long relationId) {
-        // 根据 relation_id 查询所有会话列表（包括已删除的）
         List<QuickChatSession> sessionList = sessionStore.getAllBySessionId(relationId);
         if (CollectionUtils.isEmpty(sessionList)) {
             throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
         }
-
-        // 针对单聊会话：确保会话数量 = 2
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
             if (sessionList.size() != 2) {
                 throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
             }
-        }
-
-        // 针对群聊会话：确保会话数量 = 群成员总数
-        else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
+        } else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
             List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(relationId);
             if (sessionList.size() != memberList.size()) {
                 throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
             }
         }
-
-        // 批量恢复会话状态
         sessionList = sessionList.stream()
                 .filter(item -> item.getDeleted().equals(true))
                 .collect(Collectors.toList());
@@ -157,7 +139,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 needHandleList.add(session);
             }
         }
-
         if (CollectionUtils.isNotEmpty(needHandleList)) {
             sessionStore.updateList(needHandleList);
         }
