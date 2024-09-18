@@ -72,7 +72,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
                 YesNoEnum.NO.getCode().equals(apply.getStatus())) {
             throw new QuickException(ResponseEnum.APPLY_IS_FINISH);
         }
-        applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
+
         if (SessionTypeEnum.GROUP.getCode().equals(apply.getType())) {
             List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
             if (groupSizeLimit < members.size() + 1) {
@@ -96,6 +96,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
             kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
+
+        applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
     }
 
     @Override
