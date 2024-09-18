@@ -51,14 +51,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
     @Override
     public List<ChatSessionVO> getSessionList() {
-        // 查询会话列表
+        // 查询会话列表，超过50个会话：超出部分已读直接干掉
         String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         List<QuickChatSession> sessionList = sessionStore.getListByAccountId(loginAccountId);
         if (CollectionUtils.isEmpty(sessionList)) {
             return new ArrayList<>();
         }
-
-        // 超过50个会话：超出部分已读直接干掉
         sessionList = sessionList.stream().distinct().collect(Collectors.toList());
         if (sessionList.size() > 50) {
             List<QuickChatSession> subSessionList = sessionList.subList(49, sessionList.size());

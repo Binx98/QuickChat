@@ -86,6 +86,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
                 && !loginAccountId.equals(chatGroup.getAccountId())) {
             throw new QuickException(ResponseEnum.GROUP_MEMBER_NOT_ALLOW);
         }
+
         List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
         List<String> savedAccountIdList = groupMemberByAccountId.stream()
                 .map(QuickChatGroupMember::getAccountId)
@@ -97,6 +98,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
                     + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
         }
+
         applyStore.saveAll(applyList);
         kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
     }

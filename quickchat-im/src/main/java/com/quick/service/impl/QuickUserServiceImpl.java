@@ -11,7 +11,6 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatUserMapper;
 import com.quick.pojo.dto.*;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -55,8 +54,6 @@ import java.util.concurrent.TimeUnit;
 public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickUserService {
     @Autowired
     private RedisUtil redisUtil;
-    @Autowired
-    private KafkaProducer kafkaProducer;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired

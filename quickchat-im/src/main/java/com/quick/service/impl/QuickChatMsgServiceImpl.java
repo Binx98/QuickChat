@@ -9,6 +9,7 @@ import com.quick.adapter.MsgAdapter;
 import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
+import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.kafka.KafkaProducer;
 import com.quick.mapper.QuickChatMsgMapper;
@@ -128,13 +129,14 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
             }
         }
-        sessionList = sessionList.stream()
-                .filter(item -> item.getDeleted().equals(true))
-                .collect(Collectors.toList());
+
         List<QuickChatSession> needHandleList = new ArrayList<>();
+        sessionList = sessionList.stream()
+                .filter(item -> YesNoEnum.NO.getCode().equals(item.getStatus()))
+                .collect(Collectors.toList());
         for (QuickChatSession session : sessionList) {
-            if (session.getDeleted()) {
-                session.setDeleted(false);
+            if (YesNoEnum.NO.getCode().equals(session.getStatus())) {
+                session.setStatus(YesNoEnum.YES.getCode());
                 session.setUpdateTime(LocalDateTime.now());
                 needHandleList.add(session);
             }
