@@ -56,13 +56,10 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
 quick-chat:
-  # 通用群聊id
   common-group-id: 1
-  # 撤回时间限制（分）
-  no-recall-time: 2
-  # 语音时长限制（秒）
+  no-recall-time: 120
   voice-time-limit: 60
-  # 文件大小限制（MB）
+  session-size-limit: 50
   size:
     avatar: 2
     voice: 5

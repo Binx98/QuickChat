@@ -21,6 +21,7 @@ import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -48,6 +49,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     private QuickChatGroupStore groupStore;
     @Autowired
     private QuickChatSessionStore sessionStore;
+    @Value("${quick-chat.session-size-limit}")
+    private int sessionSizeLimit;
 
     @Override
     public List<ChatSessionVO> getSessionList() {
@@ -58,8 +61,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             return new ArrayList<>();
         }
         sessionList = sessionList.stream().distinct().collect(Collectors.toList());
-        if (sessionList.size() > 50) {
-            List<QuickChatSession> subSessionList = sessionList.subList(49, sessionList.size());
+        if (sessionList.size() > sessionSizeLimit) {
+            List<QuickChatSession> subSessionList = sessionList.subList(sessionSizeLimit - 1, sessionList.size());
             List<QuickChatSession> over50List = subSessionList.stream()
                     .filter(item -> item.getLastReadTime().isAfter(item.getUpdateTime()))
                     .collect(Collectors.toList());
