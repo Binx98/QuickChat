@@ -47,7 +47,7 @@ public class RecallMsgHandler extends AbstractChatMsgStrategy {
         if (ObjectUtils.isEmpty(chatMsg)) {
             throw new QuickException(ResponseEnum.FAIL);
         }
-        if (chatMsg.getCreateTime().minusMinutes(noRecallTime).isBefore(LocalDateTime.now())) {
+        if (chatMsg.getCreateTime().minusSeconds(noRecallTime).isBefore(LocalDateTime.now())) {
             throw new QuickException(ResponseEnum.CAN_NOT_RECALL);
         }
 
