@@ -80,6 +80,9 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             }
             QuickChatGroupMember member = GroupMemberAdapter.buildMemberPO(apply.getGroupId(), apply.getToId());
             memberStore.saveMember(member);
+            QuickChatContact contact = ContactAdapter.buildContactPO
+                    (apply.getToId(), apply.getGroupId(), SessionTypeEnum.GROUP.getCode());
+            contactStore.saveContact(contact);
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);

@@ -10,13 +10,25 @@ import com.quick.pojo.po.QuickChatApply;
  */
 public class ApplyAdapter {
     public static QuickChatApply buildFriendApplyPO(String fromId, String toId,
-                                                    String applyInfo, Integer type, Long groupId, Integer status) {
+                                                    String applyInfo, Integer type,
+                                                    Long groupId, Integer status) {
         QuickChatApply apply = new QuickChatApply();
         apply.setFromId(fromId);
         apply.setToId(toId);
         apply.setApplyInfo(applyInfo);
         apply.setType(type);
         apply.setGroupId(groupId);
+        apply.setStatus(status);
+        return apply;
+    }
+
+    public static QuickChatApply buildFriendApplyPO(String fromId, String toId,
+                                                    String applyInfo, Integer type, Integer status) {
+        QuickChatApply apply = new QuickChatApply();
+        apply.setFromId(fromId);
+        apply.setToId(toId);
+        apply.setApplyInfo(applyInfo);
+        apply.setType(type);
         apply.setStatus(status);
         return apply;
     }
