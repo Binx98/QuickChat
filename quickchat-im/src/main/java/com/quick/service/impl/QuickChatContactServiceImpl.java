@@ -62,14 +62,14 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     }
 
     @Override
-    public void addFriend(String accountId, String applyInfo) {
-        String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
-        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(loginAccountId, accountId);
+    public void addFriend(String toId, String applyInfo) {
+        String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
+        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isNotEmpty(friendPO)) {
             throw new QuickException(ResponseEnum.YOUR_FRIEND);
         }
-        QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId,
-                applyInfo, ApplyTypeEnum.FRIEND.getCode(), null, YesNoEnum.NO.getCode());
+        QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(fromId, toId,
+                applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
         kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
     }
