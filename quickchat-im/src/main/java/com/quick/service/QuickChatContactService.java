@@ -39,4 +39,12 @@ public interface QuickChatContactService extends IService<QuickChatContact> {
      * @return 执行结果
      */
     void deleteFriend(String accountId);
+
+    /**
+     * 备注昵称
+     *
+     * @param accountId 账户id
+     * @param noteName  昵称
+     */
+    void noteFriend(String accountId, String noteName);
 }

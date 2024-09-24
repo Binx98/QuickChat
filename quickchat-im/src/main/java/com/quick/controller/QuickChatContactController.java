@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -49,15 +48,17 @@ public class QuickChatContactController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("拉黑好友")
-    @PostMapping("/black")
-    public R blackFriend() {
+    @ApiOperation("备注昵称")
+    @PostMapping("/note/{accountId}/{noteName}")
+    public R noteFriend(@PathVariable String accountId,
+                        @PathVariable String noteName) {
+        contactService.noteFriend(accountId, noteName);
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("备注昵称")
-    @PostMapping("/note")
-    public R noteFriend() {
+    @ApiOperation("拉黑好友")
+    @PostMapping("/black")
+    public R blackFriend() {
         return R.out(ResponseEnum.SUCCESS);
     }
 }

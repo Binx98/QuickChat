@@ -129,7 +129,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 throw new QuickException(ResponseEnum.SESSION_INFO_ERROR);
             }
         }
-
         List<QuickChatSession> needHandleList = new ArrayList<>();
         sessionList = sessionList.stream()
                 .filter(item -> YesNoEnum.NO.getCode().equals(item.getStatus()))

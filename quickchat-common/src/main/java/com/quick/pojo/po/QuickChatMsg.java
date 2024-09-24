@@ -87,6 +87,13 @@ public class QuickChatMsg implements Serializable {
     private LocalDateTime createTime;
 
     /**
+     * 修改时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+
+    /**
      * 删除标识
      */
     @TableField(value = "deleted", fill = FieldFill.INSERT)
