@@ -45,8 +45,10 @@ public class QuickChatMsgController {
     }
 
     @ApiOperation("根据 relation_id 查询聊天记录")
-    @GetMapping("/getByRelationId")
-    public R getMsgByRelationId(Long relationId, Integer current, Integer size) {
+    @GetMapping("/getByRelationId/{relationId}/{current}/{size}")
+    public R getMsgByRelationId(@PathVariable Long relationId,
+                                @PathVariable Integer current,
+                                @PathVariable Integer size) {
         Map<Long, List<ChatMsgVO>> resultMap = msgService.getMsgByRelationId(relationId, current, size);
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }

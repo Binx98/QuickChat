@@ -14,7 +14,5 @@ import java.net.BindException;
 @Getter
 @AllArgsConstructor
 public class QuickValidationException extends BindException {
-
     private String errorMsg;
-
 }
