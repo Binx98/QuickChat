@@ -86,4 +86,9 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         friendContactStore.deleteByFromIdAndToId(toId, fromId);
         sessionStore.deleteByFromIdAndToId(fromId, toId);
     }
+
+    @Override
+    public void noteFriend(String accountId, String noteName) {
+
+    }
 }

@@ -50,7 +50,7 @@ public class QuickChatContact implements Serializable {
     private Integer type;
 
     /**
-     * 备注名称
+     * 备注
      */
     @TableField("note_name")
     private String noteName;
@@ -61,6 +61,13 @@ public class QuickChatContact implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+
+    /**
+     * 修改时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
     /**
      * 删除标识
