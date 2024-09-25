@@ -55,4 +55,11 @@ public interface QuickChatContactStore extends IService<QuickChatContact> {
      * @return 执行结果
      */
     Boolean saveContactList(List<QuickChatContact> contacts);
+
+    /**
+     * 修改通讯录
+     *
+     * @param friendPO 通讯录实体
+     */
+    Boolean updateContact(QuickChatContact friendPO);
 }

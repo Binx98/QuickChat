@@ -88,7 +88,13 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     }
 
     @Override
-    public void noteFriend(String accountId, String noteName) {
-
+    public void noteFriend(String toId, String noteName) {
+        String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
+        QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
+        if (ObjectUtils.isEmpty(friendPO)) {
+            throw new QuickException(ResponseEnum.NOT_YOUR_FRIEND);
+        }
+        friendPO.setNoteName(noteName);
+        friendContactStore.updateContact(friendPO);
     }
 }
