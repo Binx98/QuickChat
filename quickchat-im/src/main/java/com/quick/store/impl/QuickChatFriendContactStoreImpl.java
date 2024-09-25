@@ -1,13 +1,9 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatContactMapper;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.store.QuickChatContactStore;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +19,6 @@ import java.util.List;
 @Service
 public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactStore {
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_CONTACT, key = "'getListByFromId:' + #p0", unless = "#result.isEmpty()")
     public List<QuickChatContact> getListByFromId(String fromId) {
         return this.lambdaQuery()
                 .eq(QuickChatContact::getFromId, fromId)
@@ -31,7 +26,6 @@ public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatContac
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_CONTACT, key = "#p0 + ':' + #p1", unless = "#result == null")
     public QuickChatContact getByFromIdAndToId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatContact::getFromId, fromId)
@@ -40,10 +34,6 @@ public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatContac
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_CONTACT, key = "#p0 + ':' + #p1"),
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_CONTACT, key = "'getListByFromId:' + #p0"),
-    })
     public Boolean deleteByFromIdAndToId(String fromId, String toId) {
         return this.lambdaUpdate()
                 .eq(QuickChatContact::getFromId, fromId)
@@ -52,16 +42,17 @@ public class QuickChatFriendContactStoreImpl extends ServiceImpl<QuickChatContac
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_CONTACT, key = "#p0 + ':' + #p1"),
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_CONTACT, key = "'getListByFromId:' + #p0"),
-    })
     public Boolean saveContact(QuickChatContact contact) {
         return this.save(contact);
     }
 
     @Override
     public Boolean saveContactList(List<QuickChatContact> contacts) {
-        return null;
+        return this.saveBatch(contacts);
+    }
+
+    @Override
+    public Boolean updateContact(QuickChatContact friendPO) {
+        return this.updateById(friendPO);
     }
 }
