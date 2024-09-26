@@ -21,19 +21,16 @@ spring:
   kafka:
     bootstrap-servers: 101.200.129.113:9092
     producer:
-      retries: 0 # 重试次数
-      acks: 1 # 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)
-      batch-size: 16384 # 批量大小
-      buffer-memory: 33554432 # 生产端缓冲区大小
+      retries: 0
+      acks: 1
+      batch-size: 16384
+      buffer-memory: 33554432
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     consumer:
-      group-id: javagroup # 默认的消费组ID
-      enable-auto-commit: true # 是否自动提交offset
-      auto-commit-interval: 100  # 提交offset延时(接收到消息后多久提交offset)
-      # earliest:当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费
-      # latest:当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据
-      # none:topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
+      group-id: javagroup
+      enable-auto-commit: true
+      auto-commit-interval: 100
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -49,8 +46,11 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+
 mybatis-plus:
-  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    map-underscore-to-camel-case: true
 minio:
   endpoint: http://localhost:9000
   accessKey: minioadmin
