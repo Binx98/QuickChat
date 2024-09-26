@@ -12,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 public class IpUtil {
-    /**
-     * 从 request 中获取客户端真实的 ip 地址
-     */
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("Ali-CDN-Real-IP");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

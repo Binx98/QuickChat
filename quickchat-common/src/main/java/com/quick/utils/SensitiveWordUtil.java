@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Component
 public class SensitiveWordUtil {
-
     @Autowired
     private SensitiveWordBs sensitiveWordBs;
 
@@ -28,7 +27,7 @@ public class SensitiveWordUtil {
     /**
      * 判断是否含有敏感词
      */
-    public boolean contains(String text) {
+    public boolean check(String text) {
         return sensitiveWordBs.contains(text);
     }
 

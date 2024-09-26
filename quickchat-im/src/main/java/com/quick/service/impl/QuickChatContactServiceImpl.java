@@ -22,6 +22,7 @@ import com.quick.store.QuickChatContactStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
+import com.quick.utils.SensitiveWordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,8 @@ import java.util.stream.Collectors;
 public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactService {
     @Autowired
     private QuickChatContactStore friendContactStore;
+    @Autowired
+    private SensitiveWordUtil sensitiveWordUtil;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
@@ -80,7 +83,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
-            return;
+            throw new QuickException(ResponseEnum.NOT_YOUR_FRIEND);
         }
         friendContactStore.deleteByFromIdAndToId(fromId, toId);
         friendContactStore.deleteByFromIdAndToId(toId, fromId);
@@ -89,6 +92,9 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
 
     @Override
     public void noteFriend(String toId, String noteName) {
+        if (sensitiveWordUtil.check(noteName)) {
+            throw new QuickException(ResponseEnum.NOTE_NAME_NOT_ALLOW);
+        }
         String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
         if (ObjectUtils.isEmpty(friendPO)) {
