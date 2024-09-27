@@ -26,7 +26,7 @@ public enum ResponseEnum {
     EMAIL_HAS_REGISTERED(500, "邮箱已经被注册，请重试！"),
     EMAIL_NOT_REGISTERED(500, "邮箱尚未注册账号，请重试！"),
     TOKEN_EXPIRE(510, "登录身份已过期，请重新登录！"),
-    NOTE_NAME_NOT_ALLOW(510, "昵称存在违规信息，不可使用！"),
+    NICK_NAME_NOT_ALLOW(510, "昵称存在违规信息，不可使用！"),
 
     // --------------------会话---------------------
     SESSION_INFO_ERROR(500, "聊天会话信息异常，请联系废物作者"),

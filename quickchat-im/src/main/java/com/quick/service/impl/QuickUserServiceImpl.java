@@ -61,6 +61,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
+    private SensitiveWordUtil sensitiveWordUtil;
+    @Autowired
     private QuickChatGroupMemberStore memberStore;
 
     @Value("${quick-chat.common-group-id}")
@@ -95,6 +97,9 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         }
         if (registerDTO.getEmail().equals(userPO.getEmail())) {
             throw new QuickException(ResponseEnum.EMAIL_HAS_REGISTERED);
+        }
+        if (sensitiveWordUtil.check(registerDTO.getNickName())) {
+            throw new QuickException(ResponseEnum.NICK_NAME_NOT_ALLOW);
         }
 
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(officialGroupId, registerDTO.getAccountId());
@@ -148,12 +153,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
-
         String captcha = RedisConstant.CAPTCHA_KEY + ":" + UUID.randomUUID();
         CookieUtil.addCookie(response, RedisConstant.CAPTCHA_KEY, captcha, false, -1, "/");
         String verifyCode = defaultKaptcha.createText();
         redisUtil.setCacheObject(captcha, verifyCode, 3, TimeUnit.MINUTES);
-
         ServletOutputStream outputStream = null;
         BufferedImage image = defaultKaptcha.createImage(verifyCode);
         try {
