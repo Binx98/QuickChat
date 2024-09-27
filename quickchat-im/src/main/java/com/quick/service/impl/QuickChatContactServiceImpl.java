@@ -93,7 +93,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     @Override
     public void noteFriend(String toId, String noteName) {
         if (sensitiveWordUtil.check(noteName)) {
-            throw new QuickException(ResponseEnum.NOTE_NAME_NOT_ALLOW);
+            throw new QuickException(ResponseEnum.NICK_NAME_NOT_ALLOW);
         }
         String fromId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
         QuickChatContact friendPO = friendContactStore.getByFromIdAndToId(fromId, toId);
