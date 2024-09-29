@@ -66,7 +66,7 @@ public interface QuickUserService extends IService<QuickChatUser> {
      * @param userDTO 修改表单DTO
      * @return 执行结果
      */
-    void updateUser(UserUpdateDTO userDTO);
+    void updateUser(UserInfoDTO userDTO);
 
     /**
      * 根据请求头Token解析用户信息

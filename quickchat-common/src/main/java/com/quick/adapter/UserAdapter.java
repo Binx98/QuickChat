@@ -1,6 +1,5 @@
 package com.quick.adapter;
 
-import com.quick.pojo.dto.UserUpdateDTO;
 import com.quick.pojo.po.QuickChatUser;
 import com.quick.pojo.vo.ChatUserVO;
 
@@ -38,8 +37,12 @@ public class UserAdapter {
         return user;
     }
 
-    public static QuickChatUser buildUserPO(UserUpdateDTO userDTO) {
+    public static QuickChatUser buildUserPO(String accountId, String nickName, String avatar, Integer gender) {
         QuickChatUser user = new QuickChatUser();
+        user.setAccountId(accountId);
+        user.setNickName(nickName);
+        user.setAvatar(avatar);
+        user.setGender(gender);
         return user;
     }
 

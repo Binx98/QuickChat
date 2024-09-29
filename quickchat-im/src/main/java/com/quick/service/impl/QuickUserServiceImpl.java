@@ -177,8 +177,12 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public void updateUser(UserUpdateDTO userDTO) {
-        QuickChatUser userPO = UserAdapter.buildUserPO(userDTO);
+    public void updateUser(UserInfoDTO userDTO) {
+        String accountId = userDTO.getAccountId();
+        String nickName = userDTO.getNickName();
+        String avatar = userDTO.getAvatar();
+        Integer gender = userDTO.getGender();
+        QuickChatUser userPO = UserAdapter.buildUserPO(accountId, nickName, avatar, gender);
         userStore.updateUserById(userPO);
     }
 
