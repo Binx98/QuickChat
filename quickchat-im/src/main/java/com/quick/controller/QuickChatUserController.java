@@ -67,7 +67,7 @@ public class QuickChatUserController {
 
     @ApiOperation("修改用户信息")
     @PutMapping("/update")
-    public R updateInfo(@Validated @RequestBody UserUpdateDTO userDTO) {
+    public R updateInfo(@Validated @RequestBody UserInfoDTO userDTO) {
         userService.updateUser(userDTO);
         return R.out(ResponseEnum.SUCCESS);
     }
