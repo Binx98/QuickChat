@@ -79,7 +79,6 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                     .map(QuickChatSession::getToId)
                     .collect(Collectors.toList());
             users = userStore.getListByAccountIds(accountIds);
-            // TODO 封装昵称备注
         }
 
         // 群聊：会话列表
@@ -91,9 +90,9 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
                     .collect(Collectors.toList());
             groups = groupStore.getListByGroupIds(groupIds);
         }
-        List<ChatSessionVO> sessionVOList = SessionAdapter.buildSessionVOList(sessionList, users, groups);
 
         // 查询会话未读数量
+        List<ChatSessionVO> sessionVOList = SessionAdapter.buildSessionVOList(sessionList, users, groups);
         Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
         for (ChatSessionVO sessionVO : sessionVOList) {
             Long relationId = sessionVO.getRelationId();
