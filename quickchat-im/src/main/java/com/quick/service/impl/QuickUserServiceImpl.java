@@ -131,13 +131,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         if (!encryptPwd.equals(userPO.getPassword())) {
             throw new QuickException(ResponseEnum.PASSWORD_ERROR);
         }
-
-        redisUtil.setCacheObject(loginDTO.getAccountId(), "登录状态占位");
+        redisUtil.setCacheObject(loginDTO.getAccountId(), "login flag");
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         userPO.setLocation(location);
         userPO.setLoginStatus(YesNoEnum.YES.getCode());
         userStore.updateUserById(userPO);
-
         Map<String, Object> result = new HashMap<>();
         String token = JwtUtil.generate(loginDTO.getAccountId());
         result.put("token", token);

@@ -44,6 +44,12 @@ public class QuickChatSession implements Serializable {
     private String toId;
 
     /**
+     * 会话名称
+     */
+    @TableField("session_name")
+    private String sessionName;
+
+    /**
      * 关联id
      * 单聊：雪花算法
      * 群聊：群id
@@ -53,6 +59,8 @@ public class QuickChatSession implements Serializable {
 
     /**
      * 会话类型（1：单聊，2：群聊）
+     *
+     * @see com.quick.enums.SessionTypeEnum
      */
     @TableField("type")
     private Integer type;
