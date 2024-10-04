@@ -11,7 +11,7 @@ import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
+import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatGroupMemberMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private RocketProducer kafkaProducer;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired

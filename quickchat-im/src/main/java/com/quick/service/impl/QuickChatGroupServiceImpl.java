@@ -9,7 +9,7 @@ import com.quick.constant.KafkaConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
+import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatContact;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private RocketProducer kafkaProducer;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired

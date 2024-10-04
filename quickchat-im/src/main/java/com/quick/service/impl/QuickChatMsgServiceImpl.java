@@ -11,7 +11,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
+import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatContact;
@@ -47,7 +47,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private RocketProducer kafkaProducer;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
