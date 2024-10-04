@@ -12,7 +12,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
+import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatApplyMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
@@ -43,7 +43,7 @@ import java.util.List;
 @Service
 public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyService {
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private RocketProducer kafkaProducer;
     @Autowired
     private QuickChatApplyStore applyStore;
     @Autowired
@@ -99,7 +99,6 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
             kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
-
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
     }
 

@@ -10,7 +10,7 @@ import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.kafka.KafkaProducer;
+import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatContactMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
@@ -51,7 +51,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
-    private KafkaProducer kafkaProducer;
+    private RocketProducer kafkaProducer;
 
     @Override
     public List<ChatUserVO> getContactList() {

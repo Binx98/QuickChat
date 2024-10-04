@@ -18,22 +18,6 @@ spring:
         max-idle: 5
         min-idle: 0
         max-active: 20
-  kafka:
-    bootstrap-servers: 101.200.129.113:9092
-    producer:
-      retries: 0
-      acks: 1
-      batch-size: 16384
-      buffer-memory: 33554432
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
-      group-id: javagroup
-      enable-auto-commit: true
-      auto-commit-interval: 100
-      auto-offset-reset: latest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   mail:
     host: smtp.qq.com
     port: 465
@@ -46,7 +30,19 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
-
+rocketmq:
+  consumer:
+    group: springboot_consumer_group
+    pull-batch-size: 10
+  name-server: localhost:9876
+  producer:
+    group: springboot_producer_group
+    sendMessageTimeout: 10000
+    retryTimesWhenSendFailed: 2
+    retryTimesWhenSendAsyncFailed: 2
+    maxMessageSize: 4096
+    compressMessageBodyThreshold: 4096
+    retryNextServer: false
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
