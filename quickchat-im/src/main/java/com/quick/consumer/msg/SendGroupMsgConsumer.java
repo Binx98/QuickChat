@@ -12,6 +12,7 @@ import com.quick.store.QuickChatGroupMemberStore;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +22,16 @@ import java.util.List;
  * @Author 徐志斌
  * @Date: 2024/10/6 8:52
  * @Version 1.0
- * @Description: 发送群聊信息-消费者
+ * @Description: 发送信息（群聊）-消费者
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_GROUP_MSG, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendGroupMsgConsumer {
+public class SendGroupMsgConsumer implements RocketMQListener<String> {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
-    public void sendGroupMsg(String message) {
+    @Override
+    public void onMessage(String message) {
         QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
         List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(chatMsg.getRelationId());
         for (QuickChatGroupMember member : memberList) {

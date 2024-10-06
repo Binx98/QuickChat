@@ -8,6 +8,7 @@ import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.entity.WsPushEntity;
 import io.netty.channel.Channel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -20,8 +21,9 @@ import java.util.Map;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_ENTERING, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendingMsgConsumer {
-    public void entering(String message) {
+public class SendingMsgConsumer implements RocketMQListener<String> {
+    @Override
+    public void onMessage(String message) {
         Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
         Channel channel = UserChannelRelation.getUserChannelMap().get(param.get("toId"));
         if (ObjectUtils.isNotEmpty(channel)) {
