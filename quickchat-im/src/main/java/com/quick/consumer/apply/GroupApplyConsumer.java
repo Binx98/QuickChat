@@ -1,8 +1,8 @@
-package com.quick.consumer;
+package com.quick.consumer.apply;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.WsPushEnum;
 import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.entity.WsPushEntity;
@@ -25,7 +25,7 @@ import java.util.List;
  * @Version: 1.0
  */
 @Component
-@RocketMQMessageListener(topic = KafkaConstant.GROUP_APPLY_TOPIC, consumerGroup = KafkaConstant.CHAT_SEND_GROUP_ID)
+@RocketMQMessageListener(topic = RocketMQConstant.GROUP_APPLY_TOPIC, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
 public class GroupApplyConsumer implements RocketMQListener<String> {
     @Autowired
     private QuickChatGroupMemberStore memberStore;

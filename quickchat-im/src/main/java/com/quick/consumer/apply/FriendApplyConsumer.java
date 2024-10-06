@@ -1,7 +1,7 @@
-package com.quick.consumer;
+package com.quick.consumer.apply;
 
 import cn.hutool.json.JSONUtil;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.WsPushEnum;
 import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.entity.WsPushEntity;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @Version: 1.0
  */
 @Component
-@RocketMQMessageListener(topic = KafkaConstant.FRIEND_APPLY_TOPIC, consumerGroup = KafkaConstant.CHAT_SEND_GROUP_ID)
+@RocketMQMessageListener(topic = RocketMQConstant.FRIEND_APPLY_TOPIC, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
 public class FriendApplyConsumer implements RocketMQListener<String> {
 
     @Override

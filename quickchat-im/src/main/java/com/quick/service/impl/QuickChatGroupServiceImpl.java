@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ContactAdapter;
 import com.quick.adapter.GroupAdapter;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.exception.QuickException;
@@ -76,7 +76,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         Map<String, Object> param = new HashMap<>();
         param.put("accountIds", accountIds);
         param.put("groupId", groupId);
-        kafkaProducer.send(KafkaConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
+        kafkaProducer.send(RocketMQConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
     }
 
     @Override

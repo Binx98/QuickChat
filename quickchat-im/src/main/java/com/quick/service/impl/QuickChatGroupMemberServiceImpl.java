@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ApplyAdapter;
 import com.quick.adapter.UserAdapter;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
@@ -100,7 +100,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
 
         applyStore.saveAll(applyList);
-        kafkaProducer.send(KafkaConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
+        kafkaProducer.send(RocketMQConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
     }
 
     @Override
@@ -112,6 +112,6 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
         QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-        kafkaProducer.send(KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
+        kafkaProducer.send(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
     }
 }

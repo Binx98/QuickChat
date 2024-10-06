@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ContactAdapter;
 import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
@@ -86,7 +86,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
-            kafkaProducer.send(KafkaConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
+            kafkaProducer.send(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
         } else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             String fromId = apply.getFromId();
             String toId = apply.getToId();
@@ -97,7 +97,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
-            kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+            kafkaProducer.send(RocketMQConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
         }
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
     }
