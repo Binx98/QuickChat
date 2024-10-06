@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ApplyAdapter;
 import com.quick.adapter.UserAdapter;
-import com.quick.constant.KafkaConstant;
+import com.quick.constant.RocketMQConstant;
 import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
@@ -74,7 +74,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(fromId, toId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
-        kafkaProducer.send(KafkaConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+        kafkaProducer.send(RocketMQConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
     }
 
     @Override

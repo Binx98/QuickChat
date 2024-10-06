@@ -1,7 +1,7 @@
 //package com.quick.consumer;
 //
 //import cn.hutool.json.JSONUtil;
-//import com.quick.constant.KafkaConstant;
+//import com.quick.constant.RocketMQConstant;
 //import com.quick.enums.WsPushEnum;
 //import com.quick.netty.UserChannelRelation;
 //import com.quick.pojo.entity.WsPushEntity;
@@ -32,7 +32,7 @@
 //    /**
 //     * 群内通知：添加群成员
 //     */
-//    @KafkaListener(topics = KafkaConstant.GROUP_ADD_MEMBER_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+//    @KafkaListener(topics = RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, groupId = RocketMQConstant.CHAT_SEND_GROUP_ID)
 //    public void addGroupMember(String message) {
 //        QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
 //        List<QuickChatGroupMember> members = memberStore.getListByGroupId(apply.getGroupId());
@@ -50,7 +50,7 @@
 //    /**
 //     * 群内通知：删除群成员
 //     */
-//    @KafkaListener(topics = KafkaConstant.GROUP_DELETE_MEMBER_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+//    @KafkaListener(topics = RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, groupId = RocketMQConstant.CHAT_SEND_GROUP_ID)
 //    public void deleteGroupMember(String message) {
 //        QuickChatGroupMember member = JSONUtil.parse(message).toBean(QuickChatGroupMember.class);
 //        Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
@@ -65,7 +65,7 @@
 //    /**
 //     * 群内通知：解散群聊
 //     */
-//    @KafkaListener(topics = KafkaConstant.GROUP_RELEASE_NOTICE, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+//    @KafkaListener(topics = RocketMQConstant.GROUP_RELEASE_NOTICE, groupId = RocketMQConstant.CHAT_SEND_GROUP_ID)
 //    public void releaseGroup(String message) {
 //        Map<String, Object> params = JSONUtil.parse(message).toBean(Map.class);
 //        List<String> accountIds = (List<String>) params.get("accountIds");

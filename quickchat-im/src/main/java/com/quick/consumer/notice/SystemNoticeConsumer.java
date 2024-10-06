@@ -1,7 +1,7 @@
 //package com.quick.consumer;
 //
 //import cn.hutool.json.JSONUtil;
-//import com.quick.constant.KafkaConstant;
+//import com.quick.constant.RocketMQConstant;
 //import com.quick.enums.WsPushEnum;
 //import com.quick.netty.UserChannelRelation;
 //import com.quick.pojo.entity.WsPushEntity;
@@ -24,7 +24,7 @@
 //    /**
 //     * 系统通知：当前账户在别的地区登录
 //     */
-//    @KafkaListener(topics = KafkaConstant.SEND_CHAT_SINGLE_MSG, groupId = KafkaConstant.CHAT_SEND_GROUP_ID)
+//    @KafkaListener(topics = RocketMQConstant.SEND_CHAT_SINGLE_MSG, groupId = RocketMQConstant.CHAT_SEND_GROUP_ID)
 //    public void sendChatMsg(String message) {
 //        Map<String, Object> param = JSONUtil.parse(message).toBean(Map.class);
 //        String accountId = (String) param.get("account_id");

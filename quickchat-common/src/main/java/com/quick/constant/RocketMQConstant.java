@@ -3,10 +3,10 @@ package com.quick.constant;
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-20  18:15
- * @Description: Kafka 常量
+ * @Description: RocketMQ 常量
  * @Version: 1.0
  */
-public class KafkaConstant {
+public class RocketMQConstant {
     /**
      * 发送消息 Topic
      */
