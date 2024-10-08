@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.FRIEND_APPLY_TOPIC, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
 public class FriendApplyConsumer implements RocketMQListener<String> {
-
     @Override
     public void onMessage(String message) {
         QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);

@@ -1,4 +1,4 @@
-package com.quick.consumer.apply;
+package com.quick.consumer.notice;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -19,16 +19,17 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * @Author: 徐志斌
- * @CreateTime: 2024-03-13  16:07
- * @Description: 群聊申请-消费者
- * @Version: 1.0
+ * @Author 徐志斌
+ * @Date: 2024/10/6 14:42
+ * @Version 1.0
+ * @Description: 添加群成员-消费者
  */
 @Component
-@RocketMQMessageListener(topic = RocketMQConstant.GROUP_APPLY_TOPIC, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class GroupApplyConsumer implements RocketMQListener<String> {
+@RocketMQMessageListener(topic = RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
+public class GroupAddMemberConsumer implements RocketMQListener<String> {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
+
     @Override
     public void onMessage(String message) {
         QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
@@ -37,7 +38,7 @@ public class GroupApplyConsumer implements RocketMQListener<String> {
             Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
             if (ObjectUtils.isNotEmpty(channel)) {
                 WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
-                pushEntity.setPushType(WsPushEnum.GROUP_APPLY_NOTICE.getCode());
+                pushEntity.setPushType(WsPushEnum.GROUP_ADD_MEMBER_NOTICE.getCode());
                 pushEntity.setMessage(apply);
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
             }
