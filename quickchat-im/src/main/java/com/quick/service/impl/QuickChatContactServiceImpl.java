@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ApplyAdapter;
@@ -22,8 +21,12 @@ import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import com.quick.utils.SensitiveWordUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,7 @@ import java.util.stream.Collectors;
  * @author 徐志斌
  * @since 2023-11-30
  */
+@Slf4j
 @Service
 public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMapper, QuickChatContact> implements QuickChatContactService {
     @Autowired
@@ -74,7 +78,18 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(fromId, toId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
-        rocketMQTemplate.convertAndSend(RocketMQConstant.FRIEND_APPLY_TOPIC, apply);
+        rocketMQTemplate.asyncSend(RocketMQConstant.FRIEND_APPLY_TOPIC, MessageBuilder.withPayload(apply).build(),
+                new SendCallback() {
+                    @Override
+                    public void onSuccess(SendResult sendResult) {
+                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                    }
+                });
     }
 
     @Override

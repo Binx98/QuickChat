@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,10 +22,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.FRIEND_APPLY_TOPIC, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class FriendApplyConsumer implements RocketMQListener<String> {
+public class FriendApplyConsumer implements RocketMQListener<Message<QuickChatApply>> {
     @Override
-    public void onMessage(String message) {
-        QuickChatApply apply = JSONUtil.parse(message).toBean(QuickChatApply.class);
+    public void onMessage(Message<QuickChatApply> message) {
+        QuickChatApply apply = message.getPayload();
         Channel channel = UserChannelRelation.getUserChannelMap().get(apply.getToId());
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<QuickChatApply> pushEntity = new WsPushEntity<>();
