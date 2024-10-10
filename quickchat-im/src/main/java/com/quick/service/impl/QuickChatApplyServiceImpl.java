@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,13 +16,13 @@ import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatSession;
-import com.quick.rocketmq.RocketProducer;
 import com.quick.service.QuickChatApplyService;
 import com.quick.store.QuickChatApplyStore;
 import com.quick.store.QuickChatContactStore;
 import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ import java.util.List;
 @Service
 public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyService {
     @Autowired
-    private RocketProducer kafkaProducer;
+    private RocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatApplyStore applyStore;
     @Autowired
@@ -86,7 +85,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
-            kafkaProducer.send(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, JSONUtil.toJsonStr(apply));
+            rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, apply);
+
         } else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             String fromId = apply.getFromId();
             String toId = apply.getToId();
@@ -97,7 +97,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
-            kafkaProducer.send(RocketMQConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+            rocketMQTemplate.convertAndSend(RocketMQConstant.FRIEND_APPLY_TOPIC, apply);
         }
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
     }

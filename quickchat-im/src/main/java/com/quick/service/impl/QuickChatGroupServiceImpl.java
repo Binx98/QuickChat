@@ -9,7 +9,6 @@ import com.quick.constant.RocketMQConstant;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.exception.QuickException;
-import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatGroupMapper;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatContact;
@@ -21,6 +20,7 @@ import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
-    private RocketProducer kafkaProducer;
+    private RocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
@@ -76,7 +76,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         Map<String, Object> param = new HashMap<>();
         param.put("accountIds", accountIds);
         param.put("groupId", groupId);
-        kafkaProducer.send(RocketMQConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
+        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
     }
 
     @Override
