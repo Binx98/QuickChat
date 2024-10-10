@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,7 +10,6 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatContact;
@@ -26,6 +24,7 @@ import com.quick.store.QuickChatMsgStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.strategy.msg.ChatMsgStrategyFactory;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
-    private RocketProducer kafkaProducer;
+    private RocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
@@ -100,9 +99,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-            kafkaProducer.send(RocketMQConstant.SEND_CHAT_SINGLE_MSG, JSONUtil.toJsonStr(chatMsg));
+            rocketMQTemplate.convertAndSend(RocketMQConstant.SEND_CHAT_SINGLE_MSG, chatMsg);
         } else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
-            kafkaProducer.send(RocketMQConstant.SEND_CHAT_GROUP_MSG, JSONUtil.toJsonStr(chatMsg));
+            rocketMQTemplate.convertAndSend(RocketMQConstant.SEND_CHAT_GROUP_MSG, chatMsg);
         }
     }
 
@@ -111,7 +110,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);
-        kafkaProducer.send(RocketMQConstant.SEND_CHAT_ENTERING, JSONUtil.toJsonStr(param));
+        rocketMQTemplate.convertAndSend(RocketMQConstant.SEND_CHAT_ENTERING, param);
     }
 
     private void handleSession(Integer sessionType, Long relationId) {

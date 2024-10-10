@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,7 +10,6 @@ import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatGroupMemberMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
@@ -24,6 +22,7 @@ import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
     @Autowired
-    private RocketProducer kafkaProducer;
+    private RocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatUserStore userStore;
     @Autowired
@@ -100,7 +99,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
 
         applyStore.saveAll(applyList);
-        kafkaProducer.send(RocketMQConstant.GROUP_APPLY_TOPIC, JSONUtil.toJsonStr(applyList));
+        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_APPLY_TOPIC, applyList);
     }
 
     @Override
@@ -112,6 +111,6 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
         QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-        kafkaProducer.send(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, JSONUtil.toJsonStr(member));
+        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, member);
     }
 }

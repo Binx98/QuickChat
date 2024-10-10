@@ -10,7 +10,6 @@ import com.quick.enums.ApplyTypeEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
-import com.quick.rocketmq.RocketProducer;
 import com.quick.mapper.QuickChatContactMapper;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
@@ -23,6 +22,7 @@ import com.quick.store.QuickChatSessionStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import com.quick.utils.SensitiveWordUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +43,8 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     @Autowired
     private QuickChatContactStore friendContactStore;
     @Autowired
+    private RocketMQTemplate rocketMQTemplate;
+    @Autowired
     private SensitiveWordUtil sensitiveWordUtil;
     @Autowired
     private QuickChatSessionStore sessionStore;
@@ -50,8 +52,6 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     private QuickChatApplyStore applyStore;
     @Autowired
     private QuickChatUserStore userStore;
-    @Autowired
-    private RocketProducer kafkaProducer;
 
     @Override
     public List<ChatUserVO> getContactList() {
@@ -74,7 +74,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(fromId, toId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
-        kafkaProducer.send(RocketMQConstant.FRIEND_APPLY_TOPIC, JSONUtil.toJsonStr(apply));
+        rocketMQTemplate.convertAndSend(RocketMQConstant.FRIEND_APPLY_TOPIC, apply);
     }
 
     @Override
