@@ -1,6 +1,5 @@
 package com.quick.service.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.adapter.ContactAdapter;
@@ -20,8 +19,12 @@ import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +41,7 @@ import java.util.stream.Collectors;
  * @author 徐志斌
  * @since 2024-01-08
  */
+@Slf4j
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
@@ -76,7 +80,19 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         Map<String, Object> param = new HashMap<>();
         param.put("accountIds", accountIds);
         param.put("groupId", groupId);
-        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_RELEASE_NOTICE, JSONUtil.toJsonStr(param));
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_RELEASE_NOTICE, MessageBuilder.withPayload(param).build(),
+                new SendCallback() {
+                    @Override
+                    public void onSuccess(SendResult sendResult) {
+                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                    }
+                }
+        );
     }
 
     @Override

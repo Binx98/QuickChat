@@ -22,9 +22,13 @@ import com.quick.store.QuickChatGroupMemberStore;
 import com.quick.store.QuickChatGroupStore;
 import com.quick.store.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,6 +43,7 @@ import java.util.stream.Collectors;
  * @author 徐志斌
  * @since 2024-01-08
  */
+@Slf4j
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
     @Autowired
@@ -97,9 +102,20 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
                     + chatGroup.getGroupName(), ApplyTypeEnum.GROUP.getCode(), groupId, YesNoEnum.NO.getCode());
             applyList.add(apply);
         }
-
         applyStore.saveAll(applyList);
-        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_APPLY_TOPIC, applyList);
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_APPLY_TOPIC, MessageBuilder.withPayload(applyList).build(),
+                new SendCallback() {
+                    @Override
+                    public void onSuccess(SendResult sendResult) {
+                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                    }
+                }
+        );
     }
 
     @Override
@@ -111,6 +127,18 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
         QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-        rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, member);
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, MessageBuilder.withPayload(member).build(),
+                new SendCallback() {
+                    @Override
+                    public void onSuccess(SendResult sendResult) {
+                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                    }
+                }
+        );
     }
 }
