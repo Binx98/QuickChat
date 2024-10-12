@@ -115,7 +115,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
                         public void onException(Throwable throwable) {
                             log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
                         }
-                    });
+                    }
+            );
         }
         applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
     }

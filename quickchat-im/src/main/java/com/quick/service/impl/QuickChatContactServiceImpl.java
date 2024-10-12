@@ -89,7 +89,8 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
                     public void onException(Throwable throwable) {
                         log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
                     }
-                });
+                }
+        );
     }
 
     @Override
