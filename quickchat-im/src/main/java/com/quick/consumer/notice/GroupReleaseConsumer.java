@@ -10,6 +10,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,11 +24,11 @@ import java.util.Map;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.GROUP_RELEASE_NOTICE, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class GroupReleaseConsumer implements RocketMQListener<String> {
+public class GroupReleaseConsumer implements RocketMQListener<Message<Map<String, Object>>> {
 
     @Override
-    public void onMessage(String message) {
-        Map<String, Object> params = JSONUtil.parse(message).toBean(Map.class);
+    public void onMessage(Message<Map<String, Object>> message) {
+        Map<String, Object> params = message.getPayload();
         List<String> accountIds = (List<String>) params.get("accountIds");
         Long groupId = (Long) params.get("groupId");
         for (String accountId : accountIds) {

@@ -14,6 +14,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,13 +27,13 @@ import java.util.List;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_GROUP_MSG, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendGroupMsgConsumer implements RocketMQListener<String> {
+public class SendGroupMsgConsumer implements RocketMQListener<Message<QuickChatMsg>> {
     @Autowired
     private QuickChatGroupMemberStore memberStore;
 
     @Override
-    public void onMessage(String message) {
-        QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
+    public void onMessage(Message<QuickChatMsg> message) {
+        QuickChatMsg chatMsg = message.getPayload();
         List<QuickChatGroupMember> memberList = memberStore.getListByGroupId(chatMsg.getRelationId());
         for (QuickChatGroupMember member : memberList) {
             if (member.getAccountId().equals(chatMsg.getFromId())) {

@@ -11,6 +11,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,10 +22,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_SINGLE_MSG, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendFriendMsgConsumer implements RocketMQListener<String> {
+public class SendFriendMsgConsumer implements RocketMQListener<Message<QuickChatMsg>> {
     @Override
-    public void onMessage(String message) {
-        QuickChatMsg chatMsg = JSONUtil.parse(message).toBean(QuickChatMsg.class);
+    public void onMessage(Message<QuickChatMsg> message) {
+        QuickChatMsg chatMsg = message.getPayload();
         Channel channel = UserChannelRelation.getUserChannelMap().get(chatMsg.getToId());
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<QuickChatMsg> pushEntity = new WsPushEntity<>();
