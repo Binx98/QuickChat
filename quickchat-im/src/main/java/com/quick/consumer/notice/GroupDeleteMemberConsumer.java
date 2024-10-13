@@ -11,6 +11,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,10 +22,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class GroupDeleteMemberConsumer implements RocketMQListener<String> {
+public class GroupDeleteMemberConsumer implements RocketMQListener<Message<QuickChatGroupMember>> {
     @Override
-    public void onMessage(String message) {
-        QuickChatGroupMember member = JSONUtil.parse(message).toBean(QuickChatGroupMember.class);
+    public void onMessage(Message<QuickChatGroupMember> message) {
+        QuickChatGroupMember member = message.getPayload();
         Channel channel = UserChannelRelation.getUserChannelMap().get(member.getAccountId());
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<QuickChatGroupMember> pushEntity = new WsPushEntity<>();

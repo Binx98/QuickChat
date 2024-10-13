@@ -1,6 +1,5 @@
 package com.quick.consumer.msg;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.quick.constant.RocketMQConstant;
 import com.quick.enums.WsPushEnum;
@@ -9,6 +8,7 @@ import com.quick.pojo.entity.WsPushEntity;
 import io.netty.channel.Channel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -21,10 +21,10 @@ import java.util.Map;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_ENTERING, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendingMsgConsumer implements RocketMQListener<String> {
+public class SendingMsgConsumer implements RocketMQListener<Message<Map<String, String>>> {
     @Override
-    public void onMessage(String message) {
-        Map<String, String> param = JSONUtil.parse(message).toBean(Map.class);
+    public void onMessage(Message<Map<String, String>> message) {
+        Map<String, String> param = message.getPayload();
         Channel channel = UserChannelRelation.getUserChannelMap().get(param.get("toId"));
         if (ObjectUtils.isNotEmpty(channel)) {
             WsPushEntity<Map<String, String>> pushEntity = new WsPushEntity();
