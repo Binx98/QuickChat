@@ -30,13 +30,12 @@ public class GroupReleaseConsumer implements RocketMQListener<Message<Map<String
     public void onMessage(Message<Map<String, Object>> message) {
         Map<String, Object> params = message.getPayload();
         List<String> accountIds = (List<String>) params.get("accountIds");
-        Long groupId = (Long) params.get("groupId");
         for (String accountId : accountIds) {
             Channel channel = UserChannelRelation.getUserChannelMap().get(accountId);
             if (ObjectUtils.isNotEmpty(channel)) {
                 WsPushEntity<Long> pushEntity = new WsPushEntity<>();
                 pushEntity.setPushType(WsPushEnum.GROUP_RELEASE_NOTICE.getCode());
-                pushEntity.setMessage(groupId);
+                pushEntity.setMessage((Long) params.get("groupId"));
                 channel.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(pushEntity)));
             }
         }
