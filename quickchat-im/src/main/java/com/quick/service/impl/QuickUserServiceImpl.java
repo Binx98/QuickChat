@@ -176,11 +176,12 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
 
     @Override
     public void updateUser(UserInfoDTO userDTO) {
-        String accountId = userDTO.getAccountId();
-        String nickName = userDTO.getNickName();
-        String avatar = userDTO.getAvatar();
-        Integer gender = userDTO.getGender();
-        QuickChatUser userPO = UserAdapter.buildUserPO(accountId, nickName, avatar, gender);
+        QuickChatUser userPO = UserAdapter.buildUserPO(
+                userDTO.getAccountId(),
+                userDTO.getNickName(),
+                userDTO.getAvatar(),
+                userDTO.getGender()
+        );
         userStore.updateUserById(userPO);
     }
 
@@ -193,10 +194,10 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         Map<String, Object> resultMap = JwtUtil.resolve(token);
         String accountId = (String) resultMap.get(RequestContextUtil.ACCOUNT_ID);
         QuickChatUser userPO = userStore.getByAccountId(accountId);
-        userPO.setPassword(null);
         if (ObjectUtils.isEmpty(userPO)) {
             throw new QuickException(ResponseEnum.ACCOUNT_ID_NOT_EXIST);
         }
+        userPO.setPassword(null);
         return userPO;
     }
 
@@ -214,8 +215,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         if (StringUtils.isEmpty(cacheEmailCode) || !cacheEmailCode.equals(findBackDTO.getEmailCode())) {
             throw new QuickException(ResponseEnum.EMAIL_CODE_ERROR);
         }
-        String password = AESUtil.encrypt(findBackDTO.getPassword1());
-        userPO.setPassword(password);
+        String encryptPassword = AESUtil.encrypt(findBackDTO.getPassword1());
+        userPO.setPassword(encryptPassword);
         userStore.updateUserById(userPO);
     }
 }

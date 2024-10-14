@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Component
 @RocketMQMessageListener(topic = RocketMQConstant.SEND_CHAT_ENTERING, consumerGroup = RocketMQConstant.CHAT_SEND_GROUP_ID)
-public class SendingMsgConsumer implements RocketMQListener<Message<Map<String, String>>> {
+public class SendMsgLoadingConsumer implements RocketMQListener<Message<Map<String, String>>> {
     @Override
     public void onMessage(Message<Map<String, String>> message) {
         Map<String, String> param = message.getPayload();
