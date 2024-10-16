@@ -91,9 +91,19 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
-            Message<QuickChatApply> message = MessageBuilder.withPayload(apply).build();
-            rocketMQTemplate.convertAndSend(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, message);
+            rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, MessageBuilder.withPayload(apply).build(),
+                    new SendCallback() {
+                        @Override
+                        public void onSuccess(SendResult sendResult) {
+                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                        }
 
+                        @Override
+                        public void onException(Throwable throwable) {
+                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                        }
+                    }
+            );
         } else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             String fromId = apply.getFromId();
             String toId = apply.getToId();
@@ -118,11 +128,15 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
                     }
             );
         }
-        applyStore.updateApplyStatus(applyId, YesNoEnum.YES.getCode());
+        applyStore.updateApplyStatus(applyId, apply.getToId(), YesNoEnum.YES.getCode());
     }
 
     @Override
     public void deleteApply(Long applyId) {
-        applyStore.deleteByApplyId(applyId);
+        QuickChatApply apply = applyStore.getByApplyId(applyId);
+        if (ObjectUtils.isEmpty(apply)) {
+            return;
+        }
+        applyStore.deleteByApplyId(applyId, apply.getToId());
     }
 }

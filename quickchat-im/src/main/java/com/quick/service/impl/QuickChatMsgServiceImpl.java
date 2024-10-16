@@ -118,7 +118,19 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                     }
             );
         } else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
-            rocketMQTemplate.convertAndSend(RocketMQConstant.SEND_CHAT_GROUP_MSG, chatMsg);
+            rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_GROUP_MSG, MessageBuilder.withPayload(chatMsg).build(),
+                    new SendCallback() {
+                        @Override
+                        public void onSuccess(SendResult sendResult) {
+                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
+                        }
+                    }
+            );
         }
     }
 

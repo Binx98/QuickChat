@@ -14,9 +14,6 @@ import java.util.concurrent.ThreadFactory;
 public class MyThreadFactory implements ThreadFactory {
     private final ThreadFactory factory;
 
-    /**
-     * 线程工厂创建的线程都设置：未捕获异常处理器
-     */
     @Override
     public Thread newThread(Runnable r) {
         Thread thread = factory.newThread(r);
