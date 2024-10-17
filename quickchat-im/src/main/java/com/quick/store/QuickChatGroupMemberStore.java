@@ -41,19 +41,11 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
     Boolean deleteByGroupIdAndAccountId(Long groupId, String accountId);
 
     /**
-     * 批量保存群成员
-     *
-     * @param memberList 群成员列表
-     * @return 执行结果
-     */
-    Boolean saveMemberList(List<QuickChatGroupMember> memberList);
-
-    /**
      * 查询成员否在群中
      *
-     * @param groupId
-     * @param accountId
-     * @return
+     * @param groupId   群组id
+     * @param accountId 账户id
+     * @return 群成员信息
      */
     QuickChatGroupMember getMemberByAccountId(Long groupId, String accountId);
 
@@ -64,5 +56,5 @@ public interface QuickChatGroupMemberStore extends IService<QuickChatGroupMember
      * @param accountIdList 成员id列表
      * @return
      */
-    List<QuickChatGroupMember> getGroupMemberByAccountId(Long groupId, List<String> accountIdList);
+    List<QuickChatGroupMember> getGroupMemberByAccountIdList(Long groupId, List<String> accountIdList);
 }
