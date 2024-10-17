@@ -64,4 +64,11 @@ public interface QuickChatApplyStore extends IService<QuickChatApply> {
      * @return
      */
     Boolean saveAll(List<QuickChatApply> applyList);
+
+    /**
+     * 根据 apply_id 删除 Redis 缓存
+     *
+     * @param applyId 申请id
+     */
+    void deleteCacheByApplyId(Long applyId);
 }
