@@ -72,4 +72,11 @@ public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, Q
     public Boolean saveAll(List<QuickChatApply> applyList) {
         return this.saveBatch(applyList);
     }
+
+    @Override
+    @Caching(evict = {
+            @CacheEvict(value = RedisConstant.QUICK_CHAT_APPLY, key = "'getListByToId:' + #p0.toId")
+    })
+    public void deleteCacheByApplyId(Long applyId) {
+    }
 }

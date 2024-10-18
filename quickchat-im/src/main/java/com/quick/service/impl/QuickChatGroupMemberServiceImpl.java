@@ -91,11 +91,16 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
             throw new QuickException(ResponseEnum.GROUP_MEMBER_NOT_ALLOW);
         }
 
-        List<QuickChatGroupMember> groupMemberByAccountId = memberStore.getGroupMemberByAccountId(groupId, accountIdList);
-        List<String> savedAccountIdList = groupMemberByAccountId.stream()
+        // 根据 accountIdList 查询群成员信息，如果已经在群中就不处理了
+        List<QuickChatGroupMember> savedMemberList = memberStore.getGroupMemberByAccountIdList(groupId, accountIdList);
+        List<String> savedMemberIdList = savedMemberList.stream()
                 .map(QuickChatGroupMember::getAccountId)
                 .collect(Collectors.toList());
-        accountIdList.removeAll(savedAccountIdList);
+        accountIdList.removeAll(savedMemberIdList);
+        if (CollectionUtils.isEmpty(accountIdList)) {
+            return;
+        }
+
         List<QuickChatApply> applyList = new ArrayList<>();
         for (String accountId : accountIdList) {
             QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(loginAccountId, accountId, "邀请您加入群聊: "
@@ -103,6 +108,10 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
             applyList.add(apply);
         }
         applyStore.saveAll(applyList);
+        for (QuickChatApply apply : applyList) {
+            applyStore.deleteCacheByApplyId(apply.getId());
+        }
+
         rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_APPLY_TOPIC, MessageBuilder.withPayload(applyList).build(),
                 new SendCallback() {
                     @Override
