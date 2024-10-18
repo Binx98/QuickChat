@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!--  默认Console输出配置  -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <!-- 定义日志文件路径  -->
+    <property name="LOG_PATH" value="/opt/project/backend/myLogs" />
+    <property name="APP_NAME" value="QuickChat" />
+
+    <!-- 定义日志的文件名 -->
+    <property name="LOG_FILE" value="${LOG_PATH}/${APP_NAME}/QuickChat_Info.log" />
+    <property name="ERROR_LOG_FILE" value="${LOG_PATH}/${APP_NAME}/QuickChat_Err.log" />
+    <!--  滚动备份位置  -->
+    <property name="LOG_FILE_BACKUP" value="${LOG_PATH}/${APP_NAME}/backup" />
+
+    <!-- 滚动记录日志，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <!--  全部Log  -->
+    <appender name="APPLICATION" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 指定日志文件的名称 -->
+        <file>${LOG_FILE}</file>
+        <!-- 基于时间滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 滚动文件名&时间&第n个文件 -->
+            <fileNamePattern>${LOG_FILE_BACKUP}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 日志保留时间：30天 -->
+            <maxHistory>30</maxHistory>
+            <!-- 文件大小策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 日志编码 -->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--  Error Log专用  -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 只输出level级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!-- 指定日志文件的名称 -->
+        <file>${ERROR_LOG_FILE}</file>
+        <!-- 基于时间滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 滚动文件名&时间&第n个文件 -->
+            <fileNamePattern>${ERROR_LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 日志保留时间：30天 -->
+            <maxHistory>30</maxHistory>
+            <!-- 文件大小策略 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <!-- 日志编码 -->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 彩色控制台Log，也可以注掉，已导入默认控制台配置 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%green(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%magenta(%thread)] %highlight(%-5level) %yellow(%logger{36}): %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <root level="info">
+        <!--   控制台输出     -->
+        <appender-ref ref="CONSOLE" />
+        <!--   App全部LOG     -->
+        <appender-ref ref="APPLICATION" />
+        <!--   ERROR LOG      -->
+        <appender-ref ref="ERROR" />
+    </root>
+
+</configuration>
