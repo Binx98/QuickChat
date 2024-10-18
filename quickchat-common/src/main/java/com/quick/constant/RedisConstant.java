@@ -16,7 +16,7 @@ public class RedisConstant {
      * 缓存分区
      */
     public static final String QUICK_CHAT_USER = "quick_chat_user";
-    public static final String QUICK_CHAT_CONTACT = "quick_chat_contact";
+    public static final String QUICK_CHAT_FRIEND_CONTACT = "quick_chat_friend_contact";
     public static final String QUICK_CHAT_MSG = "quick_chat_msg";
     public static final String QUICK_CHAT_EMOJI = "quick_chat_emoji";
     public static final String QUICK_CHAT_SESSION = "quick_chat_session";

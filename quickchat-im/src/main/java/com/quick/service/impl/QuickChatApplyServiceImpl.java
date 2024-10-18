@@ -28,7 +28,6 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,6 +109,8 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatContact contact1 = ContactAdapter.buildContactPO(fromId, Long.valueOf(toId), apply.getType());
             QuickChatContact contact2 = ContactAdapter.buildContactPO(toId, Long.valueOf(fromId), apply.getType());
             contactStore.saveContactList(Arrays.asList(contact1, contact2));
+            contactStore.deleteCacheByFromIdAndToId(contact1.getFromId(), contact1.getToId());
+            contactStore.deleteCacheByFromIdAndToId(contact2.getFromId(), contact2.getToId());
             Long relationId = IdWorker.getId();
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());

@@ -60,6 +60,15 @@ public interface QuickChatContactStore extends IService<QuickChatContact> {
      * 修改通讯录
      *
      * @param friendPO 通讯录实体
+     * @return 执行结果
      */
     Boolean updateContact(QuickChatContact friendPO);
+
+    /**
+     * 删除 Redis 缓存
+     *
+     * @param fromId 账号id
+     * @param toId   账号id
+     */
+    void deleteCacheByFromIdAndToId(String fromId, String toId);
 }
