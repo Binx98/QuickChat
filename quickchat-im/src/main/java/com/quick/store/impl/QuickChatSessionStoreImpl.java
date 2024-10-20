@@ -1,9 +1,11 @@
 package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatSessionStore;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 @Service
 public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMapper, QuickChatSession> implements QuickChatSessionStore {
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "'getListByAccountId:' + #p0", unless = "#result.isEmpty()")
     public List<QuickChatSession> getListByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, accountId)
@@ -27,6 +30,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "'getByFromIdAndToId:' + #p0 + #p1", unless = "#result == null")
     public QuickChatSession getByFromIdAndToId(String fromId, String toId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getFromId, fromId)
