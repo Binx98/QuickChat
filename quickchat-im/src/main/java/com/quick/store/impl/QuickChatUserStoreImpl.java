@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickChatUserStore {
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
+    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "'getByAccountId' + #p0", unless = "#result == null")
     public QuickChatUser getByAccountId(String accountId) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getAccountId, accountId)
@@ -31,7 +31,6 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "'getListByAccountIds:' + #p0", unless = "#result.isEmpty()")
     public List<QuickChatUser> getListByAccountIds(List<String> accountIds) {
         return this.lambdaQuery()
                 .in(QuickChatUser::getAccountId, accountIds)
@@ -39,22 +38,21 @@ public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, Qui
     }
 
     @Override
-    @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "'getListByAccountIds'", allEntries = true)
     public Boolean saveUser(QuickChatUser userPO) {
         return this.save(userPO);
     }
 
     @Override
     @Caching(evict = {
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "#p0"),
-            @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "'getListByAccountIds'", allEntries = true),
+            @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "'getByEmail' + #p0.accountId"),
+            @CacheEvict(value = RedisConstant.QUICK_CHAT_USER, key = "'getByAccountId' + #p0.email")
     })
     public Boolean updateUserById(QuickChatUser userPO) {
         return this.updateById(userPO);
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "#p0", unless = "#result == null")
+    @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "'getByEmail' + #p0", unless = "#result == null")
     public QuickChatUser getByEmail(String email) {
         return this.lambdaQuery()
                 .eq(QuickChatUser::getEmail, email)
