@@ -5,7 +5,9 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatSessionMapper;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.store.QuickChatSessionStore;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +46,9 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = RedisConstant.QUICK_CHAT_SESSION, key = "'getByFromIdAndToId:' + #p0.fromId + #p0.toId")
+    })
     public Boolean updateSessionById(QuickChatSession chatSession) {
         return this.updateById(chatSession);
     }
@@ -62,6 +67,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "'getBySessionId:' + #p0", unless = "#result == null")
     public QuickChatSession getBySessionId(Long sessionId) {
         return this.getById(sessionId);
     }
@@ -75,6 +81,7 @@ public class QuickChatSessionStoreImpl extends ServiceImpl<QuickChatSessionMappe
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_SESSION, key = "'getAllBySessionId:' + #p0", unless = "#result.isEmpty()")
     public List<QuickChatSession> getAllBySessionId(Long relationId) {
         return this.lambdaQuery()
                 .eq(QuickChatSession::getRelationId, relationId)
