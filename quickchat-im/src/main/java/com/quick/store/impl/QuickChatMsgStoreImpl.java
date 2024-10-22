@@ -2,9 +2,13 @@ package com.quick.store.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.QuickChatMsgStore;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,6 +47,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "'getByMsgId:' + #p0", unless = "#result == null")
     public QuickChatMsg getByMsgId(Long msgId) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getId, msgId)
@@ -50,6 +55,9 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = RedisConstant.QUICK_CHAT_APPLY, key = "'getByMsgId:' + #p0.id")
+    })
     public Boolean updateByMsgId(QuickChatMsg chatMsg) {
         return this.updateById(chatMsg);
     }
