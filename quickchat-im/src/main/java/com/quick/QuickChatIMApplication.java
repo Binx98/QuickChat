@@ -18,7 +18,6 @@ public class QuickChatIMApplication implements CommandLineRunner {
     private Environment environment;
 
     public static void main(String[] args) {
-        System.setProperty("rocketmq.client.logUseSlf4j", "true");
         SpringApplication.run(QuickChatIMApplication.class, args);
     }
 
@@ -26,6 +25,7 @@ public class QuickChatIMApplication implements CommandLineRunner {
         String applicationName = environment.getProperty("spring.application.name");
         String serverPort = environment.getProperty("server.port");
         String active = environment.getProperty("spring.profiles.active");
+        System.setProperty("rocketmq.client.logUseSlf4j", "true");
         log.info("----------------------------项目名称：[{}]----------------------------", applicationName);
         log.info("----------------------------项目环境：[{}]----------------------------", active);
         log.info("----------------------------项目端口：[{}]----------------------------", serverPort);
