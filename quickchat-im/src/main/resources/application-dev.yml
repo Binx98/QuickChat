@@ -66,3 +66,9 @@ quick-chat:
   avatar:
     boy: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/boy.png
     girl: https://xuzhibin-bucket.oss-cn-beijing.aliyuncs.com/QuickChat/girl.png
+
+logging:
+  level:
+    RocketmqClient: ERROR
+    io:
+    netty: ERROR
