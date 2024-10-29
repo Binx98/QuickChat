@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+  # Nginx
+  nginx:
+    image: nginx:1.24.0
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /opt/nginx/html:/usr/share/nginx/html
+      - /opt/nginx/logs:/var/log/nginx
+      - /opt/nginx/conf:/etc/nginx
+    restart: always
+
+  # Redis
+  redis:
+    image: redis:6.0.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /opt/redis/redis.conf:/etc/redis/redis.conf
+      - /opt/redis/data:/data
+      - /opt/redis/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+    command: [ redis-server, --requirepass, 密码 ]
+    restart: always
+
+  # SpringBoot JAR 8888
+  quick-chat-8888:
+    image: quick-chat
+    container_name: quick-chat
+    build:
+      context: ./backend
+      dockerfile: Dockerfile8888
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+  # SpringBoot JAR 9999
+  quick-chat-8889:
+    image: quick-chat
+    container_name: quick-chat
+    build:
+      context: ./backend
+      dockerfile: Dockerfile8888
+    ports:
+      - "8888:8888"
+    volumes:
+      - /opt/project/backend/myLogs:/myLogs
+    restart: always
+
+  # MySQL
+  mysql:
+    image: mysql:8.0.16
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/project/mysql/data:/var/lib/mysql
+      - /opt/project/mysql/conf:/etc/mysql/conf.d
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: 数据库DB名称
+      MYSQL_ROOT_PASSWORD: root密码
+      MYSQL_USER: 用户账号
+      MYSQL_PASSWORD: 用户密码
+    restart: always
+
+  # MinIO
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - /opt/minio/data:/data
+      - /opt/minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: 登陆账号
+      MINIO_SECRET_KEY: 登录密码
+    command: server /data --console-address ":9001"
+    restart: always
+
+  # RocketMQ
