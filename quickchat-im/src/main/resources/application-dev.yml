@@ -72,3 +72,17 @@ logging:
     RocketmqClient: ERROR
     io:
     netty: ERROR
+
+# xxl-job
+xxl:
+  job:
+    admin:
+      addresses: 127.0.0.1 # XXL-JOB 调度中心地址，如 http://address:port/xxl-job-admin
+    accessToken: "Mock Token" # XXL-JOB 调度中心的访问令牌
+    executor:
+      appname: "AppName" # 执行器AppName
+      address: "Address" # 执行器注册的地址，用于 "执行器HA" 场景
+      ip: "IP" # 执行器IP
+      port: 9001 # 执行器端口
+      logpath: /opt/project/backend/myLogs # 执行器日志文件存储路径
+      logretentiondays: 30 # 执行器日志保存天数
