@@ -37,7 +37,7 @@ public class QuickChatMsgController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("根据 relation_ids 查询聊天记录")
+    @ApiOperation("首次访问调用：根据 relation_ids 查询聊天记录")
     @PostMapping("/getByRelationIds")
     public R getMsgByRelationIdList(@RequestBody List<Long> relationIds, Integer size) {
         Map<Long, List<ChatMsgVO>> result = msgService.getMsgByRelationIds(relationIds, size);

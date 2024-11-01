@@ -33,6 +33,7 @@
         <minio.version>8.0.3</minio.version>
         <ip2region.version>2.6.3</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
+        <xxl-job.version>2.3.1</xxl-job.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <sensitive.version>0.2.1</sensitive.version>
         <springfox.version>3.0.0</springfox.version>
@@ -122,6 +123,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
+            </dependency>
+            <!--XXL-JOB-->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
             </dependency>
             <!--ip2region-->
             <dependency>
