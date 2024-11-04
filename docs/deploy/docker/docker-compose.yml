@@ -29,26 +29,26 @@ services:
     command: [ redis-server, --requirepass, 密码 ]
     restart: always
 
-  # SpringBoot JAR 8888
+  # JAR 8888
   quick-chat-8888:
     image: quick-chat
     container_name: quick-chat
     build:
       context: ./backend
-      dockerfile: Dockerfile8888
+      dockerfile: Dockerfile-8888
     ports:
       - "8888:8888"
     volumes:
       - /opt/project/backend/myLogs:/myLogs
     restart: always
 
-  # SpringBoot JAR 9999
+  # JAR 9999
   quick-chat-8889:
     image: quick-chat
     container_name: quick-chat
     build:
       context: ./backend
-      dockerfile: Dockerfile8889
+      dockerfile: Dockerfile-8889
     ports:
       - "8889:8889"
     volumes:
