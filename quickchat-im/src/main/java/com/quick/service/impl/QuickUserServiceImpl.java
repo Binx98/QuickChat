@@ -32,7 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
-import javax.mail.MessagingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -101,13 +100,11 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         if (sensitiveWordUtil.check(registerDTO.getNickName())) {
             throw new QuickException(ResponseEnum.NICK_NAME_NOT_ALLOW);
         }
-
         QuickChatGroupMember memberPO = GroupMemberAdapter.buildMemberPO(officialGroupId, registerDTO.getAccountId());
         memberStore.saveMember(memberPO);
         QuickChatSession chatSession = SessionAdapter.buildSessionPO(registerDTO.getAccountId(),
                 officialGroupId.toString(), officialGroupId, SessionTypeEnum.GROUP.getCode());
         sessionStore.saveInfo(chatSession);
-
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         String password = AESUtil.encrypt(registerDTO.getPassword1());
         String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
@@ -169,7 +166,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public void sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
+    public void sendEmail(EmailDTO emailDTO) throws IOException {
         AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
         emailStrategy.sendEmail(emailDTO);
     }
