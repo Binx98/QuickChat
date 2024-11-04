@@ -39,7 +39,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - /opt/project/backend/myLogs:/myLogs
+      - /opt/project/backend-project/myLogs:/myLogs
     restart: always
 
   # JAR 9999
@@ -52,7 +52,7 @@ services:
     ports:
       - "8889:8889"
     volumes:
-      - /opt/project/backend/myLogs:/myLogs
+      - /opt/project/backend-project/myLogs:/myLogs
     restart: always
 
   # MySQL
@@ -66,7 +66,7 @@ services:
       - /opt/project/mysql/conf:/etc/mysql/conf.d
     environment:
       TZ: Asia/Shanghai
-      MYSQL_DATABASE: 数据库DB名称
+      MYSQL_DATABASE: quick_chat
       MYSQL_ROOT_PASSWORD: root密码
       MYSQL_USER: 用户账号
       MYSQL_PASSWORD: 用户密码
@@ -83,8 +83,8 @@ services:
       - /opt/minio/data:/data
       - /opt/minio/config:/root/.minio
     environment:
-      MINIO_ACCESS_KEY: 登陆账号
-      MINIO_SECRET_KEY: 登录密码
+      MINIO_ACCESS_KEY: 账号
+      MINIO_SECRET_KEY: 密码
     command: server /data --console-address ":9001"
     restart: always
 
