@@ -76,6 +76,11 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
             <!--Netty-->
             <dependency>
                 <groupId>io.netty</groupId>

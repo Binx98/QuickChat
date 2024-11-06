@@ -7,7 +7,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatMsg;
-import com.quick.store.QuickChatMsgStore;
+import com.quick.store.mysql.QuickChatMsgStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

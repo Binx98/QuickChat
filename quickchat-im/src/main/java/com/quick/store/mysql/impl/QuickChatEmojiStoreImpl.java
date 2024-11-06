@@ -1,12 +1,10 @@
-package com.quick.store.impl;
+package com.quick.store.mysql.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatEmojiMapper;
 import com.quick.pojo.po.QuickChatEmoji;
-import com.quick.store.QuickChatEmojiStore;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
+import com.quick.store.mysql.QuickChatEmojiStore;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +18,7 @@ import java.util.List;
  * @since 2023-11-30
  */
 @Service
+@DS("mysql")
 public class QuickChatEmojiStoreImpl extends ServiceImpl<QuickChatEmojiMapper, QuickChatEmoji> implements QuickChatEmojiStore {
     @Override
     public List<QuickChatEmoji> getEmojiList(String accountId) {
