@@ -2,6 +2,7 @@ package com.quick.job;
 
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.service.QuickChatMsgService;
+import com.quick.store.doris.QuickChatMsgDorisStore;
 import com.quick.store.mysql.QuickChatMsgStore;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -22,20 +23,23 @@ import java.util.List;
 @Component
 public class ChatSessionMsgJob {
     @Autowired
-    private QuickChatMsgService msgService;
+    private QuickChatMsgDorisStore msgDorisStore;
     @Autowired
     private QuickChatMsgStore msgStore;
 
     /**
-     * TODO 保留30日聊天记录（凌晨 2：00 迁移到 Doris）
+     * 保留30日聊天记录（凌晨 2：00 迁移到 Doris）
      */
     @XxlJob("MoveHistoryMsgToDorisJob")
     public ReturnT moveHistoryMsgToDorisJob() {
+        // 查询 30 日内所有聊天记录信息
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = startTime.minusDays(30);
         List<QuickChatMsg> msgList = msgStore.getMsgByTime(startTime, endTime);
+        Boolean isSuccess = msgDorisStore.saveBatchMsg(msgList);
+        if (isSuccess) {
 
-
+        }
         return ReturnT.SUCCESS;
     }
 }
