@@ -5,7 +5,7 @@ import com.quick.adapter.EmojiAdapter;
 import com.quick.mapper.QuickChatEmojiMapper;
 import com.quick.pojo.po.QuickChatEmoji;
 import com.quick.service.QuickChatEmojiService;
-import com.quick.store.QuickChatEmojiStore;
+import com.quick.store.mysql.QuickChatEmojiStore;
 import com.quick.utils.RequestContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

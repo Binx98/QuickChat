@@ -1,4 +1,4 @@
-package com.quick.store;
+package com.quick.store.mysql;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatSession;

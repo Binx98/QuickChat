@@ -1,4 +1,4 @@
-package com.quick.store;
+package com.quick.store.mysql;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -68,4 +68,13 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @return 未读数量
      */
     Integer getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime);
+
+    /**
+     * 根据时间范围，查询聊天信息
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 聊天信息列表
+     */
+    List<QuickChatMsg> getMsgByTime(LocalDateTime startTime, LocalDateTime endTime);
 }

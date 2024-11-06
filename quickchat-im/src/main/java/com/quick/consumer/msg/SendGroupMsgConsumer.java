@@ -8,7 +8,7 @@ import com.quick.netty.UserChannelRelation;
 import com.quick.pojo.entity.WsPushEntity;
 import com.quick.pojo.po.QuickChatGroupMember;
 import com.quick.pojo.po.QuickChatMsg;
-import com.quick.store.QuickChatGroupMemberStore;
+import com.quick.store.mysql.QuickChatGroupMemberStore;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

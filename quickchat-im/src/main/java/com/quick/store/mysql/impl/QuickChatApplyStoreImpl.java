@@ -1,10 +1,11 @@
-package com.quick.store.impl;
+package com.quick.store.mysql.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatApplyMapper;
 import com.quick.pojo.po.QuickChatApply;
-import com.quick.store.QuickChatApplyStore;
+import com.quick.store.mysql.QuickChatApplyStore;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2024-03-12
  */
 @Service
+@DS("mysql")
 public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyStore {
 
     @Override

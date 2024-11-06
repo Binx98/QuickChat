@@ -1,11 +1,12 @@
-package com.quick.store.impl;
+package com.quick.store.mysql.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
-import com.quick.store.QuickChatMsgStore;
+import com.quick.store.mysql.QuickChatMsgStore;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -23,6 +24,7 @@ import java.util.List;
  * @since 2023-11-25
  */
 @Service
+@DS("mysql")
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
     @Override
     public Boolean saveMsg(QuickChatMsg chatMsg) {
@@ -73,5 +75,13 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .gt(QuickChatMsg::getCreateTime, lastReadTime)
                 .groupBy(QuickChatMsg::getRelationId)
                 .count();
+    }
+
+    @Override
+    public List<QuickChatMsg> getMsgByTime(LocalDateTime startTime, LocalDateTime endTime) {
+        return this.lambdaQuery()
+                .gt(QuickChatMsg::getCreateTime, startTime)
+                .lt(QuickChatMsg::getCreateTime, endTime)
+                .list();
     }
 }
