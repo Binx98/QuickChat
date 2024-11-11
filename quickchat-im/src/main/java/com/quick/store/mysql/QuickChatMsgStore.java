@@ -77,4 +77,12 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @return 聊天信息列表
      */
     List<QuickChatMsg> getMsgByTime(LocalDateTime startTime, LocalDateTime endTime);
+
+    /**
+     * 物理删除聊天消息（数据迁移使用）
+     *
+     * @param ids 聊天信息id列表
+     * @return 执行结果
+     */
+    Boolean deleteNoLogicMsgListByIds(List<Long> ids);
 }

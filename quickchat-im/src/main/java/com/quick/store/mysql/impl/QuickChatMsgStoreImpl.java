@@ -84,4 +84,11 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .lt(QuickChatMsg::getCreateTime, endTime)
                 .list();
     }
+
+    @Override
+    public Boolean deleteNoLogicMsgListByIds(List<Long> ids) {
+        return this.lambdaUpdate()
+                .in(QuickChatMsg::getId, ids)
+                .remove();
+    }
 }
