@@ -7,6 +7,7 @@ import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.mysql.QuickChatMsgStore;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -26,6 +27,9 @@ import java.util.List;
 @Service
 @DS("mysql")
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
+    @Autowired
+    private QuickChatMsgMapper msgMapper;
+
     @Override
     public Boolean saveMsg(QuickChatMsg chatMsg) {
         return this.save(chatMsg);
@@ -83,5 +87,10 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
                 .gt(QuickChatMsg::getCreateTime, startTime)
                 .lt(QuickChatMsg::getCreateTime, endTime)
                 .list();
+    }
+
+    @Override
+    public Boolean deleteNoLogicMsgListByIds(List<Long> ids) {
+        return msgMapper.physicalDeleteMsgList(ids);
     }
 }
