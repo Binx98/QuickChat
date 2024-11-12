@@ -50,9 +50,11 @@ public class ChatSessionMsgJob {
         // TODO 保存迁移记录
 
 
-        // 删除 MySQL 中聊天消息表
-        List<Long> ids = msgList.stream().map(QuickChatMsg::getId).collect(Collectors.toList());
-        msgStore.deleteNoLogicMsgListByIds(ids);
+        // 删除 MySQL 中聊天消息表（物理删除）
+        List<Long> msgIds = msgList.stream()
+                .map(QuickChatMsg::getId)
+                .collect(Collectors.toList());
+        msgStore.deleteNoLogicMsgListByIds(msgIds);
         return ReturnT.SUCCESS;
     }
 }
