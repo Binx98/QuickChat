@@ -33,7 +33,6 @@ public class ChatSessionMsgJob {
      */
     @XxlJob("MoveHistoryMsgToDorisJob")
     public ReturnT moveHistoryMsgToDorisJob() {
-        // 查询 30 日内所有聊天记录信息
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = startTime.minusDays(30);
         List<QuickChatMsg> msgList = msgStore.getMsgByTime(startTime, endTime);
@@ -41,7 +40,6 @@ public class ChatSessionMsgJob {
             return ReturnT.SUCCESS;
         }
 
-        // 冷消息迁移到 Doris
         Boolean moveDorisFlag = msgDorisStore.saveBatchMsg(msgList);
         if (!moveDorisFlag) {
 
@@ -50,11 +48,13 @@ public class ChatSessionMsgJob {
         // TODO 保存迁移记录
 
 
-        // 删除 MySQL 中聊天消息表（物理删除）
+        // 物理删除 MySQL 聊天消息表
         List<Long> msgIds = msgList.stream()
                 .map(QuickChatMsg::getId)
                 .collect(Collectors.toList());
         msgStore.deleteNoLogicMsgListByIds(msgIds);
+
+        // TODO 调整迁移状态
         return ReturnT.SUCCESS;
     }
 }
