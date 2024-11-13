@@ -30,7 +30,27 @@ public class QuickChatArchiveRecord implements Serializable {
     private Long id;
 
     /**
-     * 登录状态
+     * 起始主键
+     */
+    @TableField("begin_id")
+    private Long beginId;
+
+    /**
+     * 结束主键
+     */
+    @TableField("end_id")
+    private Long endId;
+
+    /**
+     * 迁移数据总条数
+     */
+    @TableField("count")
+    private Long count;
+
+    /**
+     * 状态
+     *
+     * @see com.quick.enums.YesNoEnum
      */
     @TableField("status")
     private Integer status;
