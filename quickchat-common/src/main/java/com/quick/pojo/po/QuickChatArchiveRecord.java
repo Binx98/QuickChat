@@ -42,6 +42,18 @@ public class QuickChatArchiveRecord implements Serializable {
     private Long endId;
 
     /**
+     * 开始时间
+     */
+    @TableField("start_time")
+    private LocalDateTime startTime;
+
+    /**
+     * 结束时间
+     */
+    @TableField("end_time")
+    private LocalDateTime endTime;
+
+    /**
      * 迁移数据总条数
      */
     @TableField("count")
