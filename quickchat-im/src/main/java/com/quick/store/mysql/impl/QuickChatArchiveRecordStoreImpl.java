@@ -7,6 +7,8 @@ import com.quick.pojo.po.QuickChatArchiveRecord;
 import com.quick.store.mysql.QuickChatArchiveRecordStore;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -18,7 +20,6 @@ import org.springframework.stereotype.Service;
 @Service
 @DS("mysql")
 public class QuickChatArchiveRecordStoreImpl extends ServiceImpl<QuickChatArchiveRecordMapper, QuickChatArchiveRecord> implements QuickChatArchiveRecordStore {
-
     @Override
     public Boolean saveArchiveRecord(QuickChatArchiveRecord record) {
         return this.save(record);
@@ -27,5 +28,12 @@ public class QuickChatArchiveRecordStoreImpl extends ServiceImpl<QuickChatArchiv
     @Override
     public Boolean updateArchiveRecord(QuickChatArchiveRecord record) {
         return this.updateById(record);
+    }
+
+    @Override
+    public List<QuickChatArchiveRecord> getListByStatus(Integer status) {
+        return this.lambdaQuery()
+                .eq(QuickChatArchiveRecord::getStatus, status)
+                .list();
     }
 }

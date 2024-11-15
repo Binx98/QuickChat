@@ -3,6 +3,8 @@ package com.quick.store.mysql;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatArchiveRecord;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -27,4 +29,12 @@ public interface QuickChatArchiveRecordStore extends IService<QuickChatArchiveRe
      * @return 执行结果
      */
     Boolean updateArchiveRecord(QuickChatArchiveRecord record);
+
+    /**
+     * 根据状态查询迁移记录
+     *
+     * @param status 状态
+     * @return 迁移记录
+     */
+    List<QuickChatArchiveRecord> getListByStatus(Integer status);
 }
