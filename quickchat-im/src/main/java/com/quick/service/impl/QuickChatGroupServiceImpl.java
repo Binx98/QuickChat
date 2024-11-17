@@ -9,6 +9,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatGroupMapper;
+import com.quick.mq.MyRocketMQTemplate;
 import com.quick.pojo.dto.GroupDTO;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroup;
@@ -45,7 +46,7 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupService {
     @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+    private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
@@ -80,19 +81,7 @@ public class QuickChatGroupServiceImpl extends ServiceImpl<QuickChatGroupMapper,
         Map<String, Object> param = new HashMap<>();
         param.put("accountIds", accountIds);
         param.put("groupId", groupId);
-        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_RELEASE_NOTICE, MessageBuilder.withPayload(param).build(),
-                new SendCallback() {
-                    @Override
-                    public void onSuccess(SendResult sendResult) {
-                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                    }
-                }
-        );
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_RELEASE_NOTICE, param);
     }
 
     @Override

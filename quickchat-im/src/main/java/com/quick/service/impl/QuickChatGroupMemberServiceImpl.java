@@ -11,6 +11,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatGroupMemberMapper;
+import com.quick.mq.MyRocketMQTemplate;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatGroup;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -23,12 +24,8 @@ import com.quick.store.mysql.QuickChatGroupStore;
 import com.quick.store.mysql.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,18 +44,18 @@ import java.util.stream.Collectors;
 @Service
 public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupMemberMapper, QuickChatGroupMember> implements QuickChatGroupMemberService {
     @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+    private QuickChatGroupMemberStore memberStore;
     @Autowired
-    private QuickChatUserStore userStore;
+    private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatGroupStore groupStore;
     @Autowired
     private QuickChatApplyStore applyStore;
     @Autowired
-    private QuickChatGroupMemberStore memberStore;
+    private QuickChatUserStore userStore;
+
     @Value("${quick-chat.group.invite-count}")
     private Integer inviteCountLimit;
-
 
     @Override
     public List<ChatUserVO> getGroupMemberList(Long groupId) {
@@ -111,20 +108,7 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         for (QuickChatApply apply : applyList) {
             applyStore.deleteCacheByApplyId(apply.getId());
         }
-
-        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_APPLY_TOPIC, MessageBuilder.withPayload(applyList).build(),
-                new SendCallback() {
-                    @Override
-                    public void onSuccess(SendResult sendResult) {
-                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                    }
-                }
-        );
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_APPLY_TOPIC, applyList);
     }
 
     @Override
@@ -136,18 +120,6 @@ public class QuickChatGroupMemberServiceImpl extends ServiceImpl<QuickChatGroupM
         }
         QuickChatGroupMember member = memberStore.getMemberByAccountId(groupId, accountId);
         memberStore.deleteByGroupIdAndAccountId(groupId, accountId);
-        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, MessageBuilder.withPayload(member).build(),
-                new SendCallback() {
-                    @Override
-                    public void onSuccess(SendResult sendResult) {
-                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                    }
-                }
-        );
+        rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_DELETE_MEMBER_NOTICE, member);
     }
 }

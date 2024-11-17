@@ -10,6 +10,7 @@ import com.quick.enums.ResponseEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatContactMapper;
+import com.quick.mq.MyRocketMQTemplate;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatUser;
@@ -22,11 +23,7 @@ import com.quick.store.mysql.QuickChatUserStore;
 import com.quick.utils.RequestContextUtil;
 import com.quick.utils.SensitiveWordUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +44,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
     @Autowired
     private QuickChatContactStore friendContactStore;
     @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+    private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
     private SensitiveWordUtil sensitiveWordUtil;
     @Autowired
@@ -78,19 +75,7 @@ public class QuickChatContactServiceImpl extends ServiceImpl<QuickChatContactMap
         QuickChatApply apply = ApplyAdapter.buildFriendApplyPO(fromId, toId,
                 applyInfo, ApplyTypeEnum.FRIEND.getCode(), YesNoEnum.NO.getCode());
         applyStore.saveApply(apply);
-        rocketMQTemplate.asyncSend(RocketMQConstant.FRIEND_APPLY_TOPIC, MessageBuilder.withPayload(apply).build(),
-                new SendCallback() {
-                    @Override
-                    public void onSuccess(SendResult sendResult) {
-                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                    }
-                }
-        );
+        rocketMQTemplate.asyncSend(RocketMQConstant.FRIEND_APPLY_TOPIC, apply);
     }
 
     @Override
