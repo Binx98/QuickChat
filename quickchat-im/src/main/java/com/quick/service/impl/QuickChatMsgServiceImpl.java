@@ -11,6 +11,7 @@ import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatMsgMapper;
+import com.quick.mq.MyRocketMQTemplate;
 import com.quick.pojo.dto.ChatMsgDTO;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -25,11 +26,7 @@ import com.quick.store.mysql.QuickChatSessionStore;
 import com.quick.strategy.msg.AbstractChatMsgStrategy;
 import com.quick.strategy.msg.ChatMsgStrategyFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +48,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+    private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
@@ -104,33 +101,9 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         AbstractChatMsgStrategy chatMsgHandler = ChatMsgStrategyFactory.getStrategyHandler(msgDTO.getMsgType());
         QuickChatMsg chatMsg = chatMsgHandler.sendMsg(msgDTO);
         if (SessionTypeEnum.SINGLE.getCode().equals(sessionType)) {
-            rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_SINGLE_MSG, MessageBuilder.withPayload(chatMsg).build(),
-                    new SendCallback() {
-                        @Override
-                        public void onSuccess(SendResult sendResult) {
-                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                        }
-                    }
-            );
+            rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_SINGLE_MSG, chatMsg);
         } else if (SessionTypeEnum.GROUP.getCode().equals(sessionType)) {
-            rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_GROUP_MSG, MessageBuilder.withPayload(chatMsg).build(),
-                    new SendCallback() {
-                        @Override
-                        public void onSuccess(SendResult sendResult) {
-                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                        }
-                    }
-            );
+            rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_GROUP_MSG, chatMsg);
         }
     }
 
@@ -139,19 +112,7 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
         Map<String, String> param = new HashMap<>();
         param.put("fromId", fromId);
         param.put("toId", toId);
-        rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_ENTERING, MessageBuilder.withPayload(param).build(),
-                new SendCallback() {
-                    @Override
-                    public void onSuccess(SendResult sendResult) {
-                        log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                    }
-
-                    @Override
-                    public void onException(Throwable throwable) {
-                        log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                    }
-                }
-        );
+        rocketMQTemplate.asyncSend(RocketMQConstant.SEND_CHAT_ENTERING, param);
     }
 
     private void handleSession(Integer sessionType, Long relationId) {

@@ -12,6 +12,7 @@ import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
 import com.quick.exception.QuickException;
 import com.quick.mapper.QuickChatApplyMapper;
+import com.quick.mq.MyRocketMQTemplate;
 import com.quick.pojo.po.QuickChatApply;
 import com.quick.pojo.po.QuickChatContact;
 import com.quick.pojo.po.QuickChatGroupMember;
@@ -23,12 +24,8 @@ import com.quick.store.mysql.QuickChatGroupMemberStore;
 import com.quick.store.mysql.QuickChatSessionStore;
 import com.quick.utils.RequestContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +46,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
     @Autowired
     private QuickChatApplyStore applyStore;
     @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+    private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
     private QuickChatSessionStore sessionStore;
     @Autowired
@@ -90,19 +87,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session = SessionAdapter.buildSessionPO
                     (apply.getToId(), apply.getGroupId().toString(), apply.getGroupId(), apply.getType());
             sessionStore.saveInfo(session);
-            rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, MessageBuilder.withPayload(apply).build(),
-                    new SendCallback() {
-                        @Override
-                        public void onSuccess(SendResult sendResult) {
-                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                        }
-                    }
-            );
+            rocketMQTemplate.asyncSend(RocketMQConstant.GROUP_ADD_MEMBER_NOTICE, apply);
         } else if (SessionTypeEnum.SINGLE.getCode().equals(apply.getType())) {
             String fromId = apply.getFromId();
             String toId = apply.getToId();
@@ -115,19 +100,7 @@ public class QuickChatApplyServiceImpl extends ServiceImpl<QuickChatApplyMapper,
             QuickChatSession session1 = SessionAdapter.buildSessionPO(fromId, toId, relationId, apply.getType());
             QuickChatSession session2 = SessionAdapter.buildSessionPO(toId, fromId, relationId, apply.getType());
             sessionStore.saveSessionList(Arrays.asList(session1, session2));
-            rocketMQTemplate.asyncSend(RocketMQConstant.FRIEND_APPLY_TOPIC, MessageBuilder.withPayload(apply).build(),
-                    new SendCallback() {
-                        @Override
-                        public void onSuccess(SendResult sendResult) {
-                            log.info("-------------rocketmq message send successful: {}------------", sendResult);
-                        }
-
-                        @Override
-                        public void onException(Throwable throwable) {
-                            log.error("-------------rocketmq message send failed: {}------------", throwable.toString());
-                        }
-                    }
-            );
+            rocketMQTemplate.asyncSend(RocketMQConstant.FRIEND_APPLY_TOPIC, apply);
         }
         applyStore.updateApplyStatus(applyId, apply.getToId(), YesNoEnum.YES.getCode());
     }
