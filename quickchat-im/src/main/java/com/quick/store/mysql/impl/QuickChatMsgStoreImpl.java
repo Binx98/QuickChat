@@ -36,8 +36,8 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
     }
 
     @Override
-    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "'getByRelationId:' + #p0 + #p1 + #p2", unless = "#result.records.isEmpty()")
-    public Page<QuickChatMsg> getByRelationId(Long relationId, Integer current, Integer size) {
+    @Cacheable(value = RedisConstant.QUICK_CHAT_MSG, key = "'getPageByRelationId:' + #p0 + #p1 + #p2", unless = "#result.records.isEmpty()")
+    public Page<QuickChatMsg> getPageByRelationId(Long relationId, Integer current, Integer size) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)
                 .orderByDesc(QuickChatMsg::getCreateTime)

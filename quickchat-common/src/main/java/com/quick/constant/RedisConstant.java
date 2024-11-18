@@ -8,9 +8,12 @@ package com.quick.constant;
  */
 public class RedisConstant {
     /**
-     * Cookie Key
+     * 缓存 Key
      */
     public static final String CAPTCHA_KEY = "captcha_key";
+    public static final String EMAIL_KEY = "EMAIL_KEY:";
+    public static final String PAGE_CURRENT_KEY = "PAGE_CURRENT_KEY:";
+
 
     /**
      * 缓存分区
@@ -23,9 +26,4 @@ public class RedisConstant {
     public static final String QUICK_CHAT_GROUP = "quick_chat_group";
     public static final String QUICK_CHAT_GROUP_MEMBER = "quick_chat_group_member";
     public static final String QUICK_CHAT_APPLY = "quick_chat_apply";
-
-    /**
-     * 其他
-     */
-    public static final String EMAIL_KEY = "EMAIL_KEY:";
 }

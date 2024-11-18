@@ -1,5 +1,6 @@
 package com.quick.store.doris;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.quick.pojo.po.QuickChatMsg;
 
@@ -21,4 +22,15 @@ public interface QuickChatMsgDorisStore extends IService<QuickChatMsg> {
      * @return 执行结果
      */
     Boolean saveBatchMsg(List<QuickChatMsg> msgList);
+
+
+    /**
+     * 根据 relation_id 分页查询聊天记录
+     *
+     * @param relationId 关联id
+     * @param current    当前页
+     * @param size       每页条数
+     * @return 分页聊天记录
+     */
+    Page<QuickChatMsg> getHisPageByRelationId(Long relationId, Integer current, Integer size);
 }
