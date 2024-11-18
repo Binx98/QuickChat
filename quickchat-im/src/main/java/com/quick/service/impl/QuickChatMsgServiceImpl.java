@@ -19,6 +19,7 @@ import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
+import com.quick.store.doris.QuickChatMsgDorisStore;
 import com.quick.store.mysql.QuickChatContactStore;
 import com.quick.store.mysql.QuickChatGroupMemberStore;
 import com.quick.store.mysql.QuickChatMsgStore;
@@ -48,17 +49,19 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     @Autowired
     private QuickChatMsgStore msgStore;
     @Autowired
+    private QuickChatSessionStore sessionStore;
+    @Autowired
     private MyRocketMQTemplate rocketMQTemplate;
     @Autowired
-    private QuickChatSessionStore sessionStore;
+    private QuickChatMsgDorisStore msgDorisStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
     @Autowired
     private QuickChatContactStore friendContactStore;
 
     @Override
-    public Map<Long, List<ChatMsgVO>> getMsgByRelationId(Long relationId, Integer current, Integer size) {
-        Page<QuickChatMsg> msgPage = msgStore.getByRelationId(relationId, current, size);
+    public Map<Long, List<ChatMsgVO>> getPageByRelationId(Long relationId, Integer current, Integer size) {
+        Page<QuickChatMsg> msgPage = msgStore.getPageByRelationId(relationId, current, size);
         if (CollectionUtils.isEmpty(msgPage.getRecords())) {
             return new HashMap<>(0);
         }
@@ -84,6 +87,19 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
                 resultMap.put(relationId, new ArrayList<>());
             }
         }
+        return resultMap;
+    }
+
+    @Override
+    public Map<Long, List<ChatMsgVO>> getHisPageByRelationId(Long relationId, Integer current, Integer size) {
+        Page<QuickChatMsg> msgPage = msgDorisStore.getHisPageByRelationId(relationId, current, size);
+        if (CollectionUtils.isEmpty(msgPage.getRecords())) {
+            return new HashMap<>(0);
+        }
+        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgPage.getRecords());
+        Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
+                .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
         return resultMap;
     }
 

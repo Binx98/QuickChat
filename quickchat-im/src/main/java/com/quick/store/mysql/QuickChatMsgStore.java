@@ -32,7 +32,7 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @param size       每页条数
      * @return 聊天信息结果
      */
-    Page<QuickChatMsg> getByRelationId(Long relationId, Integer current, Integer size);
+    Page<QuickChatMsg> getPageByRelationId(Long relationId, Integer current, Integer size);
 
     /**
      * 根据 relation_id集合 查询聊天信息
