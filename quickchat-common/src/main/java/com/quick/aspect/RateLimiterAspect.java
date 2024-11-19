@@ -26,7 +26,7 @@ import java.util.List;
  * @Author 徐志斌
  * @Date: 2024/2/14 20:41
  * @Version 1.0
- * @Description: 限流切面类
+ * @Description: Redis 限流切面类
  */
 @Slf4j
 @Aspect

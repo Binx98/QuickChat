@@ -1,14 +1,13 @@
 package com.quick.pojo.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
 
 /**
  * @Author: 徐志斌
  * @CreateTime: 2023-11-17  15:15
- * @Description: 登录入参DTO
+ * @Description: 登录表单入参 DTO
  * @Version: 1.0
  */
 @Data
@@ -30,9 +29,4 @@ public class LoginFormDTO {
      */
     @NotBlank(message = "图片验证码不能为空")
     private String verifyCode;
-
-    /**
-     * 记住我
-     */
-    private Boolean rememberPwd;
 }

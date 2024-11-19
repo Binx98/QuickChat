@@ -10,6 +10,12 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
+/**
+ * @Author: 徐志斌
+ * @CreateTime: 2024-11-19  11:05
+ * @Description: 自定义 RocketMQTemplate
+ * @Version: 1.0
+ */
 @Slf4j
 @Component
 public class MyRocketMQTemplate {
@@ -17,7 +23,11 @@ public class MyRocketMQTemplate {
     private RocketMQTemplate rocketMQTemplate;
 
     /**
-     * 发送同步消息
+     * 同步消息
+     *
+     * @param topic   主题
+     * @param message 消息实体
+     * @return 执行结果
      */
     public <T> SendResult syncSend(String topic, T message) {
         Message<T> sendMessage = MessageBuilder.withPayload(message).build();
@@ -26,9 +36,11 @@ public class MyRocketMQTemplate {
         return sendResult;
     }
 
-
     /**
-     * 发送异步消息
+     * 异步消息
+     *
+     * @param topic   主题
+     * @param message 消息实体
      */
     public <T> void asyncSend(String topic, T message) {
         Message<T> sendMessage = MessageBuilder.withPayload(message).build();
