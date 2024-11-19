@@ -7,10 +7,10 @@ import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.utils.EmailUtil;
 import com.quick.utils.RandomUtil;
 import com.quick.utils.RedisUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +33,7 @@ public class FindBackHandler extends AbstractEmailStrategy {
     }
 
     @Override
-    public Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException {
+    public Boolean sendEmail(EmailDTO emailDTO) throws IOException, MessagingException {
         // 生成验证码，有效期 3min
         String code = RandomUtil.generate(4, 1);
         String emailKey = RedisConstant.EMAIL_KEY + emailDTO.getToEmail();

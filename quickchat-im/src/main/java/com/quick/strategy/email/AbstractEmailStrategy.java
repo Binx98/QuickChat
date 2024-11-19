@@ -2,10 +2,10 @@ package com.quick.strategy.email;
 
 import com.quick.enums.EmailEnum;
 import com.quick.pojo.dto.EmailDTO;
+import jakarta.annotation.PostConstruct;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.mail.MessagingException;
 import java.io.IOException;
 
 /**
@@ -32,5 +32,5 @@ public abstract class AbstractEmailStrategy {
     /**
      * 发送邮件
      */
-    public abstract Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException;
+    public abstract Boolean sendEmail(EmailDTO emailDTO) throws MessagingException, IOException, MessagingException;
 }

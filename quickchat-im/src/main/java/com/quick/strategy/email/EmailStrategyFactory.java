@@ -18,16 +18,10 @@ import java.util.Map;
 public class EmailStrategyFactory {
     private static final Map<Integer, AbstractEmailStrategy> STRATEGY_MAP = new HashMap<>();
 
-    /**
-     * 注册工厂
-     */
     public static void register(Integer type, AbstractEmailStrategy orderStrategy) {
         STRATEGY_MAP.put(type, orderStrategy);
     }
 
-    /**
-     * 获取对应Handler
-     */
     public static AbstractEmailStrategy getStrategyHandler(Integer code) {
         AbstractEmailStrategy strategyHandler = STRATEGY_MAP.get(code);
         if (ObjectUtils.isEmpty(strategyHandler)) {

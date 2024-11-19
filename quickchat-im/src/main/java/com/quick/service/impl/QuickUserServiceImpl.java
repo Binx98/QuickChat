@@ -24,6 +24,9 @@ import com.quick.store.mysql.QuickChatUserStore;
 import com.quick.strategy.email.AbstractEmailStrategy;
 import com.quick.strategy.email.EmailStrategyFactory;
 import com.quick.utils.*;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -166,7 +167,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     }
 
     @Override
-    public void sendEmail(EmailDTO emailDTO) throws IOException {
+    public void sendEmail(EmailDTO emailDTO) throws IOException, MessagingException {
         AbstractEmailStrategy emailStrategy = EmailStrategyFactory.getStrategyHandler(emailDTO.getType());
         emailStrategy.sendEmail(emailDTO);
     }

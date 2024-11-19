@@ -92,11 +92,11 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public Map<Long, List<ChatMsgVO>> getHisPageByRelationId(Long relationId, Integer current, Integer size) {
-        Page<QuickChatMsg> msgPage = msgDorisStore.getHisPageByRelationId(relationId, current, size);
-        if (CollectionUtils.isEmpty(msgPage.getRecords())) {
+        List<QuickChatMsg> msgList = msgDorisStore.getHisPageByRelationId(relationId, current, size).getRecords();
+        if (CollectionUtils.isEmpty(msgList)) {
             return new HashMap<>(0);
         }
-        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgPage.getRecords());
+        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
         Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
                 .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
                 .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));

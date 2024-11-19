@@ -1,10 +1,10 @@
 package com.quick.strategy.file;
 
 import com.quick.enums.BucketEnum;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**

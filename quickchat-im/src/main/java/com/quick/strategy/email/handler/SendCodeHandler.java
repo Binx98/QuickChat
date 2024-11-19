@@ -8,11 +8,11 @@ import com.quick.threadpool.MyThreadPoolExecutor;
 import com.quick.utils.EmailUtil;
 import com.quick.utils.RandomUtil;
 import com.quick.utils.RedisUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 

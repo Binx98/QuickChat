@@ -1,19 +1,17 @@
 package com.quick.aspect;
 
 import cn.hutool.core.date.StopWatch;
+import com.quick.utils.HttpServletUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,19 +27,16 @@ import java.util.stream.Stream;
 public class WebLogAspect {
     @Around("execution(* com.quick.controller..*.*(..))")
     public Object saveLog(ProceedingJoinPoint joinPoint) throws Throwable {
-        HttpServletRequest request = ((ServletRequestAttributes)
-                Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        HttpServletRequest request = HttpServletUtil.getRequest();
         String method = request.getMethod();
         String uri = request.getRequestURI();
 
-        // 过滤参数：ServletRequest,ServletResponse
         List<Object> paramList = Stream.of(joinPoint.getArgs())
                 .filter(args -> !(args instanceof ServletRequest))
                 .filter(args -> !(args instanceof ServletResponse))
                 .collect(Collectors.toList());
         log.info("-------------method：[{}]，url：[{}]，params：[{}]-------------", method, uri, paramList);
 
-        // 计算接口耗时
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         Object result = joinPoint.proceed();

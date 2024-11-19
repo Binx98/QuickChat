@@ -4,13 +4,13 @@ import com.quick.enums.ResponseEnum;
 import com.quick.exception.QuickException;
 import com.quick.utils.JwtUtil;
 import com.quick.utils.RequestContextUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
