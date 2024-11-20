@@ -1,7 +1,6 @@
 package com.quick.job;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.quick.enums.YesNoEnum;
 import com.quick.pojo.po.QuickChatArchiveRecord;
 import com.quick.pojo.po.QuickChatMsg;
@@ -39,7 +38,6 @@ public class ChatSessionMsgJob {
      * 迁移超过 30日 聊天记录到 Doris
      */
     @XxlJob("MoveChatMsgToDorisJob")
-    @Transactional(rollbackFor = Exception.class)
     public ReturnT moveChatMsgToDorisJob() {
         LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime endTime = startTime.minusDays(30);
@@ -47,7 +45,6 @@ public class ChatSessionMsgJob {
         if (CollectionUtils.isEmpty(msgList)) {
             return ReturnT.SUCCESS;
         }
-
         QuickChatArchiveRecord record = new QuickChatArchiveRecord();
         record.setBeginId(msgList.get(0).getId());
         record.setEndId(msgList.get(msgList.size() - 1).getId());
@@ -56,16 +53,7 @@ public class ChatSessionMsgJob {
         record.setCount(Long.valueOf(msgList.size()));
         record.setStatus(YesNoEnum.NO.getCode());
         archiveRecordStore.saveArchiveRecord(record);
-
-        log.info("--------------[MoveChatMsgToDorisJob] chat msg move job start, count: {}--------------", record.getCount());
-        msgDorisStore.saveBatchMsg(msgList);
-        List<Long> msgIds = msgList.stream()
-                .map(QuickChatMsg::getId)
-                .collect(Collectors.toList());
-        msgStore.deleteNoLogicMsgListByIds(msgIds);
-        record.setStatus(YesNoEnum.YES.getCode());
-        archiveRecordStore.updateArchiveRecord(record);
-        log.info("--------------[MoveChatMsgToDorisJob] chat msg move job finish!--------------");
+        this.handleMoveProcess(msgList, record, "MoveChatMsgToDorisJob");
         return ReturnT.SUCCESS;
     }
 
@@ -73,22 +61,24 @@ public class ChatSessionMsgJob {
      * 校验数据迁移 Doris 状态
      */
     @XxlJob("CheckMoveDorisArchiveJob")
-    @Transactional(rollbackFor = Exception.class)
     public ReturnT checkMoveDorisArchiveJob() {
         List<QuickChatArchiveRecord> archiveRecordList = archiveRecordStore.getListByStatus(YesNoEnum.NO.getCode());
         if (CollectionUtils.isEmpty(archiveRecordList)) {
             return ReturnT.SUCCESS;
         }
-
         // 超过1小时数据都没迁移完毕，那就是迁移失败了
         QuickChatArchiveRecord record = archiveRecordList.get(0);
         if (LocalDateTime.now().minusHours(1).isBefore(record.getCreateTime())) {
             return ReturnT.SUCCESS;
         }
-
         List<QuickChatMsg> msgList = msgStore.getMsgByTime(record.getStartTime(), record.getEndTime());
+        this.handleMoveProcess(msgList, record, "CheckMoveDorisArchiveJob");
+        return ReturnT.SUCCESS;
+    }
 
-        log.info("--------------[CheckMoveDorisArchiveJob] chat msg move job start, count: {}--------------", record.getCount());
+    @Transactional(rollbackFor = Exception.class)
+    public void handleMoveProcess(List<QuickChatMsg> msgList, QuickChatArchiveRecord record, String jobName) {
+        log.info("--------------[" + jobName + "] job start, count: {}--------------", record.getCount());
         msgDorisStore.saveBatchMsg(msgList);
         List<Long> msgIds = msgList.stream()
                 .map(QuickChatMsg::getId)
@@ -96,7 +86,6 @@ public class ChatSessionMsgJob {
         msgStore.deleteNoLogicMsgListByIds(msgIds);
         record.setStatus(YesNoEnum.YES.getCode());
         archiveRecordStore.updateArchiveRecord(record);
-        log.info("--------------[CheckMoveDorisArchiveJob] chat msg move job finish!--------------");
-        return ReturnT.SUCCESS;
+        log.info("--------------[" + jobName + "] job finish!--------------");
     }
 }
