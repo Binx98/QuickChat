@@ -2,7 +2,6 @@ package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.quick.pojo.po.QuickChatArchiveRecord;
-import com.quick.pojo.po.QuickChatUser;
 
 /**
  * <p>
@@ -13,4 +12,5 @@ import com.quick.pojo.po.QuickChatUser;
  * @since 2024-11-13
  */
 public interface QuickChatArchiveRecordMapper extends BaseMapper<QuickChatArchiveRecord> {
+
 }

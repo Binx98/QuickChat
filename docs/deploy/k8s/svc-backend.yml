@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-service
+  namespace: prod-env
+  labels:
+    app: backend-label
+spec:
+  selector:
+    app: backend-label
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

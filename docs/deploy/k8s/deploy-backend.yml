@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: prod-env
+  labels:
+    app: backend-label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-label
+  template:
+    metadata:
+      labels:
+        app: backend-label
+    spec:
+      containers:
+        - name: backend
+          image: 镜像仓库内网IP:9999/test/backend-project:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 200m
+            limits:
+              memory: 500Mi
+              cpu: 400m

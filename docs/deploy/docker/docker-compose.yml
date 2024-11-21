@@ -35,7 +35,7 @@ services:
     container_name: quick-chat
     build:
       context: ./backend
-      dockerfile: Dockerfile-8888
+      dockerfile: Dockerfile-Backend-8888
     ports:
       - "8888:8888"
     volumes:
@@ -48,7 +48,7 @@ services:
     container_name: quick-chat
     build:
       context: ./backend
-      dockerfile: Dockerfile-8889
+      dockerfile: Dockerfile-Backend-8889
     ports:
       - "8889:8889"
     volumes:

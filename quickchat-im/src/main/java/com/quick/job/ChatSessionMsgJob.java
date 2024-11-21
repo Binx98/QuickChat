@@ -58,7 +58,7 @@ public class ChatSessionMsgJob {
     }
 
     /**
-     * 校验数据迁移 Doris 状态
+     * 校验数据迁移状态
      */
     @XxlJob("CheckMoveDorisArchiveJob")
     public ReturnT checkMoveDorisArchiveJob() {

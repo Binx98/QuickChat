@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: prod-env
+  labels:
+    app: frontend-label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-label
+  template:
+    metadata:
+      labels:
+        app: frontend-label
+    spec:
+      containers:
+        - name: frontend
+          image: 镜像仓库内网IP:9999/test/frontend-project:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: 300Mi
+              cpu: 200m
+            limits:
+              memory: 500Mi
+              cpu: 400m
