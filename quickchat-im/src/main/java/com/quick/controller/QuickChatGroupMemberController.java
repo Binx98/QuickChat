@@ -31,7 +31,7 @@ public class QuickChatGroupMemberController {
         return R.out(ResponseEnum.SUCCESS, members);
     }
 
-    @ApiOperation("添加成员")
+    @ApiOperation("批量添加成员")
     @GetMapping("/add/{groupId}")
     public R addMember(@PathVariable Long groupId,
                        @RequestBody List<String> accountIdList) {

@@ -1,5 +1,5 @@
 FROM openjdk:17
 MAINTAINER 徐志斌
 ADD quick-chat.jar /quick-chat.jar
-EXPOSE 8888
+EXPOSE 8889
 ENTRYPOINT ["java", "-jar", "quick-chat.jar"]

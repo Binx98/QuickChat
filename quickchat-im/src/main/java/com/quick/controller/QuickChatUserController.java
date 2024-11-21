@@ -31,7 +31,7 @@ public class QuickChatUserController {
     @Autowired
     private QuickUserService userService;
 
-    @ApiOperation("查询用户信息（根据account_id ）")
+    @ApiOperation("查询用户信息（根据账号）")
     @GetMapping("/getByAccountId/{accountId}")
     public R getUserInfo(@PathVariable String accountId) throws Exception {
         ChatUserVO result = userService.getByAccountId(accountId);

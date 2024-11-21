@@ -37,14 +37,14 @@ public class QuickChatMsgController {
         return R.out(ResponseEnum.SUCCESS);
     }
 
-    @ApiOperation("首次访问调用：查询聊天记录")
+    @ApiOperation("查询聊天记录（首次访问）")
     @PostMapping("/getByRelationIds")
     public R getMsgByRelationIdList(@RequestBody List<Long> relationIds, Integer size) {
         Map<Long, List<ChatMsgVO>> result = msgService.getMsgByRelationIds(relationIds, size);
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("查询聊天记录")
+    @ApiOperation("查询聊天记录（当前热数据）")
     @GetMapping("/getPageByRelationId/{relationId}/{current}/{size}")
     public R getPageByRelationId(@PathVariable Long relationId,
                                  @PathVariable Integer current,
@@ -53,7 +53,7 @@ public class QuickChatMsgController {
         return R.out(ResponseEnum.SUCCESS, resultMap);
     }
 
-    @ApiOperation("查询聊天记录（历史）")
+    @ApiOperation("查询聊天记录（历史冷数据）")
     @GetMapping("/getHisPageByRelationId/{relationId}/{current}/{size}")
     public R getHisPageByRelationId(@PathVariable Long relationId,
                                     @PathVariable Integer current,
