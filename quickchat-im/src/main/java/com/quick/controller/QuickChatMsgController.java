@@ -44,7 +44,7 @@ public class QuickChatMsgController {
         return R.out(ResponseEnum.SUCCESS, result);
     }
 
-    @ApiOperation("查询聊天记录（当前热数据）")
+    @ApiOperation("查询聊天记录（热数据）")
     @GetMapping("/getPageByRelationId/{relationId}/{current}/{size}")
     public R getPageByRelationId(@PathVariable Long relationId,
                                  @PathVariable Integer current,
