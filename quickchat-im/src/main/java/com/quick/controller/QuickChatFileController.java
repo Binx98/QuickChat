@@ -25,8 +25,8 @@ public class QuickChatFileController {
     @Autowired
     private QuickChatFileService fileService;
 
-    @ApiOperation("上传文件")
     @ResponseBody
+    @ApiOperation("上传文件")
     @PostMapping("/upload/{type}")
     public R uploadFile(@PathVariable Integer type, MultipartFile file) throws Exception {
         Map<String, Object> resultMap = fileService.uploadFile(type, file);
