@@ -47,7 +47,7 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
         </dependency>
-        <!--MyBatis-Plus-->
+        <!--MyBatis-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -160,14 +160,6 @@
                 <!-- Common模块一定要添加skip配置：跳过该模块，否则打包失败！ -->
                 <configuration>
                     <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>10</source>
-                    <target>10</target>
                 </configuration>
             </plugin>
         </plugins>

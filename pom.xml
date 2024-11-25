@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.0.0</version>
         <relativePath/>
     </parent>
 
@@ -22,10 +22,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springboot.version>3.1.5</springboot.version>
+        <springboot.version>3.0.0</springboot.version>
         <mysql.version>8.0.16</mysql.version>
         <lombok.version>1.18.30</lombok.version>
-        <mybatis.version>3.5.0</mybatis.version>
+        <mybatis.version>3.5.1</mybatis.version>
         <hutool.version>5.8.18</hutool.version>
         <redisson.version>3.15.6</redisson.version>
         <jwt.version>0.9.0</jwt.version>
@@ -70,7 +70,7 @@
                 <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>${springboot.version}</version>
             </dependency>
-            <!--MyBatisPlus-->
+            <!--MyBatis-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -79,7 +79,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${mybatis.version}</version>
+                <version>3.5.0</version>
             </dependency>
             <!--Netty-->
             <dependency>
