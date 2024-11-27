@@ -2,6 +2,7 @@ package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.quick.pojo.po.QuickChatSession;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.quick.pojo.po.QuickChatSession;
  * @author 徐志斌
  * @since 2023-11-25
  */
+@Mapper
 public interface QuickChatSessionMapper extends BaseMapper<QuickChatSession> {
 
 }

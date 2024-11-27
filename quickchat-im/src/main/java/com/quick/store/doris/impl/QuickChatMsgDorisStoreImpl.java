@@ -3,6 +3,7 @@ package com.quick.store.doris.impl;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.quick.mapper.QuickChatMsgDorisMapper;
 import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.doris.QuickChatMsgDorisStore;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Service
 @DS("doris")
-public class QuickChatMsgDorisStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgDorisStore {
+public class QuickChatMsgDorisStoreImpl extends ServiceImpl<QuickChatMsgDorisMapper, QuickChatMsg> implements QuickChatMsgDorisStore {
     @Override
     public Boolean saveBatchMsg(List<QuickChatMsg> msgList) {
         return this.saveBatch(msgList);
