@@ -2,7 +2,6 @@ package com.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.quick.pojo.po.QuickChatMsg;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
  * @author 徐志斌
  * @since 2023-11-25
  */
-@Mapper
 public interface QuickChatMsgMapper extends BaseMapper<QuickChatMsg> {
     /**
      * 根据 消息id列表 物理删除聊天记录

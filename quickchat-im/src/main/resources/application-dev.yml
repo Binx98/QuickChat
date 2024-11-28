@@ -3,11 +3,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    mysql:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/quick_chat?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&rewriteBatchedStatements=true
-      username: root
-      password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/quick_chat?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&rewriteBatchedStatements=true
+    username: root
+    password: 123456
     redis:
       host: localhost
       port: 6379
@@ -19,11 +18,6 @@ spring:
           max-idle: 5
           min-idle: 0
           max-active: 20
-  #    doris:
-  #      driver-class-name: com.mysql.jdbc.Driver
-  #      url: jdbc:mysql://localhost:9527/quick_chat_doris?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&rewriteBatchedStatements=true
-  #      username: 账号
-  #      password: 密码
   mail:
     host: smtp.qq.com
     port: 465
