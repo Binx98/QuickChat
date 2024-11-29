@@ -19,7 +19,6 @@ import com.quick.pojo.po.QuickChatMsg;
 import com.quick.pojo.po.QuickChatSession;
 import com.quick.pojo.vo.ChatMsgVO;
 import com.quick.service.QuickChatMsgService;
-import com.quick.store.doris.QuickChatMsgDorisStore;
 import com.quick.store.mysql.QuickChatContactStore;
 import com.quick.store.mysql.QuickChatGroupMemberStore;
 import com.quick.store.mysql.QuickChatMsgStore;
@@ -52,8 +51,6 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
     private QuickChatSessionStore sessionStore;
     @Autowired
     private MyRocketMQTemplate rocketMQTemplate;
-    @Autowired
-    private QuickChatMsgDorisStore msgDorisStore;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
     @Autowired
@@ -92,15 +89,16 @@ public class QuickChatMsgServiceImpl extends ServiceImpl<QuickChatMsgMapper, Qui
 
     @Override
     public Map<Long, List<ChatMsgVO>> getHisPageByRelationId(Long relationId, Integer current, Integer size) {
-        List<QuickChatMsg> msgList = msgDorisStore.getHisPageByRelationId(relationId, current, size).getRecords();
-        if (CollectionUtils.isEmpty(msgList)) {
-            return new HashMap<>(0);
-        }
-        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
-        Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
-                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
-                .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
-        return resultMap;
+//        List<QuickChatMsg> msgList = msgDorisStore.getHisPageByRelationId(relationId, current, size).getRecords();
+//        if (CollectionUtils.isEmpty(msgList)) {
+//            return new HashMap<>(0);
+//        }
+//        List<ChatMsgVO> chatMsgVOList = MsgAdapter.buildChatMsgVOList(msgList);
+//        Map<Long, List<ChatMsgVO>> resultMap = chatMsgVOList.stream()
+//                .sorted(Comparator.comparing(ChatMsgVO::getCreateTime))
+//                .collect(Collectors.groupingBy(ChatMsgVO::getRelationId));
+//        return resultMap;
+        return null;
     }
 
     @Override
