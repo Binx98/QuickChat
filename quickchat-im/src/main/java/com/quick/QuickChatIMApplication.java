@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @Slf4j
 @EnableAsync
-@MapperScan("com.quick.mapper.*")
+@MapperScan("com.quick.mapper")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class QuickChatIMApplication implements CommandLineRunner {
     @Autowired

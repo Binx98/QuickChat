@@ -6,7 +6,6 @@ import com.quick.adapter.GroupMemberAdapter;
 import com.quick.adapter.SessionAdapter;
 import com.quick.adapter.UserAdapter;
 import com.quick.constant.RedisConstant;
-import com.quick.enums.GenderEnum;
 import com.quick.enums.ResponseEnum;
 import com.quick.enums.SessionTypeEnum;
 import com.quick.enums.YesNoEnum;
@@ -64,13 +63,8 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
     private SensitiveWordUtil sensitiveWordUtil;
     @Autowired
     private QuickChatGroupMemberStore memberStore;
-
     @Value("${quick-chat.common-group-id}")
     private Long officialGroupId;
-    @Value("${quick-chat.avatar.boy}")
-    private String boyAvatar;
-    @Value("${quick-chat.avatar.girl}")
-    private String girlAvatar;
 
     @Override
     public ChatUserVO getByAccountId(String accountId) {
@@ -108,8 +102,7 @@ public class QuickUserServiceImpl extends ServiceImpl<QuickChatUserMapper, Quick
         sessionStore.saveInfo(chatSession);
         String location = IpUtil.getIpAddr(HttpServletUtil.getRequest());
         String password = AESUtil.encrypt(registerDTO.getPassword1());
-        String avatar = GenderEnum.BOY.getType().equals(registerDTO.getGender()) ? boyAvatar : girlAvatar;
-        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), avatar, password,
+        userPO = UserAdapter.buildUserPO(registerDTO.getAccountId(), null, password,
                 registerDTO.getGender(), registerDTO.getEmail(), location, YesNoEnum.NO.getCode());
         userStore.saveUser(userPO);
     }
