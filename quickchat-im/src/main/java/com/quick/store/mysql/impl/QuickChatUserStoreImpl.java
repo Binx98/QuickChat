@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatUserMapper;
@@ -22,7 +21,6 @@ import java.util.List;
  * @since 2023-11-13
  */
 @Service
-@DS("mysql")
 public class QuickChatUserStoreImpl extends ServiceImpl<QuickChatUserMapper, QuickChatUser> implements QuickChatUserStore {
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_USER, key = "'getByAccountId:' + #p0", unless = "#result == null")

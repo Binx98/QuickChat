@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatApplyMapper;
@@ -22,7 +21,6 @@ import java.util.List;
  * @since 2024-03-12
  */
 @Service
-@DS("mysql")
 public class QuickChatApplyStoreImpl extends ServiceImpl<QuickChatApplyMapper, QuickChatApply> implements QuickChatApplyStore {
 
     @Override

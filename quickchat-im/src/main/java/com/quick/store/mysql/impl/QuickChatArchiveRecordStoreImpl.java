@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.mapper.QuickChatArchiveRecordMapper;
 import com.quick.pojo.po.QuickChatArchiveRecord;
@@ -18,7 +17,6 @@ import java.util.List;
  * @since 2024-11-13
  */
 @Service
-@DS("mysql")
 public class QuickChatArchiveRecordStoreImpl extends ServiceImpl<QuickChatArchiveRecordMapper, QuickChatArchiveRecord> implements QuickChatArchiveRecordStore {
     @Override
     public Boolean saveArchiveRecord(QuickChatArchiveRecord record) {

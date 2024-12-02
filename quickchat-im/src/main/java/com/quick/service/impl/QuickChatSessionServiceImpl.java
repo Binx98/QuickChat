@@ -93,11 +93,11 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
 
         // 查询会话未读数量
         List<ChatSessionVO> sessionVOList = SessionAdapter.buildSessionVOList(sessionList, users, groups);
-        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(sessionVOList);
+        Map<Long, Long> unreadCountMap = this.getUnreadCountMap(sessionVOList);
         for (ChatSessionVO sessionVO : sessionVOList) {
             Long relationId = sessionVO.getRelationId();
             if (unreadCountMap.containsKey(relationId)) {
-                Integer unreadCount = unreadCountMap.get(relationId);
+                Long unreadCount = unreadCountMap.get(relationId);
                 sessionVO.setUnreadCount(unreadCount);
             }
         }
@@ -122,12 +122,12 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
     }
 
     @Override
-    public Map<Long, Integer> getUnreadCountMap(List<ChatSessionVO> sessionList) {
+    public Map<Long, Long> getUnreadCountMap(List<ChatSessionVO> sessionList) {
         String loginAccountId = (String) RequestContextUtil.getData(RequestContextUtil.ACCOUNT_ID);
-        Map<Long, Integer> resultMap = new HashMap<>();
+        Map<Long, Long> resultMap = new HashMap<>();
         for (ChatSessionVO session : sessionList) {
             Long relationId = session.getRelationId();
-            Integer unreadCount = msgStore.getUnreadCount(loginAccountId, relationId, session.getLastReadTime());
+            Long unreadCount = msgStore.getUnreadCount(loginAccountId, relationId, session.getLastReadTime());
             unreadCount = unreadCount == 0 ? null : unreadCount;
             resultMap.put(relationId, unreadCount);
         }
@@ -148,8 +148,8 @@ public class QuickChatSessionServiceImpl extends ServiceImpl<QuickChatSessionMap
             QuickChatGroup groupPO = groupStore.getByGroupId(Long.valueOf(sessionPO.getToId()));
             sessionVO = SessionAdapter.buildGroupSessionPO(groupPO, sessionPO);
         }
-        Map<Long, Integer> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
-        Integer unreadCount = unreadCountMap.get(sessionVO.getRelationId());
+        Map<Long, Long> unreadCountMap = this.getUnreadCountMap(ListUtil.of(sessionVO));
+        Long unreadCount = unreadCountMap.get(sessionVO.getRelationId());
         sessionVO.setUnreadCount(unreadCount);
         return sessionVO;
     }

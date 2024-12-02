@@ -67,7 +67,7 @@ public interface QuickChatMsgStore extends IService<QuickChatMsg> {
      * @param lastReadTime   上次已读时间
      * @return 未读数量
      */
-    Integer getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime);
+    Long getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime);
 
     /**
      * 根据时间范围，查询聊天信息

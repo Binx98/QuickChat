@@ -52,7 +52,7 @@ public class ChatSessionVO {
     /**
      * 未读数量
      */
-    private Integer unreadCount;
+    private Long unreadCount;
 
     /**
      * 在线状态（针对用户）
