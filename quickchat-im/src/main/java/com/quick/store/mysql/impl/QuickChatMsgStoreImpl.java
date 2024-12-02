@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
@@ -8,7 +7,6 @@ import com.quick.mapper.QuickChatMsgMapper;
 import com.quick.pojo.po.QuickChatMsg;
 import com.quick.store.mysql.QuickChatMsgStore;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -26,7 +24,6 @@ import java.util.List;
  * @since 2023-11-25
  */
 @Service
-@DS("mysql")
 public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, QuickChatMsg> implements QuickChatMsgStore {
     @Resource
     private QuickChatMsgMapper msgMapper;
@@ -73,7 +70,7 @@ public class QuickChatMsgStoreImpl extends ServiceImpl<QuickChatMsgMapper, Quick
 
 
     @Override
-    public Integer getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime) {
+    public Long getUnreadCount(String loginAccountId, Long relationId, LocalDateTime lastReadTime) {
         return this.lambdaQuery()
                 .eq(QuickChatMsg::getRelationId, relationId)
                 .ne(QuickChatMsg::getFromId, loginAccountId)

@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.mapper.QuickChatEmojiMapper;
 import com.quick.pojo.po.QuickChatEmoji;
@@ -18,7 +17,6 @@ import java.util.List;
  * @since 2023-11-30
  */
 @Service
-@DS("mysql")
 public class QuickChatEmojiStoreImpl extends ServiceImpl<QuickChatEmojiMapper, QuickChatEmoji> implements QuickChatEmojiStore {
     @Override
     public List<QuickChatEmoji> getEmojiList(String accountId) {

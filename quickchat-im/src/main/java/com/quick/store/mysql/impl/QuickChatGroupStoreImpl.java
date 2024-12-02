@@ -1,6 +1,5 @@
 package com.quick.store.mysql.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.quick.constant.RedisConstant;
 import com.quick.mapper.QuickChatGroupMapper;
@@ -22,7 +21,6 @@ import java.util.List;
  * @since 2024-01-08
  */
 @Service
-@DS("mysql")
 public class QuickChatGroupStoreImpl extends ServiceImpl<QuickChatGroupMapper, QuickChatGroup> implements QuickChatGroupStore {
     @Override
     @Cacheable(value = RedisConstant.QUICK_CHAT_GROUP, key = "'getByGroupId:' + #p0", unless = "#result == null")
