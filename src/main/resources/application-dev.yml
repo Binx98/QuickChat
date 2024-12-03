@@ -7,18 +7,18 @@ spring:
     url: jdbc:mysql://localhost:3306/quick_chat?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&rewriteBatchedStatements=true
     username: root
     password: 123456
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      database: 0
-      timeout: 1800000
-      lettuce:
-        pool:
-          max-wait: -1
-          max-idle: 5
-          min-idle: 0
-          max-active: 20
+  redis:
+    host: localhost
+    port: 6379
+    password: Pxy123456
+    database: 0
+    timeout: 1800000
+    lettuce:
+      pool:
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+        max-active: 20
   mail:
     host: smtp.qq.com
     port: 465
@@ -57,18 +57,18 @@ logging:
     RocketmqClient: ERROR
     io:
     netty: ERROR
-xxl:
-  job:
-    admin:
-      addresses: 127.0.0.1
-    accessToken: "Mock Token"
-    executor:
-      appname: "AppName"
-      address: "Address"
-      ip: "IP"
-      port: 9001
-      logpath: /opt/project/backend/myLogs
-      logretentiondays: 30
+#xxl:
+#  job:
+#    admin:
+#      addresses: 127.0.0.1
+#    accessToken: "Mock Token"
+#    executor:
+#      appname: "AppName"
+#      address: "Address"
+#      ip: "IP"
+#      port: 9001
+#      logpath: /opt/project/backend/myLogs
+#      logretentiondays: 30
 quick-chat:
   common-group-id: 1
   no-recall-time: 120
