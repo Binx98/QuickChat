@@ -29,7 +29,7 @@ services:
     command: [ redis-server, --requirepass, 密码 ]
     restart: always
 
-  # Java JAR：不同端口号
+  # Java JAR
   quick-chat-8888:
     image: quick-chat
     container_name: quick-chat

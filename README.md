@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/image/logo.png" width="280" />
+    <img src="document/image/logo.png" width="280" />
 </p>
 
 <div align="center">
@@ -13,7 +13,7 @@
 
 ## ✨系统介绍
 
-功能丰富的实时IM通讯系统，通过Netty构建高性能WebSocket服务器。<br>
+基于SpringBoot2 + JDK11的IM实时通讯聊天系统，通过Netty构建高性能WebSocket服务器。<br>
 具有单聊、群聊、文件传输、音频消息、实时通话视频等强大功能。<br>
 支持任意联网设备直接通过浏览器随时随地访问，消息多端系统实时同步。<br>
 
